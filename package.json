@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "yarn workspaces foreach -R run build",
-    "compile": "yarn build && electron-builder build --config electron-builder.mjs",
+    "compile": "yarn build && electron-builder build --config electron-builder.cjs",
     "test": "yarn playwright test ./tests/e2e.spec.ts",
     "start": "node packages/dev-mode.js",
     "typecheck": "yarn workspaces foreach -R run typecheck",
