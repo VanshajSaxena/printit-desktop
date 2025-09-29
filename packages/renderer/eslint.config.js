@@ -3,6 +3,7 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
@@ -12,8 +13,9 @@ export default defineConfig([
     files: ['**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
-      reactX.configs['recommended-typescript'],
       reactHooks.configs['recommended-latest'],
+      reactX.configs['recommended-typescript'],
+      reactDom.configs.recommended,
       reactRefresh.configs.vite,
       tseslint.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
@@ -21,6 +23,10 @@ export default defineConfig([
       tseslint.configs.stylisticTypeChecked,
     ],
     languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
       ecmaVersion: 2020,
       globals: globals.browser,
     },
