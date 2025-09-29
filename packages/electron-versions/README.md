@@ -17,13 +17,7 @@ npm install -D @app/electron-versions
 Import the functions you need from the package:
 
 ```javascript
-import {
-  getElectronVersions,
-  getChromeVersion,
-  getNodeVersion,
-  getChromeMajorVersion,
-  getNodeMajorVersion
-} from '@app/electron-versions';
+import { getElectronVersions, getChromeVersion, getNodeVersion, getChromeMajorVersion, getNodeMajorVersion } from '@app/electron-versions';
 
 // Example usage
 console.log('Electron Versions:', getElectronVersions());

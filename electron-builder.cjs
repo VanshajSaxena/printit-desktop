@@ -7,11 +7,13 @@ const pkg = require('./package.json');
  * to determine which files should be included in the final build.
  */
 function getListOfFilesFromEachWorkspace() {
-  const workspaces = execSync('yarn workspaces list --json', { encoding: 'utf-8' })
+  const workspaces = execSync('yarn workspaces list --json', {
+    encoding: 'utf-8',
+  })
     .trim()
     .split('\n')
-    .map(line => JSON.parse(line))
-    .filter(workspace => workspace.location !== '.');
+    .map((line) => JSON.parse(line))
+    .filter((workspace) => workspace.location !== '.');
 
   const allFilesToInclude = [];
 
@@ -22,7 +24,7 @@ function getListOfFilesFromEachWorkspace() {
 
     // Default to including 'dist/**' and 'package.json' if 'files' is not specified.
     let patterns = workspacePkg.files || ['dist/**', 'package.json'];
-    patterns = patterns.map(p => join('node_modules', name, p));
+    patterns = patterns.map((p) => join('node_modules', name, p));
     allFilesToInclude.push(...patterns);
   }
 
