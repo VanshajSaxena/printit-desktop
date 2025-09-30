@@ -8,9 +8,32 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'out', 'build']),
+
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['packages/main/src/**/*.ts'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./packages/main/tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      ecmaVersion: 2020,
+      globals: globals.node, // main process runs in Node
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+
+  {
+    files: ['packages/renderer/src/**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       reactHooks.configs['recommended-latest'],
@@ -24,7 +47,10 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: [
+          './packages/renderer/tsconfig.node.json',
+          './packages/renderer/tsconfig.app.json',
+        ],
         tsconfigRootDir: import.meta.dirname,
       },
       ecmaVersion: 2020,
