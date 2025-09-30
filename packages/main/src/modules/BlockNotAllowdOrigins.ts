@@ -13,7 +13,7 @@ import { URL } from 'node:url';
 export class BlockNotAllowedOrigins extends AbstractSecurityRule {
   readonly #allowedOrigins: Set<string>;
 
-  constructor(allowedOrigins: Set<string> = new Set()) {
+  constructor(allowedOrigins = new Set<string>()) {
     super();
     this.#allowedOrigins = structuredClone(allowedOrigins);
   }
