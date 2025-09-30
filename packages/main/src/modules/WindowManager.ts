@@ -23,8 +23,8 @@ class WindowManager implements AppModule {
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
     await this.restoreOrCreateWindow(true);
-    app.on('second-instance', () => this.restoreOrCreateWindow(true));
-    app.on('activate', () => this.restoreOrCreateWindow(true));
+    app.on('second-instance', () => void this.restoreOrCreateWindow(true));
+    app.on('activate', () => void this.restoreOrCreateWindow(true));
   }
 
   async createWindow(): Promise<BrowserWindow> {
@@ -51,9 +51,7 @@ class WindowManager implements AppModule {
   async restoreOrCreateWindow(show = false) {
     let window = BrowserWindow.getAllWindows().find((w) => !w.isDestroyed());
 
-    if (window === undefined) {
-      window = await this.createWindow();
-    }
+    window ??= await this.createWindow();
 
     if (!show) {
       return window;
@@ -63,10 +61,10 @@ class WindowManager implements AppModule {
       window.restore();
     }
 
-    window?.show();
+    window.show();
 
     if (this.#openDevTools) {
-      window?.webContents.openDevTools();
+      window.webContents.openDevTools();
     }
 
     window.focus();
