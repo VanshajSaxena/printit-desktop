@@ -58,3 +58,4 @@ thumbs.db
 # Yarn cache
 .yarn/install-state.gz
 TASKS.norg
+buildResources/PrintService.exe

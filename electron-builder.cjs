@@ -48,6 +48,9 @@ const config = {
     '!node_modules/@app/**',
     ...getListOfFilesFromEachWorkspace(),
   ],
+  extraFiles: [
+    { from: 'buildResources/PrintService.exe', to: 'PrintService.exe' },
+  ],
 };
 
 module.exports = config;
