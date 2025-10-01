@@ -37,7 +37,7 @@ export class AutoUpdater implements AppModule {
   async runAutoUpdater() {
     const updater = this.getAutoUpdater();
     try {
-      updater.logger = this.#logger || null;
+      updater.logger = this.#logger ?? null;
       updater.fullChangelog = true;
 
       if (import.meta.env.VITE_DISTRIBUTION_CHANNEL) {
