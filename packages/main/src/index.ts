@@ -7,6 +7,9 @@ import { hardwareAccelerationMode } from './modules/HardwareAccelerationModule.j
 import { autoUpdater } from './modules/AutoUpdater.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
+import { ChildProcess, spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 export async function initApp(initConfig: AppInitConfig) {
   const moduleRunner = createModuleRunner()
@@ -55,4 +58,29 @@ export async function initApp(initConfig: AppInitConfig) {
     );
 
   await moduleRunner;
+  //
+  // NOTE: This current implementation is working but needs to be updated before release.
+  let printServiceProcess: ChildProcess | null = null;
+  function startPrintService() {
+    // Path to your executable within the packaged app
+    const servicePath = import.meta.env.DEV
+      ? path.join(
+          path.dirname(fileURLToPath(import.meta.url)),
+          '../../../buildResources/PrintService.exe',
+        )
+      : path.join(process.resourcesPath, 'PrintService.exe');
+
+    printServiceProcess = spawn(servicePath);
+
+    printServiceProcess.on('error', (err) => {
+      console.error('Failed to start print service:', err);
+    });
+
+    printServiceProcess.on('close', (code) => {
+      if (code != null) {
+        console.log(`Print service exited with code ${code.toString()}`);
+      }
+    });
+  }
+  startPrintService();
 }
