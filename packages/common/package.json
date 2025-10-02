@@ -1,6 +1,9 @@
 {
   "name": "@app/common",
   "packageManager": "yarn@4.10.3",
+  "scripts": {
+    "gen:api-types": "openapi-typescript ./print-service-description.json --output ./src/types/print-service-api.ts"
+  },
   "devDependencies": {
     "openapi-typescript": "^7.9.1"
   }
