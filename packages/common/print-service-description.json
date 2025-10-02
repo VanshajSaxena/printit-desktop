@@ -1,0 +1,658 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "PrintService",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/ping": {
+      "get": {
+        "tags": [
+          "Ping"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues": {
+      "get": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues/{queueName}": {
+      "get": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues/{queueName}/capabilities": {
+      "get": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues/{queueName}/jobs": {
+      "get": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintJobDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintJobDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintJobDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues/{queueName}/jobs/{jobId}": {
+      "get": {
+        "tags": [
+          "PrintQueue"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CollationDto": {
+        "enum": [
+          "Collated",
+          "Uncollated",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "DeviceFontSubstitutionDto": {
+        "enum": [
+          "On",
+          "Off",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "DuplexingDto": {
+        "enum": [
+          "OneSided",
+          "TwoSidedLongEdge",
+          "TwoSidedShortEdge",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "InputBinDto": {
+        "enum": [
+          "AutoSelect",
+          "AutoSheetFeeder",
+          "Cassette",
+          "Manual",
+          "Tractor",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "OutputColorDto": {
+        "enum": [
+          "Color",
+          "Grayscale",
+          "Monochrome",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "OutputQualityDto": {
+        "enum": [
+          "Automatic",
+          "Draft",
+          "Fax",
+          "High",
+          "Normal",
+          "Photographic",
+          "Text",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageBorderlessDto": {
+        "enum": [
+          "None",
+          "Borderless",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageMediaSizeNameDto": {
+        "enum": [
+          "ISOA0",
+          "ISOA1",
+          "ISOA10",
+          "ISOA2",
+          "ISOA3",
+          "ISOA3Rotated",
+          "ISOA3Extra",
+          "ISOA4",
+          "ISOA4Rotated",
+          "ISOA4Extra",
+          "ISOA5",
+          "ISOA5Rotated",
+          "ISOA5Extra",
+          "ISOA6",
+          "ISOA6Rotated",
+          "ISOA7",
+          "ISOA8",
+          "ISOA9",
+          "ISOB0",
+          "ISOB1",
+          "ISOB10",
+          "ISOB2",
+          "ISOB3",
+          "ISOB4",
+          "ISOB4Envelope",
+          "ISOB5Envelope",
+          "ISOB5Extra",
+          "ISOB7",
+          "ISOB8",
+          "ISOB9",
+          "ISOC0",
+          "ISOC1",
+          "ISOC10",
+          "ISOC2",
+          "ISOC3",
+          "ISOC3Envelope",
+          "ISOC4",
+          "ISOC4Envelope",
+          "ISOC5",
+          "ISOC5Envelope",
+          "ISOC6",
+          "ISOC6Envelope",
+          "ISOC6C5Envelope",
+          "ISOC7",
+          "ISOC8",
+          "ISOC9",
+          "ISODLEnvelope",
+          "ISODLEnvelopeRotated",
+          "ISOSRA3",
+          "JapanQuadrupleHagakiPostcard",
+          "JISB0",
+          "JISB1",
+          "JISB10",
+          "JISB2",
+          "JISB3",
+          "JISB4",
+          "JISB4Rotated",
+          "JISB5",
+          "JISB5Rotated",
+          "JISB6",
+          "JISB6Rotated",
+          "JISB7",
+          "JISB8",
+          "JISB9",
+          "JapanChou3Envelope",
+          "JapanChou3EnvelopeRotated",
+          "JapanChou4Envelope",
+          "JapanChou4EnvelopeRotated",
+          "JapanHagakiPostcard",
+          "JapanHagakiPostcardRotated",
+          "JapanKaku2Envelope",
+          "JapanKaku2EnvelopeRotated",
+          "JapanKaku3Envelope",
+          "JapanKaku3EnvelopeRotated",
+          "JapanYou4Envelope",
+          "NorthAmerica10x11",
+          "NorthAmerica10x14",
+          "NorthAmerica11x17",
+          "NorthAmerica9x11",
+          "NorthAmericaArchitectureASheet",
+          "NorthAmericaArchitectureBSheet",
+          "NorthAmericaArchitectureCSheet",
+          "NorthAmericaArchitectureDSheet",
+          "NorthAmericaArchitectureESheet",
+          "NorthAmericaCSheet",
+          "NorthAmericaDSheet",
+          "NorthAmericaESheet",
+          "NorthAmericaExecutive",
+          "NorthAmericaGermanLegalFanfold",
+          "NorthAmericaGermanStandardFanfold",
+          "NorthAmericaLegal",
+          "NorthAmericaLegalExtra",
+          "NorthAmericaLetter",
+          "NorthAmericaLetterRotated",
+          "NorthAmericaLetterExtra",
+          "NorthAmericaLetterPlus",
+          "NorthAmericaMonarchEnvelope",
+          "NorthAmericaNote",
+          "NorthAmericaNumber10Envelope",
+          "NorthAmericaNumber10EnvelopeRotated",
+          "NorthAmericaNumber9Envelope",
+          "NorthAmericaNumber11Envelope",
+          "NorthAmericaNumber12Envelope",
+          "NorthAmericaNumber14Envelope",
+          "NorthAmericaPersonalEnvelope",
+          "NorthAmericaQuarto",
+          "NorthAmericaStatement",
+          "NorthAmericaSuperA",
+          "NorthAmericaSuperB",
+          "NorthAmericaTabloid",
+          "NorthAmericaTabloidExtra",
+          "OtherMetricA4Plus",
+          "OtherMetricA3Plus",
+          "OtherMetricFolio",
+          "OtherMetricInviteEnvelope",
+          "OtherMetricItalianEnvelope",
+          "PRC1Envelope",
+          "PRC1EnvelopeRotated",
+          "PRC10Envelope",
+          "PRC10EnvelopeRotated",
+          "PRC16K",
+          "PRC16KRotated",
+          "PRC2Envelope",
+          "PRC2EnvelopeRotated",
+          "PRC32K",
+          "PRC32KRotated",
+          "PRC32KBig",
+          "PRC3Envelope",
+          "PRC3EnvelopeRotated",
+          "PRC4Envelope",
+          "PRC4EnvelopeRotated",
+          "PRC5Envelope",
+          "PRC5EnvelopeRotated",
+          "PRC6Envelope",
+          "PRC6EnvelopeRotated",
+          "PRC7Envelope",
+          "PRC7EnvelopeRotated",
+          "PRC8Envelope",
+          "PRC8EnvelopeRotated",
+          "PRC9Envelope",
+          "PRC9EnvelopeRotated",
+          "Roll04Inch",
+          "Roll06Inch",
+          "Roll08Inch",
+          "Roll12Inch",
+          "Roll15Inch",
+          "Roll18Inch",
+          "Roll22Inch",
+          "Roll24Inch",
+          "Roll30Inch",
+          "Roll36Inch",
+          "Roll54Inch",
+          "JapanDoubleHagakiPostcard",
+          "JapanDoubleHagakiPostcardRotated",
+          "JapanLPhoto",
+          "Japan2LPhoto",
+          "JapanYou1Envelope",
+          "JapanYou2Envelope",
+          "JapanYou3Envelope",
+          "JapanYou4EnvelopeRotated",
+          "JapanYou6Envelope",
+          "JapanYou6EnvelopeRotated",
+          "NorthAmerica4x6",
+          "NorthAmerica4x8",
+          "NorthAmerica5x7",
+          "NorthAmerica8x10",
+          "NorthAmerica10x12",
+          "NorthAmerica14x17",
+          "BusinessCard",
+          "CreditCard",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageMediaSizeTicketDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/PageMediaSizeNameDto"
+          },
+          "height": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "width": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PageMediaTypeDto": {
+        "enum": [
+          "None",
+          "AutoSelect",
+          "Archival",
+          "BackPrintFilm",
+          "Bond",
+          "CardStock",
+          "Continuous",
+          "EnvelopePlain",
+          "EnvelopeWindow",
+          "Fabric",
+          "HighResolution",
+          "Label",
+          "MultiLayerForm",
+          "MultiPartForm",
+          "Photographic",
+          "PhotographicFilm",
+          "PhotographicGlossy",
+          "PhotographicHighGloss",
+          "PhotographicMatte",
+          "PhotographicSatin",
+          "PhotographicSemiGloss",
+          "Plain",
+          "Screen",
+          "ScreenPaged",
+          "Stationery",
+          "TabStockFull",
+          "TabStockPreCut",
+          "Transparency",
+          "TShirtTransfer",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageOrderDto": {
+        "enum": [
+          "Standard",
+          "Reverse",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageOrientationDto": {
+        "enum": [
+          "Landscape",
+          "Portrait",
+          "ReverseLandscape",
+          "ReversePortrait",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageQualitativeResolutionDto": {
+        "enum": [
+          "Default",
+          "Draft",
+          "High",
+          "Normal",
+          "Other",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PageResolutionTicketDto": {
+        "type": "object",
+        "properties": {
+          "resolution": {
+            "$ref": "#/components/schemas/PageQualitativeResolutionDto"
+          },
+          "x": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "y": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagesPerSheetDirectionDto": {
+        "enum": [
+          "TopRight",
+          "TopLeft",
+          "BottomLeft",
+          "BottomRight",
+          "LeftBottom",
+          "LeftTop",
+          "RightBottom",
+          "RightTop",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PhotoPrintingIntentDto": {
+        "enum": [
+          "None",
+          "PhotoBest",
+          "PhotoDraft",
+          "PhotoStandard",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "PrintJobDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentPath": {
+            "type": "string",
+            "nullable": true
+          },
+          "fastCopy": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ticket": {
+            "$ref": "#/components/schemas/PrintTicketDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintTicketDto": {
+        "type": "object",
+        "properties": {
+          "collation": {
+            "$ref": "#/components/schemas/CollationDto"
+          },
+          "copyCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deviceFontSubstitution": {
+            "$ref": "#/components/schemas/DeviceFontSubstitutionDto"
+          },
+          "duplexing": {
+            "$ref": "#/components/schemas/DuplexingDto"
+          },
+          "inputBin": {
+            "$ref": "#/components/schemas/InputBinDto"
+          },
+          "outputColor": {
+            "$ref": "#/components/schemas/OutputColorDto"
+          },
+          "outputQuality": {
+            "$ref": "#/components/schemas/OutputQualityDto"
+          },
+          "pageBorderless": {
+            "$ref": "#/components/schemas/PageBorderlessDto"
+          },
+          "pageMediaSize": {
+            "$ref": "#/components/schemas/PageMediaSizeTicketDto"
+          },
+          "pageMediaType": {
+            "$ref": "#/components/schemas/PageMediaTypeDto"
+          },
+          "pageOrder": {
+            "$ref": "#/components/schemas/PageOrderDto"
+          },
+          "pageOrientation": {
+            "$ref": "#/components/schemas/PageOrientationDto"
+          },
+          "pageResolution": {
+            "$ref": "#/components/schemas/PageResolutionTicketDto"
+          },
+          "pageScalingFactor": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pagesPerSheet": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pagesPerSheetDirection": {
+            "$ref": "#/components/schemas/PagesPerSheetDirectionDto"
+          },
+          "photoPrintingIntent": {
+            "$ref": "#/components/schemas/PhotoPrintingIntentDto"
+          },
+          "stapling": {
+            "$ref": "#/components/schemas/StaplingDto"
+          },
+          "trueTypeFontMode": {
+            "$ref": "#/components/schemas/TrueTypeFontModeDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StaplingDto": {
+        "enum": [
+          "None",
+          "StapleTopRight",
+          "StapleTopLeft",
+          "StapleDualTop",
+          "StapleDualRight",
+          "StapleDualLeft",
+          "StapleDualBottom",
+          "StapleBottomRight",
+          "StapleBottomLeft",
+          "SaddleStitch",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "TrueTypeFontModeDto": {
+        "enum": [
+          "Automatic",
+          "DownloadAsNativeTrueTypeFont",
+          "DownloadAsOutlineFont",
+          "DownloadAsRasterFont",
+          "RenderAsBitmap",
+          "Unknown"
+        ],
+        "type": "string"
+      }
+    }
+  }
+}
