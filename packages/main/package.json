@@ -13,6 +13,7 @@
     }
   },
   "dependencies": {
+    "@app/common": "workspace:*",
     "@app/preload": "workspace:*",
     "@app/renderer": "workspace:*",
     "electron-updater": "6.6.2"
