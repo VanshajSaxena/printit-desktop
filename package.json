@@ -33,7 +33,8 @@
     "electron": "38.1.2",
     "electron-builder": "26.0.12",
     "glob": "11.0.3",
-    "playwright": "^1.55.1"
+    "playwright": "^1.55.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@app/main": "workspace:*"
