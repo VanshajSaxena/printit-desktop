@@ -17,6 +17,7 @@ __metadata:
   resolution: "@app/common@workspace:packages/common"
   dependencies:
     openapi-typescript: "npm:^7.9.1"
+    typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
@@ -52,6 +53,7 @@ __metadata:
   dependencies:
     "@app/electron-versions": "workspace:*"
     mlly: "npm:1.8.0"
+    typescript: "npm:^5.9.3"
     vite: "npm:7.1.7"
   languageName: unknown
   linkType: soft
@@ -72,6 +74,7 @@ __metadata:
     globals: "npm:^16.4.0"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
+    typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.44.0"
     vite: "npm:^7.1.7"
   languageName: unknown
