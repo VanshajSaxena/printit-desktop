@@ -58,11 +58,9 @@ export async function initApp(initConfig: AppInitConfig) {
     );
 
   await moduleRunner;
-  //
-  // NOTE: This current implementation is working but needs to be updated before release.
+
   let printServiceProcess: ChildProcess | null = null;
   function startPrintService() {
-    // Path to your executable within the packaged app
     const servicePath = import.meta.env.DEV
       ? path.join(
           path.dirname(fileURLToPath(import.meta.url)),

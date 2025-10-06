@@ -59,3 +59,4 @@ thumbs.db
 .yarn/install-state.gz
 TASKS.norg
 buildResources/PrintService.exe
+buildResources/logs/*
