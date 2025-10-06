@@ -39,7 +39,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@app/main": "workspace:*"
+    "@app/main": "workspace:*",
+    "electron-log": "^5.4.3"
   },
   "packageManager": "yarn@4.10.3"
 }
