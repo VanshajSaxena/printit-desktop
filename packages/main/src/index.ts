@@ -8,8 +8,9 @@ import { autoUpdater } from './modules/AutoUpdater.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
 import { ChildProcess, spawn } from 'child_process';
-import path from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
+import log from 'electron-log';
 
 export async function initApp(initConfig: AppInitConfig) {
   const moduleRunner = createModuleRunner()
@@ -71,14 +72,15 @@ export async function initApp(initConfig: AppInitConfig) {
     printServiceProcess = spawn(servicePath);
 
     printServiceProcess.on('error', (err) => {
-      console.error('Failed to start print service:', err);
+      log.error('Failed to start PrintService:', err);
     });
 
     printServiceProcess.on('close', (code) => {
       if (code != null) {
-        console.log(`Print service exited with code ${code.toString()}`);
+        log.info(`PrintService exited with code ${code.toString()}`);
       }
     });
   }
   startPrintService();
+  log.info('PrintService Started...');
 }
