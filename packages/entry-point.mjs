@@ -1,4 +1,5 @@
 import { initApp } from '@app/main';
+import { app } from 'electron';
 import { fileURLToPath } from 'node:url';
 
 if (
@@ -36,4 +37,13 @@ initApp({
   preload: {
     path: fileURLToPath(import.meta.resolve('@app/preload/exposed.mjs')),
   },
-});
+})
+  .then(() => {
+    log.info('=== Application initialized successfully ===');
+  })
+  .catch((error) => {
+    log.error('=== App initialization failed ===', error);
+    app.quit();
+  });
+
+log.info('Entry point setup complete, initialization in progress...');
