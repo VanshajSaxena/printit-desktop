@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ChildProcess, spawn } from 'child_process';
 import { AppModule } from 'src/AppModule.js';
 import { ModuleContext } from 'src/ModuleContext.js';
@@ -7,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 
 interface PrintServiceConfig {
-  bin: string;
+  bin?: string;
   devPath?: string;
   prodPath?: string;
   required?: boolean;
@@ -17,10 +18,11 @@ interface PrintServiceConfig {
 class PrintServiceModule implements AppModule {
   #process: ChildProcess | null = null;
   readonly #config: PrintServiceConfig;
-  constructor(config: PrintServiceConfig = { bin: 'PrintService.exe' }) {
+  constructor(config: PrintServiceConfig = {}) {
     this.#config = {
       startupTimeout: 5000,
       required: false,
+      bin: 'PrintService.exe',
       ...config,
     };
   }
@@ -127,7 +129,7 @@ class PrintServiceModule implements AppModule {
           path.dirname(fileURLToPath(import.meta.url)),
           `../../../buildResources/${this.#config.bin}`,
         )
-      : path.join(process.resourcesPath, this.#config.bin);
+      : path.join(process.resourcesPath, `${this.#config.bin}`);
   }
 
   private cleanup(): void {
@@ -144,6 +146,7 @@ class PrintServiceModule implements AppModule {
     }
   }
 }
+
 export function startPrintService(config?: PrintServiceConfig) {
   return new PrintServiceModule(config);
 }
