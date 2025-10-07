@@ -48,7 +48,7 @@ const config = {
     '!node_modules/@app/**',
     ...getListOfFilesFromEachWorkspace(),
   ],
-  extraFiles: [
+  extraResources: [
     { from: 'buildResources/PrintService.exe', to: 'PrintService.exe' },
   ],
 };

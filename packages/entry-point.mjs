@@ -1,5 +1,25 @@
 import { initApp } from '@app/main';
+import { app } from 'electron';
 import { fileURLToPath } from 'node:url';
+import log from 'electron-log';
+import fs from 'fs';
+import path from 'node:path';
+
+log.transports.file.resolvePathFn = () => {
+  const appName = app.getName();
+  const baseDir = path.join(app.getPath('appData'), appName);
+  const logDir = path.join(baseDir, 'logs');
+
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+  return path.join(logDir, 'main.log');
+};
+
+log.transports.file.maxSize = 5 * 1024 * 1024;
+log.initialize({ spyRendererConsole: true, preload: true });
+
+log.info('=== Application Entry Point Started ===');
 
 if (
   process.env.NODE_ENV === 'development' ||
@@ -36,4 +56,13 @@ initApp({
   preload: {
     path: fileURLToPath(import.meta.resolve('@app/preload/exposed.mjs')),
   },
-});
+})
+  .then(() => {
+    log.info('=== Application Entry Point Completed ===');
+  })
+  .catch((error) => {
+    log.error('=== Application Entry Point Failed with errors ===', error);
+    app.quit();
+  });
+
+log.info('=== Entry Point Script End ===');

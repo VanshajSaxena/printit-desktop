@@ -3,6 +3,7 @@ import electronUpdater, {
   type AppUpdater,
   type Logger,
 } from 'electron-updater';
+import log from 'electron-log';
 
 type DownloadNotification = Parameters<
   AppUpdater['checkForUpdatesAndNotify']
@@ -52,7 +53,7 @@ export class AutoUpdater implements AppModule {
         }
       }
 
-      throw error;
+      log.error('Auto Update Failed...');
     }
   }
 }
