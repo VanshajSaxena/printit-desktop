@@ -8,7 +8,7 @@ import { autoUpdater } from './modules/AutoUpdater.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
 import log from 'electron-log';
-import { printService } from './modules/PrintServiceModule.js';
+import { startPrintService } from './modules/PrintServiceModule.js';
 
 export async function initApp(initConfig: AppInitConfig) {
   log.info('=== Main Process Initialization Started ===');
@@ -23,7 +23,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(terminateAppOnLastWindowClose())
     .init(hardwareAccelerationMode({ enable: false }))
     .init(autoUpdater())
-    .init(printService())
+    .init(startPrintService())
 
     // Install DevTools extension if needed
     // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))

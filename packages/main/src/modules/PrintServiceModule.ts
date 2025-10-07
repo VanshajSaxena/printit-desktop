@@ -144,6 +144,6 @@ class PrintServiceModule implements AppModule {
     }
   }
 }
-export function printService(config?: PrintServiceConfig) {
+export function startPrintService(config?: PrintServiceConfig) {
   return new PrintServiceModule(config);
 }
