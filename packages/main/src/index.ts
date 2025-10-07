@@ -7,12 +7,11 @@ import { hardwareAccelerationMode } from './modules/HardwareAccelerationModule.j
 import { autoUpdater } from './modules/AutoUpdater.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
-import { ChildProcess, spawn } from 'child_process';
-import { fileURLToPath } from 'url';
-import path from 'path';
 import log from 'electron-log';
+import { printService } from './modules/PrintServiceModule.js';
 
 export async function initApp(initConfig: AppInitConfig) {
+  log.info('=== Main Process Initialization Started ===');
   const moduleRunner = createModuleRunner()
     .init(
       createWindowManagerModule({
@@ -24,6 +23,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(terminateAppOnLastWindowClose())
     .init(hardwareAccelerationMode({ enable: false }))
     .init(autoUpdater())
+    .init(printService())
 
     // Install DevTools extension if needed
     // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))
@@ -60,27 +60,5 @@ export async function initApp(initConfig: AppInitConfig) {
 
   await moduleRunner;
 
-  let printServiceProcess: ChildProcess | null = null;
-  function startPrintService() {
-    const servicePath = import.meta.env.DEV
-      ? path.join(
-          path.dirname(fileURLToPath(import.meta.url)),
-          '../../../buildResources/PrintService.exe',
-        )
-      : path.join(process.resourcesPath, 'PrintService.exe');
-
-    printServiceProcess = spawn(servicePath);
-
-    printServiceProcess.on('error', (err) => {
-      log.error('Failed to start PrintService:', err);
-    });
-
-    printServiceProcess.on('close', (code) => {
-      if (code != null) {
-        log.info(`PrintService exited with code ${code.toString()}`);
-      }
-    });
-  }
-  startPrintService();
-  log.info('PrintService Started...');
+  log.info('=== Main Process Initialization Completed ===');
 }
