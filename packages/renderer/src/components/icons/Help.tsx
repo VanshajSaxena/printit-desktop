@@ -4,7 +4,6 @@ import type { JSX } from 'react/jsx-runtime';
 export function Help(
   props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) {
-  const { stroke = '#000', ...restProps } = props;
   return (
     <svg
       width={14}
@@ -12,11 +11,10 @@ export function Help(
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...restProps}
+      {...props}
     >
       <g
         clipPath="url(#clip0_120_16211)"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -25,7 +23,7 @@ export function Help(
       </g>
       <defs>
         <clipPath id="clip0_120_16211">
-          <path fill={stroke} d="M0 0H14V14H0z" />
+          <path d="M0 0H14V14H0z" />
         </clipPath>
       </defs>
     </svg>
