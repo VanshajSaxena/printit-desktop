@@ -8,8 +8,10 @@ import { Printer } from './Printer';
 import { QRCode } from './QRCode';
 import { Reject } from './Reject';
 import { Sliders } from './Sliders';
+import { MouseCursor } from './MouseCursor';
 
 const IconMap = {
+  'mouse-cursor-icon': MouseCursor,
   'file-icon': FileInfo,
   'help-icon': Help,
   'gear-icon': Gear,
