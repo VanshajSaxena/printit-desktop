@@ -1,1 +1,8 @@
 @import 'tailwindcss';
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/InterVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
