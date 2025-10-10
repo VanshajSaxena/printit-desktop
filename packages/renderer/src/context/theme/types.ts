@@ -44,5 +44,5 @@ export interface Theme {
 
 export interface ThemeContextType {
   theme: Theme;
-  setTheme: () => void;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
