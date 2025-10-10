@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { JSX } from 'react/jsx-runtime';
 
-export function SvgComponent(
+export function MouseCursor(
   props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) {
   return (
