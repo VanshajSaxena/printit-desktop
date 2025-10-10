@@ -5,8 +5,8 @@ export interface ThemeColors {
     tertiary: string;
     status: {
       success: string;
-      waiting: string;
       queued: string;
+      waiting: string;
     };
   };
   bg: {
@@ -15,8 +15,8 @@ export interface ThemeColors {
     tertiary: string;
     status: {
       success: string;
-      waiting: string;
       queued: string;
+      waiting: string;
     };
   };
   border: {
@@ -39,7 +39,7 @@ export interface ThemeColors {
 
 export interface Theme {
   name: 'light' | 'dark';
-  theme: ThemeColors;
+  colors: ThemeColors;
 }
 
 export interface ThemeContextType {
