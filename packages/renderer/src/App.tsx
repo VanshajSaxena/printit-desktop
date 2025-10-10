@@ -1,8 +1,11 @@
+import { ThemeProvider } from './context/theme/ThemeProvider';
+import { Dashboard } from './pages/Dashboard';
+
 function App() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold ">Hello world!</h1>
-    </div>
+    <ThemeProvider>
+      <Dashboard></Dashboard>
+    </ThemeProvider>
   );
 }
 
