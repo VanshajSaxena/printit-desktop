@@ -1,13 +1,13 @@
-import type { SVGProps } from 'react';
-import type { JSX } from 'react/jsx-runtime';
+import { useTheme } from '../../context/theme/useTheme';
+import type { IconProps } from './types.ts';
 
-export function QRCode(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
-) {
+export function QRCodeIcon({ size = 14, ...props }: IconProps) {
+  const { theme } = useTheme();
   return (
     <svg
-      width={14}
-      height={14}
+      width={size}
+      height={size}
+      stroke={theme.colors.fg.primary}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
