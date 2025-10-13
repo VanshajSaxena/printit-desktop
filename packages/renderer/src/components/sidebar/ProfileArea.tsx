@@ -19,7 +19,7 @@ export function ProfileArea() {
             harry@potter.com
           </h4>
         </div>
-        <DiamondIcon></DiamondIcon>
+        <DiamondIcon className="ml-auto"></DiamondIcon>
       </div>
     </>
   );
