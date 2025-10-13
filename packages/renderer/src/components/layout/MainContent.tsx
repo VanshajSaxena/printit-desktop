@@ -7,7 +7,12 @@ export function MainContent() {
       className="flex-1 rounded-tl-2xl overflow-y-auto p-8 ml-4"
       style={{ backgroundColor: theme.colors.bg.primary }}
     >
-      <h2 className="text-2xl font-semibold mb-6">Dashboard</h2>
+      <h2
+        className="text-2xl font-semibold mb-6"
+        style={{ color: theme.colors.fg.primary }}
+      >
+        Dashboard
+      </h2>
     </main>
   );
 }
