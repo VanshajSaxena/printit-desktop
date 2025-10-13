@@ -1,11 +1,11 @@
 import { ThemeProvider } from './context/theme/ThemeProvider';
-import { Dashboard } from './pages/Dashboard';
 import './App.css';
+import AppLayout from './components/layout/AppLayout';
 
 function App() {
   return (
     <ThemeProvider>
-      <Dashboard></Dashboard>
+      <AppLayout></AppLayout>
     </ThemeProvider>
   );
 }
