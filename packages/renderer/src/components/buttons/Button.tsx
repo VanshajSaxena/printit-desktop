@@ -7,13 +7,13 @@ interface ButtonProps {
 }
 
 export function Button({ icon, children, ...props }: ButtonProps) {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
 
   return (
     <button
       type="button"
       className="inline-flex rounded-lg"
-      style={{ backgroundColor: theme.colors.bg.tertiary }}
+      style={{ backgroundColor: colors.bg.tertiary }}
       {...props}
     >
       {icon}

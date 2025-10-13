@@ -1,15 +1,15 @@
 import { useTheme } from '../../context/theme/useTheme';
 
 export function MainContent() {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   return (
     <main
       className="flex-1 rounded-tl-2xl overflow-y-auto p-8 ml-4"
-      style={{ backgroundColor: theme.colors.bg.primary }}
+      style={{ backgroundColor: colors.bg.primary }}
     >
       <h2
         className="text-2xl font-semibold mb-6"
-        style={{ color: theme.colors.fg.primary }}
+        style={{ color: colors.fg.primary }}
       >
         Dashboard
       </h2>
