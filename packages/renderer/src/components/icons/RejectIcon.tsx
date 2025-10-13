@@ -7,7 +7,7 @@ export function RejectIcon({ size = 14, ...props }: IconProps) {
     <svg
       width={size}
       height={size}
-      stroke={theme.colors.fg.primary}
+      stroke={theme.colors.fg.tertiary}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
