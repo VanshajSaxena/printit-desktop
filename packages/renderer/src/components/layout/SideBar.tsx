@@ -1,6 +1,7 @@
 import { HistoryIcon } from '../icons/HistoryIcon.tsx';
 import { HomeIcon } from '../icons/HomeIcon';
 import { SettingsIcon } from '../icons/SettingsIcon.tsx';
+import { SupportHeadphoneIcon } from '../icons/SupportHeadphoneIcon.tsx';
 import { ProfileArea } from '../sidebar/ProfileArea';
 import { SideBarItem } from '../sidebar/SideBarItem';
 
@@ -24,7 +25,7 @@ export function SideBar() {
               children="Settings"
             ></SideBarItem>
             <SideBarItem
-              icon={<SettingsIcon size={24}></SettingsIcon>}
+              icon={<SupportHeadphoneIcon size={24}></SupportHeadphoneIcon>}
               children="Help Center"
             ></SideBarItem>
           </div>
