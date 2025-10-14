@@ -1,7 +1,7 @@
 import { useTheme } from '../../context/theme/useTheme';
 import type { IconProps } from './types';
 
-function SvgComponent({ size = 14, ...props }: IconProps) {
+export function HomeIcon({ size = 14, ...props }: IconProps) {
   const { colors } = useTheme();
   return (
     <svg
@@ -22,5 +22,3 @@ function SvgComponent({ size = 14, ...props }: IconProps) {
     </svg>
   );
 }
-
-export default SvgComponent;
