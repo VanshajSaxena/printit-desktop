@@ -2,12 +2,12 @@ import { useTheme } from '../../context/theme/useTheme';
 import type { IconProps } from './types.ts';
 
 export function FileInfoIcon({ size = 14, ...props }: IconProps) {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   return (
     <svg
       width={size}
       height={size}
-      stroke={theme.colors.fg.primary}
+      stroke={colors.fg.primary}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
