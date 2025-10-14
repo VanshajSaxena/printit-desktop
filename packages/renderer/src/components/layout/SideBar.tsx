@@ -1,5 +1,6 @@
 import { HistoryIcon } from '../icons/HistoryIcon.tsx';
 import { HomeIcon } from '../icons/HomeIcon';
+import { SettingsIcon } from '../icons/SettingsIcon.tsx';
 import { ProfileArea } from '../sidebar/ProfileArea';
 import { SideBarItem } from '../sidebar/SideBarItem';
 
@@ -8,7 +9,7 @@ export function SideBar() {
     <aside className="w-72 flex-shrink-0">
       <div className="flex flex-col h-full">
         <ProfileArea></ProfileArea>
-        <div className="flex flex-col mt-12 gap-2">
+        <div className="flex flex-col flex-1 mt-12 gap-2">
           <SideBarItem
             icon={<HomeIcon size={24}></HomeIcon>}
             children="Dashboard"
@@ -17,6 +18,16 @@ export function SideBar() {
             icon={<HistoryIcon size={24}></HistoryIcon>}
             children="History"
           ></SideBarItem>
+          <div className="flex flex-col mt-auto mb-8 gap-2">
+            <SideBarItem
+              icon={<SettingsIcon size={24}></SettingsIcon>}
+              children="Settings"
+            ></SideBarItem>
+            <SideBarItem
+              icon={<SettingsIcon size={24}></SettingsIcon>}
+              children="Help Center"
+            ></SideBarItem>
+          </div>
         </div>
       </div>
     </aside>
