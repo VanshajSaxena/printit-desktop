@@ -1,0 +1,23 @@
+import { useTheme } from '../../context/theme/useTheme';
+import type { IconProps } from './types.ts';
+
+export function FileInfoIcon({ size = 14, ...props }: IconProps) {
+  const { colors } = useTheme();
+  return (
+    <svg
+      width={size}
+      height={size}
+      stroke={colors.fg.primary}
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M8.167 1.75v2.333a.583.583 0 00.583.584h2.333M8.167 1.75H4.083a1.167 1.167 0 00-1.166 1.167v8.166a1.167 1.167 0 001.166 1.167h5.834a1.167 1.167 0 001.166-1.167V4.667M8.167 1.75l2.916 2.917m-4.666 3.5H7V10.5h.583M7 6.417h.006"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
