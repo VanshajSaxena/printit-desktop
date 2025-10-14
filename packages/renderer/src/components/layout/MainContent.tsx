@@ -1,18 +1,33 @@
 import { useTheme } from '../../context/theme/useTheme';
+import { Button } from '../buttons/Button';
+import DiamondIcon from '../icons/DiamondIcon';
+import { QRCodeIcon } from '../icons/QRCodeIcon';
+import { TopBar } from './TopBar';
 
 export function MainContent() {
   const { colors } = useTheme();
   return (
     <main
-      className="flex-1 rounded-tl-2xl overflow-y-auto p-8 ml-4"
-      style={{ backgroundColor: colors.bg.primary }}
+      className="flex flex-1 rounded-tl-2xl overflow-y-auto ml-4"
+      style={{
+        backgroundColor: colors.bg.primary,
+        border: colors.border.default,
+      }}
     >
-      <h2
-        className="text-2xl font-semibold mb-6"
-        style={{ color: colors.fg.primary }}
-      >
-        Dashboard
-      </h2>
+      <TopBar>
+        <DiamondIcon></DiamondIcon>
+        <Button
+          size="lg"
+          className="ml-auto"
+          style={{
+            color: colors.fg.primary,
+            backgroundColor: colors.bg.tertiary,
+          }}
+          icon={<QRCodeIcon size={24}></QRCodeIcon>}
+        >
+          Get QR Code
+        </Button>
+      </TopBar>
     </main>
   );
 }
