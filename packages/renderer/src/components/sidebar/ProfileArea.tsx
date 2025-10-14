@@ -1,5 +1,5 @@
 import { useTheme } from '../../context/theme/useTheme';
-import DiamondIcon from '../icons/DiamondIcon';
+import { DiamondIcon } from '../icons/DiamondIcon';
 import ProfileHashIcon from '../icons/ProfileHashIcon';
 
 export function ProfileArea() {

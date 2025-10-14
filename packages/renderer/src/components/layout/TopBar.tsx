@@ -14,7 +14,7 @@ export function TopBar({
   return (
     <div className="flex flex-1 gap-4 items-center h-20 mx-6" {...props}>
       <h2
-        className="text-2xl font-semibold"
+        className="text-xl font-semibold"
         style={{ color: colors.fg.primary }}
       >
         {title}

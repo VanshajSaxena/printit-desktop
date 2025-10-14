@@ -16,6 +16,7 @@ export function Dashboard() {
           style={{
             color: colors.fg.primary,
             backgroundColor: colors.bg.tertiary,
+            borderColor: colors.border.default,
           }}
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
         >
