@@ -8,7 +8,7 @@ export function Dashboard() {
   const { colors } = useTheme();
   return (
     <>
-      <TopBar>
+      <TopBar title="Dashboard">
         <DiamondIcon></DiamondIcon>
         <Button
           size="lg"

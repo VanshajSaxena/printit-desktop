@@ -12,7 +12,11 @@ export function TopBar({
 }: TopBarProps) {
   const { colors } = useTheme();
   return (
-    <div className="flex flex-1 gap-4 items-center h-20 mx-6" {...props}>
+    <div
+      className="flex flex-1 gap-4 border-b items-center h-20 px-6"
+      style={{ borderColor: colors.border.default }}
+      {...props}
+    >
       <h2
         className="text-xl font-semibold"
         style={{ color: colors.fg.primary }}
