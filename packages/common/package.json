@@ -5,7 +5,7 @@
     "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.9.1",
+    "openapi-typescript": "^7.10.1",
     "typescript": "^5.9.3"
   }
 }
