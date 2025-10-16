@@ -42,7 +42,7 @@ __metadata:
     "@app/preload": "workspace:*"
     "@app/renderer": "workspace:*"
     electron-devtools-installer: "npm:4.0.0"
-    electron-updater: "npm:6.6.2"
+    electron-updater: "npm:6.7.0"
     vite: "npm:7.1.10"
   languageName: unknown
   linkType: soft
@@ -2227,6 +2227,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"builder-util-runtime@npm:9.5.0":
+  version: 9.5.0
+  resolution: "builder-util-runtime@npm:9.5.0"
+  dependencies:
+    debug: "npm:^4.3.4"
+    sax: "npm:^1.2.4"
+  checksum: 10c0/797f4f8129557de6f5699991974f1701e464646664a14f841870fca0ddb05cb63cb8f2ca3c082cd6215690048c5e12df8404e7ccec371640eed9edc8cb592ae6
+  languageName: node
+  linkType: hard
+
 "builder-util@npm:26.0.11":
   version: 26.0.11
   resolution: "builder-util@npm:26.0.11"
@@ -2829,19 +2839,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-updater@npm:6.6.2":
-  version: 6.6.2
-  resolution: "electron-updater@npm:6.6.2"
+"electron-updater@npm:6.7.0":
+  version: 6.7.0
+  resolution: "electron-updater@npm:6.7.0"
   dependencies:
-    builder-util-runtime: "npm:9.3.1"
+    builder-util-runtime: "npm:9.5.0"
     fs-extra: "npm:^10.1.0"
     js-yaml: "npm:^4.1.0"
     lazy-val: "npm:^1.0.5"
     lodash.escaperegexp: "npm:^4.1.2"
     lodash.isequal: "npm:^4.5.0"
-    semver: "npm:^7.6.3"
+    semver: "npm:7.7.2"
     tiny-typed-emitter: "npm:^2.1.0"
-  checksum: 10c0/2b9ae5583b95f6772c4a2515ddba7ba52b65460ab81f09ae4f0b97c7e3d7b7e3d9426775eb9a53d3193bd4c3d5466bf30827c1a6ee75e4aca739c647f6ac46ff
+  checksum: 10c0/8310af4a0a795de4bc68a75dc87e4116be1cfc324b60b60492b4afa2a8866ef58a53aa888d8709bed3fba4202deac8a9f02bf7ba03cb1a8fdbbed1a6fb1dad31
   languageName: node
   linkType: hard
 
@@ -5607,6 +5617,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:7.7.2, semver@npm:^7.3.2, semver@npm:^7.3.5, semver@npm:^7.3.8, semver@npm:^7.5.3, semver@npm:^7.6.0":
+  version: 7.7.2
+  resolution: "semver@npm:7.7.2"
+  bin:
+    semver: bin/semver.js
+  checksum: 10c0/aca305edfbf2383c22571cb7714f48cadc7ac95371b4b52362fb8eeffdfbc0de0669368b82b2b15978f8848f01d7114da65697e56cd8c37b0dab8c58e543f9ea
+  languageName: node
+  linkType: hard
+
 "semver@npm:^5.5.0":
   version: 5.7.2
   resolution: "semver@npm:5.7.2"
@@ -5622,15 +5641,6 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10c0/e3d79b609071caa78bcb6ce2ad81c7966a46a7431d9d58b8800cfa9cb6a63699b3899a0e4bcce36167a284578212d9ae6942b6929ba4aa5015c079a67751d42d
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.3.2, semver@npm:^7.3.5, semver@npm:^7.3.8, semver@npm:^7.5.3, semver@npm:^7.6.0, semver@npm:^7.6.3":
-  version: 7.7.2
-  resolution: "semver@npm:7.7.2"
-  bin:
-    semver: bin/semver.js
-  checksum: 10c0/aca305edfbf2383c22571cb7714f48cadc7ac95371b4b52362fb8eeffdfbc0de0669368b82b2b15978f8848f01d7114da65697e56cd8c37b0dab8c58e543f9ea
   languageName: node
   linkType: hard
 
