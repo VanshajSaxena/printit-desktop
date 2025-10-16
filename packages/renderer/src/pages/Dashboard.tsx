@@ -1,7 +1,7 @@
-import { Button } from '../components/buttons/Button';
-import { DiamondIcon } from '../components/icons/DiamondIcon';
-import { QRCodeIcon } from '../components/icons/QRCodeIcon';
-import { TopBar } from '../components/layout/TopBar';
+import { Button } from '@components/buttons/Button';
+import { DiamondIcon } from '@components/icons/DiamondIcon';
+import { QRCodeIcon } from '@components/icons/QRCodeIcon';
+import { TopBar } from '@components/layout/TopBar';
 import { useTheme } from '../context/theme/useTheme';
 
 export function Dashboard() {

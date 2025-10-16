@@ -1,9 +1,9 @@
-import { HistoryIcon } from '../icons/HistoryIcon.tsx';
-import { HomeIcon } from '../icons/HomeIcon';
-import { SettingsIcon } from '../icons/SettingsIcon.tsx';
-import { SupportHeadphoneIcon } from '../icons/SupportHeadphoneIcon.tsx';
-import { ProfileArea } from '../sidebar/ProfileArea';
-import { SideBarItem } from '../sidebar/SideBarItem';
+import { HistoryIcon } from '@components/icons/HistoryIcon';
+import { HomeIcon } from '@components/icons/HomeIcon';
+import { SettingsIcon } from '@components/icons/SettingsIcon.tsx';
+import { SupportHeadphoneIcon } from '@components/icons/SupportHeadphoneIcon.tsx';
+import { ProfileArea } from '@components/sidebar/ProfileArea';
+import { SideBarItem } from '@components/sidebar/SideBarItem';
 
 export function SideBar() {
   return (
