@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function DiamondIcon({ ...props }: IconProps) {

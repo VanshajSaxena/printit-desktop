@@ -1,5 +1,5 @@
+import { useTheme } from '@context/theme/useTheme';
 import React from 'react';
-import { useTheme } from '../../context/theme/useTheme.ts';
 
 type ButtonSizes = 'md' | 'lg';
 

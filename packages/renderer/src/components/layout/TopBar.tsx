@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 
 interface TopBarProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;

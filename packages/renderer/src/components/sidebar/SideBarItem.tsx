@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 interface SideBarItemProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode;
   children?: React.ReactNode;

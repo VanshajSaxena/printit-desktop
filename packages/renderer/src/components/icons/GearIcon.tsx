@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types.ts';
 
 export function GearIcon({ size = 14, ...props }: IconProps) {

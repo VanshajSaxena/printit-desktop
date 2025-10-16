@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import { Dashboard } from '../../pages/Dashboard';
 
 export function MainContent() {

@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 export function SupportHeadphoneIcon({ size = 14, ...props }: IconProps) {
   const { colors } = useTheme();
