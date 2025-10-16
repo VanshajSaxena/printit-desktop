@@ -1,5 +1,5 @@
 import { useTheme } from '@context/theme/useTheme';
-import { Dashboard } from '../../pages/Dashboard';
+import { Dashboard } from '@pages/Dashboard';
 
 export function MainContent() {
   const { colors } = useTheme();
