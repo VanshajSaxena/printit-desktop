@@ -13,7 +13,7 @@ export function TopBar({
   const { colors } = useTheme();
   return (
     <div
-      className="flex flex-1 gap-4 border-b items-center h-20 px-6"
+      className="flex flex-1 gap-4 border-b items-center max-h-20 px-6"
       style={{ borderColor: colors.border.default }}
       {...props}
     >

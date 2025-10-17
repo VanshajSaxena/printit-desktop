@@ -20,10 +20,10 @@ export function Button({
   let buttonSize = '';
   switch (size) {
     case 'md':
-      buttonSize = 'px-3 py-[6px] gap-2';
+      buttonSize = 'px-3 py-[0.375rem]';
       break;
     case 'lg':
-      buttonSize = 'px-3 py-2 gap-2 rounded-xl';
+      buttonSize = 'px-3 py-2';
       break;
     default:
       break;
@@ -32,8 +32,12 @@ export function Button({
   return (
     <button
       type="button"
-      className={`inline-flex border box-border ${buttonSize} ${className}`}
-      style={{ backgroundColor: colors.bg.tertiary }}
+      className={`inline-flex border gap-2 rounded-xl box-border w-fit ${buttonSize} ${className}`}
+      style={{
+        color: colors.fg.primary,
+        backgroundColor: colors.bg.tertiary,
+        borderColor: colors.border.default,
+      }}
       {...props}
     >
       {icon}

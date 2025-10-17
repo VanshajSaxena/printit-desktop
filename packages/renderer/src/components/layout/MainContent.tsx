@@ -5,7 +5,7 @@ export function MainContent() {
   const { colors } = useTheme();
   return (
     <main
-      className="flex flex-1 rounded-tl-3xl border-t border-l overflow-y-auto ml-4"
+      className="flex flex-col rounded-tl-3xl border-t border-l ml-4 w-full"
       style={{
         backgroundColor: colors.bg.primary,
         borderColor: colors.border.default,
