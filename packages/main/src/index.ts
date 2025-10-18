@@ -7,11 +7,13 @@ import { hardwareAccelerationMode } from './modules/HardwareAccelerationModule.j
 import { autoUpdater } from './modules/AutoUpdater.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
-import log from 'electron-log';
 import { startPrintService } from './modules/PrintServiceModule.js';
+import { ipcHandlers } from './modules/IpcHandlersModule.js';
+import log from 'electron-log';
+import { allHandlers } from './ipc/handlers.js';
 
 export async function initApp(initConfig: AppInitConfig) {
-  log.info('=== Main Process Initialization Started ===');
+  log.info('### Main Process Initialization Started ###');
   const moduleRunner = createModuleRunner()
     .init(
       createWindowManagerModule({
@@ -22,6 +24,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(disallowMultipleAppInstance())
     .init(terminateAppOnLastWindowClose())
     .init(hardwareAccelerationMode({ enable: false }))
+    .init(ipcHandlers(allHandlers))
     .init(autoUpdater())
     .init(startPrintService({ required: !import.meta.env.DEV }))
 
@@ -60,5 +63,5 @@ export async function initApp(initConfig: AppInitConfig) {
 
   await moduleRunner;
 
-  log.info('=== Main Process Initialization Completed ===');
+  log.info('### Main Process Initialization Completed ###');
 }
