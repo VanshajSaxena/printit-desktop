@@ -22,7 +22,6 @@ class IpcHandlersModule implements AppModule {
 
     const registeredChannels: string[] = [];
 
-    // Register all handlers
     for (const [channel, handler] of Object.entries(this.#handlers)) {
       try {
         ipcMain.handle(channel, async (event, ...args) => {
@@ -48,7 +47,6 @@ class IpcHandlersModule implements AppModule {
       registeredChannels,
     );
 
-    // Cleanup on app quit
     context.app.on('will-quit', () => {
       log.info('IpcHandlersModule: Cleaning up handlers...');
       registeredChannels.forEach((channel) => {
