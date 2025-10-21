@@ -6,4 +6,8 @@ function send(channel: string, message: string) {
   return ipcRenderer.invoke(channel, message);
 }
 
+export function testHandler() {
+  return ipcRenderer.invoke('test:testFunction');
+}
+
 export { sha256sum, versions, send };

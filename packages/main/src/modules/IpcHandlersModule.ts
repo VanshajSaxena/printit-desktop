@@ -3,22 +3,13 @@ import { ModuleContext } from '../ModuleContext.js';
 import { ipcMain, IpcMainInvokeEvent } from 'electron';
 import log from 'electron-log';
 
-/**
- * Generic IPC handler that accepts any arguments and returns any type
- */
 export type IpcHandler = (
   event: IpcMainInvokeEvent,
-  ...args: any[]
-) => Promise<any> | any;
+  ...args: unknown[]
+) => Promise<unknown>;
 
-/**
- * IPC channel registry - maps channel names to their handlers
- */
 export type IpcHandlerRegistry = Record<string, IpcHandler>;
 
-/**
- * Module responsible for registering all IPC handlers
- */
 class IpcHandlersModule implements AppModule {
   readonly #handlers: IpcHandlerRegistry;
 
@@ -37,6 +28,7 @@ class IpcHandlersModule implements AppModule {
         ipcMain.handle(channel, async (event, ...args) => {
           log.debug(`IPC: ${channel} called with args:`, args);
           try {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             const result = await handler(event, ...args);
             log.debug(`IPC: ${channel} returned:`, result);
             return result;
@@ -52,7 +44,7 @@ class IpcHandlersModule implements AppModule {
     }
 
     log.info(
-      `IpcHandlersModule: Registered ${registeredChannels.length} handlers:`,
+      `IpcHandlersModule: Registered ${String(registeredChannels.length)} handlers:`,
       registeredChannels,
     );
 
