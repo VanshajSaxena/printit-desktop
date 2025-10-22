@@ -1,11 +1,11 @@
 import { Button } from '@components/buttons/Button';
 import { DiamondIcon } from '@components/icons/DiamondIcon';
+import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
+import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
-import { useTheme } from '@context/theme/useTheme';
 
 export function Dashboard() {
-  const { colors } = useTheme();
   return (
     <>
       <TopBar title="Dashboard">
@@ -13,16 +13,28 @@ export function Dashboard() {
         <Button
           size="lg"
           className="ml-auto"
-          style={{
-            color: colors.fg.primary,
-            backgroundColor: colors.bg.tertiary,
-            borderColor: colors.border.default,
-          }}
+          varient="default"
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
         >
           Get QR Code
         </Button>
       </TopBar>
+      <div className="flex p-6 items-start gap-4">
+        <Button
+          size="lg"
+          varient="ghost"
+          icon={<SlidersIcon size={24}></SlidersIcon>}
+        >
+          Display
+        </Button>
+        <Button
+          size="lg"
+          varient="ghost"
+          icon={<GearIcon size={24}></GearIcon>}
+        >
+          Bulk Action
+        </Button>
+      </div>
     </>
   );
 }
