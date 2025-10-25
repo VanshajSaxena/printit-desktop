@@ -1,5 +1,5 @@
 import type { IconProps } from './types.ts';
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 
 function ProfileHash({ size, ...props }: IconProps) {
   const { colors } = useTheme();

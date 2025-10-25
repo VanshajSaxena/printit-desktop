@@ -1,18 +1,17 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
+import { Dashboard } from '@pages/Dashboard';
 
 export function MainContent() {
   const { colors } = useTheme();
   return (
     <main
-      className="flex-1 rounded-tl-2xl overflow-y-auto p-8 ml-4"
-      style={{ backgroundColor: colors.bg.primary }}
+      className="flex flex-col rounded-tl-3xl border-t border-l ml-4 w-full"
+      style={{
+        backgroundColor: colors.bg.primary,
+        borderColor: colors.border.default,
+      }}
     >
-      <h2
-        className="text-2xl font-semibold mb-6"
-        style={{ color: colors.fg.primary }}
-      >
-        Dashboard
-      </h2>
+      <Dashboard></Dashboard>
     </main>
   );
 }

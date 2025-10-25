@@ -1,4 +1,4 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import { MainContent } from './MainContent';
 import { SideBar } from './SideBar';
 

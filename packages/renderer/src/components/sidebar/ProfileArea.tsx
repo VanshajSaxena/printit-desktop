@@ -1,6 +1,6 @@
-import { useTheme } from '../../context/theme/useTheme';
-import DiamondIcon from '../icons/DiamondIcon';
-import ProfileHashIcon from '../icons/ProfileHashIcon';
+import { useTheme } from '@context/theme/useTheme';
+import { DiamondIcon } from '@components/icons/DiamondIcon';
+import ProfileHashIcon from '@components/icons/ProfileHashIcon';
 
 export function ProfileArea() {
   const { colors } = useTheme();

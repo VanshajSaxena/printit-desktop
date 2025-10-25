@@ -1,7 +1,7 @@
-import { useTheme } from '../../context/theme/useTheme';
+import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
-function DiamondIcon({ ...props }: IconProps) {
+export function DiamondIcon({ ...props }: IconProps) {
   const { colors } = useTheme();
   return (
     <svg
@@ -22,5 +22,3 @@ function DiamondIcon({ ...props }: IconProps) {
     </svg>
   );
 }
-
-export default DiamondIcon;
