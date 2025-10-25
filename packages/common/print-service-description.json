@@ -20,7 +20,33 @@
         "tags": ["PrintQueue"],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -40,7 +66,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueDto"
+                }
+              }
+            }
           }
         }
       }
@@ -60,7 +103,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintCapabilitiesDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintCapabilitiesDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintCapabilitiesDto"
+                }
+              }
+            }
           }
         }
       }
@@ -80,7 +140,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintJobInfoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintJobInfoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintJobInfoDto"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -117,7 +203,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              }
+            }
           }
         }
       }
@@ -146,7 +249,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintJobInfoDto"
+                }
+              }
+            }
           }
         }
       }
@@ -202,6 +322,50 @@
       "PageBorderlessDto": {
         "enum": ["None", "Borderless", "Unknown"],
         "type": "string"
+      },
+      "PageImageableAreaDto": {
+        "type": "object",
+        "properties": {
+          "extentHeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "extentWidth": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "originHeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "originWidth": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PageMediaSizeDto": {
+        "type": "object",
+        "properties": {
+          "sizeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "height": {
+            "type": "string",
+            "nullable": true
+          },
+          "width": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "PageMediaSizeNameDto": {
         "enum": [
@@ -451,6 +615,24 @@
         "enum": ["Default", "Draft", "High", "Normal", "Other", "Unknown"],
         "type": "string"
       },
+      "PageResolutionDto": {
+        "type": "object",
+        "properties": {
+          "resolution": {
+            "type": "string",
+            "nullable": true
+          },
+          "x": {
+            "type": "string",
+            "nullable": true
+          },
+          "y": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PageResolutionTicketDto": {
         "type": "object",
         "properties": {
@@ -463,6 +645,22 @@
             "nullable": true
           },
           "y": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PageScalingFactorRangeDto": {
+        "type": "object",
+        "properties": {
+          "maximumScale": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minimumScale": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -488,6 +686,152 @@
         "enum": ["None", "PhotoBest", "PhotoDraft", "PhotoStandard", "Unknown"],
         "type": "string"
       },
+      "PrintCapabilitiesDto": {
+        "type": "object",
+        "properties": {
+          "collation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "deviceFontSubstitution": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "duplexing": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "inputBin": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "maxCopyCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "orientedPageMediaHeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "orientedPageMediaWidth": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "outputColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "outputQuality": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pageBorderless": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pageImageableArea": {
+            "$ref": "#/components/schemas/PageImageableAreaDto"
+          },
+          "pageMediaSize": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageMediaSizeDto"
+            },
+            "nullable": true
+          },
+          "pageMediaType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pageOrder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pageOrientation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pageResolution": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageResolutionDto"
+            },
+            "nullable": true
+          },
+          "pageScalingFactorRange": {
+            "$ref": "#/components/schemas/PageScalingFactorRangeDto"
+          },
+          "pagesPerSheet": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pagesPerSheetDirection": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "photoPrintingIntent": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "stapling": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "trueTypeFontMode": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PrintJobDto": {
         "required": ["documentPath"],
         "type": "object",
@@ -506,6 +850,80 @@
           },
           "ticket": {
             "$ref": "#/components/schemas/PrintTicketDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintJobInfoDto": {
+        "type": "object",
+        "properties": {
+          "jobIdentifier": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "jobStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "jobName": {
+            "type": "string",
+            "nullable": true
+          },
+          "numberOfPages": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfPagesPrinted": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "positionInPrintQueue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "priority": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeJobSubmitted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "timeSinceStartedPrinting": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintQueueDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
