@@ -5,7 +5,10 @@ type ButtonSizes = 'md' | 'lg';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   size?: ButtonSizes;
+  varient: 'default' | 'ghost';
   icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
   children?: React.ReactNode;
 }
 
@@ -13,10 +16,14 @@ export function Button({
   size = 'md',
   icon,
   children,
+  color,
+  varient,
+  backgroundColor,
   className = '',
   ...props
 }: ButtonProps) {
   const { colors } = useTheme();
+
   let buttonSize = '';
   switch (size) {
     case 'md':
@@ -29,14 +36,25 @@ export function Button({
       break;
   }
 
+  switch (varient) {
+    case 'default':
+      backgroundColor = colors.bg.tertiary;
+      break;
+    case 'ghost':
+      backgroundColor = colors.bg.primary;
+      break;
+    default:
+      break;
+  }
+
   return (
     <button
       type="button"
-      className={`inline-flex border gap-2 rounded-xl box-border w-fit ${buttonSize} ${className}`}
+      className={`inline-flex items-center -outline-offset-1 outline-1 gap-2 leading-none rounded-xl w-fit ${buttonSize} ${className}`}
       style={{
-        color: colors.fg.primary,
-        backgroundColor: colors.bg.tertiary,
-        borderColor: colors.border.default,
+        color: color ?? colors.fg.primary,
+        backgroundColor: backgroundColor,
+        outlineColor: colors.border.default,
       }}
       {...props}
     >
