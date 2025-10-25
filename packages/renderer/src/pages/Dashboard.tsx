@@ -4,6 +4,7 @@ import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
+import { testHandler } from '@app/preload';
 
 export function Dashboard() {
   return (
