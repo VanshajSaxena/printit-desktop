@@ -1,7 +1,8 @@
 import { useTheme } from '@context/theme/useTheme';
 import { Dashboard } from '@pages/Dashboard';
+import type { ViewType } from './AppLayout';
 
-export function MainContent() {
+export function MainContent({ activeView }: { activeView: ViewType }) {
   const { colors } = useTheme();
   return (
     <main
@@ -11,7 +12,7 @@ export function MainContent() {
         borderColor: colors.border.default,
       }}
     >
-      <Dashboard></Dashboard>
+      {activeView === 'dashboard' && <Dashboard></Dashboard>}
     </main>
   );
 }
