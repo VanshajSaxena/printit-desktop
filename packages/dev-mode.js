@@ -54,25 +54,12 @@ const packagesToStart = [
 ];
 
 for (const pkg of packagesToStart) {
-  if (pkg === 'packages/common') {
-    const viteConfig = {
-      mode,
-      root: path.resolve(pkg),
-      plugins: [],
-      build: {
-        lib: {
-          entry: 'index.ts',
-          formats: ['es'],
-        },
-        watch: {},
-      },
-    };
-    await build(viteConfig);
-  } else {
-    await build({
-      mode,
-      root: path.resolve(pkg),
-      plugins: [rendererWatchServerProvider],
-    });
-  }
+  const isElectronProcess =
+    pkg === 'packages/preload' || pkg === 'packages/main';
+
+  await build({
+    mode,
+    root: path.resolve(pkg),
+    plugins: isElectronProcess ? [rendererWatchServerProvider] : [],
+  });
 }
