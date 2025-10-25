@@ -58,7 +58,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': string[];
+            'application/json': string[];
+            'text/json': string[];
+          };
         };
       };
     };
@@ -93,7 +97,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': components['schemas']['PrintQueueDto'];
+            'application/json': components['schemas']['PrintQueueDto'];
+            'text/json': components['schemas']['PrintQueueDto'];
+          };
         };
       };
     };
@@ -128,7 +136,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': components['schemas']['PrintCapabilitiesDto'];
+            'application/json': components['schemas']['PrintCapabilitiesDto'];
+            'text/json': components['schemas']['PrintCapabilitiesDto'];
+          };
         };
       };
     };
@@ -163,7 +175,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': components['schemas']['PrintJobInfoDto'][];
+            'application/json': components['schemas']['PrintJobInfoDto'][];
+            'text/json': components['schemas']['PrintJobInfoDto'][];
+          };
         };
       };
     };
@@ -190,7 +206,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': components['schemas']['PrintJobInfoDto'];
+            'application/json': components['schemas']['PrintJobInfoDto'];
+            'text/json': components['schemas']['PrintJobInfoDto'];
+          };
         };
       };
     };
@@ -224,7 +244,11 @@ export interface paths {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'text/plain': components['schemas']['PrintJobInfoDto'];
+            'application/json': components['schemas']['PrintJobInfoDto'];
+            'text/json': components['schemas']['PrintJobInfoDto'];
+          };
         };
       };
     };
@@ -272,6 +296,21 @@ export interface components {
       | 'Unknown';
     /** @enum {string} */
     PageBorderlessDto: 'None' | 'Borderless' | 'Unknown';
+    PageImageableAreaDto: {
+      /** Format: double */
+      extentHeight?: number | null;
+      /** Format: double */
+      extentWidth?: number | null;
+      /** Format: double */
+      originHeight?: number | null;
+      /** Format: double */
+      originWidth?: number | null;
+    };
+    PageMediaSizeDto: {
+      sizeName?: string | null;
+      height?: string | null;
+      width?: string | null;
+    };
     /** @enum {string} */
     PageMediaSizeNameDto:
       | 'ISOA0'
@@ -501,12 +540,23 @@ export interface components {
       | 'Normal'
       | 'Other'
       | 'Unknown';
+    PageResolutionDto: {
+      resolution?: string | null;
+      x?: string | null;
+      y?: string | null;
+    };
     PageResolutionTicketDto: {
       resolution?: components['schemas']['PageQualitativeResolutionDto'];
       /** Format: int32 */
       x?: number | null;
       /** Format: int32 */
       y?: number | null;
+    };
+    PageScalingFactorRangeDto: {
+      /** Format: int32 */
+      maximumScale?: number | null;
+      /** Format: int32 */
+      minimumScale?: number | null;
     };
     /** @enum {string} */
     PagesPerSheetDirectionDto:
@@ -526,11 +576,62 @@ export interface components {
       | 'PhotoDraft'
       | 'PhotoStandard'
       | 'Unknown';
+    PrintCapabilitiesDto: {
+      collation?: string[] | null;
+      deviceFontSubstitution?: string[] | null;
+      duplexing?: string[] | null;
+      inputBin?: string[] | null;
+      /** Format: int32 */
+      maxCopyCount?: number | null;
+      /** Format: double */
+      orientedPageMediaHeight?: number | null;
+      /** Format: double */
+      orientedPageMediaWidth?: number | null;
+      outputColor?: string[] | null;
+      outputQuality?: string[] | null;
+      pageBorderless?: string[] | null;
+      pageImageableArea?: components['schemas']['PageImageableAreaDto'];
+      pageMediaSize?: components['schemas']['PageMediaSizeDto'][] | null;
+      pageMediaType?: string[] | null;
+      pageOrder?: string[] | null;
+      pageOrientation?: string[] | null;
+      pageResolution?: components['schemas']['PageResolutionDto'][] | null;
+      pageScalingFactorRange?: components['schemas']['PageScalingFactorRangeDto'];
+      pagesPerSheet?: string[] | null;
+      pagesPerSheetDirection?: string[] | null;
+      photoPrintingIntent?: string[] | null;
+      stapling?: string[] | null;
+      trueTypeFontMode?: string[] | null;
+    };
     PrintJobDto: {
       name?: string | null;
       documentPath: string | null;
       fastCopy?: boolean | null;
       ticket?: components['schemas']['PrintTicketDto'];
+    };
+    PrintJobInfoDto: {
+      /** Format: int32 */
+      jobIdentifier?: number | null;
+      jobStatus?: string | null;
+      jobName?: string | null;
+      /** Format: int32 */
+      numberOfPages?: number | null;
+      /** Format: int32 */
+      numberOfPagesPrinted?: number | null;
+      /** Format: int32 */
+      positionInPrintQueue?: number | null;
+      priority?: string | null;
+      /** Format: date-time */
+      timeJobSubmitted?: string | null;
+      /** Format: int32 */
+      timeSinceStartedPrinting?: number | null;
+    };
+    PrintQueueDto: {
+      fullName?: string | null;
+      name?: string | null;
+      comment?: string | null;
+      description?: string | null;
+      status?: string | null;
     };
     PrintTicketDto: {
       collation?: components['schemas']['CollationDto'];
@@ -592,6 +693,9 @@ export type InputBinDto = components['schemas']['InputBinDto'];
 export type OutputColorDto = components['schemas']['OutputColorDto'];
 export type OutputQualityDto = components['schemas']['OutputQualityDto'];
 export type PageBorderlessDto = components['schemas']['PageBorderlessDto'];
+export type PageImageableAreaDto =
+  components['schemas']['PageImageableAreaDto'];
+export type PageMediaSizeDto = components['schemas']['PageMediaSizeDto'];
 export type PageMediaSizeNameDto =
   components['schemas']['PageMediaSizeNameDto'];
 export type PageMediaSizeTicketDto =
@@ -601,13 +705,20 @@ export type PageOrderDto = components['schemas']['PageOrderDto'];
 export type PageOrientationDto = components['schemas']['PageOrientationDto'];
 export type PageQualitativeResolutionDto =
   components['schemas']['PageQualitativeResolutionDto'];
+export type PageResolutionDto = components['schemas']['PageResolutionDto'];
 export type PageResolutionTicketDto =
   components['schemas']['PageResolutionTicketDto'];
+export type PageScalingFactorRangeDto =
+  components['schemas']['PageScalingFactorRangeDto'];
 export type PagesPerSheetDirectionDto =
   components['schemas']['PagesPerSheetDirectionDto'];
 export type PhotoPrintingIntentDto =
   components['schemas']['PhotoPrintingIntentDto'];
+export type PrintCapabilitiesDto =
+  components['schemas']['PrintCapabilitiesDto'];
 export type PrintJobDto = components['schemas']['PrintJobDto'];
+export type PrintJobInfoDto = components['schemas']['PrintJobInfoDto'];
+export type PrintQueueDto = components['schemas']['PrintQueueDto'];
 export type PrintTicketDto = components['schemas']['PrintTicketDto'];
 export type StaplingDto = components['schemas']['StaplingDto'];
 export type TrueTypeFontModeDto = components['schemas']['TrueTypeFontModeDto'];
