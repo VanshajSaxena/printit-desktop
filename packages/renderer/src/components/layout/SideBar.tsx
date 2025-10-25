@@ -13,48 +13,51 @@ export function SideBar({
   activeView: ViewType;
   onViewChange: (view: ViewType) => void;
 }) {
+  const sidebarItems: { id: ViewType; label: string; icon: React.ReactNode }[] =
+    [
+      { id: 'dashboard', label: 'Dashboard', icon: <HomeIcon></HomeIcon> },
+      { id: 'history', label: 'History', icon: <HistoryIcon></HistoryIcon> },
+      {
+        id: 'settings',
+        label: 'Settings',
+        icon: <SettingsIcon></SettingsIcon>,
+      },
+      {
+        id: 'help',
+        label: 'Help Center',
+        icon: <SupportHeadphoneIcon></SupportHeadphoneIcon>,
+      },
+    ];
   return (
     <aside className="w-72 flex-shrink-0">
       <div className="flex flex-col h-full">
         <ProfileArea></ProfileArea>
         <div className="flex flex-col flex-1 mt-12 gap-2">
-          <SideBarItem
-            icon={<HomeIcon size={24}></HomeIcon>}
-            isActive={activeView === 'dashboard'}
-            onClick={() => {
-              onViewChange('dashboard');
-            }}
-          >
-            Dashboard
-          </SideBarItem>
-          <SideBarItem
-            icon={<HistoryIcon size={24}></HistoryIcon>}
-            isActive={activeView === 'history'}
-            onClick={() => {
-              onViewChange('history');
-            }}
-          >
-            History
-          </SideBarItem>
+          {sidebarItems.slice(0, 2).map((item) => (
+            <SideBarItem
+              key={item.id}
+              icon={item.icon}
+              isActive={activeView === item.id}
+              onClick={() => {
+                onViewChange(item.id);
+              }}
+            >
+              {item.label}
+            </SideBarItem>
+          ))}
           <div className="flex flex-col mt-auto mb-8 gap-2">
-            <SideBarItem
-              icon={<SettingsIcon size={24}></SettingsIcon>}
-              isActive={activeView === 'settings'}
-              onClick={() => {
-                onViewChange('settings');
-              }}
-            >
-              Settings
-            </SideBarItem>
-            <SideBarItem
-              icon={<SupportHeadphoneIcon size={24}></SupportHeadphoneIcon>}
-              isActive={activeView === 'help'}
-              onClick={() => {
-                onViewChange('help');
-              }}
-            >
-              Help Center
-            </SideBarItem>
+            {sidebarItems.slice(2).map((item) => (
+              <SideBarItem
+                key={item.id}
+                icon={item.icon}
+                isActive={activeView === item.id}
+                onClick={() => {
+                  onViewChange(item.id);
+                }}
+              >
+                {item.label}
+              </SideBarItem>
+            ))}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
-export function SettingsIcon({ size = 14, ...props }: IconProps) {
+export function SettingsIcon({ size = 24, ...props }: IconProps) {
   const { colors } = useTheme();
   return (
     <svg
