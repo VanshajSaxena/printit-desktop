@@ -7,9 +7,7 @@
   "paths": {
     "/api/v1/ping": {
       "get": {
-        "tags": [
-          "Ping"
-        ],
+        "tags": ["Ping"],
         "responses": {
           "200": {
             "description": "OK"
@@ -19,9 +17,7 @@
     },
     "/api/v1/printqueues": {
       "get": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "responses": {
           "200": {
             "description": "OK"
@@ -31,9 +27,7 @@
     },
     "/api/v1/printqueues/{queueName}": {
       "get": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "parameters": [
           {
             "name": "queueName",
@@ -53,9 +47,7 @@
     },
     "/api/v1/printqueues/{queueName}/capabilities": {
       "get": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "parameters": [
           {
             "name": "queueName",
@@ -75,9 +67,7 @@
     },
     "/api/v1/printqueues/{queueName}/jobs": {
       "get": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "parameters": [
           {
             "name": "queueName",
@@ -95,9 +85,7 @@
         }
       },
       "post": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "parameters": [
           {
             "name": "queueName",
@@ -136,9 +124,7 @@
     },
     "/api/v1/printqueues/{queueName}/jobs/{jobId}": {
       "get": {
-        "tags": [
-          "PrintQueue"
-        ],
+        "tags": ["PrintQueue"],
         "parameters": [
           {
             "name": "queueName",
@@ -169,19 +155,11 @@
   "components": {
     "schemas": {
       "CollationDto": {
-        "enum": [
-          "Collated",
-          "Uncollated",
-          "Unknown"
-        ],
+        "enum": ["Collated", "Uncollated", "Unknown"],
         "type": "string"
       },
       "DeviceFontSubstitutionDto": {
-        "enum": [
-          "On",
-          "Off",
-          "Unknown"
-        ],
+        "enum": ["On", "Off", "Unknown"],
         "type": "string"
       },
       "DuplexingDto": {
@@ -205,12 +183,7 @@
         "type": "string"
       },
       "OutputColorDto": {
-        "enum": [
-          "Color",
-          "Grayscale",
-          "Monochrome",
-          "Unknown"
-        ],
+        "enum": ["Color", "Grayscale", "Monochrome", "Unknown"],
         "type": "string"
       },
       "OutputQualityDto": {
@@ -227,11 +200,7 @@
         "type": "string"
       },
       "PageBorderlessDto": {
-        "enum": [
-          "None",
-          "Borderless",
-          "Unknown"
-        ],
+        "enum": ["None", "Borderless", "Unknown"],
         "type": "string"
       },
       "PageMediaSizeNameDto": {
@@ -465,11 +434,7 @@
         "type": "string"
       },
       "PageOrderDto": {
-        "enum": [
-          "Standard",
-          "Reverse",
-          "Unknown"
-        ],
+        "enum": ["Standard", "Reverse", "Unknown"],
         "type": "string"
       },
       "PageOrientationDto": {
@@ -483,14 +448,7 @@
         "type": "string"
       },
       "PageQualitativeResolutionDto": {
-        "enum": [
-          "Default",
-          "Draft",
-          "High",
-          "Normal",
-          "Other",
-          "Unknown"
-        ],
+        "enum": ["Default", "Draft", "High", "Normal", "Other", "Unknown"],
         "type": "string"
       },
       "PageResolutionTicketDto": {
@@ -527,16 +485,11 @@
         "type": "string"
       },
       "PhotoPrintingIntentDto": {
-        "enum": [
-          "None",
-          "PhotoBest",
-          "PhotoDraft",
-          "PhotoStandard",
-          "Unknown"
-        ],
+        "enum": ["None", "PhotoBest", "PhotoDraft", "PhotoStandard", "Unknown"],
         "type": "string"
       },
       "PrintJobDto": {
+        "required": ["documentPath"],
         "type": "object",
         "properties": {
           "name": {
