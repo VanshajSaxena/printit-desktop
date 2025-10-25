@@ -1,11 +1,16 @@
 {
   "name": "@app/common",
-  "packageManager": "yarn@4.10.3",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
   "scripts": {
-    "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix"
+    "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "openapi-typescript": "^7.10.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "7.1.10"
   }
 }

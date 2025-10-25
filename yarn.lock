@@ -18,6 +18,7 @@ __metadata:
   dependencies:
     openapi-typescript: "npm:^7.10.1"
     typescript: "npm:^5.9.3"
+    vite: "npm:7.1.10"
   languageName: unknown
   linkType: soft
 
