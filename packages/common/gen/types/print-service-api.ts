@@ -528,7 +528,7 @@ export interface components {
       | 'Unknown';
     PrintJobDto: {
       name?: string | null;
-      documentPath?: string | null;
+      documentPath: string | null;
       fastCopy?: boolean | null;
       ticket?: components['schemas']['PrintTicketDto'];
     };
