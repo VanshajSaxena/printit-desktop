@@ -1,5 +1,9 @@
 {
   "name": "@app/common",
+  "files": [
+    "dist/**",
+    "package.json"
+  ],
   "packageManager": "yarn@4.10.3",
   "scripts": {
     "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix"

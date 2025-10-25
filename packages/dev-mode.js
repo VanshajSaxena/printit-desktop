@@ -47,12 +47,32 @@ const rendererWatchServerProvider = {
  */
 
 /** @type {string[]} */
-const packagesToStart = ['packages/preload', 'packages/main'];
+const packagesToStart = [
+  'packages/common',
+  'packages/preload',
+  'packages/main',
+];
 
 for (const pkg of packagesToStart) {
-  await build({
-    mode,
-    root: path.resolve(pkg),
-    plugins: [rendererWatchServerProvider],
-  });
+  if (pkg === 'packages/common') {
+    const viteConfig = {
+      mode,
+      root: path.resolve(pkg),
+      plugins: [],
+      build: {
+        lib: {
+          entry: 'index.ts',
+          formats: ['es'],
+        },
+        watch: {},
+      },
+    };
+    await build(viteConfig);
+  } else {
+    await build({
+      mode,
+      root: path.resolve(pkg),
+      plugins: [rendererWatchServerProvider],
+    });
+  }
 }
