@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*"
+  },
   "scripts": {
     "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix",
     "build": "vite build",

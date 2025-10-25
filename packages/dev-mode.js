@@ -59,7 +59,7 @@ for (const pkg of packagesToStart) {
   await build({
     mode,
     root: path.resolve(pkg),
-    plugins: [rendererWatchServerProvider],
+    plugins: isElectronProcess ? [rendererWatchServerProvider] : [],
     build: {
       watch: pkg === 'packages/common' ? {} : undefined, // Enable watch mode for common
     },
