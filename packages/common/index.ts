@@ -1,3 +1,1 @@
-import { PrintService } from './src/print-service';
-
-export { PrintService };
+export * from '@gen/types/print-service-api';

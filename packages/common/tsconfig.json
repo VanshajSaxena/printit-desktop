@@ -4,6 +4,7 @@
     "module": "ESNext",
     "lib": ["ES2022"],
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "rootDir": "./",
     "outDir": "./dist",
     "declaration": true,
@@ -12,7 +13,10 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "composite": true
+    "composite": true,
+    "paths": {
+      "@gen/types/*": ["./gen/types/*"]
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
