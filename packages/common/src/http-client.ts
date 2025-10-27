@@ -41,7 +41,7 @@ export class HttpClient {
       },
       (error: Error) => {
         if (this.config.enabledLogging) {
-          console.error('[API Request Error]', error);
+          log.error('[API Request Error]', error);
         }
         return Promise.reject(error);
       },
@@ -50,7 +50,7 @@ export class HttpClient {
     this.client.interceptors.response.use(
       (response) => {
         if (this.config.enabledLogging) {
-          console.log(
+          log.info(
             `[API Response] ${String(response.config.url)} - ${String(response.status)}`,
           );
         }
@@ -58,7 +58,7 @@ export class HttpClient {
       },
       (error: Error) => {
         if (this.config.enabledLogging) {
-          console.error('[API Response Error]', error.message);
+          log.error('[API Response Error]', error.message);
         }
         return Promise.reject(error);
       },
