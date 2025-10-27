@@ -19,7 +19,22 @@ log.transports.file.resolvePathFn = () => {
 log.transports.file.maxSize = 5 * 1024 * 1024;
 log.initialize({ spyRendererConsole: true, preload: true });
 
-log.info('=== Application Entry Point Started ===');
+log.info('### Application Entry Point Started ###\n');
+if (process.env.NODE_ENV === 'development') {
+  log.info(String.raw`
+      ___           ___                       ___           ___           ___       ___
+     /\  \         /\  \          ___        /\__\         /\  \         /\__\     |\__\
+    /::\  \       /::\  \        /\  \      /::|  |        \:\  \       /:/  /     |:|  |
+   /:/\:\  \     /:/\:\  \       \:\  \    /:|:|  |         \:\  \     /:/  /      |:|  |
+  /::\~\:\  \   /::\~\:\  \      /::\__\  /:/|:|  |__       /::\  \   /:/  /       |:|__|__
+ /:/\:\ \:\__\ /:/\:\ \:\__\  __/:/\/__/ /:/ |:| /\__\     /:/\:\__\ /:/__/        /::::\__\
+ \/__\:\/:/  / \/_|::\/:/  / /\/:/  /    \/__|:|/:/  /    /:/  \/__/ \:\  \       /:/~~/~
+      \::/  /     |:|::/  /  \::/__/         |:/:/  /    /:/  /       \:\  \     /:/  /
+       \/__/      |:|\/__/    \:\__\         |::/  /     \/__/         \:\  \    \/__/
+                  |:|  |       \/__/         /:/  /                     \:\__\
+                   \|__|                     \/__/                       \/__/
+    `);
+}
 
 if (
   process.env.NODE_ENV === 'development' ||
