@@ -21,6 +21,9 @@ export default defineConfig(() => {
       sourcemap: 'inline',
       emptyOutDir: true,
       reportCompressedSize: true,
+      rollupOptions: {
+        external: ['electron-log'],
+      },
     },
   };
 });
