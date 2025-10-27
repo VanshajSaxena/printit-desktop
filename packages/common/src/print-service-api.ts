@@ -1,3 +1,7 @@
+import {
+  PrintCapabilitiesDto,
+  PrintQueueDto,
+} from '@gen/types/print-service-api';
 import { HttpClient } from './http-client';
 
 export class PrintServiceApi {
@@ -13,5 +17,17 @@ export class PrintServiceApi {
 
   async ping(): Promise<string> {
     return await this.client.get('ping');
+  }
+
+  async getPrintQueues(): Promise<[string]> {
+    return this.client.get('printqueues');
+  }
+  async getPrintQueue(printQueue: string): Promise<PrintQueueDto> {
+    return this.client.get(`printqueues/${printQueue}`);
+  }
+  async getPrintQueueCapabilitites(
+    printQueue: string,
+  ): Promise<PrintCapabilitiesDto> {
+    return this.client.get(`printqueues/${printQueue}/capabilities`);
   }
 }
