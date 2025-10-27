@@ -61,7 +61,7 @@ export default defineConfig([
   {
     files: ['packages/common/**/*.ts'],
     // We exclude generated files
-    ignores: ['packages/common/gen/**'],
+    ignores: ['packages/common/gen/**', 'packages/common/dist/**'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
