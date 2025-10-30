@@ -33,7 +33,7 @@ const printServiceHandlers: IpcHandlerRegistry = {
   }),
 
   'printer:capabilities': createHandler((_event, printQueue: string) => {
-    return api.getPrintQueueCapabilitites(printQueue);
+    return api.getPrintQueueCapabilities(printQueue);
   }),
 };
 

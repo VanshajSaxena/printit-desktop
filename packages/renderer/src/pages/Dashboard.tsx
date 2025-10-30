@@ -4,7 +4,7 @@ import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
-import { ping } from '@app/preload';
+import { getPrintQueues } from '@app/preload';
 
 export function Dashboard() {
   return (
@@ -17,7 +17,7 @@ export function Dashboard() {
           varient="default"
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
           onClick={() => {
-            ping()
+            getPrintQueues()
               .then((response) => {
                 console.log(response);
               })

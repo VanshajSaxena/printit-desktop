@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "@app/main": "workspace:*",
-    "axios": "^1.12.2",
     "electron-log": "^5.4.3"
   },
   "packageManager": "yarn@4.10.3"

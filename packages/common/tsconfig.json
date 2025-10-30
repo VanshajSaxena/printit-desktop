@@ -14,10 +14,7 @@
     "esModuleInterop": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "composite": true,
-    "paths": {
-      "@gen/types/*": ["./gen/types/*"]
-    }
+    "composite": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
