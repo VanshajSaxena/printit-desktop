@@ -26,9 +26,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': string;
             'application/json': string;
             'text/json': string;
+            'text/plain': string;
           };
         };
       };
@@ -63,9 +63,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': string[];
             'application/json': string[];
             'text/json': string[];
+            'text/plain': string[];
           };
         };
       };
@@ -102,9 +102,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': components['schemas']['PrintQueueDto'];
             'application/json': components['schemas']['PrintQueueDto'];
             'text/json': components['schemas']['PrintQueueDto'];
+            'text/plain': components['schemas']['PrintQueueDto'];
           };
         };
       };
@@ -141,9 +141,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': components['schemas']['PrintCapabilitiesDto'];
             'application/json': components['schemas']['PrintCapabilitiesDto'];
             'text/json': components['schemas']['PrintCapabilitiesDto'];
+            'text/plain': components['schemas']['PrintCapabilitiesDto'];
           };
         };
       };
@@ -180,9 +180,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': components['schemas']['PrintJobInfoDto'][];
             'application/json': components['schemas']['PrintJobInfoDto'][];
             'text/json': components['schemas']['PrintJobInfoDto'][];
+            'text/plain': components['schemas']['PrintJobInfoDto'][];
           };
         };
       };
@@ -199,9 +199,9 @@ export interface paths {
       };
       requestBody?: {
         content: {
+          'application/*+json': components['schemas']['PrintJobDto'];
           'application/json': components['schemas']['PrintJobDto'];
           'text/json': components['schemas']['PrintJobDto'];
-          'application/*+json': components['schemas']['PrintJobDto'];
         };
       };
       responses: {
@@ -211,9 +211,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': components['schemas']['PrintJobInfoDto'];
             'application/json': components['schemas']['PrintJobInfoDto'];
             'text/json': components['schemas']['PrintJobInfoDto'];
+            'text/plain': components['schemas']['PrintJobInfoDto'];
           };
         };
       };
@@ -236,8 +236,8 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          queueName: string;
           jobId: number;
+          queueName: string;
         };
         cookie?: never;
       };
@@ -249,9 +249,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'text/plain': components['schemas']['PrintJobInfoDto'];
             'application/json': components['schemas']['PrintJobInfoDto'];
             'text/json': components['schemas']['PrintJobInfoDto'];
+            'text/plain': components['schemas']['PrintJobInfoDto'];
           };
         };
       };
@@ -311,8 +311,8 @@ export interface components {
       originWidth?: number | null;
     };
     PageMediaSizeDto: {
-      sizeName?: string | null;
       height?: string | null;
+      sizeName?: string | null;
       width?: string | null;
     };
     /** @enum {string} */
@@ -489,9 +489,9 @@ export interface components {
       | 'CreditCard'
       | 'Unknown';
     PageMediaSizeTicketDto: {
-      name?: components['schemas']['PageMediaSizeNameDto'];
       /** Format: double */
       height?: number | null;
+      name?: components['schemas']['PageMediaSizeNameDto'];
       /** Format: double */
       width?: number | null;
     };
@@ -608,16 +608,16 @@ export interface components {
       trueTypeFontMode?: string[] | null;
     };
     PrintJobDto: {
-      name?: string | null;
       documentPath: string | null;
       fastCopy?: boolean | null;
+      name?: string | null;
       ticket?: components['schemas']['PrintTicketDto'];
     };
     PrintJobInfoDto: {
       /** Format: int32 */
       jobIdentifier?: number | null;
-      jobStatus?: string | null;
       jobName?: string | null;
+      jobStatus?: string | null;
       /** Format: int32 */
       numberOfPages?: number | null;
       /** Format: int32 */
@@ -631,10 +631,10 @@ export interface components {
       timeSinceStartedPrinting?: number | null;
     };
     PrintQueueDto: {
-      fullName?: string | null;
-      name?: string | null;
       comment?: string | null;
       description?: string | null;
+      fullName?: string | null;
+      name?: string | null;
       status?: string | null;
     };
     PrintTicketDto: {

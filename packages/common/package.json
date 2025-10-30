@@ -12,7 +12,7 @@
     "gen"
   ],
   "scripts": {
-    "gen:api-types": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api.ts --root-types --root-types-no-schema-prefix",
+    "gen:api-types": "openapi-typescript ./print-service-description.json --empty-objects-unknown --alphabetize --root-types --root-types-no-schema-prefix --output ./gen/types/print-service-api.ts",
     "build": "vite build",
     "typecheck": "tsc --noEmit"
   },
