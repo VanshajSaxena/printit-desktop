@@ -57,4 +57,30 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+
+  {
+    files: ['packages/common/**/*.ts'],
+    // We exclude generated files
+    ignores: ['packages/common/gen/**', 'packages/common/dist/**'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./packages/common/tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      ecmaVersion: 2022,
+      // NO globals here. This is a library and should not
+      // depend on 'node' or 'browser' environments.
+      globals: {},
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
 ]);

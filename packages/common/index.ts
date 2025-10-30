@@ -1,2 +1,3 @@
-// Re-export the generated API types
-export * from './gen/types/print-service-api.ts';
+export { PrintServiceApi } from './src/print-service-api';
+
+export * from './gen/types/print-service-api-types';

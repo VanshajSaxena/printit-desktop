@@ -21,6 +21,7 @@ export default /**
       output: {
         entryFileNames: '[name].js',
       },
+      external: ['electron-log'],
     },
     emptyOutDir: true,
     reportCompressedSize: false,

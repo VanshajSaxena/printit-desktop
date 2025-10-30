@@ -4,6 +4,7 @@ import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
+import { getPrintQueues } from '@app/preload';
 
 export function Dashboard() {
   return (
@@ -15,6 +16,15 @@ export function Dashboard() {
           className="ml-auto"
           varient="default"
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
+          onClick={() => {
+            getPrintQueues()
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error: unknown) => {
+                console.log(error);
+              });
+          }}
         >
           Get QR Code
         </Button>
