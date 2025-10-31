@@ -73,11 +73,11 @@ initApp({
   },
 })
   .then(() => {
-    log.info('=== Application Entry Point Completed ===');
+    log.info('### Application Entry Point Completed ###');
   })
   .catch((error) => {
-    log.error('=== Application Entry Point Failed with errors ===', error);
+    log.error('### Application Entry Point Failed with errors ###', error);
     app.quit();
   });
 
-log.info('=== Entry Point Script End ===');
+log.info('### Entry Point Script End ###');

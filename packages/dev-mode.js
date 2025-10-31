@@ -45,14 +45,23 @@ const rendererWatchServerProvider = {
  * 4. Start building all other packages.
  * For each of them, we add a plugin provider so that each package can implement its own hot update mechanism.
  */
-
 /** @type {string[]} */
-const packagesToStart = ['packages/preload', 'packages/main'];
+const packagesToStart = [
+  'packages/common',
+  'packages/preload',
+  'packages/main',
+];
 
 for (const pkg of packagesToStart) {
+  const isElectronProcess =
+    pkg === 'packages/preload' || pkg === 'packages/main';
+
   await build({
     mode,
     root: path.resolve(pkg),
-    plugins: [rendererWatchServerProvider],
+    plugins: isElectronProcess ? [rendererWatchServerProvider] : [],
+    build: {
+      watch: pkg === 'packages/common' ? {} : undefined, // Enable watch mode for common
+    },
   });
 }
