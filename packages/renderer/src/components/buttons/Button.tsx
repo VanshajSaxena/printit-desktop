@@ -50,7 +50,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`inline-flex items-center -outline-offset-1 outline-1 gap-2 leading-none rounded-xl w-fit ${buttonSize} ${className}`}
+      className={`inline-flex items-center h-fit w-fit -outline-offset-1 outline-1 gap-2 leading-none rounded-xl  ${buttonSize} ${className}`}
       style={{
         color: color ?? colors.fg.primary,
         backgroundColor: backgroundColor,

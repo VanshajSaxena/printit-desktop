@@ -1,5 +1,4 @@
 import { Button } from '@components/buttons/Button';
-import { DiamondIcon } from '@components/icons/DiamondIcon';
 import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
@@ -10,10 +9,8 @@ export function Dashboard() {
   return (
     <>
       <TopBar title="Dashboard">
-        <DiamondIcon></DiamondIcon>
         <Button
           size="lg"
-          className="ml-auto"
           varient="default"
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
           onClick={() => {
