@@ -11,7 +11,7 @@ export function AppLayout() {
   return (
     <>
       <div
-        className={'flex h-screen pt-4 pl-4'}
+        className={'flex gap-4 h-screen pt-4 pl-4'}
         style={{ backgroundColor: colors.bg.secondary }}
       >
         <SideBar activeView={activeView} onViewChange={setActiveView}></SideBar>
