@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "gen:print-service-api": "openapi-typescript ./print-service-description.json --alphabetize --root-types --root-types-no-schema-prefix --output ./gen/types/print-service-api-types.ts",
-    "gen:cloud-api": "openapi-typescript ./cloud-api-description.json --alphabetize --path-params-as-types  --make-paths-enum --empty-objects-unknown --output ./gen/types/cloud-api-types.ts --root-types --root-types-no-schema-prefix",
+    "gen:cloud-api": "openapi-typescript ./cloud-api-description.json --alphabetize  --root-types --root-types-no-schema-prefix --output ./gen/types/cloud-api-types.ts",
     "build": "vite build",
     "typecheck": "tsc --noEmit"
   },

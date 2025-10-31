@@ -4,715 +4,698 @@
  */
 
 export interface paths {
-    "/api": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AppController_ping"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  '/api': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/documents": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrintDocumentController_findAll_v1"];
-        put?: never;
-        post: operations["PrintDocumentController_create_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['AppController_ping'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/documents': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    [path: `/api/v1/documents/${number}`]: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrintDocumentController_findOne_v1"];
-        put?: never;
-        post?: never;
-        delete: operations["PrintDocumentController_remove_v1"];
-        options?: never;
-        head?: never;
-        patch: operations["PrintDocumentController_update_v1"];
-        trace?: never;
+    get: operations['PrintDocumentController_findAll_v1'];
+    put?: never;
+    post: operations['PrintDocumentController_create_v1'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/documents/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/printers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrinterController_findAll_v1"];
-        put?: never;
-        post: operations["PrinterController_create_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['PrintDocumentController_findOne_v1'];
+    put?: never;
+    post?: never;
+    delete: operations['PrintDocumentController_remove_v1'];
+    options?: never;
+    head?: never;
+    patch: operations['PrintDocumentController_update_v1'];
+    trace?: never;
+  };
+  '/api/v1/printers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    [path: `/api/v1/printers/${number}`]: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrinterController_findOne_v1"];
-        put?: never;
-        post?: never;
-        delete: operations["PrinterController_remove_v1"];
-        options?: never;
-        head?: never;
-        patch: operations["PrinterController_update_v1"];
-        trace?: never;
+    get: operations['PrinterController_findAll_v1'];
+    put?: never;
+    post: operations['PrinterController_create_v1'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/printers/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/transactions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrintTransactionController_findAll_v1"];
-        put?: never;
-        post: operations["PrintTransactionController_create_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['PrinterController_findOne_v1'];
+    put?: never;
+    post?: never;
+    delete: operations['PrinterController_remove_v1'];
+    options?: never;
+    head?: never;
+    patch: operations['PrinterController_update_v1'];
+    trace?: never;
+  };
+  '/api/v1/transactions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    [path: `/api/v1/transactions/${number}`]: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PrintTransactionController_findOne_v1"];
-        put?: never;
-        post?: never;
-        delete: operations["PrintTransactionController_remove_v1"];
-        options?: never;
-        head?: never;
-        patch: operations["PrintTransactionController_update_v1"];
-        trace?: never;
+    get: operations['PrintTransactionController_findAll_v1'];
+    put?: never;
+    post: operations['PrintTransactionController_create_v1'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/transactions/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/vendors": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["VendorController_findAll_v1"];
-        put?: never;
-        post: operations["VendorController_create_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['PrintTransactionController_findOne_v1'];
+    put?: never;
+    post?: never;
+    delete: operations['PrintTransactionController_remove_v1'];
+    options?: never;
+    head?: never;
+    patch: operations['PrintTransactionController_update_v1'];
+    trace?: never;
+  };
+  '/api/v1/vendors': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    [path: `/api/v1/vendors/${number}`]: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["VendorController_findOne_v1"];
-        put?: never;
-        post?: never;
-        delete: operations["VendorController_remove_v1"];
-        options?: never;
-        head?: never;
-        patch: operations["VendorController_update_v1"];
-        trace?: never;
+    get: operations['VendorController_findAll_v1'];
+    put?: never;
+    post: operations['VendorController_create_v1'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/vendors/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    get: operations['VendorController_findOne_v1'];
+    put?: never;
+    post?: never;
+    delete: operations['VendorController_remove_v1'];
+    options?: never;
+    head?: never;
+    patch: operations['VendorController_update_v1'];
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        CreatePrintDocumentDto: {
-            /** Format: json */
-            configuration?: string;
-            name: string;
-            path: string;
-        };
-        CreatePrinterDto: {
-            /** Format: json */
-            capabilities: string;
-            name: string;
-            vendorId: number;
-        };
-        CreatePrintTransactionDto: {
-            printDocumentIds: number[];
-            printerId?: number;
-            vendorId: number;
-        };
-        CreateVendorDto: {
-            /** Format: email */
-            email: string;
-            firstname: string;
-            lastname: string;
-            sub: string;
-        };
-        PrintDocument: Record<string, unknown>;
-        PrintDocumentResponseDto: {
-            configuration: string | null;
-            id: number;
-            name: string;
-            path: string;
-            printTransaction: components["schemas"]["PrintTransaction"];
-            /** @enum {string} */
-            status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
-        };
-        Printer: Record<string, unknown>;
-        PrinterResponseDto: {
-            capabilities: string;
-            id: number;
-            name: string;
-            printTransactions: components["schemas"]["PrintTransaction"][];
-            vendor: components["schemas"]["Vendor"];
-        };
-        PrintTransaction: Record<string, unknown>;
-        PrintTransactionResponseDto: {
-            friendlyId: string;
-            id: number;
-            printDocuments: components["schemas"]["PrintDocument"][];
-            printer: components["schemas"]["Printer"] | null;
-            /** @enum {string} */
-            status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
-            vendor: components["schemas"]["Vendor"];
-        };
-        UpdatePrintDocumentDto: Record<string, unknown>;
-        UpdatePrinterDto: Record<string, unknown>;
-        UpdatePrintTransactionDto: Record<string, unknown>;
-        UpdateVendorDto: Record<string, unknown>;
-        Vendor: Record<string, unknown>;
-        VendorResponseDto: {
-            email: string;
-            firstname: string;
-            givenName: string | null;
-            id: number;
-            lastname: string;
-            printers: components["schemas"]["Printer"][];
-            printTransactions: components["schemas"]["PrintTransaction"][];
-            sub: string;
-            urlId: string;
-        };
+  schemas: {
+    CreatePrintDocumentDto: {
+      /** Format: json */
+      configuration?: string;
+      name: string;
+      path: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    CreatePrinterDto: {
+      /** Format: json */
+      capabilities: string;
+      name: string;
+      vendorId: number;
+    };
+    CreatePrintTransactionDto: {
+      printDocumentIds: number[];
+      printerId?: number;
+      vendorId: number;
+    };
+    CreateVendorDto: {
+      /** Format: email */
+      email: string;
+      firstname: string;
+      lastname: string;
+      sub: string;
+    };
+    PrintDocument: Record<string, never>;
+    PrintDocumentResponseDto: {
+      configuration: string | null;
+      id: number;
+      name: string;
+      path: string;
+      printTransaction: components['schemas']['PrintTransaction'];
+      /** @enum {string} */
+      status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
+    };
+    Printer: Record<string, never>;
+    PrinterResponseDto: {
+      capabilities: string;
+      id: number;
+      name: string;
+      printTransactions: components['schemas']['PrintTransaction'][];
+      vendor: components['schemas']['Vendor'];
+    };
+    PrintTransaction: Record<string, never>;
+    PrintTransactionResponseDto: {
+      friendlyId: string;
+      id: number;
+      printDocuments: components['schemas']['PrintDocument'][];
+      printer: components['schemas']['Printer'] | null;
+      /** @enum {string} */
+      status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
+      vendor: components['schemas']['Vendor'];
+    };
+    UpdatePrintDocumentDto: Record<string, never>;
+    UpdatePrinterDto: Record<string, never>;
+    UpdatePrintTransactionDto: Record<string, never>;
+    UpdateVendorDto: Record<string, never>;
+    Vendor: Record<string, never>;
+    VendorResponseDto: {
+      email: string;
+      firstname: string;
+      givenName: string | null;
+      id: number;
+      lastname: string;
+      printers: components['schemas']['Printer'][];
+      printTransactions: components['schemas']['PrintTransaction'][];
+      sub: string;
+      urlId: string;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
-export type CreatePrintDocumentDto = components['schemas']['CreatePrintDocumentDto'];
+export type CreatePrintDocumentDto =
+  components['schemas']['CreatePrintDocumentDto'];
 export type CreatePrinterDto = components['schemas']['CreatePrinterDto'];
-export type CreatePrintTransactionDto = components['schemas']['CreatePrintTransactionDto'];
+export type CreatePrintTransactionDto =
+  components['schemas']['CreatePrintTransactionDto'];
 export type CreateVendorDto = components['schemas']['CreateVendorDto'];
 export type PrintDocument = components['schemas']['PrintDocument'];
-export type PrintDocumentResponseDto = components['schemas']['PrintDocumentResponseDto'];
+export type PrintDocumentResponseDto =
+  components['schemas']['PrintDocumentResponseDto'];
 export type Printer = components['schemas']['Printer'];
 export type PrinterResponseDto = components['schemas']['PrinterResponseDto'];
 export type PrintTransaction = components['schemas']['PrintTransaction'];
-export type PrintTransactionResponseDto = components['schemas']['PrintTransactionResponseDto'];
-export type UpdatePrintDocumentDto = components['schemas']['UpdatePrintDocumentDto'];
+export type PrintTransactionResponseDto =
+  components['schemas']['PrintTransactionResponseDto'];
+export type UpdatePrintDocumentDto =
+  components['schemas']['UpdatePrintDocumentDto'];
 export type UpdatePrinterDto = components['schemas']['UpdatePrinterDto'];
-export type UpdatePrintTransactionDto = components['schemas']['UpdatePrintTransactionDto'];
+export type UpdatePrintTransactionDto =
+  components['schemas']['UpdatePrintTransactionDto'];
 export type UpdateVendorDto = components['schemas']['UpdateVendorDto'];
 export type Vendor = components['schemas']['Vendor'];
 export type VendorResponseDto = components['schemas']['VendorResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
-    AppController_ping: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-        };
+  AppController_ping: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    PrintDocumentController_findAll_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintDocument"][];
-                };
-            };
+        content: {
+          'application/json': string;
         };
+      };
     };
-    PrintDocumentController_create_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreatePrintDocumentDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintDocumentResponseDto"];
-                };
-            };
-        };
+  };
+  PrintDocumentController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    PrintDocumentController_findOne_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, unknown>;
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PrintDocument'][];
         };
+      };
     };
-    PrintDocumentController_remove_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  PrintDocumentController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    PrintDocumentController_update_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatePrintDocumentDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintDocument"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreatePrintDocumentDto'];
+      };
     };
-    PrinterController_findAll_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Printer"][];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PrintDocumentResponseDto'];
         };
+      };
     };
-    PrinterController_create_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreatePrinterDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrinterResponseDto"];
-                };
-            };
-        };
+  };
+  PrintDocumentController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
     };
-    PrinterController_findOne_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, unknown>;
-                };
-            };
+        content: {
+          'application/json': Record<string, never>;
         };
+      };
     };
-    PrinterController_remove_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  PrintDocumentController_remove_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
     };
-    PrinterController_update_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatePrinterDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Printer"];
-                };
-            };
-        };
+        content?: never;
+      };
     };
-    PrintTransactionController_findAll_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintTransaction"][];
-                };
-            };
-        };
+  };
+  PrintDocumentController_update_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
     };
-    PrintTransactionController_create_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreatePrintTransactionDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintTransactionResponseDto"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdatePrintDocumentDto'];
+      };
     };
-    PrintTransactionController_findOne_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, unknown>;
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PrintDocument'];
         };
+      };
     };
-    PrintTransactionController_remove_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  PrinterController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    PrintTransactionController_update_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatePrintTransactionDto"];
-            };
+        content: {
+          'application/json': components['schemas']['Printer'][];
         };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PrintTransaction"];
-                };
-            };
-        };
+      };
     };
-    VendorController_findAll_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Vendor"][];
-                };
-            };
-        };
+  };
+  PrinterController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    VendorController_create_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateVendorDto"];
-            };
-        };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VendorResponseDto"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreatePrinterDto'];
+      };
     };
-    VendorController_findOne_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, unknown>;
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PrinterResponseDto'];
         };
+      };
     };
-    VendorController_remove_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  PrinterController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
     };
-    VendorController_update_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateVendorDto"];
-            };
+        content: {
+          'application/json': Record<string, never>;
         };
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Vendor"];
-                };
-            };
-        };
+      };
     };
-}
-export enum ApiPaths {
-    AppController_ping = "/api",
-    VendorController_create_v1 = "/api/v1/vendors",
-    VendorController_findAll_v1 = "/api/v1/vendors",
-    VendorController_findOne_v1 = "/api/v1/vendors/{id}",
-    VendorController_update_v1 = "/api/v1/vendors/{id}",
-    VendorController_remove_v1 = "/api/v1/vendors/{id}",
-    PrinterController_create_v1 = "/api/v1/printers",
-    PrinterController_findAll_v1 = "/api/v1/printers",
-    PrinterController_findOne_v1 = "/api/v1/printers/{id}",
-    PrinterController_update_v1 = "/api/v1/printers/{id}",
-    PrinterController_remove_v1 = "/api/v1/printers/{id}",
-    PrintTransactionController_create_v1 = "/api/v1/transactions",
-    PrintTransactionController_findAll_v1 = "/api/v1/transactions",
-    PrintTransactionController_findOne_v1 = "/api/v1/transactions/{id}",
-    PrintTransactionController_update_v1 = "/api/v1/transactions/{id}",
-    PrintTransactionController_remove_v1 = "/api/v1/transactions/{id}",
-    PrintDocumentController_create_v1 = "/api/v1/documents",
-    PrintDocumentController_findAll_v1 = "/api/v1/documents",
-    PrintDocumentController_findOne_v1 = "/api/v1/documents/{id}",
-    PrintDocumentController_update_v1 = "/api/v1/documents/{id}",
-    PrintDocumentController_remove_v1 = "/api/v1/documents/{id}"
+  };
+  PrinterController_remove_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  PrinterController_update_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdatePrinterDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Printer'];
+        };
+      };
+    };
+  };
+  PrintTransactionController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrintTransaction'][];
+        };
+      };
+    };
+  };
+  PrintTransactionController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreatePrintTransactionDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrintTransactionResponseDto'];
+        };
+      };
+    };
+  };
+  PrintTransactionController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+    };
+  };
+  PrintTransactionController_remove_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  PrintTransactionController_update_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdatePrintTransactionDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrintTransaction'];
+        };
+      };
+    };
+  };
+  VendorController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Vendor'][];
+        };
+      };
+    };
+  };
+  VendorController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateVendorDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VendorResponseDto'];
+        };
+      };
+    };
+  };
+  VendorController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+    };
+  };
+  VendorController_remove_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  VendorController_update_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateVendorDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Vendor'];
+        };
+      };
+    };
+  };
 }
