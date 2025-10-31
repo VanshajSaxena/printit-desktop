@@ -33,23 +33,11 @@ export function SideBar({
     },
   ];
   return (
-    <aside className="flex flex-col h-full w-72 mt-4 mb-4 flex-shrink-0">
-      <ProfileArea></ProfileArea>
-      <div className="flex flex-col flex-1 mt-12 gap-2">
-        {sidebarItems.slice(0, 2).map((item) => (
-          <SideBarItem
-            key={item.id}
-            IconComponent={item.icon}
-            isActive={activeView === item.id}
-            onClick={() => {
-              onViewChange(item.id);
-            }}
-          >
-            {item.label}
-          </SideBarItem>
-        ))}
-        <div className="flex flex-col mt-auto mb-8 gap-2">
-          {sidebarItems.slice(2).map((item) => (
+    <div className="mt-4 mb-4">
+      <aside className="flex flex-col h-full w-72 flex-shrink-0">
+        <ProfileArea></ProfileArea>
+        <div className="flex flex-col flex-1 mt-16 gap-2">
+          {sidebarItems.slice(0, 2).map((item) => (
             <SideBarItem
               key={item.id}
               IconComponent={item.icon}
@@ -61,8 +49,22 @@ export function SideBar({
               {item.label}
             </SideBarItem>
           ))}
+          <div className="flex flex-col flex-1 gap-2 justify-end">
+            {sidebarItems.slice(2).map((item) => (
+              <SideBarItem
+                key={item.id}
+                IconComponent={item.icon}
+                isActive={activeView === item.id}
+                onClick={() => {
+                  onViewChange(item.id);
+                }}
+              >
+                {item.label}
+              </SideBarItem>
+            ))}
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </div>
   );
 }
