@@ -11,7 +11,7 @@ export function ProfileArea() {
           <ProfileHashIcon size={40}></ProfileHashIcon>
           <div className="flex flex-col justify-start">
             <h1
-              className="text-lg font-bold"
+              className="text-lg font-semibold"
               style={{ color: colors.fg.primary }}
             >
               Harry's Shop

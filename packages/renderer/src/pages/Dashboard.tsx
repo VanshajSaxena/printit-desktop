@@ -26,18 +26,18 @@ export function Dashboard() {
           Get QR Code
         </Button>
       </TopBar>
-      <div className="flex p-6 items-start gap-4">
+      <div className="flex p-5 items-start gap-4">
         <Button
-          size="lg"
+          size="md"
           varient="ghost"
-          icon={<SlidersIcon size={24}></SlidersIcon>}
+          icon={<SlidersIcon size={20}></SlidersIcon>}
         >
           Display
         </Button>
         <Button
-          size="lg"
+          size="md"
           varient="ghost"
-          icon={<GearIcon size={24}></GearIcon>}
+          icon={<GearIcon size={20}></GearIcon>}
         >
           Bulk Action
         </Button>
