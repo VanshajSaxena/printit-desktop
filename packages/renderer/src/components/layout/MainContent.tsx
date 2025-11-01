@@ -6,7 +6,7 @@ export function MainContent({ activeView }: { activeView: ViewType }) {
   const { colors } = useTheme();
   return (
     <main
-      className="flex flex-col rounded-tl-3xl border-t border-l w-full h-full justify-start"
+      className="flex flex-col rounded-tl-3xl border-t border-l size-full"
       style={{
         backgroundColor: colors.bg.primary,
         borderColor: colors.border.default,
