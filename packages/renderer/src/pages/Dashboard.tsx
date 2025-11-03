@@ -50,7 +50,7 @@ export function Dashboard() {
         </div>
         {/* List and Graph Area */}
         <RequestListContainer></RequestListContainer>
-        <div className="grid grid-cols-1 2xl:grid-cols-2 w-full gap-5 ">
+        <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-96 max-h-1/3 2xl:min-h-1/3 gap-5 ">
           <div
             className="border rounded-3xl"
             style={{ borderColor: colors.border.default }}
