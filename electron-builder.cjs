@@ -33,6 +33,14 @@ function getListOfFilesFromEachWorkspace() {
 
 /** @type import('electron-builder').Configuration */
 const config = {
+  win: {
+    target: [
+      {
+        target: 'nsis',
+        arch: ['x64', 'ia32'],
+      },
+    ],
+  },
   directories: {
     output: 'dist',
     buildResources: 'buildResources',
