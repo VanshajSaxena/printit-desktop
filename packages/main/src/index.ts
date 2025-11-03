@@ -9,8 +9,9 @@ import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
 import { startPrintService } from './modules/PrintServiceModule.js';
 import { ipcHandlers } from './modules/IpcHandlersModule.js';
+import { wsHandlers } from './modules/WsHandlerModule.js';
 import log from 'electron-log';
-import { allHandlers } from './ipc/handlers.js';
+import { allHandlers } from './remote/ipc-handlers.js';
 
 export async function initApp(initConfig: AppInitConfig) {
   log.info('### Main Process Initialization Started ###');
@@ -25,6 +26,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(terminateAppOnLastWindowClose())
     .init(hardwareAccelerationMode({ enable: false }))
     .init(ipcHandlers(allHandlers))
+    .init(wsHandlers())
     .init(autoUpdater())
     .init(startPrintService({ required: !import.meta.env.DEV }))
 
