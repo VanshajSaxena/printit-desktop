@@ -6,20 +6,25 @@ export function ProfileArea() {
   const { colors } = useTheme();
   return (
     <>
-      <div className="flex mt-4 ml-4 mr-4 items-center">
-        <ProfileHashIcon size={43}></ProfileHashIcon>
-        <div className="flex flex-col ml-4">
-          <h1
-            className="text-xl font-bold"
-            style={{ color: colors.fg.primary }}
-          >
-            Harry's Shop
-          </h1>
-          <h4 className="text-xs" style={{ color: colors.fg.tertiary }}>
-            harry@potter.com
-          </h4>
+      <div className="flex w-full px-6 h-fit items-center justify-between">
+        <div className="flex gap-4 items-center">
+          <ProfileHashIcon size={40}></ProfileHashIcon>
+          <div className="flex flex-col justify-center">
+            <h1
+              className="text-lg leading-7 font-semibold"
+              style={{ color: colors.fg.primary }}
+            >
+              Harry's Shop
+            </h1>
+            <p
+              className="text-xs leading-4"
+              style={{ color: colors.fg.tertiary }}
+            >
+              harry@potter.com
+            </p>
+          </div>
         </div>
-        <DiamondIcon className="ml-auto"></DiamondIcon>
+        <DiamondIcon></DiamondIcon>
       </div>
     </>
   );

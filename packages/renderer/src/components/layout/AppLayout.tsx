@@ -9,15 +9,13 @@ export function AppLayout() {
   const { colors } = useTheme();
   const [activeView, setActiveView] = useState<ViewType>('dashboard');
   return (
-    <>
-      <div
-        className={'flex h-screen pt-4 pl-4'}
-        style={{ backgroundColor: colors.bg.secondary }}
-      >
-        <SideBar activeView={activeView} onViewChange={setActiveView}></SideBar>
-        <MainContent activeView={activeView}></MainContent> {/* Home View */}
-      </div>
-    </>
+    <div
+      className={'flex gap-4 h-screen w-screen overflow-hidden pt-4 pl-4'}
+      style={{ backgroundColor: colors.bg.secondary }}
+    >
+      <SideBar activeView={activeView} onViewChange={setActiveView}></SideBar>
+      <MainContent activeView={activeView}></MainContent> {/* Home View */}
+    </div>
   );
 }
 
