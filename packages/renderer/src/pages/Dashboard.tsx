@@ -4,9 +4,11 @@ import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
 import { getPrintQueues } from '@app/preload';
-import { RequestListContainer } from '@components/layout/RequestListContainer';
+import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
+import { useTheme } from '@context/theme/useTheme';
 
 export function Dashboard() {
+  const { colors } = useTheme();
   return (
     <>
       <TopBar title="Dashboard">
@@ -27,7 +29,9 @@ export function Dashboard() {
           Get QR Code
         </Button>
       </TopBar>
-      <div className="flex flex-col p-5 gap-5">
+      {/* Root content area for dashboard*/}
+      <div className="flex flex-col p-5 gap-5 h-full overflow-y-auto overflow-x-hidden">
+        {/* Button Area */}
         <div className="flex items-start gap-4">
           <Button
             size="md"
@@ -44,7 +48,18 @@ export function Dashboard() {
             Bulk Action
           </Button>
         </div>
+        {/* List and Graph Area */}
         <RequestListContainer></RequestListContainer>
+        <div className="grid grid-cols-1 2xl:grid-cols-2 w-full gap-5 ">
+          <div
+            className="border rounded-3xl"
+            style={{ borderColor: colors.border.default }}
+          ></div>
+          <div
+            className="border rounded-3xl"
+            style={{ borderColor: colors.border.default }}
+          ></div>
+        </div>
       </div>
     </>
   );
