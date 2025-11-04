@@ -1,30 +1,69 @@
+import { Socket } from 'socket.io-client';
 import log from 'electron-log';
-export class WsNotificationsApi {
-  handleConnection() {
-    log.info('WsHandlerModule: Connected to server');
+class WsService {
+  private client: Socket;
+  constructor(client: Socket) {
+    this.client = client;
+    this.setupEventHandlers();
   }
-  handleConnectError() {
-    log.info('WsHandlerModule: Connection error');
+
+  private setupEventHandlers(): void {
+    this.client.on('connect', () => {
+      log.info('WsHandlerModule: Socket ID: ', this.client.id);
+    });
+
+    this.client.on('connect_error', (error) => {
+      log.error('WsHandlerModule: Connection error: ', error.message);
+    });
+
+    this.client.on('disconnect', (reason) => {
+      log.warn('WsHandlerModule: Disconnected:', reason);
+    });
+
+    this.client.on('ping', () => {
+      log.warn('WsHandlerModule: Pinged');
+    });
+
+    this.client.on('reconnect', (attemptNumber: number) => {
+      log.info(`WsHandlerModule: Reconnected after attempts: `, {
+        attemptNumber,
+      });
+    });
+
+    this.client.on('reconnect_attempt', (attemptNumber: number) => {
+      log.info(`WsHandlerModule: Reconnection attempt number: `, {
+        attemptNumber,
+      });
+    });
+
+    this.client.on('reconnect_error', (error) => {
+      log.info(`WsHandlerModule: Error reconnecting with error: `, error);
+    });
+
+    this.client.on('reconnect_failed', () => {
+      log.error('WsHandlerModule: Failed to reconnect after maximum attempts');
+    });
+
+    this.client.on('new_transactions', () => {
+      log.info('WsHandlerModule: New transaction received');
+    });
   }
-  handleDisconnection() {
-    log.info('WsHandlerModule: Server disconnected');
+
+  isActive(): boolean {
+    return this.client.active;
   }
-  handlePing() {
-    log.info('WsHandlerModule: Pinged server');
+
+  isConnected(): boolean {
+    return this.client.connected;
   }
-  handleReconnectAttempt() {
-    log.info('WsHandlerModule: Reconnect attempt');
+
+  disconnect(): void {
+    if (this.client.connected) {
+      this.client.disconnect();
+    }
   }
-  handleReconnect() {
-    log.info('WsHandlerModule: Reconnected to server');
-  }
-  handleReconnectError() {
-    log.info('WsHandlerModule: Error reconnecting to server');
-  }
-  handleReconnectFailed() {
-    log.info('WsHandlerModule: Failed to Reconnect');
-  }
-  handleNotification() {
-    log.info('WsHandlerModule: Notification');
-  }
+}
+
+export function setupHandlersAndInitializeApi(client: Socket) {
+  new WsService(client);
 }

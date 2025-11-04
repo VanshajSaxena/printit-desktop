@@ -1,79 +1,41 @@
-// d:\Projects\printly-desktop\packages\main\src\modules\WsHandlerModule.ts
-import { WsNotificationsApi } from '@app/common';
 import { io, Socket } from 'socket.io-client';
 import log from 'electron-log';
 import { AppModule } from 'src/AppModule.js';
 import { ModuleContext } from 'src/ModuleContext.js';
+import { setupHandlersAndInitializeApi } from '@app/common';
+
+export interface WsHandlerModuleConfig {
+  urlWithoutProtocol: string;
+  namespace: string;
+  reconnection?: boolean;
+  reconnectionAttempt?: number;
+  reconnectionDelay?: number;
+  debug?: boolean;
+}
 
 class WsHandlerModule implements AppModule {
   private client: Socket;
-  private notificationsApi: WsNotificationsApi;
+  private config: WsHandlerModuleConfig;
 
-  constructor() {
+  constructor(
+    config: WsHandlerModuleConfig = {
+      urlWithoutProtocol: `localhost:3000`,
+      namespace: `notifications`,
+    },
+  ) {
     log.info('WsHandlerModule: Initializing...');
+    this.config = config;
 
-    this.client = io('ws://localhost:3000/notifications', {
-      reconnection: true,
-      reconnectionAttempts: 15,
-      reconnectionDelay: 5000,
-    });
+    this.client = io(
+      `ws://${this.config.urlWithoutProtocol}/${this.config.namespace}`,
+      {
+        reconnection: config.reconnection ?? true,
+        reconnectionAttempts: config.reconnectionAttempt ?? 15,
+        reconnectionDelay: config.reconnectionDelay ?? 10000,
+      },
+    );
 
-    this.notificationsApi = new WsNotificationsApi();
-
-    this.setupEventHandlers();
-  }
-
-  private setupEventHandlers(): void {
-    this.client.on('connect', () => {
-      log.info(`WsHandlerModule: Socket ID: ${String(this.client.id)}`);
-      this.notificationsApi.handleConnection();
-    });
-
-    this.client.on('connect_error', (error) => {
-      log.error('WsHandlerModule: Connection error:', error.message);
-      this.notificationsApi.handleConnectError();
-    });
-
-    this.client.on('disconnect', (reason) => {
-      log.warn('WsHandlerModule: Disconnected:', reason);
-      this.notificationsApi.handleDisconnection();
-    });
-
-    this.client.on('ping', () => {
-      log.warn('WsHandlerModule: Pinged');
-      this.notificationsApi.handlePing();
-    });
-
-    this.client.on('reconnect', (attemptNumber) => {
-      log.info(
-        `WsHandlerModule: Reconnected after ${String(attemptNumber)} attempts`,
-      );
-      this.notificationsApi.handleReconnect();
-    });
-
-    this.client.on('reconnect_attempt', (attemptNumber) => {
-      log.info(
-        `WsHandlerModule: Reconnection attempt ${String(attemptNumber)}`,
-      );
-      this.notificationsApi.handleReconnectAttempt();
-    });
-
-    this.client.on('reconnect_error', (error) => {
-      log.info(
-        `WsHandlerModule: Error reconnecting with error ${String(error)}`,
-      );
-      this.notificationsApi.handleReconnectError();
-    });
-
-    this.client.on('reconnect_failed', () => {
-      log.error('WsHandlerModule: Failed to reconnect after maximum attempts');
-      this.notificationsApi.handleReconnectFailed();
-    });
-
-    this.client.on('notification', () => {
-      log.info('WsHandlerModule: Received notification:');
-      this.notificationsApi.handleNotification();
-    });
+    setupHandlersAndInitializeApi(this.client);
   }
 
   enable(context: ModuleContext): Promise<void> | void {
@@ -90,6 +52,6 @@ class WsHandlerModule implements AppModule {
   }
 }
 
-export function wsHandlers() {
-  return new WsHandlerModule();
+export function wsHandlers(config?: WsHandlerModuleConfig) {
+  return new WsHandlerModule(config);
 }
