@@ -1,10 +1,10 @@
 import { io, Socket } from 'socket.io-client';
 import log from 'electron-log';
 import { Fetch, WebSocket, WebTransport, XHR } from 'engine.io-client';
-import debug from 'debug';
 
 export interface WsNotificationsApiConfig {
   url: string;
+  protocol: string;
   namespace: string;
   reconnection?: boolean;
   reconnectionAttempt?: number;
@@ -23,16 +23,8 @@ export class WsNotificationsApi {
       debug: true,
       ...config,
     };
-    if (this.config.debug) {
-      log.info(
-        'WsNotificationsApi: Enabling socket.io-client debug logging...',
-      );
-      debug.log = log.debug.bind(log);
-      debug.enable('socket.io-client:*');
-    }
-
     log.info('WsNotificationsApi: ', this.config);
-    const uri = `http://${this.config.url}/${this.config.namespace}`;
+    const uri = `${this.config.protocol}://${this.config.url}/${this.config.namespace}`;
     log.info('WsNotificationsApi: ', uri);
 
     this.client = io(uri, {

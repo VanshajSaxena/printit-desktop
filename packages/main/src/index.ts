@@ -19,6 +19,7 @@ export async function initApp(initConfig: AppInitConfig) {
   const printServiceApi = new PrintServiceApi();
   const webSocketApi = new WsNotificationsApi({
     url: 'localhost:3000',
+    protocol: 'http',
     namespace: `notifications`,
   });
   const allHandlers = createIpcHandlers(printServiceApi, webSocketApi);
