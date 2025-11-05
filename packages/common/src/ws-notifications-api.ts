@@ -1,15 +1,66 @@
-import { Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import log from 'electron-log';
-class WsService {
+import { Fetch, WebSocket, WebTransport, XHR } from 'engine.io-client';
+import debug from 'debug';
+
+export interface WsNotificationsApiConfig {
+  url: string;
+  namespace: string;
+  reconnection?: boolean;
+  reconnectionAttempt?: number;
+  reconnectionDelay?: number;
+  debug?: boolean;
+}
+
+export class WsNotificationsApi {
   private client: Socket;
-  constructor(client: Socket) {
-    this.client = client;
+  private config: WsNotificationsApiConfig;
+  constructor(config: WsNotificationsApiConfig) {
+    this.config = {
+      reconnection: true,
+      reconnectionAttempt: 15,
+      reconnectionDelay: 10000,
+      debug: true,
+      ...config,
+    };
+    if (this.config.debug) {
+      log.info(
+        'WsNotificationsApi: Enabling socket.io-client debug logging...',
+      );
+      debug.log = log.debug.bind(log);
+      debug.enable('socket.io-client:*');
+    }
+
+    log.info('WsNotificationsApi: ', this.config);
+    const uri = `http://${this.config.url}/${this.config.namespace}`;
+    log.info('WsNotificationsApi: ', uri);
+
+    this.client = io(uri, {
+      reconnection: this.config.reconnection,
+      reconnectionDelay: this.config.reconnectionDelay,
+      reconnectionAttempts: this.config.reconnectionAttempt,
+      transports: [XHR, Fetch, WebSocket, WebTransport],
+      tryAllTransports: true,
+    });
+
     this.setupEventHandlers();
   }
 
   private setupEventHandlers(): void {
     this.client.on('connect', () => {
       log.info('WsHandlerModule: Socket ID: ', this.client.id);
+      log.debug(
+        'WsHandlerModule: Connected Initial Transport: ',
+        this.client.io.engine.transport.name,
+      );
+    });
+
+    this.client.io.engine.on('upgrade', () => {
+      log.info('WsHandlerModule: Upgraded: ', this.client.io.engine.id);
+      log.debug(
+        'WsHandlerModule: Upgraded New Transport: ',
+        this.client.io.engine.transport.name,
+      );
     });
 
     this.client.on('connect_error', (error) => {
@@ -21,7 +72,7 @@ class WsService {
     });
 
     this.client.on('ping', () => {
-      log.warn('WsHandlerModule: Pinged');
+      log.info('WsHandlerModule: Pinged');
     });
 
     this.client.on('reconnect', (attemptNumber: number) => {
@@ -37,11 +88,11 @@ class WsService {
     });
 
     this.client.on('reconnect_error', (error) => {
-      log.info(`WsHandlerModule: Error reconnecting with error: `, error);
+      log.error(`WsHandlerModule: Error reconnecting with error: `, error);
     });
 
     this.client.on('reconnect_failed', () => {
-      log.error('WsHandlerModule: Failed to reconnect after maximum attempts');
+      log.warn('WsHandlerModule: Failed to reconnect after maximum attempts');
     });
 
     this.client.on('new_transactions', () => {
@@ -62,8 +113,4 @@ class WsService {
       this.client.disconnect();
     }
   }
-}
-
-export function setupHandlersAndInitializeApi(client: Socket) {
-  new WsService(client);
 }
