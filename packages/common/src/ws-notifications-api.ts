@@ -45,6 +45,7 @@ export class WsNotificationsApi {
         'WsHandlerModule: Connected Initial Transport: ',
         this.client.io.engine.transport.name,
       );
+      this.joinVendor(1);
     });
 
     this.client.io.engine.on('upgrade', () => {
@@ -90,6 +91,11 @@ export class WsNotificationsApi {
     this.client.on('new_transactions', () => {
       log.info('WsHandlerModule: New transaction received');
     });
+  }
+
+  joinVendor(id: number) {
+    log.info('join vendor was called');
+    this.client.emit('join_vendor', { id });
   }
 
   isActive(): boolean {
