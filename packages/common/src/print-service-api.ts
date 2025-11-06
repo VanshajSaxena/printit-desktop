@@ -7,6 +7,7 @@ import type {
   PrintQueueDto,
 } from '../gen/types/print-service-api-types';
 import log from 'electron-log';
+
 export class PrintServiceApi {
   private client: Client<PrintServicePaths>;
 
