@@ -18,5 +18,14 @@ export function getPrintQueue() {
 export function getPrintQueueCapabilitites() {
   return ipcRenderer.invoke('printer:capabilities');
 }
+export function isWebSocketConnected(): Promise<boolean> {
+  return ipcRenderer.invoke('ws:is-connected');
+}
+export function isWebSocketActive() {
+  return ipcRenderer.invoke('ws:is-active');
+}
+export function disconnectWebSocket() {
+  return ipcRenderer.invoke('ws:disconnect');
+}
 
 export { sha256sum, versions, send };
