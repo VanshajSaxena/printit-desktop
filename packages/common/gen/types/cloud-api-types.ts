@@ -4,22 +4,6 @@
  */
 
 export interface paths {
-  '/api': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['AppController_ping'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/api/v1/documents': {
     parameters: {
       query?: never;
@@ -50,6 +34,22 @@ export interface paths {
     options?: never;
     head?: never;
     patch: operations['PrintDocumentController_update_v1'];
+    trace?: never;
+  };
+  '/api/v1/ping': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AppController_ping_v1'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
   '/api/v1/printers': {
@@ -182,42 +182,30 @@ export interface components {
       id: number;
       name: string;
       path: string;
-      printTransaction: components['schemas']['PrintTransaction'];
       /** @enum {string} */
       status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
     };
-    Printer: Record<string, never>;
     PrinterResponseDto: {
       capabilities: string;
       id: number;
       name: string;
-      printTransactions: components['schemas']['PrintTransaction'][];
-      vendor: components['schemas']['Vendor'];
     };
-    PrintTransaction: Record<string, never>;
     PrintTransactionResponseDto: {
       friendlyId: string;
       id: number;
       printDocuments: components['schemas']['PrintDocument'][];
-      printer: components['schemas']['Printer'] | null;
       /** @enum {string} */
       status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
-      vendor: components['schemas']['Vendor'];
     };
     UpdatePrintDocumentDto: Record<string, never>;
     UpdatePrinterDto: Record<string, never>;
     UpdatePrintTransactionDto: Record<string, never>;
     UpdateVendorDto: Record<string, never>;
-    Vendor: Record<string, never>;
     VendorResponseDto: {
-      email: string;
       firstname: string;
       givenName: string | null;
       id: number;
       lastname: string;
-      printers: components['schemas']['Printer'][];
-      printTransactions: components['schemas']['PrintTransaction'][];
-      sub: string;
       urlId: string;
     };
   };
@@ -236,9 +224,7 @@ export type CreateVendorDto = components['schemas']['CreateVendorDto'];
 export type PrintDocument = components['schemas']['PrintDocument'];
 export type PrintDocumentResponseDto =
   components['schemas']['PrintDocumentResponseDto'];
-export type Printer = components['schemas']['Printer'];
 export type PrinterResponseDto = components['schemas']['PrinterResponseDto'];
-export type PrintTransaction = components['schemas']['PrintTransaction'];
 export type PrintTransactionResponseDto =
   components['schemas']['PrintTransactionResponseDto'];
 export type UpdatePrintDocumentDto =
@@ -247,29 +233,9 @@ export type UpdatePrinterDto = components['schemas']['UpdatePrinterDto'];
 export type UpdatePrintTransactionDto =
   components['schemas']['UpdatePrintTransactionDto'];
 export type UpdateVendorDto = components['schemas']['UpdateVendorDto'];
-export type Vendor = components['schemas']['Vendor'];
 export type VendorResponseDto = components['schemas']['VendorResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
-  AppController_ping: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': string;
-        };
-      };
-    };
-  };
   PrintDocumentController_findAll_v1: {
     parameters: {
       query?: never;
@@ -284,7 +250,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocument'][];
+          'application/json': components['schemas']['PrintDocumentResponseDto'][];
         };
       };
     };
@@ -328,7 +294,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': Record<string, never>;
+          'application/json': components['schemas']['PrintDocumentResponseDto'];
         };
       };
     };
@@ -348,7 +314,9 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['PrintDocumentResponseDto'];
+        };
       };
     };
   };
@@ -372,7 +340,26 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocument'];
+          'application/json': components['schemas']['PrintDocumentResponseDto'];
+        };
+      };
+    };
+  };
+  AppController_ping_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
         };
       };
     };
@@ -391,7 +378,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Printer'][];
+          'application/json': components['schemas']['PrinterResponseDto'][];
         };
       };
     };
@@ -435,7 +422,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': Record<string, never>;
+          'application/json': components['schemas']['PrinterResponseDto'];
         };
       };
     };
@@ -455,7 +442,9 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['PrinterResponseDto'];
+        };
       };
     };
   };
@@ -479,7 +468,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Printer'];
+          'application/json': components['schemas']['PrinterResponseDto'];
         };
       };
     };
@@ -498,7 +487,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransaction'][];
+          'application/json': components['schemas']['PrintTransactionResponseDto'][];
         };
       };
     };
@@ -542,7 +531,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': Record<string, never>;
+          'application/json': components['schemas']['PrintTransactionResponseDto'];
         };
       };
     };
@@ -562,7 +551,9 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['PrintTransactionResponseDto'];
+        };
       };
     };
   };
@@ -586,7 +577,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransaction'];
+          'application/json': components['schemas']['PrintTransactionResponseDto'];
         };
       };
     };
@@ -605,7 +596,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Vendor'][];
+          'application/json': components['schemas']['VendorResponseDto'][];
         };
       };
     };
@@ -649,7 +640,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': Record<string, never>;
+          'application/json': components['schemas']['VendorResponseDto'];
         };
       };
     };
@@ -669,7 +660,9 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['VendorResponseDto'];
+        };
       };
     };
   };
@@ -693,7 +686,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Vendor'];
+          'application/json': components['schemas']['VendorResponseDto'];
         };
       };
     };
