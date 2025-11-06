@@ -3,7 +3,11 @@ import type {
   IpcHandler,
   IpcHandlerRegistry,
 } from '../modules/IpcHandlersModule.js';
-import type { PrintServiceApi, WsNotificationsApi } from '@app/common';
+import type {
+  CloudServiceApi,
+  PrintServiceApi,
+  WsNotificationsApi,
+} from '@app/common';
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 function createHandler<TArgs extends unknown[], TReturn>(
@@ -17,11 +21,15 @@ function createHandler<TArgs extends unknown[], TReturn>(
 
 export function createIpcHandlers(
   printServiceApi: PrintServiceApi,
+  cloudServiceApi: CloudServiceApi,
   webSocketApi: WsNotificationsApi,
 ) {
   const pingHandler: IpcHandlerRegistry = {
-    ping: createHandler(() => {
+    'ps:ping': createHandler(() => {
       return printServiceApi.ping();
+    }),
+    'cs:ping': createHandler(() => {
+      return cloudServiceApi.ping();
     }),
   };
 
@@ -36,6 +44,12 @@ export function createIpcHandlers(
 
     'printer:capabilities': createHandler((_event, printQueue: string) => {
       return printServiceApi.getPrintQueueCapabilities(printQueue);
+    }),
+  };
+
+  const cloudServiceHandlers: IpcHandlerRegistry = {
+    'cs:transactions:get': createHandler(async () => {
+      return cloudServiceApi.getTransactions();
     }),
   };
 
@@ -63,6 +77,7 @@ export function createIpcHandlers(
   const allHandlers: IpcHandlerRegistry = {
     ...pingHandler,
     ...printServiceHandlers,
+    ...cloudServiceHandlers,
     ...appHandlers,
     ...webSocketNotifications,
   };

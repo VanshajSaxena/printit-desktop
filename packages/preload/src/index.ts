@@ -1,3 +1,4 @@
+import { CloudServiceApiTypes } from '@app/common/dist/index.js';
 import { sha256sum } from './nodeCrypto.js';
 import { versions } from './versions.js';
 import { ipcRenderer } from 'electron';
@@ -26,6 +27,9 @@ export function isWebSocketActive() {
 }
 export function disconnectWebSocket() {
   return ipcRenderer.invoke('ws:disconnect');
+}
+export function getPrintTransactions() {
+  return ipcRenderer.invoke('cs:transactions:get');
 }
 
 export { sha256sum, versions, send };

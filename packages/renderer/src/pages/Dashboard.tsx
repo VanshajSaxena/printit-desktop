@@ -3,7 +3,7 @@ import { GearIcon } from '@components/icons/GearIcon';
 import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
-import { getPrintQueues } from '@app/preload';
+import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
 import { useTheme } from '@context/theme/useTheme';
 
@@ -17,7 +17,7 @@ export function Dashboard() {
           varient="default"
           icon={<QRCodeIcon size={24}></QRCodeIcon>}
           onClick={() => {
-            getPrintQueues()
+            getPrintTransactions()
               .then((response) => {
                 console.log(response);
               })
