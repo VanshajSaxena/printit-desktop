@@ -12,17 +12,26 @@ import { ipcHandlers } from './modules/IpcHandlersModule.js';
 import { wsHandlers } from './modules/WsHandlerModule.js';
 import log from 'electron-log';
 import { createIpcHandlers } from './remote/ipc-handlers.js';
-import { PrintServiceApi, WsNotificationsApi } from '@app/common';
+import {
+  CloudServiceApi,
+  PrintServiceApi,
+  WsNotificationsApi,
+} from '@app/common';
 
 export async function initApp(initConfig: AppInitConfig) {
   log.info('### Main Process Initialization Started ###');
   const printServiceApi = new PrintServiceApi();
+  const cloudServiceApi = new CloudServiceApi();
   const webSocketApi = new WsNotificationsApi({
     url: 'localhost:3000',
     protocol: 'http',
     namespace: `notifications`,
   });
-  const allHandlers = createIpcHandlers(printServiceApi, webSocketApi);
+  const allHandlers = createIpcHandlers(
+    printServiceApi,
+    cloudServiceApi,
+    webSocketApi,
+  );
   const moduleRunner = createModuleRunner()
     .init(
       createWindowManagerModule({

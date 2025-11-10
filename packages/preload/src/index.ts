@@ -27,5 +27,8 @@ export function isWebSocketActive() {
 export function disconnectWebSocket() {
   return ipcRenderer.invoke('ws:disconnect');
 }
+export function getPrintTransactions() {
+  return ipcRenderer.invoke('cs:transactions:get');
+}
 
 export { sha256sum, versions, send };
