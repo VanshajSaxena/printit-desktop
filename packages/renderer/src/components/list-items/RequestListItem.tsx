@@ -1,3 +1,6 @@
+import { BnWBadge } from '@components/badges/BnWBadge';
+import { ColorPalatteBadge } from '@components/badges/ColorPalatteBadge';
+import { CopiesBadge } from '@components/badges/CopiesBadge';
 import { GridScanIcon } from '@components/icons/GridScanIcon';
 import { ListIconFile } from '@components/icons/ListIconFile';
 import { useTheme } from '@context/theme/useTheme';
@@ -7,10 +10,10 @@ export function RequestListItem() {
   return (
     <>
       <div
-        className="flex-col h-fit w-fill border-t first:border-t-0 last:border-b px-4 py-2 gap-2"
+        className="flex flex-col h-fit w-full border-t first:border-t-0 last:border-b px-4 py-2 gap-2"
         style={{ borderColor: colors.border.default }}
       >
-        <div className="flex h-fit w-fill">
+        <div className="flex h-fit w-full">
           <div className="flex gap-4 h-fit items-center">
             <ListIconFile size={24}></ListIconFile>
             <div className="flex flex-col h-fit pb-0.5 gap-1">
@@ -39,6 +42,11 @@ export function RequestListItem() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex h-fit w-full px-[2.625rem] gap-4">
+          <ColorPalatteBadge></ColorPalatteBadge>
+          <CopiesBadge></CopiesBadge>
+          <BnWBadge></BnWBadge>
         </div>
       </div>
     </>
