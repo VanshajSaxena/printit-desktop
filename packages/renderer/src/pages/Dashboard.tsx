@@ -6,6 +6,7 @@ import { TopBar } from '@components/layout/TopBar';
 import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
 import { useTheme } from '@context/theme/useTheme';
+import { RequestListItem } from '@components/list-items/RequestListItem';
 
 export function Dashboard() {
   const { colors } = useTheme();
@@ -49,7 +50,14 @@ export function Dashboard() {
           </Button>
         </div>
         {/* List and Graph Area */}
-        <RequestListContainer></RequestListContainer>
+        <RequestListContainer>
+          <RequestListItem></RequestListItem>
+          <RequestListItem></RequestListItem>
+          <RequestListItem></RequestListItem>
+          <RequestListItem></RequestListItem>
+          <RequestListItem></RequestListItem>
+          <RequestListItem></RequestListItem>
+        </RequestListContainer>
         <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-[48rem] max-h-1/3 2xl:min-h-1/3 gap-5 ">
           <div
             className="border rounded-3xl"
