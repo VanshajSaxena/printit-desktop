@@ -1,11 +1,13 @@
 import { ColorPalatteIcon } from '@components/icons/ColorPalatteIcon';
 import { Badge } from './Badge';
+import type { BadgeProps } from './types';
 
-export function ColorPalatteBadge() {
+export function ColorPalatteBadge(props: BadgeProps) {
   return (
     <Badge
       icon={<ColorPalatteIcon size={16}></ColorPalatteIcon>}
-      name="Color"
+      label="Color"
+      count={props.count}
     ></Badge>
   );
 }
