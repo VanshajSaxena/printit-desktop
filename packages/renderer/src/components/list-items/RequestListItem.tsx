@@ -46,7 +46,7 @@ export function RequestListItem() {
         </div>
         <div className="flex h-fit w-full px-[2.625rem] gap-4">
           <ColorPalatteBadge></ColorPalatteBadge>
-          <CopiesBadge count={8}></CopiesBadge>
+          <CopiesBadge></CopiesBadge>
           <BnWBadge></BnWBadge>
           <PagesBadge></PagesBadge>
         </div>

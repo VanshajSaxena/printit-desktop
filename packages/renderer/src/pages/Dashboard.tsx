@@ -1,22 +1,19 @@
 import { Button } from '@components/buttons/Button';
 import { GearIcon } from '@components/icons/GearIcon';
-import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
 import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
 import { useTheme } from '@context/theme/useTheme';
 import { RequestListItem } from '@components/list-items/RequestListItem';
+import { GetQRCodeButton } from '@components/buttons/GetQRCodeButton';
 
 export function Dashboard() {
   const { colors } = useTheme();
   return (
     <>
       <TopBar title="Dashboard">
-        <Button
-          size="lg"
-          varient="default"
-          icon={<QRCodeIcon size={24}></QRCodeIcon>}
+        <GetQRCodeButton
           onClick={() => {
             getPrintTransactions()
               .then((response) => {
@@ -26,9 +23,7 @@ export function Dashboard() {
                 console.log(error);
               });
           }}
-        >
-          Get QR Code
-        </Button>
+        ></GetQRCodeButton>
       </TopBar>
       {/* Root content area for dashboard*/}
       <div className="flex flex-col p-5 gap-5 h-full overflow-y-auto overflow-x-hidden">
