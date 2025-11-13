@@ -5,10 +5,8 @@ import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
 import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
-import { useTheme } from '@context/theme/useTheme';
 
 export function Dashboard() {
-  const { colors } = useTheme();
   return (
     <>
       <TopBar title="Dashboard">
@@ -52,12 +50,12 @@ export function Dashboard() {
         <RequestListContainer></RequestListContainer>
         <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-[48rem] max-h-1/3 2xl:min-h-1/3 gap-5 ">
           <div
-            className="border rounded-3xl"
-            style={{ borderColor: colors.border.default }}
+            className="border rounded-3xl "
+            // style={{ borderColor: colors.border.default }} FIX: border
           ></div>
           <div
             className="border rounded-3xl"
-            style={{ borderColor: colors.border.default }}
+            // style={{ borderColor: colors.border.default }} FIX: border
           ></div>
         </div>
       </div>

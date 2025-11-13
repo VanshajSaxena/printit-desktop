@@ -1,5 +1,4 @@
 import type { IconProps } from '@components/icons/types';
-import { useTheme } from '@context/theme/useTheme';
 import React from 'react';
 
 interface SideBarItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,21 +14,18 @@ export function SideBarItem({
   isActive = false,
   ...props
 }: SideBarItemProps) {
-  const { colors } = useTheme();
-
   const activeStyle = isActive
-    ? { backgroundColor: colors.bg.tertiary, color: colors.fg.primary }
-    : { backgroundColor: colors.bg.secondary, color: colors.fg.secondary };
-  const iconColor = isActive ? colors.fg.primary : colors.fg.secondary;
+    ? 'bg-tertiary text-primary-content'
+    : 'bg-secondary text-secondary-content';
+  // const iconColor = isActive ? colors.fg.primary : colors.fg.secondary;
 
   return (
     <>
       <div
-        className={`flex gap-4 w-full h-fit font-normal rounded-xl px-4 py-2 ${className}`}
-        style={activeStyle}
+        className={`flex gap-4 w-full h-fit font-normal rounded-xl px-4 py-2 ${className} ${activeStyle}`}
         {...props}
       >
-        {IconComponent && <IconComponent stroke={iconColor}></IconComponent>}
+        {IconComponent && <IconComponent stroke="currentColor"></IconComponent>}
         {children}
       </div>
     </>

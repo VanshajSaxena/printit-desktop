@@ -1,13 +1,11 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types.ts';
 
 export function GearIcon({ size = 24, ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={size}
       height={size}
-      stroke={colors.fg.primary}
+      stroke="currentColor"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
