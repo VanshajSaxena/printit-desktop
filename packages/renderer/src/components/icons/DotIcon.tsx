@@ -1,8 +1,5 @@
 import { useTheme } from '@context/theme/useTheme';
-
-interface DotIconProps {
-  type: 'green' | 'gray';
-}
+import type { DotIconProps } from './types';
 
 export function DotIcon({ type }: DotIconProps) {
   const { colors } = useTheme();

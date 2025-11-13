@@ -1,9 +1,6 @@
 import { DotIcon } from '@components/icons/DotIcon';
 import { useTheme } from '@context/theme/useTheme';
-
-interface ProgressStatusProps {
-  type: 'progress' | 'waiting';
-}
+import type { ProgressStatusProps } from './types';
 
 export function ProgressStatus({ type }: ProgressStatusProps) {
   const { colors } = useTheme();
