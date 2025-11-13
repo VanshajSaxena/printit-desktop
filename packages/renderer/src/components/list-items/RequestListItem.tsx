@@ -5,6 +5,8 @@ import { PagesBadge } from '@components/badges/PagesBadge';
 import { GridScanIcon } from '@components/icons/GridScanIcon';
 import { ListIconFile } from '@components/icons/ListIconFile';
 import { useTheme } from '@context/theme/useTheme';
+import { ProgressStatus } from './ProgressStatus';
+import { KebabButton } from '@components/buttons/KebabButton';
 
 export function RequestListItem() {
   const { colors } = useTheme();
@@ -14,7 +16,7 @@ export function RequestListItem() {
         className="flex flex-col h-fit w-full border-t first:border-t-0 last:border-b px-4 py-2 gap-2"
         style={{ borderColor: colors.border.default }}
       >
-        <div className="flex h-fit w-full">
+        <div className="flex h-fit w-full justify-between items-center">
           <div className="flex gap-4 h-fit items-center">
             <ListIconFile size={24}></ListIconFile>
             <div className="flex flex-col h-fit pb-0.5 gap-1">
@@ -43,6 +45,8 @@ export function RequestListItem() {
               </div>
             </div>
           </div>
+          <ProgressStatus type="progress"></ProgressStatus>
+          <KebabButton state="hover"></KebabButton>
         </div>
         <div className="flex h-fit w-full px-[2.625rem] gap-4">
           <ColorPalatteBadge></ColorPalatteBadge>
