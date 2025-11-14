@@ -8,8 +8,3 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   backgroundColor?: string;
   children?: React.ReactNode;
 }
-
-export interface KebabButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  state: 'default' | 'hover';
-}

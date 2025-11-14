@@ -1,14 +1,12 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function GridScanIcon({ size = 18, ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 18 18"
-      stroke={colors.fg.secondary}
+      className="stroke-secondary-content"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

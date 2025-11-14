@@ -1,8 +1,6 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function PagesIcon({ ...props }: IconProps) {
-  const { colors } = useTheme();
   const { size } = props;
   return (
     <svg
@@ -10,7 +8,7 @@ export function PagesIcon({ ...props }: IconProps) {
       height={size}
       viewBox="0 0 16 16"
       fill="none"
-      stroke={colors.fg.secondary}
+      className="stroke-secondary-content"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >

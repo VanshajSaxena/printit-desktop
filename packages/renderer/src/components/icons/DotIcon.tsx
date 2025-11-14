@@ -1,19 +1,17 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { DotIconProps } from './types';
 
 export function DotIcon({ type }: DotIconProps) {
-  const { colors } = useTheme();
   let outerFill = '';
   let innerFill = '';
 
   switch (type) {
     case 'green':
-      outerFill = colors.bg.status.success;
-      innerFill = colors.fg.status.success;
+      outerFill = 'fill-success';
+      innerFill = 'fill-success-content';
       break;
     case 'gray':
-      outerFill = colors.bg.status.waiting;
-      innerFill = colors.fg.status.waiting;
+      outerFill = 'fill-waiting';
+      innerFill = 'fill-waiting-content';
       break;
     default:
       break;
@@ -27,8 +25,8 @@ export function DotIcon({ type }: DotIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx={12} cy={12} r={7} fill={outerFill} />
-      <circle cx={12} cy={12.0002} r={2.91667} fill={innerFill} />
+      <circle cx={12} cy={12} r={7} className={outerFill} />
+      <circle cx={12} cy={12.0002} r={2.91667} className={innerFill} />
     </svg>
   );
 }

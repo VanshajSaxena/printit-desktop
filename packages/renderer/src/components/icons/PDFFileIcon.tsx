@@ -1,13 +1,11 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types.ts';
 
 export function PDFFileIcon({ size = 14, ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={size}
       height={size}
-      stroke={colors.fg.primary}
+      stroke="currentColor"
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

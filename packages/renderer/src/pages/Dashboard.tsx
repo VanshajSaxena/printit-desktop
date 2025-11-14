@@ -6,24 +6,38 @@ import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
 import { useTheme } from '@context/theme/useTheme';
 import { RequestListItem } from '@components/list-items/RequestListItem';
-import { GetQRCodeButton } from '@components/buttons/GetQRCodeButton';
+import { MoonIcon } from '@components/icons/MoonIcon';
+import { QRCodeIcon } from '@components/icons/QRCodeIcon';
 
 export function Dashboard() {
-  const { colors } = useTheme();
+  const { toggleTheme } = useTheme();
   return (
     <>
       <TopBar title="Dashboard">
-        <GetQRCodeButton
-          onClick={() => {
-            getPrintTransactions()
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error: unknown) => {
-                console.log(error);
-              });
-          }}
-        ></GetQRCodeButton>
+        <div className="flex gap-4">
+          <Button
+            size="lg"
+            varient="default"
+            icon={<MoonIcon size={24}></MoonIcon>}
+            onClick={toggleTheme}
+          ></Button>
+          <Button
+            size="lg"
+            varient="default"
+            icon={<QRCodeIcon size={24}></QRCodeIcon>}
+            onClick={() => {
+              getPrintTransactions()
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error: unknown) => {
+                  console.log(error);
+                });
+            }}
+          >
+            Get QR Code
+          </Button>
+        </div>
       </TopBar>
       {/* Root content area for dashboard*/}
       <div className="flex flex-col p-5 gap-5 h-full overflow-y-auto overflow-x-hidden">
@@ -54,14 +68,8 @@ export function Dashboard() {
           <RequestListItem></RequestListItem>
         </RequestListContainer>
         <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-[48rem] max-h-1/3 2xl:min-h-1/3 gap-5 ">
-          <div
-            className="border rounded-3xl"
-            style={{ borderColor: colors.border.default }}
-          ></div>
-          <div
-            className="border rounded-3xl"
-            style={{ borderColor: colors.border.default }}
-          ></div>
+          <div className="border rounded-3xl border-border-default"></div>
+          <div className="border rounded-3xl border-border-default"></div>
         </div>
       </div>
     </>

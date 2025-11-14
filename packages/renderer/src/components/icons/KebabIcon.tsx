@@ -1,7 +1,4 @@
-import { useTheme } from '@context/theme/useTheme';
-
 export function KebabIcon() {
-  const { colors } = useTheme();
   return (
     <svg
       width={16}
@@ -12,7 +9,7 @@ export function KebabIcon() {
     >
       <path
         d="M8 8.666a.667.667 0 100-1.333.667.667 0 000 1.333zM8 4a.667.667 0 100-1.333A.667.667 0 008 4zM8 13.333A.667.667 0 108 12a.667.667 0 000 1.333z"
-        stroke={colors.fg.primary}
+        className="stroke-primary-content"
         strokeWidth={1.16667}
         strokeLinecap="round"
         strokeLinejoin="round"

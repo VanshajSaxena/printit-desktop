@@ -1,18 +1,25 @@
-import { useTheme } from '@context/theme/useTheme';
-import type { ButtonProps } from './types';
+import React from 'react';
+
+type ButtonSizes = 'md' | 'lg';
+
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  size?: ButtonSizes;
+  varient: 'default' | 'ghost';
+  icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
+  children?: React.ReactNode;
+}
 
 export function Button({
   size = 'md',
   icon,
   children,
-  color,
   varient,
-  backgroundColor,
+  backgroundColor = '',
   className = '',
   ...props
 }: ButtonProps) {
-  const { colors } = useTheme();
-
   let buttonSize = '';
   switch (size) {
     case 'md':
@@ -27,10 +34,10 @@ export function Button({
 
   switch (varient) {
     case 'default':
-      backgroundColor = colors.bg.tertiary;
+      backgroundColor = 'bg-tertiary';
       break;
     case 'ghost':
-      backgroundColor = colors.bg.primary;
+      backgroundColor = 'bg-primary';
       break;
     default:
       break;
@@ -39,12 +46,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`inline-flex items-center h-fit w-fit -outline-offset-1 outline-1 gap-2 rounded-xl ${buttonSize} ${className}`}
-      style={{
-        color: color ?? colors.fg.primary,
-        backgroundColor: backgroundColor,
-        outlineColor: colors.border.default,
-      }}
+      className={`inline-flex items-center h-fit w-fit -outline-offset-1 outline-1 outline-border-default gap-2 rounded-xl text-primary-content ${backgroundColor} ${buttonSize} ${className}`}
       {...props}
     >
       {icon}

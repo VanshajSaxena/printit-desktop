@@ -1,14 +1,12 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function CopiesIcon({ ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={props.size}
       height={props.size}
       viewBox="0 0 16 16"
-      stroke={colors.fg.secondary}
+      className="stroke-secondary-content"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
