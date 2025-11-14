@@ -4,6 +4,21 @@ body {
   font-family: 'Inter';
 }
 
+@theme {
+  --color-primary: #090909;
+  --color-primary-content: #ffffff;
+  --color-secondary: #101011;
+  --color-secondary-content: #bcbcbc;
+  --color-tertiary: #1f1f1f;
+  --color-tertiary-content: #999999;
+  --color-success: #1c2b1c;
+  --color-success-content: #22c55e;
+  --color-queued: #3424bf;
+  --color-queued-content: #8a75ff;
+  --color-waiting: #404040;
+  --color-waiting-content: #d4d4d4;
+}
+
 @layer base {
   .dark {
     --color-primary: #090909;
@@ -12,7 +27,6 @@ body {
     --color-secondary-content: #bcbcbc;
     --color-tertiary: #1f1f1f;
     --color-tertiary-content: #999999;
-
     --color-success: #1c2b1c;
     --color-success-content: #22c55e;
     --color-queued: #3424bf;
@@ -20,7 +34,6 @@ body {
     --color-waiting: #404040;
     --color-waiting-content: #d4d4d4;
   }
-
   .light {
     --color-primary: #f5f5f5;
     --color-primary-content: #000000;
@@ -28,7 +41,6 @@ body {
     --color-secondary-content: #424242;
     --color-tertiary: #d6d6d6;
     --color-tertiary-content: #666666;
-
     --color-success: #94eb94;
     --color-success-content: #122112;
     --color-queued: #beb6ed;
@@ -42,21 +54,18 @@ body {
   font-family: 'Inter';
   src: url('./assets/fonts/Inter-Regular.woff2') format('woff2');
   font-weight: 400;
-  font-display: block; /* For Electron, prevents FOIT */
+  font-display: block;
 }
-
 @font-face {
   font-family: 'Inter';
   src: url('./assets/fonts/Inter-Medium.woff2') format('woff2');
   font-weight: 500;
 }
-
 @font-face {
   font-family: 'Inter';
   src: url('./assets/fonts/Inter-SemiBold.woff2') format('woff2');
   font-weight: 600;
 }
-
 @font-face {
   font-family: 'Inter';
   src: url('./assets/fonts/Inter-Bold.woff2') format('woff2');
