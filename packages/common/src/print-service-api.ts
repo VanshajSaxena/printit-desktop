@@ -12,7 +12,7 @@ export class PrintServiceApi {
   private client: Client<PrintServicePaths>;
 
   constructor() {
-    log.info('Initialsizing OpenAPI client for Cloud API.');
+    log.info('Initialsizing OpenAPI client for PrintService API.');
     this.client = createClient<PrintServicePaths>({
       baseUrl: 'http://localhost:5000',
     });
