@@ -46,7 +46,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`inline-flex border-border-default bg-primary items-center h-fit w-fit -outline-offset-1 outline-1 outline-border-default gap-2 rounded-xl text-primary-content ${backgroundColor} ${buttonSize} ${className}`}
+      className={`inline-flex items-center h-fit w-fit -outline-offset-1 outline-1 outline-border-default gap-2 rounded-xl text-primary-content ${backgroundColor} ${buttonSize} ${className}`}
       {...props}
     >
       {icon}
