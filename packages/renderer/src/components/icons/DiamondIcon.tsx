@@ -1,8 +1,6 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function DiamondIcon({ ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={11}
@@ -14,7 +12,7 @@ export function DiamondIcon({ ...props }: IconProps) {
     >
       <path
         d="M10 5.571L5.413 1 .826 5.571M.826 12.429L5.413 17 10 12.429"
-        stroke={colors.fg.tertiary}
+        className="stroke-tertiary-content"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

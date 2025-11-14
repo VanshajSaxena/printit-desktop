@@ -1,14 +1,12 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
 
 export function HomeIcon({ size = 24, ...props }: IconProps) {
-  const { colors } = useTheme();
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      stroke={colors.fg.primary}
+      stroke="currentColor"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

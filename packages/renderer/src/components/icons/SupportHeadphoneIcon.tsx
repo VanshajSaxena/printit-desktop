@@ -1,18 +1,12 @@
-import { useTheme } from '@context/theme/useTheme';
 import type { IconProps } from './types';
-export function SupportHeadphoneIcon({
-  size = 24,
-  stroke,
-  ...props
-}: IconProps) {
-  const { colors } = useTheme();
+export function SupportHeadphoneIcon({ size = 24, ...props }: IconProps) {
   return (
     <svg
       width={size}
       height={size}
-      stroke={stroke ?? colors.fg.primary}
+      stroke="currentColor"
       viewBox="0 0 24 24"
-      fill={stroke ?? colors.fg.primary}
+      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
