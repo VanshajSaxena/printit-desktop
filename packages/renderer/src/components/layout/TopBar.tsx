@@ -11,8 +11,7 @@ export function TopBar({
 }: TopBarProps) {
   return (
     <div
-      className="flex border-b h-[4.5rem] px-6 py-4 gap-4 justify-between items-center"
-      // style={{ borderColor: colors.border.default }}
+      className="flex border-border-default border-b h-[4.5rem] px-6 py-4 gap-4 justify-between items-center"
       {...props}
     >
       <h2 className="text-lg font-semibold text-primary-content">{title}</h2>

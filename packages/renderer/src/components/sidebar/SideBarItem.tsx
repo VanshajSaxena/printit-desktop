@@ -14,15 +14,16 @@ export function SideBarItem({
   isActive = false,
   ...props
 }: SideBarItemProps) {
-  const activeStyle = isActive
-    ? 'bg-tertiary text-primary-content'
-    : 'bg-secondary text-secondary-content';
   // const iconColor = isActive ? colors.fg.primary : colors.fg.secondary;
 
   return (
     <>
       <div
-        className={`flex gap-4 w-full h-fit font-normal rounded-xl px-4 py-2 ${className} ${activeStyle}`}
+        className={`flex gap-4 w-full h-fit font-normal rounded-xl px-4 py-2 ${className} ${
+          isActive
+            ? 'bg-tertiary text-primary-content'
+            : 'bg-secondary text-secondary-content'
+        }`}
         {...props}
       >
         {IconComponent && <IconComponent stroke="currentColor"></IconComponent>}

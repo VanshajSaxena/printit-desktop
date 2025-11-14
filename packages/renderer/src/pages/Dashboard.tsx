@@ -49,14 +49,8 @@ export function Dashboard() {
         {/* List and Graph Area */}
         <RequestListContainer></RequestListContainer>
         <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-[48rem] max-h-1/3 2xl:min-h-1/3 gap-5 ">
-          <div
-            className="border rounded-3xl"
-            // style={{ borderColor: colors.border.default }} FIX: border
-          ></div>
-          <div
-            className="border rounded-3xl"
-            // style={{ borderColor: colors.border.default }} FIX: border
-          ></div>
+          <div className="border rounded-3xl border-border-default"></div>
+          <div className="border rounded-3xl border-border-default"></div>
         </div>
       </div>
     </>

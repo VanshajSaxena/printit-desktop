@@ -11,12 +11,15 @@ body {
   --color-secondary-content: #bcbcbc;
   --color-tertiary: #1f1f1f;
   --color-tertiary-content: #999999;
+
   --color-success: #1c2b1c;
   --color-success-content: #22c55e;
   --color-queued: #3424bf;
   --color-queued-content: #8a75ff;
   --color-waiting: #404040;
   --color-waiting-content: #d4d4d4;
+
+  --color-border-default: #2e2e2e;
 }
 
 @layer base {
@@ -27,12 +30,15 @@ body {
     --color-secondary-content: #bcbcbc;
     --color-tertiary: #1f1f1f;
     --color-tertiary-content: #999999;
+
     --color-success: #1c2b1c;
     --color-success-content: #22c55e;
     --color-queued: #3424bf;
     --color-queued-content: #8a75ff;
     --color-waiting: #404040;
     --color-waiting-content: #d4d4d4;
+
+    --color-border-default: #2e2e2e;
   }
   .light {
     --color-primary: #f5f5f5;
@@ -41,12 +47,15 @@ body {
     --color-secondary-content: #424242;
     --color-tertiary: #d6d6d6;
     --color-tertiary-content: #666666;
+
     --color-success: #94eb94;
     --color-success-content: #122112;
     --color-queued: #beb6ed;
     --color-queued-content: #816bff;
     --color-waiting: #bfbfbf;
     --color-waiting-content: #2b2b2b;
+
+    --color-border-default: #bfbfbf;
   }
 }
 
