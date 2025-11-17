@@ -1,13 +1,4 @@
-import React from 'react';
-
-type ButtonSizes = 'md' | 'lg';
-
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  size?: ButtonSizes;
-  icon?: React.ReactNode;
-  color?: string;
-  children?: React.ReactNode;
-}
+import type { ButtonProps } from './types';
 
 export function Button({
   size,
