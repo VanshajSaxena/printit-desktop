@@ -1,6 +1,4 @@
 import { Button } from '@components/buttons/Button';
-import { GearIcon } from '@components/icons/GearIcon';
-import { SlidersIcon } from '@components/icons/SlidersIcon';
 import { TopBar } from '@components/layout/TopBar';
 import { getPrintTransactions } from '@app/preload';
 import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
