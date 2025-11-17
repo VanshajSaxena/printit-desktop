@@ -14,8 +14,6 @@ export function SideBarItem({
   isActive = false,
   ...props
 }: SideBarItemProps) {
-  // const iconColor = isActive ? colors.fg.primary : colors.fg.secondary;
-
   return (
     <>
       <div
