@@ -1,11 +1,15 @@
 import { KebabIcon } from '@components/icons/KebabIcon';
+import { Button } from './Button';
+import type { ButtonProps } from './types';
 
-export function KebabButton() {
+export function KebabButton(props: ButtonProps) {
   return (
     <>
-      <div className="h-fit w-fit p-[0.5625rem] outline -outline-offset-1 rounded-xl hover:bg-tertiary outline-border-default">
-        <KebabIcon></KebabIcon>
-      </div>
+      <Button
+        icon={<KebabIcon></KebabIcon>}
+        className="p-[0.5625rem] outline -outline-offset-1 outline-border-default rounded-xl hover:bg-tertiary"
+        {...props}
+      ></Button>
     </>
   );
 }

@@ -1,0 +1,18 @@
+import { Button } from './Button';
+import { PrinterIcon } from '@components/icons/PrinterIcon';
+import type { ButtonProps } from './types';
+
+export function PrintButton({ ...props }: ButtonProps) {
+  return (
+    <>
+      <Button
+        size="md"
+        icon={<PrinterIcon size={20}></PrinterIcon>}
+        className="bg-tertiary hover:bg-success text-primary-content hover:text-success-content"
+        {...props}
+      >
+        Print
+      </Button>
+    </>
+  );
+}

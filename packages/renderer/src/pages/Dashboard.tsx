@@ -7,7 +7,9 @@ import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
 import { useTheme } from '@context/theme/useTheme';
 import { RequestListItem } from '@components/list-items/RequestListItem';
 import { MoonIcon } from '@components/icons/MoonIcon';
-import { QRCodeIcon } from '@components/icons/QRCodeIcon';
+import { GetQRCodeButton } from '@components/buttons/GetQRCodeButton';
+import { DisplayButton } from '@components/buttons/DisplayButton';
+import { BulkActionButton } from '@components/buttons/BulkActionButton';
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -17,14 +19,10 @@ export function Dashboard() {
         <div className="flex gap-4">
           <Button
             size="lg"
-            varient="default"
             icon={<MoonIcon size={24}></MoonIcon>}
             onClick={toggleTheme}
           ></Button>
-          <Button
-            size="lg"
-            varient="default"
-            icon={<QRCodeIcon size={24}></QRCodeIcon>}
+          <GetQRCodeButton
             onClick={() => {
               getPrintTransactions()
                 .then((response) => {
@@ -34,29 +32,15 @@ export function Dashboard() {
                   console.log(error);
                 });
             }}
-          >
-            Get QR Code
-          </Button>
+          ></GetQRCodeButton>
         </div>
       </TopBar>
       {/* Root content area for dashboard*/}
       <div className="flex flex-col p-5 gap-5 h-full overflow-y-auto overflow-x-hidden">
         {/* Button Area */}
         <div className="flex items-start gap-4">
-          <Button
-            size="md"
-            varient="ghost"
-            icon={<SlidersIcon size={20}></SlidersIcon>}
-          >
-            Display
-          </Button>
-          <Button
-            size="md"
-            varient="ghost"
-            icon={<GearIcon size={20}></GearIcon>}
-          >
-            Bulk Action
-          </Button>
+          <DisplayButton></DisplayButton>
+          <BulkActionButton></BulkActionButton>
         </div>
         {/* List and Graph Area */}
         <RequestListContainer>

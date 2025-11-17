@@ -6,6 +6,8 @@ import { GridScanIcon } from '@components/icons/GridScanIcon';
 import { ListIconFile } from '@components/icons/ListIconFile';
 import { ProgressStatus } from './ProgressStatus';
 import { KebabButton } from '@components/buttons/KebabButton';
+import { RejectButton } from '@components/buttons/RejectButton';
+import { PrintButton } from '@components/buttons/PrintButton';
 
 export function RequestListItem() {
   return (
@@ -31,9 +33,15 @@ export function RequestListItem() {
               </div>
             </div>
           </div>
-          <div className="flex gap-4">
-            <ProgressStatus type="progress"></ProgressStatus>
-            <KebabButton></KebabButton>
+          <div className="flex items-center justify-center gap-5">
+            <div className="flex gap-4">
+              <RejectButton></RejectButton>
+              <PrintButton></PrintButton>
+            </div>
+            <div className="flex gap-4">
+              <ProgressStatus type="progress"></ProgressStatus>
+              <KebabButton></KebabButton>
+            </div>
           </div>
         </div>
         <div className="flex h-fit w-full px-[2.625rem] gap-4">
