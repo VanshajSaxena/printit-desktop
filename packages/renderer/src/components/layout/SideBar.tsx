@@ -15,19 +15,19 @@ export function SideBar({
   onViewChange: (view: ViewType) => void;
 }) {
   const sidebarItems: {
-    id: ViewType;
+    type: ViewType;
     label: string;
     icon: React.ComponentType<IconProps>;
   }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
-    { id: 'history', label: 'History', icon: HistoryIcon },
+    { type: 'dashboard', label: 'Dashboard', icon: HomeIcon },
+    { type: 'history', label: 'History', icon: HistoryIcon },
     {
-      id: 'settings',
+      type: 'settings',
       label: 'Settings',
       icon: SettingsIcon,
     },
     {
-      id: 'help',
+      type: 'help',
       label: 'Help Center',
       icon: SupportHeadphoneIcon,
     },
@@ -38,11 +38,11 @@ export function SideBar({
       <div className="flex flex-col flex-1 mt-16 gap-2">
         {sidebarItems.slice(0, 2).map((item) => (
           <SideBarItem
-            key={item.id}
+            key={item.type}
             IconComponent={item.icon}
-            isActive={activeView === item.id}
+            isActive={activeView === item.type}
             onClick={() => {
-              onViewChange(item.id);
+              onViewChange(item.type);
             }}
           >
             {item.label}
@@ -51,11 +51,11 @@ export function SideBar({
         <div className="flex flex-col flex-1 gap-2 justify-end">
           {sidebarItems.slice(2).map((item) => (
             <SideBarItem
-              key={item.id}
+              key={item.type}
               IconComponent={item.icon}
-              isActive={activeView === item.id}
+              isActive={activeView === item.type}
               onClick={() => {
-                onViewChange(item.id);
+                onViewChange(item.type);
               }}
             >
               {item.label}
