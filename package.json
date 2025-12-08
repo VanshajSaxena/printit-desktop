@@ -43,5 +43,5 @@
     "electron-log": "^5.4.3",
     "socket.io-client": "^4.8.1"
   },
-  "packageManager": "yarn@4.10.3"
+  "packageManager": "yarn@4.12.0"
 }
