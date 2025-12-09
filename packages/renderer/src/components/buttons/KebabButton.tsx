@@ -7,7 +7,7 @@ export function KebabButton(props: ButtonProps) {
     <>
       <Button
         icon={<KebabIcon></KebabIcon>}
-        className="p-[0.5625rem] outline -outline-offset-1 outline-border-default rounded-xl hover:bg-tertiary"
+        className="p-2.25 outline -outline-offset-1 outline-border-default rounded-xl hover:bg-tertiary"
         {...props}
       ></Button>
     </>

@@ -44,7 +44,7 @@ export function RequestListItem() {
             </div>
           </div>
         </div>
-        <div className="flex h-fit w-full px-[2.625rem] gap-4">
+        <div className="flex h-fit w-full px-10.5 gap-4">
           <ColorPalatteBadge></ColorPalatteBadge>
           <CopiesBadge></CopiesBadge>
           <BnWBadge></BnWBadge>

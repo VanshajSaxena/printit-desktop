@@ -33,7 +33,7 @@ export function SideBar({
     },
   ];
   return (
-    <aside className="flex flex-col h-full w-72 flex-shrink-0 py-4">
+    <aside className="flex flex-col h-full w-72 shrink-0 py-4">
       <ProfileArea></ProfileArea>
       <div className="flex flex-col flex-1 mt-16 gap-2">
         {sidebarItems.slice(0, 2).map((item) => (
