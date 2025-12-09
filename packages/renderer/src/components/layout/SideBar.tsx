@@ -1,6 +1,6 @@
 import { HistoryIcon } from "@components/icons/HistoryIcon";
 import { HomeIcon } from "@components/icons/HomeIcon";
-import { SettingsIcon } from "@components/icons/SettingsIcon.tsx";
+import { GearIcon } from "@components/icons/GearIcon";
 import { SidebarRightCollapseIcon } from "@components/icons/SidebarRightCollapseIcon";
 import { SupportHeadphoneIcon } from "@components/icons/SupportHeadphoneIcon.tsx";
 import { ProfileArea } from "@components/sidebar/ProfileArea";
@@ -34,7 +34,7 @@ export function SideBar({
     {
       type: "settings",
       label: "Settings",
-      icon: <SettingsIcon className="shrink-0" />,
+      icon: <GearIcon className="shrink-0" />,
     },
     {
       type: "help",
