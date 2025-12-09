@@ -3,16 +3,15 @@ import type { IconProps } from './types';
 export function DiamondIcon({ ...props }: IconProps) {
   return (
     <svg
-      width={11}
-      height={18}
-      viewBox="0 0 11 18"
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M10 5.571L5.413 1 .826 5.571M.826 12.429L5.413 17 10 12.429"
-        className="stroke-tertiary-content"
+        d="M16.587 8.571L12 4 7.413 8.571M7.413 15.429L12 20l4.587-4.571"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
