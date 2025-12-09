@@ -9,7 +9,7 @@ export function AppLayout() {
   return (
     <div
       className={
-        "flex h-screen w-screen gap-4 overflow-hidden bg-secondary pt-4 pl-4 select-none"
+        "flex h-dvh w-dvw gap-4 overflow-hidden bg-secondary pt-4 pl-4 select-none"
       }
     >
       <SideBar
