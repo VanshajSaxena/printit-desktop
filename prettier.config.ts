@@ -7,7 +7,7 @@ interface Config extends PrettierConfig {
 const config: Config = {
   trailingComma: "all",
   plugins: ["prettier-plugin-tailwindcss"],
-  tailwindStylesheet: "./src/index.css",
+  tailwindStylesheet: "./packages/renderer/src/index.css",
 };
 
 export default config;
