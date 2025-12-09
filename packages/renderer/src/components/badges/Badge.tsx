@@ -1,11 +1,11 @@
-import type { BadgeProps } from './types';
+import type { BadgeProps } from "./types";
 
 export function Badge(props: BadgeProps) {
   const name = props.label;
   const icon = props.icon;
   const count = props.count;
   return (
-    <div className="flex gap-2 -outline-offset-1 outline px-2 py-1 rounded-lg outline-border-default">
+    <div className="flex gap-2 rounded-lg px-2 py-1 outline -outline-offset-1 outline-border-default">
       {icon}
       <div className="text-xs leading-4 text-secondary-content">
         {name}

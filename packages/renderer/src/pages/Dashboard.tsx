@@ -1,13 +1,13 @@
-import { Button } from '@components/buttons/Button';
-import { TopBar } from '@components/layout/TopBar';
-import { getPrintTransactions } from '@app/preload';
-import { RequestListContainer } from '@pages/dashboard/RequestListContainer';
-import { useTheme } from '@context/theme/useTheme';
-import { RequestListItem } from '@components/list-items/RequestListItem';
-import { MoonIcon } from '@components/icons/MoonIcon';
-import { GetQRCodeButton } from '@components/buttons/GetQRCodeButton';
-import { DisplayButton } from '@components/buttons/DisplayButton';
-import { BulkActionButton } from '@components/buttons/BulkActionButton';
+import { Button } from "@components/buttons/Button";
+import { TopBar } from "@components/layout/TopBar";
+import { getPrintTransactions } from "@app/preload";
+import { RequestListContainer } from "@pages/dashboard/RequestListContainer";
+import { useTheme } from "@context/theme/useTheme";
+import { RequestListItem } from "@components/list-items/RequestListItem";
+import { MoonIcon } from "@components/icons/MoonIcon";
+import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
+import { DisplayButton } from "@components/buttons/DisplayButton";
+import { BulkActionButton } from "@components/buttons/BulkActionButton";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -34,7 +34,7 @@ export function Dashboard() {
         </div>
       </TopBar>
       {/* Root content area for dashboard*/}
-      <div className="flex flex-col p-5 gap-5 h-full overflow-y-auto overflow-x-hidden">
+      <div className="flex h-full flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
         {/* Button Area */}
         <div className="flex items-start gap-4">
           <DisplayButton></DisplayButton>
@@ -49,9 +49,9 @@ export function Dashboard() {
           <RequestListItem></RequestListItem>
           <RequestListItem></RequestListItem>
         </RequestListContainer>
-        <div className="grid grid-cols-1 2xl:grid-cols-2 w-full h-full min-h-192 max-h-1/3 2xl:min-h-[35%] gap-5 ">
-          <div className="border rounded-3xl border-border-default"></div>
-          <div className="border rounded-3xl border-border-default"></div>
+        <div className="grid h-full max-h-1/3 min-h-192 w-full grid-cols-1 gap-5 2xl:min-h-[35%] 2xl:grid-cols-2">
+          <div className="rounded-3xl border border-border-default"></div>
+          <div className="rounded-3xl border border-border-default"></div>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import type { IconProps } from './types.ts';
+import type { IconProps } from "./types.ts";
 
 export function GearIcon({ size = 24, ...props }: IconProps) {
   return (

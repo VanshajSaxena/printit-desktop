@@ -1,6 +1,6 @@
-import { ColorPalatteIcon } from '@components/icons/ColorPalatteIcon';
-import { Badge } from './Badge';
-import type { BadgeProps } from './types';
+import { ColorPalatteIcon } from "@components/icons/ColorPalatteIcon";
+import { Badge } from "./Badge";
+import type { BadgeProps } from "./types";
 
 export function ColorPalatteBadge(props: BadgeProps) {
   return (

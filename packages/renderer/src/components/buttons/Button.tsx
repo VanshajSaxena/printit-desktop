@@ -1,19 +1,19 @@
-import type { ButtonProps } from './types';
+import type { ButtonProps } from "./types";
 
 export function Button({
   size,
   icon,
   children,
-  className = '',
+  className = "",
   ...props
 }: ButtonProps) {
-  let buttonSize = '';
+  let buttonSize = "";
   switch (size) {
-    case 'md':
-      buttonSize = 'px-3 py-[0.4375rem] text-sm leading-5';
+    case "md":
+      buttonSize = "px-3 py-[0.4375rem] text-sm leading-5";
       break;
-    case 'lg':
-      buttonSize = 'px-3 py-2 text-base leading-6';
+    case "lg":
+      buttonSize = "px-3 py-2 text-base leading-6";
       break;
     default:
       break;
@@ -22,7 +22,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`inline-flex items-center h-fit w-fit gap-2 rounded-xl ${buttonSize} ${className}`}
+      className={`inline-flex h-fit w-fit items-center gap-2 rounded-xl ${buttonSize} ${className}`}
       {...props}
     >
       {icon}

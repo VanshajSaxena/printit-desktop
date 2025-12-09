@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import type { IconProps } from './types.ts';
-import { isWebSocketConnected } from '@app/preload';
+import { useEffect, useState } from "react";
+import type { IconProps } from "./types.ts";
+import { isWebSocketConnected } from "@app/preload";
 
 function ProfileHash({ size, ...props }: IconProps) {
   const [connected, setConnected] = useState(false);

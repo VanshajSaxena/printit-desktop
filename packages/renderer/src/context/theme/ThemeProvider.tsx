@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { ThemeName } from './types.ts';
-import { ThemeContext } from './ThemeContext.tsx';
+import { useEffect, useMemo, useState } from "react";
+import type { ThemeName } from "./types.ts";
+import { ThemeContext } from "./ThemeContext.tsx";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeName>(() => {
-    return 'dark';
+    return "dark";
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('light', 'dark');
+    root.classList.remove("light", "dark");
     root.classList.add(theme);
   }, [theme]);
 
@@ -18,7 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setThemeState((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme]);

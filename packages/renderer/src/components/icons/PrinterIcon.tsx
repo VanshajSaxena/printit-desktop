@@ -1,4 +1,4 @@
-import type { IconProps } from './types.ts';
+import type { IconProps } from "./types.ts";
 
 export function PrinterIcon({ size = 14, ...props }: IconProps) {
   return (

@@ -1,17 +1,17 @@
-import type { DotIconProps } from './types';
+import type { DotIconProps } from "./types";
 
 export function DotIcon({ type }: DotIconProps) {
-  let outerFill = '';
-  let innerFill = '';
+  let outerFill = "";
+  let innerFill = "";
 
   switch (type) {
-    case 'green':
-      outerFill = 'fill-success';
-      innerFill = 'fill-success-content';
+    case "green":
+      outerFill = "fill-success";
+      innerFill = "fill-success-content";
       break;
-    case 'gray':
-      outerFill = 'fill-waiting';
-      innerFill = 'fill-waiting-content';
+    case "gray":
+      outerFill = "fill-waiting";
+      innerFill = "fill-waiting-content";
       break;
     default:
       break;

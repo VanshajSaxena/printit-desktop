@@ -1,13 +1,13 @@
-import { SlidersIcon } from '@components/icons/SlidersIcon';
-import { Button } from './Button';
-import type { ButtonProps } from './types';
+import { SlidersIcon } from "@components/icons/SlidersIcon";
+import { Button } from "./Button";
+import type { ButtonProps } from "./types";
 
-export function DisplayButton({ className = '', ...props }: ButtonProps) {
+export function DisplayButton({ className = "", ...props }: ButtonProps) {
   return (
     <Button
       size="md"
       icon={<SlidersIcon size={20}></SlidersIcon>}
-      className={`outline -outline-offset-1 outline-border-default text-primary-content ${className}`}
+      className={`text-primary-content outline -outline-offset-1 outline-border-default ${className}`}
       {...props}
     >
       Display

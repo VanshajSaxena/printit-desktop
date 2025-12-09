@@ -1,3 +1,3 @@
 export interface ProgressStatusProps {
-  type: 'progress' | 'waiting';
+  type: "progress" | "waiting";
 }

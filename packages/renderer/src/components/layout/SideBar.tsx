@@ -1,16 +1,16 @@
-import { HistoryIcon } from '@components/icons/HistoryIcon';
-import { HomeIcon } from '@components/icons/HomeIcon';
-import { SettingsIcon } from '@components/icons/SettingsIcon.tsx';
-import { SidebarRightCollapseIcon } from '@components/icons/SidebarRightCollapseIcon';
-import { SupportHeadphoneIcon } from '@components/icons/SupportHeadphoneIcon.tsx';
-import { ProfileArea } from '@components/sidebar/ProfileArea';
+import { HistoryIcon } from "@components/icons/HistoryIcon";
+import { HomeIcon } from "@components/icons/HomeIcon";
+import { SettingsIcon } from "@components/icons/SettingsIcon.tsx";
+import { SidebarRightCollapseIcon } from "@components/icons/SidebarRightCollapseIcon";
+import { SupportHeadphoneIcon } from "@components/icons/SupportHeadphoneIcon.tsx";
+import { ProfileArea } from "@components/sidebar/ProfileArea";
 import {
   SideBarItem,
   type SideBarItemProps,
-} from '@components/sidebar/SideBarItem';
-import clsx from 'clsx';
-import { useState } from 'react';
-import type { ViewType } from './AppLayout';
+} from "@components/sidebar/SideBarItem";
+import clsx from "clsx";
+import { useState } from "react";
+import type { ViewType } from "./AppLayout";
 
 export function SideBar({
   selectedView,
@@ -22,37 +22,37 @@ export function SideBar({
   const [isCollapsed, setCollapsed] = useState(false);
   const sidebarItems: SideBarItemProps[] = [
     {
-      type: 'dashboard',
-      label: 'Dashboard',
+      type: "dashboard",
+      label: "Dashboard",
       icon: <HomeIcon className="shrink-0" />,
     },
     {
-      type: 'history',
-      label: 'History',
+      type: "history",
+      label: "History",
       icon: <HistoryIcon className="shrink-0" />,
     },
     {
-      type: 'settings',
-      label: 'Settings',
+      type: "settings",
+      label: "Settings",
       icon: <SettingsIcon className="shrink-0" />,
     },
     {
-      type: 'help',
-      label: 'Help Center',
+      type: "help",
+      label: "Help Center",
       icon: <SupportHeadphoneIcon className="shrink-0" />,
     },
   ];
   return (
     <aside
       className={clsx(
-        'flex flex-col h-full shrink-0 py-4 animate transition-all duration-300 justify-between items-center',
-        isCollapsed ? 'w-12' : 'w-72',
+        "animate flex h-full shrink-0 flex-col items-center justify-between py-4 transition-all duration-300",
+        isCollapsed ? "w-12" : "w-72",
       )}
     >
       <div
         className={clsx(
-          'flex flex-col justify-between items-center w-full',
-          isCollapsed ? 'gap-6' : 'gap-18',
+          "flex w-full flex-col items-center justify-between",
+          isCollapsed ? "gap-6" : "gap-18",
         )}
       >
         <ProfileArea
@@ -63,13 +63,13 @@ export function SideBar({
         />
         {isCollapsed && (
           <SidebarRightCollapseIcon
-            className="stroke-tertiary-content cursor-pointer"
+            className="cursor-pointer stroke-tertiary-content"
             onClick={() => {
               setCollapsed(false);
             }}
           />
         )}
-        <div className="flex flex-col gap-2 w-full h-fit">
+        <div className="flex h-fit w-full flex-col gap-2">
           {sidebarItems.slice(0, 2).map((item) => (
             <SideBarItem
               key={item.type}
@@ -83,7 +83,7 @@ export function SideBar({
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2 w-full h-fit">
+      <div className="flex h-fit w-full flex-col gap-2">
         {sidebarItems.slice(2).map((item) => (
           <SideBarItem
             key={item.type}

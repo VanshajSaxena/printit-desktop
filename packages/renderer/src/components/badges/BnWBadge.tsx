@@ -1,6 +1,6 @@
-import { BnWIcon } from '@components/icons/BnWIcon';
-import { Badge } from './Badge';
-import type { BadgeProps } from './types';
+import { BnWIcon } from "@components/icons/BnWIcon";
+import { Badge } from "./Badge";
+import type { BadgeProps } from "./types";
 
 export function BnWBadge(props: BadgeProps) {
   return (

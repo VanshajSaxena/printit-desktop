@@ -1,6 +1,6 @@
-import { PagesIcon } from '@components/icons/PageIcon';
-import { Badge } from './Badge';
-import type { BadgeProps } from './types';
+import { PagesIcon } from "@components/icons/PageIcon";
+import { Badge } from "./Badge";
+import type { BadgeProps } from "./types";
 
 export function PagesBadge(props: BadgeProps) {
   return (

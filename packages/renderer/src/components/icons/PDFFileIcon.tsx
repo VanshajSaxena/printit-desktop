@@ -1,4 +1,4 @@
-import type { IconProps } from './types.ts';
+import type { IconProps } from "./types.ts";
 
 export function PDFFileIcon({ size = 14, ...props }: IconProps) {
   return (

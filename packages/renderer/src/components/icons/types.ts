@@ -3,5 +3,5 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export interface DotIconProps {
-  type: 'green' | 'gray';
+  type: "green" | "gray";
 }

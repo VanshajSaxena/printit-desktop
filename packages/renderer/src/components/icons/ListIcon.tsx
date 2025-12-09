@@ -1,4 +1,4 @@
-import type { IconProps } from './types.ts';
+import type { IconProps } from "./types.ts";
 
 export function ListIcon({ size = 14, ...props }: IconProps) {
   return (

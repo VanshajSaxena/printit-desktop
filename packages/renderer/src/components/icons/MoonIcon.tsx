@@ -1,4 +1,4 @@
-import type { IconProps } from './types';
+import type { IconProps } from "./types";
 
 export function MoonIcon({ size = 14, ...props }: IconProps) {
   return (
