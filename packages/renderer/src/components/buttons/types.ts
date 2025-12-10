@@ -1,7 +1,5 @@
-export type ButtonSizes = "md" | "lg";
-
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  size?: ButtonSizes;
+  size?: "md" | "lg";
   icon?: React.ReactNode;
   children?: React.ReactNode;
 }
