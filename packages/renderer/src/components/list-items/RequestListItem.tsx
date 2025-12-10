@@ -14,7 +14,7 @@ import { AlarmIcon } from "@components/icons/AlarmIcon";
 export function RequestListItem() {
   return (
     <>
-      <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b">
+      <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
         <div className="flex h-fit w-full items-center justify-between">
           <div className="flex h-fit items-center gap-4">
             <ListIconFile size={24}></ListIconFile>
