@@ -33,7 +33,13 @@ export function Dashboard() {
         </div>
       </TopBar>
       <div className="flex h-full flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
-        <SheetsPrintedCard></SheetsPrintedCard>
+        <div className="flex h-fit w-full justify-start gap-5">
+          <SheetsPrintedCard heroText="24" subText="Today"></SheetsPrintedCard>
+          <SheetsPrintedCard
+            heroText="425"
+            subText="Weekly"
+          ></SheetsPrintedCard>
+        </div>
         <RequestListContainer>
           <RequestListItem></RequestListItem>
           <RequestListItem></RequestListItem>
