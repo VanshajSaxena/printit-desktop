@@ -42,7 +42,7 @@ export function Dashboard() {
           <SheetsPrintedCard heroText="425" subText="Weekly" />
           <PrinterStatusCard heroText="Working" subText="HP Laserjet" />
         </div>
-        <div className="flex h-fit w-full justify-between">
+        <div className="flex h-fit w-full justify-between gap-4">
           <SearchInput />
           <div className="flex size-fit justify-start gap-4">
             <DisplayButton />
