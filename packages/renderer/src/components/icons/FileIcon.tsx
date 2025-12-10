@@ -1,6 +1,6 @@
 import type { IconProps } from "./types";
 
-export function PagesIcon({ ...props }: IconProps) {
+export function FileIcon({ ...props }: IconProps) {
   const { size } = props;
   return (
     <svg

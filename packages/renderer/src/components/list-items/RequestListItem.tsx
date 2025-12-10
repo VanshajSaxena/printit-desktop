@@ -1,25 +1,30 @@
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { CopiesBadge } from "@components/badges/CopiesBadge";
-import { PagesBadge } from "@components/badges/PagesBadge";
+import { FilesBadge } from "@components/badges/FilesBadge";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
-import { ProgressStatus } from "./ProgressStatus";
 import { KebabButton } from "@components/buttons/KebabButton";
 import { RejectButton } from "@components/buttons/RejectButton";
 import { PrintButton } from "@components/buttons/PrintButton";
+import { NewItemBadge } from "./NewItemBadge";
+import { SheetsBadge } from "@components/badges/SheetsBadge";
+import { AlarmIcon } from "@components/icons/AlarmIcon";
 
 export function RequestListItem() {
   return (
     <>
-      <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b">
+      <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
         <div className="flex h-fit w-full items-center justify-between">
           <div className="flex h-fit items-center gap-4">
             <ListIconFile size={24}></ListIconFile>
             <div className="flex h-fit flex-col gap-1 pb-0.5">
-              <h3 className="text-base leading-6 text-primary-content">
-                Final Year Dissertation
-              </h3>
+              <div className="flex size-fit gap-2">
+                <h3 className="text-base leading-6 text-primary-content">
+                  Final Year Dissertation
+                </h3>
+                <NewItemBadge />
+              </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <GridScanIcon></GridScanIcon>
@@ -39,16 +44,22 @@ export function RequestListItem() {
               <PrintButton></PrintButton>
             </div>
             <div className="flex gap-4">
-              <ProgressStatus type="progress"></ProgressStatus>
               <KebabButton></KebabButton>
             </div>
           </div>
         </div>
-        <div className="flex h-fit w-full gap-4 px-10.5">
-          <ColorPalatteBadge></ColorPalatteBadge>
-          <CopiesBadge></CopiesBadge>
-          <BnWBadge></BnWBadge>
-          <PagesBadge></PagesBadge>
+        <div className="flex justify-between">
+          <div className="flex h-fit w-full gap-4 px-10.5">
+            <SheetsBadge />
+            <FilesBadge />
+            <ColorPalatteBadge />
+            <CopiesBadge />
+            <BnWBadge />
+          </div>
+          <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
+            <AlarmIcon size={18} />
+            <p>Est. 10 mins</p>
+          </div>
         </div>
       </div>
     </>
