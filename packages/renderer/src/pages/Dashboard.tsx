@@ -8,6 +8,7 @@ import { MoonIcon } from "@components/icons/MoonIcon";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
 import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
+import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -38,6 +39,9 @@ export function Dashboard() {
           <SheetsPrintedCard heroText="24" subText="Today" />
           <SheetsPrintedCard heroText="425" subText="Weekly" />
           <PrinterStatusCard heroText="Working" subText="HP Laserjet" />
+        </div>
+        <div className="flex h-fit w-full justify-between">
+          <SearchInput />
         </div>
         <RequestListContainer>
           <RequestListItem></RequestListItem>
