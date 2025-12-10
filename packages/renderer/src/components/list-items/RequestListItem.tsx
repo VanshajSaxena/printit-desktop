@@ -4,10 +4,10 @@ import { CopiesBadge } from "@components/badges/CopiesBadge";
 import { PagesBadge } from "@components/badges/PagesBadge";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
-import { ProgressStatus } from "./ProgressStatus";
 import { KebabButton } from "@components/buttons/KebabButton";
 import { RejectButton } from "@components/buttons/RejectButton";
 import { PrintButton } from "@components/buttons/PrintButton";
+import { NewItemBadge } from "./NewItemBadge";
 
 export function RequestListItem() {
   return (
@@ -17,9 +17,12 @@ export function RequestListItem() {
           <div className="flex h-fit items-center gap-4">
             <ListIconFile size={24}></ListIconFile>
             <div className="flex h-fit flex-col gap-1 pb-0.5">
-              <h3 className="text-base leading-6 text-primary-content">
-                Final Year Dissertation
-              </h3>
+              <div className="flex size-fit gap-2">
+                <h3 className="text-base leading-6 text-primary-content">
+                  Final Year Dissertation
+                </h3>
+                <NewItemBadge />
+              </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <GridScanIcon></GridScanIcon>
@@ -39,7 +42,6 @@ export function RequestListItem() {
               <PrintButton></PrintButton>
             </div>
             <div className="flex gap-4">
-              <ProgressStatus type="progress"></ProgressStatus>
               <KebabButton></KebabButton>
             </div>
           </div>
