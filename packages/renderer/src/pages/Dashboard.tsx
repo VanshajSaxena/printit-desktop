@@ -8,6 +8,9 @@ import { MoonIcon } from "@components/icons/MoonIcon";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
 import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
+import { SearchInput } from "./dashboard/SearchInput";
+import { DisplayButton } from "@components/buttons/DisplayButton";
+import { BulkActionButton } from "@components/buttons/BulkActionButton";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -38,6 +41,13 @@ export function Dashboard() {
           <SheetsPrintedCard heroText="24" subText="Today" />
           <SheetsPrintedCard heroText="425" subText="Weekly" />
           <PrinterStatusCard heroText="Working" subText="HP Laserjet" />
+        </div>
+        <div className="flex h-fit w-full justify-between gap-4">
+          <SearchInput />
+          <div className="flex size-fit justify-start gap-4">
+            <DisplayButton />
+            <BulkActionButton />
+          </div>
         </div>
         <RequestListContainer>
           <RequestListItem></RequestListItem>
