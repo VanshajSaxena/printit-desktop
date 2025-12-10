@@ -20,7 +20,7 @@ export function RequestListItem() {
             <ListIconFile size={24}></ListIconFile>
             <div className="flex h-fit flex-col gap-1 pb-0.5">
               <div className="flex size-fit gap-2">
-                <h3 className="text-base leading-6 text-primary-content">
+                <h3 className="text-base leading-6 text-nowrap text-primary-content">
                   Final Year Dissertation
                 </h3>
                 <NewItemBadge />
