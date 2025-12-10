@@ -1,7 +1,7 @@
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { CopiesBadge } from "@components/badges/CopiesBadge";
-import { PagesBadge } from "@components/badges/PagesBadge";
+import { FilesBadge } from "@components/badges/FilesBadge";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import { KebabButton } from "@components/buttons/KebabButton";
@@ -48,11 +48,11 @@ export function RequestListItem() {
           </div>
         </div>
         <div className="flex h-fit w-full gap-4 px-10.5">
-          <SheetsBadge></SheetsBadge>
-          <ColorPalatteBadge></ColorPalatteBadge>
-          <CopiesBadge></CopiesBadge>
-          <BnWBadge></BnWBadge>
-          <PagesBadge></PagesBadge>
+          <SheetsBadge />
+          <FilesBadge />
+          <ColorPalatteBadge />
+          <CopiesBadge />
+          <BnWBadge />
         </div>
       </div>
     </>
