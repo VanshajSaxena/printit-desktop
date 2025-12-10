@@ -9,7 +9,7 @@ import {
   type SideBarItemProps,
 } from "@components/sidebar/SideBarItem";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ViewType } from "./AppLayout";
 
 export function SideBar({
@@ -42,6 +42,19 @@ export function SideBar({
       icon: <SupportHeadphoneIcon className="shrink-0" />,
     },
   ];
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1024px)");
+    const update = () => {
+      setCollapsed(media.matches);
+    };
+    update();
+    media.addEventListener("change", update);
+    return () => {
+      media.removeEventListener("change", update);
+    };
+  }, []);
+
   return (
     <aside
       className={clsx(
