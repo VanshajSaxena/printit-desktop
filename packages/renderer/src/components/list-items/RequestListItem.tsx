@@ -9,6 +9,7 @@ import { RejectButton } from "@components/buttons/RejectButton";
 import { PrintButton } from "@components/buttons/PrintButton";
 import { NewItemBadge } from "./NewItemBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
+import { AlarmIcon } from "@components/icons/AlarmIcon";
 
 export function RequestListItem() {
   return (
@@ -47,12 +48,18 @@ export function RequestListItem() {
             </div>
           </div>
         </div>
-        <div className="flex h-fit w-full gap-4 px-10.5">
-          <SheetsBadge />
-          <FilesBadge />
-          <ColorPalatteBadge />
-          <CopiesBadge />
-          <BnWBadge />
+        <div className="flex justify-between">
+          <div className="flex h-fit w-full gap-4 px-10.5">
+            <SheetsBadge />
+            <FilesBadge />
+            <ColorPalatteBadge />
+            <CopiesBadge />
+            <BnWBadge />
+          </div>
+          <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
+            <AlarmIcon size={18} />
+            <p>Est. 10 mins</p>
+          </div>
         </div>
       </div>
     </>
