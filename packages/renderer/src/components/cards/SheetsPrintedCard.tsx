@@ -13,7 +13,7 @@ export function SheetsPrintedCard({
       title="Sheets Printed"
       heroText={heroText}
       subText={subText}
-      icon={<StackIcon size={20} className="stroke-secondary-content" />}
+      icon={<StackIcon size={20} />}
     ></PulseCard>
   );
 }

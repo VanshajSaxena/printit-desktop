@@ -6,6 +6,7 @@ export function StackIcon({ size = 24, ...props }: IconProps) {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      className="stroke-secondary-content"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

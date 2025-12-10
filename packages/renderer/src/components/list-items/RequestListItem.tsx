@@ -8,6 +8,7 @@ import { KebabButton } from "@components/buttons/KebabButton";
 import { RejectButton } from "@components/buttons/RejectButton";
 import { PrintButton } from "@components/buttons/PrintButton";
 import { NewItemBadge } from "./NewItemBadge";
+import { SheetsBadge } from "@components/badges/SheetsBadge";
 
 export function RequestListItem() {
   return (
@@ -47,6 +48,7 @@ export function RequestListItem() {
           </div>
         </div>
         <div className="flex h-fit w-full gap-4 px-10.5">
+          <SheetsBadge></SheetsBadge>
           <ColorPalatteBadge></ColorPalatteBadge>
           <CopiesBadge></CopiesBadge>
           <BnWBadge></BnWBadge>
