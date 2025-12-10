@@ -9,6 +9,8 @@ import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
 import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
 import { SearchInput } from "./dashboard/SearchInput";
+import { DisplayButton } from "@components/buttons/DisplayButton";
+import { BulkActionButton } from "@components/buttons/BulkActionButton";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -42,6 +44,10 @@ export function Dashboard() {
         </div>
         <div className="flex h-fit w-full justify-between">
           <SearchInput />
+          <div className="flex size-fit justify-start gap-4">
+            <DisplayButton />
+            <BulkActionButton />
+          </div>
         </div>
         <RequestListContainer>
           <RequestListItem></RequestListItem>
