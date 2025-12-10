@@ -1,6 +1,6 @@
 import { Button } from "./Button";
-import { RejectIcon } from "@components/icons/RejectIcon";
 import type { ButtonProps } from "./types";
+import { TrashXIcon } from "@components/icons/TrashXIcon";
 
 export function RejectButton({ ...props }: ButtonProps) {
   return (
@@ -8,8 +8,8 @@ export function RejectButton({ ...props }: ButtonProps) {
       <Button
         size="md"
         onClick={props.onClick}
-        icon={<RejectIcon size={20}></RejectIcon>}
-        className="text-primary-content outline -outline-offset-1 outline-border-default hover:bg-tertiary"
+        icon={<TrashXIcon size={20}></TrashXIcon>}
+        className="text-primary-content hover:bg-error hover:text-error-content"
         {...props}
       >
         Reject

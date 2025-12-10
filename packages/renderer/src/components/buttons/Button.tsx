@@ -1,28 +1,23 @@
+import clsx from "clsx";
 import type { ButtonProps } from "./types";
 
 export function Button({
   size,
   icon,
   children,
-  className = "",
+  className,
   ...props
 }: ButtonProps) {
-  let buttonSize = "";
-  switch (size) {
-    case "md":
-      buttonSize = "px-3 py-[0.4375rem] text-sm leading-5";
-      break;
-    case "lg":
-      buttonSize = "px-3 py-2 text-base leading-6";
-      break;
-    default:
-      break;
-  }
-
   return (
     <button
       type="button"
-      className={`inline-flex h-fit w-fit items-center gap-2 rounded-xl ${buttonSize} ${className}`}
+      className={clsx(
+        "group inline-flex h-fit w-fit items-center gap-2 rounded-xl transition-colors duration-100",
+        size === "md"
+          ? "px-3 py-1.75 text-sm leading-5"
+          : "px-3 py-2 text-base leading-6",
+        className,
+      )}
       {...props}
     >
       {icon}
