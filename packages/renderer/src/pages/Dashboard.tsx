@@ -7,6 +7,7 @@ import { RequestListItem } from "@components/list-items/RequestListItem";
 import { MoonIcon } from "@components/icons/MoonIcon";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
+import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -34,11 +35,9 @@ export function Dashboard() {
       </TopBar>
       <div className="flex h-full flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
         <div className="flex h-fit w-full justify-start gap-5">
-          <SheetsPrintedCard heroText="24" subText="Today"></SheetsPrintedCard>
-          <SheetsPrintedCard
-            heroText="425"
-            subText="Weekly"
-          ></SheetsPrintedCard>
+          <SheetsPrintedCard heroText="24" subText="Today" />
+          <SheetsPrintedCard heroText="425" subText="Weekly" />
+          <PrinterStatusCard heroText="Working" subText="HP Laserjet" />
         </div>
         <RequestListContainer>
           <RequestListItem></RequestListItem>

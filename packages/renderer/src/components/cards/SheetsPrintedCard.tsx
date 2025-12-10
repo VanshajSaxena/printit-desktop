@@ -9,6 +9,7 @@ export function SheetsPrintedCard({
 }) {
   return (
     <PulseCard
+      heroTextStyle="text-2xl leading-8 font-semibold text-primary-content"
       title="Sheets Printed"
       heroText={heroText}
       subText={subText}
