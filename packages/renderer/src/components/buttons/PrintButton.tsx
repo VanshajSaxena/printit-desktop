@@ -8,7 +8,7 @@ export function PrintButton({ ...props }: ButtonProps) {
       <Button
         size="md"
         icon={<PrinterIcon size={20}></PrinterIcon>}
-        className="bg-tertiary text-primary-content hover:bg-success hover:text-success-content"
+        className="bg-tertiary text-primary-content outline-none hover:bg-success hover:text-success-content"
         {...props}
       >
         Print

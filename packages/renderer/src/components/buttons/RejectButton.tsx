@@ -9,7 +9,7 @@ export function RejectButton({ ...props }: ButtonProps) {
         size="md"
         onClick={props.onClick}
         icon={<TrashXIcon size={20}></TrashXIcon>}
-        className="text-primary-content hover:bg-error hover:text-error-content"
+        className="text-primary-content outline-none hover:bg-error hover:text-error-content"
         {...props}
       >
         Reject
