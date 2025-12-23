@@ -4,46 +4,94 @@
  */
 
 export interface paths {
-  '/api/v1/documents': {
+  "/api/job": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrintDocumentController_findAll_v1'];
+    get: operations["JobController_findAll"];
     put?: never;
-    post: operations['PrintDocumentController_create_v1'];
+    post: operations["JobController_create"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/api/v1/documents/{id}': {
+  "/api/job/{id}": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrintDocumentController_findOne_v1'];
+    get: operations["JobController_findOne"];
     put?: never;
     post?: never;
-    delete: operations['PrintDocumentController_remove_v1'];
+    delete: operations["JobController_remove"];
     options?: never;
     head?: never;
-    patch: operations['PrintDocumentController_update_v1'];
+    patch: operations["JobController_update"];
     trace?: never;
   };
-  '/api/v1/ping': {
+  "/api/v1/documents": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['AppController_ping_v1'];
+    get: operations["DocumentController_findAll_v1"];
+    put?: never;
+    post: operations["DocumentController_create_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/documents/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["DocumentController_findOne_v1"];
+    put?: never;
+    post?: never;
+    delete: operations["DocumentController_remove_v1"];
+    options?: never;
+    head?: never;
+    patch: operations["DocumentController_update_v1"];
+    trace?: never;
+  };
+  "/api/v1/files": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["R2Controller_requestDownloadFile_v1"];
+    put?: never;
+    post: operations["R2Controller_requestUploadFiles_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ping": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["AppController_ping_v1"];
     put?: never;
     post?: never;
     delete?: never;
@@ -52,111 +100,136 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printers': {
+  "/api/v1/printers": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrinterController_findAll_v1'];
+    get: operations["PrinterController_findAll_v1"];
     put?: never;
-    post: operations['PrinterController_create_v1'];
+    post: operations["PrinterController_create_v1"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printers/{id}': {
+  "/api/v1/printers/{id}": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrinterController_findOne_v1'];
+    get: operations["PrinterController_findOne_v1"];
     put?: never;
     post?: never;
-    delete: operations['PrinterController_remove_v1'];
+    delete: operations["PrinterController_remove_v1"];
     options?: never;
     head?: never;
-    patch: operations['PrinterController_update_v1'];
+    patch: operations["PrinterController_update_v1"];
     trace?: never;
   };
-  '/api/v1/transactions': {
+  "/api/v1/transactions": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrintTransactionController_findAll_v1'];
+    get: operations["TransactionController_findAll_v1"];
     put?: never;
-    post: operations['PrintTransactionController_create_v1'];
+    post: operations["TransactionController_create_v1"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/api/v1/transactions/{id}': {
+  "/api/v1/transactions/{id}": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['PrintTransactionController_findOne_v1'];
+    get: operations["TransactionController_findOne_v1"];
     put?: never;
     post?: never;
-    delete: operations['PrintTransactionController_remove_v1'];
+    delete: operations["TransactionController_remove_v1"];
     options?: never;
     head?: never;
-    patch: operations['PrintTransactionController_update_v1'];
+    patch: operations["TransactionController_update_v1"];
     trace?: never;
   };
-  '/api/v1/vendors': {
+  "/api/v1/vendors": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['VendorController_findAll_v1'];
+    get: operations["VendorController_findAll_v1"];
     put?: never;
-    post: operations['VendorController_create_v1'];
+    post: operations["VendorController_create_v1"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/api/v1/vendors/{id}': {
+  "/api/v1/vendors/{id}": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['VendorController_findOne_v1'];
+    get?: never;
     put?: never;
     post?: never;
-    delete: operations['VendorController_remove_v1'];
+    delete: operations["VendorController_remove_v1"];
     options?: never;
     head?: never;
-    patch: operations['VendorController_update_v1'];
+    patch: operations["VendorController_update_v1"];
+    trace?: never;
+  };
+  "/api/v1/vendors/{selector}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["VendorController_findOne_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    CreatePrintDocumentDto: {
-      /** Format: json */
-      configuration?: string;
-      name: string;
-      path: string;
+    CreateDocumentDto: {
+      contentType: string;
+      filename: string;
+    };
+    CreateDocumentResponseDto: {
+      contentType: string;
+      filename: string;
+      id: number;
+    };
+    CreateJobDto: {
+      copyCount: number;
+      documentId: number;
+      /** @enum {string} */
+      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
     };
     CreatePrinterDto: {
       /** Format: json */
@@ -164,49 +237,70 @@ export interface components {
       name: string;
       vendorId: number;
     };
-    CreatePrintTransactionDto: {
-      printDocumentIds: number[];
+    CreateTransactionDto: {
+      jobs: components["schemas"]["CreateJobDto"][];
       printerId?: number;
       vendorId: number;
     };
     CreateVendorDto: {
+      address?: string;
       /** Format: email */
       email: string;
-      firstname: string;
-      lastname: string;
-      sub: string;
+      firstName: string;
+      givenName?: string;
+      lastName: string;
+      username: string;
     };
-    PrintDocument: Record<string, never>;
-    PrintDocumentResponseDto: {
-      configuration: string | null;
+    DownloadFileRequestDto: {
+      contentType?: string;
+      key: string;
+    };
+    DownloadFileResponseDto: {
+      url: string;
+    };
+    JobResponseDto: {
       id: number;
-      name: string;
-      path: string;
-      /** @enum {string} */
-      status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
     };
     PrinterResponseDto: {
+      /** Format: json */
       capabilities: string;
       id: number;
       name: string;
     };
-    PrintTransactionResponseDto: {
+    TransactionResponseDto: {
       friendlyId: string;
       id: number;
-      printDocuments: components['schemas']['PrintDocument'][];
       /** @enum {string} */
-      status: 'PENDING' | 'QUEUED' | 'PRINTING' | 'COMPLETED' | 'ERROR';
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
-    UpdatePrintDocumentDto: Record<string, never>;
+    UpdateDocumentDto: Record<string, never>;
+    UpdateJobDto: {
+      copyCount?: number;
+      documentId?: number;
+      /** @enum {string} */
+      outputColor?: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    };
     UpdatePrinterDto: Record<string, never>;
-    UpdatePrintTransactionDto: Record<string, never>;
+    UpdateTransactionDto: Record<string, never>;
     UpdateVendorDto: Record<string, never>;
+    UploadFileBatchRequestDto: {
+      ids: number[];
+    };
+    UploadFileBatchResponseDto: {
+      signedUrls: components["schemas"]["UploadFileResponseDto"][];
+    };
+    UploadFileResponseDto: {
+      id: number;
+      url: string;
+    };
     VendorResponseDto: {
-      firstname: string;
+      address: string;
+      firstName: string;
       givenName: string | null;
       id: number;
-      lastname: string;
-      urlId: string;
+      lastName: string;
+      slug: string;
+      username: string;
     };
   };
   responses: never;
@@ -215,28 +309,38 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type CreatePrintDocumentDto =
-  components['schemas']['CreatePrintDocumentDto'];
-export type CreatePrinterDto = components['schemas']['CreatePrinterDto'];
-export type CreatePrintTransactionDto =
-  components['schemas']['CreatePrintTransactionDto'];
-export type CreateVendorDto = components['schemas']['CreateVendorDto'];
-export type PrintDocument = components['schemas']['PrintDocument'];
-export type PrintDocumentResponseDto =
-  components['schemas']['PrintDocumentResponseDto'];
-export type PrinterResponseDto = components['schemas']['PrinterResponseDto'];
-export type PrintTransactionResponseDto =
-  components['schemas']['PrintTransactionResponseDto'];
-export type UpdatePrintDocumentDto =
-  components['schemas']['UpdatePrintDocumentDto'];
-export type UpdatePrinterDto = components['schemas']['UpdatePrinterDto'];
-export type UpdatePrintTransactionDto =
-  components['schemas']['UpdatePrintTransactionDto'];
-export type UpdateVendorDto = components['schemas']['UpdateVendorDto'];
-export type VendorResponseDto = components['schemas']['VendorResponseDto'];
+export type CreateDocumentDto = components["schemas"]["CreateDocumentDto"];
+export type CreateDocumentResponseDto =
+  components["schemas"]["CreateDocumentResponseDto"];
+export type CreateJobDto = components["schemas"]["CreateJobDto"];
+export type CreatePrinterDto = components["schemas"]["CreatePrinterDto"];
+export type CreateTransactionDto =
+  components["schemas"]["CreateTransactionDto"];
+export type CreateVendorDto = components["schemas"]["CreateVendorDto"];
+export type DownloadFileRequestDto =
+  components["schemas"]["DownloadFileRequestDto"];
+export type DownloadFileResponseDto =
+  components["schemas"]["DownloadFileResponseDto"];
+export type JobResponseDto = components["schemas"]["JobResponseDto"];
+export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
+export type TransactionResponseDto =
+  components["schemas"]["TransactionResponseDto"];
+export type UpdateDocumentDto = components["schemas"]["UpdateDocumentDto"];
+export type UpdateJobDto = components["schemas"]["UpdateJobDto"];
+export type UpdatePrinterDto = components["schemas"]["UpdatePrinterDto"];
+export type UpdateTransactionDto =
+  components["schemas"]["UpdateTransactionDto"];
+export type UpdateVendorDto = components["schemas"]["UpdateVendorDto"];
+export type UploadFileBatchRequestDto =
+  components["schemas"]["UploadFileBatchRequestDto"];
+export type UploadFileBatchResponseDto =
+  components["schemas"]["UploadFileBatchResponseDto"];
+export type UploadFileResponseDto =
+  components["schemas"]["UploadFileResponseDto"];
+export type VendorResponseDto = components["schemas"]["VendorResponseDto"];
 export type $defs = Record<string, never>;
 export interface operations {
-  PrintDocumentController_findAll_v1: {
+  JobController_findAll: {
     parameters: {
       query?: never;
       header?: never;
@@ -245,17 +349,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocumentResponseDto'][];
+          "application/json": components["schemas"]["JobResponseDto"][];
         };
       };
     };
   };
-  PrintDocumentController_create_v1: {
+  JobController_create: {
     parameters: {
       query?: never;
       header?: never;
@@ -264,21 +368,130 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreatePrintDocumentDto'];
+        "application/json": components["schemas"]["CreateJobDto"];
       };
     };
     responses: {
-      default: {
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocumentResponseDto'];
+          "application/json": components["schemas"]["JobResponseDto"];
         };
       };
     };
   };
-  PrintDocumentController_findOne_v1: {
+  JobController_findOne: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["JobResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_remove: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["JobResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateJobDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["JobResponseDto"];
+        };
+      };
+    };
+  };
+  DocumentController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateDocumentResponseDto"][];
+        };
+      };
+    };
+  };
+  DocumentController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateDocumentDto"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateDocumentResponseDto"];
+        };
+      };
+    };
+  };
+  DocumentController_findOne_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -289,17 +502,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocumentResponseDto'];
+          "application/json": components["schemas"]["CreateDocumentResponseDto"];
         };
       };
     };
   };
-  PrintDocumentController_remove_v1: {
+  DocumentController_remove_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -310,17 +523,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocumentResponseDto'];
+          "application/json": components["schemas"]["CreateDocumentResponseDto"];
         };
       };
     };
   };
-  PrintDocumentController_update_v1: {
+  DocumentController_update_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -331,16 +544,62 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdatePrintDocumentDto'];
+        "application/json": components["schemas"]["UpdateDocumentDto"];
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintDocumentResponseDto'];
+          "application/json": components["schemas"]["CreateDocumentResponseDto"];
+        };
+      };
+    };
+  };
+  R2Controller_requestDownloadFile_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DownloadFileRequestDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DownloadFileResponseDto"];
+        };
+      };
+    };
+  };
+  R2Controller_requestUploadFiles_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UploadFileBatchRequestDto"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["UploadFileBatchResponseDto"];
         };
       };
     };
@@ -354,12 +613,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': string;
+          "application/json": string;
         };
       };
     };
@@ -373,12 +632,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrinterResponseDto'][];
+          "application/json": components["schemas"]["PrinterResponseDto"][];
         };
       };
     };
@@ -392,16 +651,16 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreatePrinterDto'];
+        "application/json": components["schemas"]["CreatePrinterDto"];
       };
     };
     responses: {
-      default: {
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrinterResponseDto'];
+          "application/json": components["schemas"]["PrinterResponseDto"];
         };
       };
     };
@@ -417,12 +676,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrinterResponseDto'];
+          "application/json": components["schemas"]["PrinterResponseDto"];
         };
       };
     };
@@ -438,12 +697,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrinterResponseDto'];
+          "application/json": components["schemas"]["PrinterResponseDto"];
         };
       };
     };
@@ -459,21 +718,21 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdatePrinterDto'];
+        "application/json": components["schemas"]["UpdatePrinterDto"];
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrinterResponseDto'];
+          "application/json": components["schemas"]["PrinterResponseDto"];
         };
       };
     };
   };
-  PrintTransactionController_findAll_v1: {
+  TransactionController_findAll_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -482,17 +741,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransactionResponseDto'][];
+          "application/json": components["schemas"]["TransactionResponseDto"][];
         };
       };
     };
   };
-  PrintTransactionController_create_v1: {
+  TransactionController_create_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -501,21 +760,21 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreatePrintTransactionDto'];
+        "application/json": components["schemas"]["CreateTransactionDto"];
       };
     };
     responses: {
-      default: {
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransactionResponseDto'];
+          "application/json": components["schemas"]["TransactionResponseDto"];
         };
       };
     };
   };
-  PrintTransactionController_findOne_v1: {
+  TransactionController_findOne_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -526,17 +785,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransactionResponseDto'];
+          "application/json": components["schemas"]["TransactionResponseDto"];
         };
       };
     };
   };
-  PrintTransactionController_remove_v1: {
+  TransactionController_remove_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -547,17 +806,17 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransactionResponseDto'];
+          "application/json": components["schemas"]["TransactionResponseDto"];
         };
       };
     };
   };
-  PrintTransactionController_update_v1: {
+  TransactionController_update_v1: {
     parameters: {
       query?: never;
       header?: never;
@@ -568,16 +827,16 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdatePrintTransactionDto'];
+        "application/json": components["schemas"]["UpdateTransactionDto"];
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PrintTransactionResponseDto'];
+          "application/json": components["schemas"]["TransactionResponseDto"];
         };
       };
     };
@@ -591,12 +850,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['VendorResponseDto'][];
+          "application/json": components["schemas"]["VendorResponseDto"][];
         };
       };
     };
@@ -610,37 +869,16 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateVendorDto'];
+        "application/json": components["schemas"]["CreateVendorDto"];
       };
     };
     responses: {
-      default: {
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['VendorResponseDto'];
-        };
-      };
-    };
-  };
-  VendorController_findOne_v1: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['VendorResponseDto'];
+          "application/json": components["schemas"]["VendorResponseDto"];
         };
       };
     };
@@ -656,12 +894,12 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['VendorResponseDto'];
+          "application/json": components["schemas"]["VendorResponseDto"];
         };
       };
     };
@@ -677,16 +915,38 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateVendorDto'];
+        "application/json": components["schemas"]["UpdateVendorDto"];
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['VendorResponseDto'];
+          "application/json": components["schemas"]["VendorResponseDto"];
+        };
+      };
+    };
+  };
+  VendorController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The unique identifier */
+        selector: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VendorResponseDto"];
         };
       };
     };
