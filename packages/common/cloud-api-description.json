@@ -6,7 +6,7 @@
         "operationId": "AppController_ping_v1",
         "parameters": [],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": { "schema": { "type": "string" } }
@@ -29,7 +29,7 @@
           }
         },
         "responses": {
-          "default": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
@@ -44,7 +44,7 @@
         "operationId": "VendorController_findAll_v1",
         "parameters": [],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -59,19 +59,30 @@
         "tags": ["Vendor"]
       }
     },
-    "/api/v1/vendors/{id}": {
+    "/api/v1/vendors/{selector}": {
       "get": {
         "operationId": "VendorController_findOne_v1",
         "parameters": [
           {
-            "name": "id",
+            "name": "selector",
             "required": true,
             "in": "path",
-            "schema": { "type": "number" }
+            "description": "The unique identifier",
+            "examples": {
+              "id": { "summary": "Internal ID", "value": 999 },
+              "slug": { "summary": "Slug", "value": "xi28b2sg8d" },
+              "username": { "summary": "Username", "value": "@username" }
+            },
+            "schema": {
+              "oneOf": [
+                { "type": "string", "description": "Slug or Username" },
+                { "type": "integer", "description": "Internal Database ID" }
+              ]
+            }
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -81,7 +92,9 @@
           }
         },
         "tags": ["Vendor"]
-      },
+      }
+    },
+    "/api/v1/vendors/{id}": {
       "patch": {
         "operationId": "VendorController_update_v1",
         "parameters": [
@@ -101,7 +114,7 @@
           }
         },
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -123,7 +136,7 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -148,7 +161,7 @@
           }
         },
         "responses": {
-          "default": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
@@ -163,7 +176,7 @@
         "operationId": "PrinterController_findAll_v1",
         "parameters": [],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -190,7 +203,7 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -220,7 +233,7 @@
           }
         },
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -242,7 +255,7 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -256,56 +269,54 @@
     },
     "/api/v1/transactions": {
       "post": {
-        "operationId": "PrintTransactionController_create_v1",
+        "operationId": "TransactionController_create_v1",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePrintTransactionDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateTransactionDto" }
             }
           }
         },
         "responses": {
-          "default": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintTransactionResponseDto"
+                  "$ref": "#/components/schemas/TransactionResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintTransaction"]
+        "tags": ["Transaction"]
       },
       "get": {
-        "operationId": "PrintTransactionController_findAll_v1",
+        "operationId": "TransactionController_findAll_v1",
         "parameters": [],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PrintTransactionResponseDto"
+                    "$ref": "#/components/schemas/TransactionResponseDto"
                   }
                 }
               }
             }
           }
         },
-        "tags": ["PrintTransaction"]
+        "tags": ["Transaction"]
       }
     },
     "/api/v1/transactions/{id}": {
       "get": {
-        "operationId": "PrintTransactionController_findOne_v1",
+        "operationId": "TransactionController_findOne_v1",
         "parameters": [
           {
             "name": "id",
@@ -315,21 +326,21 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintTransactionResponseDto"
+                  "$ref": "#/components/schemas/TransactionResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintTransaction"]
+        "tags": ["Transaction"]
       },
       "patch": {
-        "operationId": "PrintTransactionController_update_v1",
+        "operationId": "TransactionController_update_v1",
         "parameters": [
           {
             "name": "id",
@@ -342,28 +353,26 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePrintTransactionDto"
-              }
+              "schema": { "$ref": "#/components/schemas/UpdateTransactionDto" }
             }
           }
         },
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintTransactionResponseDto"
+                  "$ref": "#/components/schemas/TransactionResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintTransaction"]
+        "tags": ["Transaction"]
       },
       "delete": {
-        "operationId": "PrintTransactionController_remove_v1",
+        "operationId": "TransactionController_remove_v1",
         "parameters": [
           {
             "name": "id",
@@ -373,72 +382,70 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintTransactionResponseDto"
+                  "$ref": "#/components/schemas/TransactionResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintTransaction"]
+        "tags": ["Transaction"]
       }
     },
     "/api/v1/documents": {
       "post": {
-        "operationId": "PrintDocumentController_create_v1",
+        "operationId": "DocumentController_create_v1",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePrintDocumentDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateDocumentDto" }
             }
           }
         },
         "responses": {
-          "default": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintDocumentResponseDto"
+                  "$ref": "#/components/schemas/CreateDocumentResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintDocument"]
+        "tags": ["Document"]
       },
       "get": {
-        "operationId": "PrintDocumentController_findAll_v1",
+        "operationId": "DocumentController_findAll_v1",
         "parameters": [],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PrintDocumentResponseDto"
+                    "$ref": "#/components/schemas/CreateDocumentResponseDto"
                   }
                 }
               }
             }
           }
         },
-        "tags": ["PrintDocument"]
+        "tags": ["Document"]
       }
     },
     "/api/v1/documents/{id}": {
       "get": {
-        "operationId": "PrintDocumentController_findOne_v1",
+        "operationId": "DocumentController_findOne_v1",
         "parameters": [
           {
             "name": "id",
@@ -448,21 +455,21 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintDocumentResponseDto"
+                  "$ref": "#/components/schemas/CreateDocumentResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintDocument"]
+        "tags": ["Document"]
       },
       "patch": {
-        "operationId": "PrintDocumentController_update_v1",
+        "operationId": "DocumentController_update_v1",
         "parameters": [
           {
             "name": "id",
@@ -475,28 +482,26 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePrintDocumentDto"
-              }
+              "schema": { "$ref": "#/components/schemas/UpdateDocumentDto" }
             }
           }
         },
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintDocumentResponseDto"
+                  "$ref": "#/components/schemas/CreateDocumentResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintDocument"]
+        "tags": ["Document"]
       },
       "delete": {
-        "operationId": "PrintDocumentController_remove_v1",
+        "operationId": "DocumentController_remove_v1",
         "parameters": [
           {
             "name": "id",
@@ -506,25 +511,200 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintDocumentResponseDto"
+                  "$ref": "#/components/schemas/CreateDocumentResponseDto"
                 }
               }
             }
           }
         },
-        "tags": ["PrintDocument"]
+        "tags": ["Document"]
+      }
+    },
+    "/api/job": {
+      "post": {
+        "operationId": "JobController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateJobDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Job"]
+      },
+      "get": {
+        "operationId": "JobController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/JobResponseDto" }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Job"]
+      }
+    },
+    "/api/job/{id}": {
+      "get": {
+        "operationId": "JobController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Job"]
+      },
+      "patch": {
+        "operationId": "JobController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateJobDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Job"]
+      },
+      "delete": {
+        "operationId": "JobController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Job"]
+      }
+    },
+    "/api/v1/files": {
+      "post": {
+        "operationId": "R2Controller_requestUploadFiles_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadFileBatchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadFileBatchResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["R2"]
+      },
+      "get": {
+        "operationId": "R2Controller_requestDownloadFile_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadFileRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadFileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["R2"]
       }
     }
   },
   "info": {
     "title": "Printly",
     "description": "Printly Cloud API.",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "contact": {}
   },
   "tags": [],
@@ -534,23 +714,40 @@
       "CreateVendorDto": {
         "type": "object",
         "properties": {
-          "firstname": { "type": "string" },
-          "lastname": { "type": "string" },
-          "email": { "type": "string", "format": "email" },
-          "sub": { "type": "string" }
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 20,
+            "pattern": "/^[a-zA-Z0-9_]+$/"
+          },
+          "givenName": { "type": "string" },
+          "address": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
         },
-        "required": ["firstname", "lastname", "email", "sub"]
+        "required": ["firstName", "lastName", "username", "email"]
       },
       "VendorResponseDto": {
         "type": "object",
         "properties": {
           "id": { "type": "number" },
-          "firstname": { "type": "string" },
-          "lastname": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
           "givenName": { "type": "string", "nullable": true },
-          "urlId": { "type": "string" }
+          "username": { "type": "string" },
+          "address": { "type": "string" },
+          "slug": { "type": "string" }
         },
-        "required": ["id", "firstname", "lastname", "givenName", "urlId"]
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "givenName",
+          "username",
+          "address",
+          "slug"
+        ]
       },
       "UpdateVendorDto": { "type": "object", "properties": {} },
       "CreatePrinterDto": {
@@ -567,62 +764,120 @@
         "properties": {
           "id": { "type": "number" },
           "name": { "type": "string" },
-          "capabilities": { "type": "string" }
+          "capabilities": { "type": "string", "format": "json" }
         },
         "required": ["id", "name", "capabilities"]
       },
       "UpdatePrinterDto": { "type": "object", "properties": {} },
-      "CreatePrintTransactionDto": {
+      "CreateJobDto": {
+        "type": "object",
+        "properties": {
+          "documentId": { "type": "number" },
+          "outputColor": {
+            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"],
+            "type": "string"
+          },
+          "copyCount": { "type": "number" }
+        },
+        "required": ["documentId", "outputColor", "copyCount"]
+      },
+      "CreateTransactionDto": {
         "type": "object",
         "properties": {
           "vendorId": { "type": "number" },
           "printerId": { "type": "number" },
-          "printDocumentIds": { "type": "array", "items": { "type": "number" } }
-        },
-        "required": ["vendorId", "printDocumentIds"]
-      },
-      "PrintDocument": { "type": "object", "properties": {} },
-      "PrintTransactionResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "number" },
-          "status": {
-            "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"],
-            "type": "string"
-          },
-          "friendlyId": { "type": "string" },
-          "printDocuments": {
+          "jobs": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/PrintDocument" }
+            "items": { "$ref": "#/components/schemas/CreateJobDto" }
           }
         },
-        "required": ["id", "status", "friendlyId", "printDocuments"]
+        "required": ["vendorId", "jobs"]
       },
-      "UpdatePrintTransactionDto": { "type": "object", "properties": {} },
-      "CreatePrintDocumentDto": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string" },
-          "path": { "type": "string" },
-          "configuration": { "type": "string", "format": "json" }
-        },
-        "required": ["name", "path"]
-      },
-      "PrintDocumentResponseDto": {
+      "TransactionResponseDto": {
         "type": "object",
         "properties": {
           "id": { "type": "number" },
-          "name": { "type": "string" },
-          "path": { "type": "string" },
           "status": {
             "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"],
             "type": "string"
           },
-          "configuration": { "type": "string", "nullable": true }
+          "friendlyId": { "type": "string" }
         },
-        "required": ["id", "name", "path", "status", "configuration"]
+        "required": ["id", "status", "friendlyId"]
       },
-      "UpdatePrintDocumentDto": { "type": "object", "properties": {} }
+      "UpdateTransactionDto": { "type": "object", "properties": {} },
+      "CreateDocumentDto": {
+        "type": "object",
+        "properties": {
+          "filename": { "type": "string" },
+          "contentType": { "type": "string" }
+        },
+        "required": ["filename", "contentType"]
+      },
+      "CreateDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "filename": { "type": "string" },
+          "contentType": { "type": "string" }
+        },
+        "required": ["id", "filename", "contentType"]
+      },
+      "UpdateDocumentDto": { "type": "object", "properties": {} },
+      "JobResponseDto": {
+        "type": "object",
+        "properties": { "id": { "type": "number" } },
+        "required": ["id"]
+      },
+      "UpdateJobDto": {
+        "type": "object",
+        "properties": {
+          "documentId": { "type": "number" },
+          "outputColor": {
+            "type": "string",
+            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"]
+          },
+          "copyCount": { "type": "number" }
+        }
+      },
+      "UploadFileBatchRequestDto": {
+        "type": "object",
+        "properties": {
+          "ids": { "type": "array", "items": { "type": "number" } }
+        },
+        "required": ["ids"]
+      },
+      "UploadFileResponseDto": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "id": { "type": "number" }
+        },
+        "required": ["url", "id"]
+      },
+      "UploadFileBatchResponseDto": {
+        "type": "object",
+        "properties": {
+          "signedUrls": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/UploadFileResponseDto" }
+          }
+        },
+        "required": ["signedUrls"]
+      },
+      "DownloadFileRequestDto": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "contentType": { "type": "string" }
+        },
+        "required": ["key"]
+      },
+      "DownloadFileResponseDto": {
+        "type": "object",
+        "properties": { "url": { "type": "string" } },
+        "required": ["url"]
+      }
     }
   }
 }
