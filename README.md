@@ -125,11 +125,11 @@ This template uses ES Modules to simplify communication. You can export a functi
 
 ```ts
 // packages/preload/src/index.ts
-import { readFile } from 'node:fs/promises';
+import { readFile } from "node:fs/promises";
 
 // This function will be securely exposed to the renderer.
 export function getUserData(): Promise<{ prop: string }> {
-  return readFile('/path/to/user/file.json', { encoding: 'utf8' }).then(JSON.parse);
+  return readFile("/path/to/user/file.json", { encoding: "utf8" }).then(JSON.parse);
 }
 ```
 
@@ -137,7 +137,7 @@ Now you can import and call the method directly in your renderer code.
 
 ```ts
 // packages/renderer/src/any-component.ts
-import { getUserData } from '@app/preload';
+import { getUserData } from "@app/preload";
 
 const userData = await getUserData();
 ```

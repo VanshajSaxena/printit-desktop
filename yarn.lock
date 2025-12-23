@@ -18,10 +18,10 @@ __metadata:
   dependencies:
     openapi-fetch: "npm:^0.15.0"
     openapi-typescript: "npm:^7.10.1"
+    socket.io-client: "npm:^4.7.2"
     typescript: "npm:^5.9.3"
     vite: "npm:7.2.7"
     vite-plugin-dts: "npm:^4.5.4"
-    vite-tsconfig-paths: "npm:^5.1.4"
   languageName: unknown
   linkType: soft
 
@@ -78,8 +78,6 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.24"
     eslint-plugin-react-x: "npm:^2.3.12"
     globals: "npm:^16.5.0"
-    prettier: "npm:3.7.4"
-    prettier-plugin-tailwindcss: "npm:^0.7.2"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     tailwindcss: "npm:^4.1.17"
@@ -2860,7 +2858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.4.0":
+"debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.4.0, debug@npm:~4.4.1":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -4012,13 +4010,6 @@ __metadata:
     define-properties: "npm:^1.2.1"
     gopd: "npm:^1.0.1"
   checksum: 10c0/9d156f313af79d80b1566b93e19285f481c591ad6d0d319b4be5e03750d004dde40a39a0f26f7e635f9007a3600802f53ecd85a759b86f109e80a5f705e01846
-  languageName: node
-  linkType: hard
-
-"globrex@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "globrex@npm:0.1.2"
-  checksum: 10c0/a54c029520cf58bda1d8884f72bd49b4cd74e977883268d931fd83bcbd1a9eb96d57c7dbd4ad80148fb9247467ebfb9b215630b2ed7563b2a8de02e1ff7f89d1
   languageName: node
   linkType: hard
 
@@ -5617,6 +5608,8 @@ __metadata:
     eslint-plugin-react-x: "npm:^2.3.12"
     glob: "npm:11.1.0"
     playwright: "npm:^1.57.0"
+    prettier: "npm:3.7.4"
+    prettier-plugin-tailwindcss: "npm:^0.7.2"
     socket.io-client: "npm:^4.8.1"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -6124,6 +6117,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"socket.io-client@npm:^4.7.2":
+  version: 4.8.2
+  resolution: "socket.io-client@npm:4.8.2"
+  dependencies:
+    "@socket.io/component-emitter": "npm:~3.1.0"
+    debug: "npm:~4.4.1"
+    engine.io-client: "npm:~6.6.1"
+    socket.io-parser: "npm:~4.2.4"
+  checksum: 10c0/3f07b3b6b1632452adbb132a1a55dfdec2df1670e36cddedcf2433d8186f9eb8bef9f6088e8f019e4351f02c5e3da7340bc5820745ec6c600ea5ca2910802ee5
+  languageName: node
+  linkType: hard
+
 "socket.io-client@npm:^4.8.1":
   version: 4.8.1
   resolution: "socket.io-client@npm:4.8.1"
@@ -6479,20 +6484,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfck@npm:^3.0.3":
-  version: 3.1.6
-  resolution: "tsconfck@npm:3.1.6"
-  peerDependencies:
-    typescript: ^5.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  bin:
-    tsconfck: bin/tsconfck.js
-  checksum: 10c0/269c3c513540be44844117bb9b9258fe6f8aeab026d32aeebf458d5299125f330711429dbb556dbf125a0bc25f4a81e6c24ac96de2740badd295c3fb400f66c4
-  languageName: node
-  linkType: hard
-
 "tslib@npm:^2.4.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
@@ -6724,22 +6715,6 @@ __metadata:
     vite:
       optional: true
   checksum: 10c0/5fcb7f3739d115f36195a692c0e9f9fca4e504bbbbabe29e71ee06630dd05ea2920169371e80e548eb4779d2eca14107277497838d7df588d53e1fadf84be861
-  languageName: node
-  linkType: hard
-
-"vite-tsconfig-paths@npm:^5.1.4":
-  version: 5.1.4
-  resolution: "vite-tsconfig-paths@npm:5.1.4"
-  dependencies:
-    debug: "npm:^4.1.1"
-    globrex: "npm:^0.1.2"
-    tsconfck: "npm:^3.0.3"
-  peerDependencies:
-    vite: "*"
-  peerDependenciesMeta:
-    vite:
-      optional: true
-  checksum: 10c0/6228f23155ea25d92b1e1702284cf8dc52ad3c683c5ca691edd5a4c82d2913e7326d00708cef1cbfde9bb226261df0e0a12e03ef1d43b6a92d8f02b483ef37e3
   languageName: node
   linkType: hard
 

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { ChildProcess, spawn } from 'child_process';
-import { AppModule } from 'src/AppModule.js';
-import { ModuleContext } from 'src/ModuleContext.js';
-import { fileURLToPath } from 'url';
-import log from 'electron-log';
-import fs from 'fs';
-import path from 'path';
+import { ChildProcess, spawn } from "child_process";
+import { AppModule } from "src/AppModule.js";
+import { ModuleContext } from "src/ModuleContext.js";
+import { fileURLToPath } from "url";
+import log from "electron-log";
+import fs from "fs";
+import path from "path";
 
 interface PrintServiceConfig {
   bin?: string;
@@ -22,30 +22,30 @@ class PrintServiceModule implements AppModule {
     this.#config = {
       startupTimeout: 5000,
       required: false,
-      bin: 'PrintService.exe',
+      bin: "PrintService.exe",
       ...config,
     };
   }
 
   async enable({ app }: ModuleContext): Promise<void> {
-    log.info('PrintServiceModule: Starting...');
+    log.info("PrintServiceModule: Starting...");
     try {
       await this.startService();
-      log.info('PrintServiceModule: Started successfully');
+      log.info("PrintServiceModule: Started successfully");
     } catch (error) {
-      log.error('PrintServiceModule: Failed to start', error);
+      log.error("PrintServiceModule: Failed to start", error);
       if (this.#config.required) {
         throw error;
       } else {
         log.warn(
-          'PrintServiceModule: Continuing without PrintService (non-required)',
+          "PrintServiceModule: Continuing without PrintService (non-required)",
         );
       }
     }
-    app.on('will-quit', () => {
+    app.on("will-quit", () => {
       this.cleanup();
     });
-    app.on('before-quit', () => {
+    app.on("before-quit", () => {
       this.cleanup();
     });
   }
@@ -53,7 +53,7 @@ class PrintServiceModule implements AppModule {
   private async startService(): Promise<void> {
     return new Promise((resolve, reject) => {
       const servicePath = this.getServicePath();
-      log.info('PrintServiceModule: Executable path:', servicePath);
+      log.info("PrintServiceModule: Executable path:", servicePath);
       if (!fs.existsSync(servicePath)) {
         const error = new Error(
           `${this.#config.bin} not found at ${servicePath}`,
@@ -64,11 +64,11 @@ class PrintServiceModule implements AppModule {
 
       try {
         this.#process = spawn(servicePath);
-        this.#process.on('error', (error) => {
-          log.error('PrintServiceModule: Process error: ', error);
+        this.#process.on("error", (error) => {
+          log.error("PrintServiceModule: Process error: ", error);
           reject(error);
         });
-        this.#process.on('spawn', () => {
+        this.#process.on("spawn", () => {
           log.info(
             `PrintServiceModule: Process Spawned PID: `,
             this.#process?.pid,
@@ -76,7 +76,7 @@ class PrintServiceModule implements AppModule {
           resolve();
         });
 
-        this.#process.on('exit', (code, signal) => {
+        this.#process.on("exit", (code, signal) => {
           if (code !== null && code !== 0) {
             log.warn(
               `PrintServiceModule: Process exited with code: ${code.toString()}`,
@@ -86,7 +86,7 @@ class PrintServiceModule implements AppModule {
               `PrintServiceModule: Process exited with signal: ${signal}`,
             );
           } else {
-            log.info('PrintServiceModule: Process exited gracefully.');
+            log.info("PrintServiceModule: Process exited gracefully.");
           }
           this.#process = null;
         });
@@ -100,7 +100,7 @@ class PrintServiceModule implements AppModule {
           }
         }, this.#config.startupTimeout);
       } catch (error) {
-        log.error('PrintServiceModule: Exception during spawn:', error);
+        log.error("PrintServiceModule: Exception during spawn:", error);
         if (error instanceof Error) {
           reject(error);
         } else {
@@ -134,13 +134,13 @@ class PrintServiceModule implements AppModule {
 
   private cleanup(): void {
     if (this.#process && !this.#process.killed) {
-      log.info('PrintServiceModule: Terminating process...');
-      this.#process.kill('SIGTERM');
+      log.info("PrintServiceModule: Terminating process...");
+      this.#process.kill("SIGTERM");
 
       setTimeout(() => {
         if (this.#process && !this.#process.killed) {
-          log.warn('PrintServiceModule: Force killing process');
-          this.#process.kill('SIGKILL');
+          log.warn("PrintServiceModule: Force killing process");
+          this.#process.kill("SIGKILL");
         }
       }, 2000);
     }

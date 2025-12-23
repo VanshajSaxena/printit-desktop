@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  '/api/v1/ping': {
+  "/api/v1/ping": {
     parameters: {
       query?: never;
       header?: never;
@@ -26,9 +26,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': string;
-            'text/json': string;
-            'text/plain': string;
+            "application/json": string;
+            "text/json": string;
+            "text/plain": string;
           };
         };
       };
@@ -41,7 +41,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printqueues': {
+  "/api/v1/printqueues": {
     parameters: {
       query?: never;
       header?: never;
@@ -63,9 +63,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': string[];
-            'text/json': string[];
-            'text/plain': string[];
+            "application/json": string[];
+            "text/json": string[];
+            "text/plain": string[];
           };
         };
       };
@@ -78,7 +78,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printqueues/{queueName}': {
+  "/api/v1/printqueues/{queueName}": {
     parameters: {
       query?: never;
       header?: never;
@@ -102,9 +102,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['PrintQueueDto'];
-            'text/json': components['schemas']['PrintQueueDto'];
-            'text/plain': components['schemas']['PrintQueueDto'];
+            "application/json": components["schemas"]["PrintQueueDto"];
+            "text/json": components["schemas"]["PrintQueueDto"];
+            "text/plain": components["schemas"]["PrintQueueDto"];
           };
         };
       };
@@ -117,7 +117,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printqueues/{queueName}/capabilities': {
+  "/api/v1/printqueues/{queueName}/capabilities": {
     parameters: {
       query?: never;
       header?: never;
@@ -141,9 +141,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['PrintCapabilitiesDto'];
-            'text/json': components['schemas']['PrintCapabilitiesDto'];
-            'text/plain': components['schemas']['PrintCapabilitiesDto'];
+            "application/json": components["schemas"]["PrintCapabilitiesDto"];
+            "text/json": components["schemas"]["PrintCapabilitiesDto"];
+            "text/plain": components["schemas"]["PrintCapabilitiesDto"];
           };
         };
       };
@@ -156,7 +156,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printqueues/{queueName}/jobs': {
+  "/api/v1/printqueues/{queueName}/jobs": {
     parameters: {
       query?: never;
       header?: never;
@@ -180,9 +180,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['PrintJobInfoDto'][];
-            'text/json': components['schemas']['PrintJobInfoDto'][];
-            'text/plain': components['schemas']['PrintJobInfoDto'][];
+            "application/json": components["schemas"]["PrintJobInfoDto"][];
+            "text/json": components["schemas"]["PrintJobInfoDto"][];
+            "text/plain": components["schemas"]["PrintJobInfoDto"][];
           };
         };
       };
@@ -199,9 +199,9 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          'application/*+json': components['schemas']['PrintJobDto'];
-          'application/json': components['schemas']['PrintJobDto'];
-          'text/json': components['schemas']['PrintJobDto'];
+          "application/*+json": components["schemas"]["PrintJobDto"];
+          "application/json": components["schemas"]["PrintJobDto"];
+          "text/json": components["schemas"]["PrintJobDto"];
         };
       };
       responses: {
@@ -211,9 +211,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['PrintJobInfoDto'];
-            'text/json': components['schemas']['PrintJobInfoDto'];
-            'text/plain': components['schemas']['PrintJobInfoDto'];
+            "application/json": components["schemas"]["PrintJobInfoDto"];
+            "text/json": components["schemas"]["PrintJobInfoDto"];
+            "text/plain": components["schemas"]["PrintJobInfoDto"];
           };
         };
       };
@@ -224,7 +224,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/printqueues/{queueName}/jobs/{jobId}': {
+  "/api/v1/printqueues/{queueName}/jobs/{jobId}": {
     parameters: {
       query?: never;
       header?: never;
@@ -249,9 +249,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['PrintJobInfoDto'];
-            'text/json': components['schemas']['PrintJobInfoDto'];
-            'text/plain': components['schemas']['PrintJobInfoDto'];
+            "application/json": components["schemas"]["PrintJobInfoDto"];
+            "text/json": components["schemas"]["PrintJobInfoDto"];
+            "text/plain": components["schemas"]["PrintJobInfoDto"];
           };
         };
       };
@@ -269,37 +269,37 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /** @enum {string} */
-    CollationDto: 'Collated' | 'Uncollated' | 'Unknown';
+    CollationDto: "Collated" | "Uncollated" | "Unknown";
     /** @enum {string} */
-    DeviceFontSubstitutionDto: 'On' | 'Off' | 'Unknown';
+    DeviceFontSubstitutionDto: "On" | "Off" | "Unknown";
     /** @enum {string} */
     DuplexingDto:
-      | 'OneSided'
-      | 'TwoSidedLongEdge'
-      | 'TwoSidedShortEdge'
-      | 'Unknown';
+      | "OneSided"
+      | "TwoSidedLongEdge"
+      | "TwoSidedShortEdge"
+      | "Unknown";
     /** @enum {string} */
     InputBinDto:
-      | 'AutoSelect'
-      | 'AutoSheetFeeder'
-      | 'Cassette'
-      | 'Manual'
-      | 'Tractor'
-      | 'Unknown';
+      | "AutoSelect"
+      | "AutoSheetFeeder"
+      | "Cassette"
+      | "Manual"
+      | "Tractor"
+      | "Unknown";
     /** @enum {string} */
-    OutputColorDto: 'Color' | 'Grayscale' | 'Monochrome' | 'Unknown';
+    OutputColorDto: "Color" | "Grayscale" | "Monochrome" | "Unknown";
     /** @enum {string} */
     OutputQualityDto:
-      | 'Automatic'
-      | 'Draft'
-      | 'Fax'
-      | 'High'
-      | 'Normal'
-      | 'Photographic'
-      | 'Text'
-      | 'Unknown';
+      | "Automatic"
+      | "Draft"
+      | "Fax"
+      | "High"
+      | "Normal"
+      | "Photographic"
+      | "Text"
+      | "Unknown";
     /** @enum {string} */
-    PageBorderlessDto: 'None' | 'Borderless' | 'Unknown';
+    PageBorderlessDto: "None" | "Borderless" | "Unknown";
     PageImageableAreaDto: {
       /** Format: double */
       extentHeight?: number | null;
@@ -317,240 +317,240 @@ export interface components {
     };
     /** @enum {string} */
     PageMediaSizeNameDto:
-      | 'ISOA0'
-      | 'ISOA1'
-      | 'ISOA10'
-      | 'ISOA2'
-      | 'ISOA3'
-      | 'ISOA3Rotated'
-      | 'ISOA3Extra'
-      | 'ISOA4'
-      | 'ISOA4Rotated'
-      | 'ISOA4Extra'
-      | 'ISOA5'
-      | 'ISOA5Rotated'
-      | 'ISOA5Extra'
-      | 'ISOA6'
-      | 'ISOA6Rotated'
-      | 'ISOA7'
-      | 'ISOA8'
-      | 'ISOA9'
-      | 'ISOB0'
-      | 'ISOB1'
-      | 'ISOB10'
-      | 'ISOB2'
-      | 'ISOB3'
-      | 'ISOB4'
-      | 'ISOB4Envelope'
-      | 'ISOB5Envelope'
-      | 'ISOB5Extra'
-      | 'ISOB7'
-      | 'ISOB8'
-      | 'ISOB9'
-      | 'ISOC0'
-      | 'ISOC1'
-      | 'ISOC10'
-      | 'ISOC2'
-      | 'ISOC3'
-      | 'ISOC3Envelope'
-      | 'ISOC4'
-      | 'ISOC4Envelope'
-      | 'ISOC5'
-      | 'ISOC5Envelope'
-      | 'ISOC6'
-      | 'ISOC6Envelope'
-      | 'ISOC6C5Envelope'
-      | 'ISOC7'
-      | 'ISOC8'
-      | 'ISOC9'
-      | 'ISODLEnvelope'
-      | 'ISODLEnvelopeRotated'
-      | 'ISOSRA3'
-      | 'JapanQuadrupleHagakiPostcard'
-      | 'JISB0'
-      | 'JISB1'
-      | 'JISB10'
-      | 'JISB2'
-      | 'JISB3'
-      | 'JISB4'
-      | 'JISB4Rotated'
-      | 'JISB5'
-      | 'JISB5Rotated'
-      | 'JISB6'
-      | 'JISB6Rotated'
-      | 'JISB7'
-      | 'JISB8'
-      | 'JISB9'
-      | 'JapanChou3Envelope'
-      | 'JapanChou3EnvelopeRotated'
-      | 'JapanChou4Envelope'
-      | 'JapanChou4EnvelopeRotated'
-      | 'JapanHagakiPostcard'
-      | 'JapanHagakiPostcardRotated'
-      | 'JapanKaku2Envelope'
-      | 'JapanKaku2EnvelopeRotated'
-      | 'JapanKaku3Envelope'
-      | 'JapanKaku3EnvelopeRotated'
-      | 'JapanYou4Envelope'
-      | 'NorthAmerica10x11'
-      | 'NorthAmerica10x14'
-      | 'NorthAmerica11x17'
-      | 'NorthAmerica9x11'
-      | 'NorthAmericaArchitectureASheet'
-      | 'NorthAmericaArchitectureBSheet'
-      | 'NorthAmericaArchitectureCSheet'
-      | 'NorthAmericaArchitectureDSheet'
-      | 'NorthAmericaArchitectureESheet'
-      | 'NorthAmericaCSheet'
-      | 'NorthAmericaDSheet'
-      | 'NorthAmericaESheet'
-      | 'NorthAmericaExecutive'
-      | 'NorthAmericaGermanLegalFanfold'
-      | 'NorthAmericaGermanStandardFanfold'
-      | 'NorthAmericaLegal'
-      | 'NorthAmericaLegalExtra'
-      | 'NorthAmericaLetter'
-      | 'NorthAmericaLetterRotated'
-      | 'NorthAmericaLetterExtra'
-      | 'NorthAmericaLetterPlus'
-      | 'NorthAmericaMonarchEnvelope'
-      | 'NorthAmericaNote'
-      | 'NorthAmericaNumber10Envelope'
-      | 'NorthAmericaNumber10EnvelopeRotated'
-      | 'NorthAmericaNumber9Envelope'
-      | 'NorthAmericaNumber11Envelope'
-      | 'NorthAmericaNumber12Envelope'
-      | 'NorthAmericaNumber14Envelope'
-      | 'NorthAmericaPersonalEnvelope'
-      | 'NorthAmericaQuarto'
-      | 'NorthAmericaStatement'
-      | 'NorthAmericaSuperA'
-      | 'NorthAmericaSuperB'
-      | 'NorthAmericaTabloid'
-      | 'NorthAmericaTabloidExtra'
-      | 'OtherMetricA4Plus'
-      | 'OtherMetricA3Plus'
-      | 'OtherMetricFolio'
-      | 'OtherMetricInviteEnvelope'
-      | 'OtherMetricItalianEnvelope'
-      | 'PRC1Envelope'
-      | 'PRC1EnvelopeRotated'
-      | 'PRC10Envelope'
-      | 'PRC10EnvelopeRotated'
-      | 'PRC16K'
-      | 'PRC16KRotated'
-      | 'PRC2Envelope'
-      | 'PRC2EnvelopeRotated'
-      | 'PRC32K'
-      | 'PRC32KRotated'
-      | 'PRC32KBig'
-      | 'PRC3Envelope'
-      | 'PRC3EnvelopeRotated'
-      | 'PRC4Envelope'
-      | 'PRC4EnvelopeRotated'
-      | 'PRC5Envelope'
-      | 'PRC5EnvelopeRotated'
-      | 'PRC6Envelope'
-      | 'PRC6EnvelopeRotated'
-      | 'PRC7Envelope'
-      | 'PRC7EnvelopeRotated'
-      | 'PRC8Envelope'
-      | 'PRC8EnvelopeRotated'
-      | 'PRC9Envelope'
-      | 'PRC9EnvelopeRotated'
-      | 'Roll04Inch'
-      | 'Roll06Inch'
-      | 'Roll08Inch'
-      | 'Roll12Inch'
-      | 'Roll15Inch'
-      | 'Roll18Inch'
-      | 'Roll22Inch'
-      | 'Roll24Inch'
-      | 'Roll30Inch'
-      | 'Roll36Inch'
-      | 'Roll54Inch'
-      | 'JapanDoubleHagakiPostcard'
-      | 'JapanDoubleHagakiPostcardRotated'
-      | 'JapanLPhoto'
-      | 'Japan2LPhoto'
-      | 'JapanYou1Envelope'
-      | 'JapanYou2Envelope'
-      | 'JapanYou3Envelope'
-      | 'JapanYou4EnvelopeRotated'
-      | 'JapanYou6Envelope'
-      | 'JapanYou6EnvelopeRotated'
-      | 'NorthAmerica4x6'
-      | 'NorthAmerica4x8'
-      | 'NorthAmerica5x7'
-      | 'NorthAmerica8x10'
-      | 'NorthAmerica10x12'
-      | 'NorthAmerica14x17'
-      | 'BusinessCard'
-      | 'CreditCard'
-      | 'Unknown';
+      | "ISOA0"
+      | "ISOA1"
+      | "ISOA10"
+      | "ISOA2"
+      | "ISOA3"
+      | "ISOA3Rotated"
+      | "ISOA3Extra"
+      | "ISOA4"
+      | "ISOA4Rotated"
+      | "ISOA4Extra"
+      | "ISOA5"
+      | "ISOA5Rotated"
+      | "ISOA5Extra"
+      | "ISOA6"
+      | "ISOA6Rotated"
+      | "ISOA7"
+      | "ISOA8"
+      | "ISOA9"
+      | "ISOB0"
+      | "ISOB1"
+      | "ISOB10"
+      | "ISOB2"
+      | "ISOB3"
+      | "ISOB4"
+      | "ISOB4Envelope"
+      | "ISOB5Envelope"
+      | "ISOB5Extra"
+      | "ISOB7"
+      | "ISOB8"
+      | "ISOB9"
+      | "ISOC0"
+      | "ISOC1"
+      | "ISOC10"
+      | "ISOC2"
+      | "ISOC3"
+      | "ISOC3Envelope"
+      | "ISOC4"
+      | "ISOC4Envelope"
+      | "ISOC5"
+      | "ISOC5Envelope"
+      | "ISOC6"
+      | "ISOC6Envelope"
+      | "ISOC6C5Envelope"
+      | "ISOC7"
+      | "ISOC8"
+      | "ISOC9"
+      | "ISODLEnvelope"
+      | "ISODLEnvelopeRotated"
+      | "ISOSRA3"
+      | "JapanQuadrupleHagakiPostcard"
+      | "JISB0"
+      | "JISB1"
+      | "JISB10"
+      | "JISB2"
+      | "JISB3"
+      | "JISB4"
+      | "JISB4Rotated"
+      | "JISB5"
+      | "JISB5Rotated"
+      | "JISB6"
+      | "JISB6Rotated"
+      | "JISB7"
+      | "JISB8"
+      | "JISB9"
+      | "JapanChou3Envelope"
+      | "JapanChou3EnvelopeRotated"
+      | "JapanChou4Envelope"
+      | "JapanChou4EnvelopeRotated"
+      | "JapanHagakiPostcard"
+      | "JapanHagakiPostcardRotated"
+      | "JapanKaku2Envelope"
+      | "JapanKaku2EnvelopeRotated"
+      | "JapanKaku3Envelope"
+      | "JapanKaku3EnvelopeRotated"
+      | "JapanYou4Envelope"
+      | "NorthAmerica10x11"
+      | "NorthAmerica10x14"
+      | "NorthAmerica11x17"
+      | "NorthAmerica9x11"
+      | "NorthAmericaArchitectureASheet"
+      | "NorthAmericaArchitectureBSheet"
+      | "NorthAmericaArchitectureCSheet"
+      | "NorthAmericaArchitectureDSheet"
+      | "NorthAmericaArchitectureESheet"
+      | "NorthAmericaCSheet"
+      | "NorthAmericaDSheet"
+      | "NorthAmericaESheet"
+      | "NorthAmericaExecutive"
+      | "NorthAmericaGermanLegalFanfold"
+      | "NorthAmericaGermanStandardFanfold"
+      | "NorthAmericaLegal"
+      | "NorthAmericaLegalExtra"
+      | "NorthAmericaLetter"
+      | "NorthAmericaLetterRotated"
+      | "NorthAmericaLetterExtra"
+      | "NorthAmericaLetterPlus"
+      | "NorthAmericaMonarchEnvelope"
+      | "NorthAmericaNote"
+      | "NorthAmericaNumber10Envelope"
+      | "NorthAmericaNumber10EnvelopeRotated"
+      | "NorthAmericaNumber9Envelope"
+      | "NorthAmericaNumber11Envelope"
+      | "NorthAmericaNumber12Envelope"
+      | "NorthAmericaNumber14Envelope"
+      | "NorthAmericaPersonalEnvelope"
+      | "NorthAmericaQuarto"
+      | "NorthAmericaStatement"
+      | "NorthAmericaSuperA"
+      | "NorthAmericaSuperB"
+      | "NorthAmericaTabloid"
+      | "NorthAmericaTabloidExtra"
+      | "OtherMetricA4Plus"
+      | "OtherMetricA3Plus"
+      | "OtherMetricFolio"
+      | "OtherMetricInviteEnvelope"
+      | "OtherMetricItalianEnvelope"
+      | "PRC1Envelope"
+      | "PRC1EnvelopeRotated"
+      | "PRC10Envelope"
+      | "PRC10EnvelopeRotated"
+      | "PRC16K"
+      | "PRC16KRotated"
+      | "PRC2Envelope"
+      | "PRC2EnvelopeRotated"
+      | "PRC32K"
+      | "PRC32KRotated"
+      | "PRC32KBig"
+      | "PRC3Envelope"
+      | "PRC3EnvelopeRotated"
+      | "PRC4Envelope"
+      | "PRC4EnvelopeRotated"
+      | "PRC5Envelope"
+      | "PRC5EnvelopeRotated"
+      | "PRC6Envelope"
+      | "PRC6EnvelopeRotated"
+      | "PRC7Envelope"
+      | "PRC7EnvelopeRotated"
+      | "PRC8Envelope"
+      | "PRC8EnvelopeRotated"
+      | "PRC9Envelope"
+      | "PRC9EnvelopeRotated"
+      | "Roll04Inch"
+      | "Roll06Inch"
+      | "Roll08Inch"
+      | "Roll12Inch"
+      | "Roll15Inch"
+      | "Roll18Inch"
+      | "Roll22Inch"
+      | "Roll24Inch"
+      | "Roll30Inch"
+      | "Roll36Inch"
+      | "Roll54Inch"
+      | "JapanDoubleHagakiPostcard"
+      | "JapanDoubleHagakiPostcardRotated"
+      | "JapanLPhoto"
+      | "Japan2LPhoto"
+      | "JapanYou1Envelope"
+      | "JapanYou2Envelope"
+      | "JapanYou3Envelope"
+      | "JapanYou4EnvelopeRotated"
+      | "JapanYou6Envelope"
+      | "JapanYou6EnvelopeRotated"
+      | "NorthAmerica4x6"
+      | "NorthAmerica4x8"
+      | "NorthAmerica5x7"
+      | "NorthAmerica8x10"
+      | "NorthAmerica10x12"
+      | "NorthAmerica14x17"
+      | "BusinessCard"
+      | "CreditCard"
+      | "Unknown";
     PageMediaSizeTicketDto: {
       /** Format: double */
       height?: number | null;
-      name?: components['schemas']['PageMediaSizeNameDto'];
+      name?: components["schemas"]["PageMediaSizeNameDto"];
       /** Format: double */
       width?: number | null;
     };
     /** @enum {string} */
     PageMediaTypeDto:
-      | 'None'
-      | 'AutoSelect'
-      | 'Archival'
-      | 'BackPrintFilm'
-      | 'Bond'
-      | 'CardStock'
-      | 'Continuous'
-      | 'EnvelopePlain'
-      | 'EnvelopeWindow'
-      | 'Fabric'
-      | 'HighResolution'
-      | 'Label'
-      | 'MultiLayerForm'
-      | 'MultiPartForm'
-      | 'Photographic'
-      | 'PhotographicFilm'
-      | 'PhotographicGlossy'
-      | 'PhotographicHighGloss'
-      | 'PhotographicMatte'
-      | 'PhotographicSatin'
-      | 'PhotographicSemiGloss'
-      | 'Plain'
-      | 'Screen'
-      | 'ScreenPaged'
-      | 'Stationery'
-      | 'TabStockFull'
-      | 'TabStockPreCut'
-      | 'Transparency'
-      | 'TShirtTransfer'
-      | 'Unknown';
+      | "None"
+      | "AutoSelect"
+      | "Archival"
+      | "BackPrintFilm"
+      | "Bond"
+      | "CardStock"
+      | "Continuous"
+      | "EnvelopePlain"
+      | "EnvelopeWindow"
+      | "Fabric"
+      | "HighResolution"
+      | "Label"
+      | "MultiLayerForm"
+      | "MultiPartForm"
+      | "Photographic"
+      | "PhotographicFilm"
+      | "PhotographicGlossy"
+      | "PhotographicHighGloss"
+      | "PhotographicMatte"
+      | "PhotographicSatin"
+      | "PhotographicSemiGloss"
+      | "Plain"
+      | "Screen"
+      | "ScreenPaged"
+      | "Stationery"
+      | "TabStockFull"
+      | "TabStockPreCut"
+      | "Transparency"
+      | "TShirtTransfer"
+      | "Unknown";
     /** @enum {string} */
-    PageOrderDto: 'Standard' | 'Reverse' | 'Unknown';
+    PageOrderDto: "Standard" | "Reverse" | "Unknown";
     /** @enum {string} */
     PageOrientationDto:
-      | 'Landscape'
-      | 'Portrait'
-      | 'ReverseLandscape'
-      | 'ReversePortrait'
-      | 'Unknown';
+      | "Landscape"
+      | "Portrait"
+      | "ReverseLandscape"
+      | "ReversePortrait"
+      | "Unknown";
     /** @enum {string} */
     PageQualitativeResolutionDto:
-      | 'Default'
-      | 'Draft'
-      | 'High'
-      | 'Normal'
-      | 'Other'
-      | 'Unknown';
+      | "Default"
+      | "Draft"
+      | "High"
+      | "Normal"
+      | "Other"
+      | "Unknown";
     PageResolutionDto: {
       resolution?: string | null;
       x?: string | null;
       y?: string | null;
     };
     PageResolutionTicketDto: {
-      resolution?: components['schemas']['PageQualitativeResolutionDto'];
+      resolution?: components["schemas"]["PageQualitativeResolutionDto"];
       /** Format: int32 */
       x?: number | null;
       /** Format: int32 */
@@ -564,22 +564,22 @@ export interface components {
     };
     /** @enum {string} */
     PagesPerSheetDirectionDto:
-      | 'TopRight'
-      | 'TopLeft'
-      | 'BottomLeft'
-      | 'BottomRight'
-      | 'LeftBottom'
-      | 'LeftTop'
-      | 'RightBottom'
-      | 'RightTop'
-      | 'Unknown';
+      | "TopRight"
+      | "TopLeft"
+      | "BottomLeft"
+      | "BottomRight"
+      | "LeftBottom"
+      | "LeftTop"
+      | "RightBottom"
+      | "RightTop"
+      | "Unknown";
     /** @enum {string} */
     PhotoPrintingIntentDto:
-      | 'None'
-      | 'PhotoBest'
-      | 'PhotoDraft'
-      | 'PhotoStandard'
-      | 'Unknown';
+      | "None"
+      | "PhotoBest"
+      | "PhotoDraft"
+      | "PhotoStandard"
+      | "Unknown";
     PrintCapabilitiesDto: {
       collation?: string[] | null;
       deviceFontSubstitution?: string[] | null;
@@ -594,13 +594,13 @@ export interface components {
       outputColor?: string[] | null;
       outputQuality?: string[] | null;
       pageBorderless?: string[] | null;
-      pageImageableArea?: components['schemas']['PageImageableAreaDto'];
-      pageMediaSize?: components['schemas']['PageMediaSizeDto'][] | null;
+      pageImageableArea?: components["schemas"]["PageImageableAreaDto"];
+      pageMediaSize?: components["schemas"]["PageMediaSizeDto"][] | null;
       pageMediaType?: string[] | null;
       pageOrder?: string[] | null;
       pageOrientation?: string[] | null;
-      pageResolution?: components['schemas']['PageResolutionDto'][] | null;
-      pageScalingFactorRange?: components['schemas']['PageScalingFactorRangeDto'];
+      pageResolution?: components["schemas"]["PageResolutionDto"][] | null;
+      pageScalingFactorRange?: components["schemas"]["PageScalingFactorRangeDto"];
       pagesPerSheet?: string[] | null;
       pagesPerSheetDirection?: string[] | null;
       photoPrintingIntent?: string[] | null;
@@ -611,7 +611,7 @@ export interface components {
       documentPath: string | null;
       fastCopy?: boolean | null;
       name?: string | null;
-      ticket?: components['schemas']['PrintTicketDto'];
+      ticket?: components["schemas"]["PrintTicketDto"];
     };
     PrintJobInfoDto: {
       /** Format: int32 */
@@ -638,50 +638,50 @@ export interface components {
       status?: string | null;
     };
     PrintTicketDto: {
-      collation?: components['schemas']['CollationDto'];
+      collation?: components["schemas"]["CollationDto"];
       /** Format: int32 */
       copyCount?: number | null;
-      deviceFontSubstitution?: components['schemas']['DeviceFontSubstitutionDto'];
-      duplexing?: components['schemas']['DuplexingDto'];
-      inputBin?: components['schemas']['InputBinDto'];
-      outputColor?: components['schemas']['OutputColorDto'];
-      outputQuality?: components['schemas']['OutputQualityDto'];
-      pageBorderless?: components['schemas']['PageBorderlessDto'];
-      pageMediaSize?: components['schemas']['PageMediaSizeTicketDto'];
-      pageMediaType?: components['schemas']['PageMediaTypeDto'];
-      pageOrder?: components['schemas']['PageOrderDto'];
-      pageOrientation?: components['schemas']['PageOrientationDto'];
-      pageResolution?: components['schemas']['PageResolutionTicketDto'];
+      deviceFontSubstitution?: components["schemas"]["DeviceFontSubstitutionDto"];
+      duplexing?: components["schemas"]["DuplexingDto"];
+      inputBin?: components["schemas"]["InputBinDto"];
+      outputColor?: components["schemas"]["OutputColorDto"];
+      outputQuality?: components["schemas"]["OutputQualityDto"];
+      pageBorderless?: components["schemas"]["PageBorderlessDto"];
+      pageMediaSize?: components["schemas"]["PageMediaSizeTicketDto"];
+      pageMediaType?: components["schemas"]["PageMediaTypeDto"];
+      pageOrder?: components["schemas"]["PageOrderDto"];
+      pageOrientation?: components["schemas"]["PageOrientationDto"];
+      pageResolution?: components["schemas"]["PageResolutionTicketDto"];
       /** Format: int32 */
       pageScalingFactor?: number | null;
       /** Format: int32 */
       pagesPerSheet?: number | null;
-      pagesPerSheetDirection?: components['schemas']['PagesPerSheetDirectionDto'];
-      photoPrintingIntent?: components['schemas']['PhotoPrintingIntentDto'];
-      stapling?: components['schemas']['StaplingDto'];
-      trueTypeFontMode?: components['schemas']['TrueTypeFontModeDto'];
+      pagesPerSheetDirection?: components["schemas"]["PagesPerSheetDirectionDto"];
+      photoPrintingIntent?: components["schemas"]["PhotoPrintingIntentDto"];
+      stapling?: components["schemas"]["StaplingDto"];
+      trueTypeFontMode?: components["schemas"]["TrueTypeFontModeDto"];
     };
     /** @enum {string} */
     StaplingDto:
-      | 'None'
-      | 'StapleTopRight'
-      | 'StapleTopLeft'
-      | 'StapleDualTop'
-      | 'StapleDualRight'
-      | 'StapleDualLeft'
-      | 'StapleDualBottom'
-      | 'StapleBottomRight'
-      | 'StapleBottomLeft'
-      | 'SaddleStitch'
-      | 'Unknown';
+      | "None"
+      | "StapleTopRight"
+      | "StapleTopLeft"
+      | "StapleDualTop"
+      | "StapleDualRight"
+      | "StapleDualLeft"
+      | "StapleDualBottom"
+      | "StapleBottomRight"
+      | "StapleBottomLeft"
+      | "SaddleStitch"
+      | "Unknown";
     /** @enum {string} */
     TrueTypeFontModeDto:
-      | 'Automatic'
-      | 'DownloadAsNativeTrueTypeFont'
-      | 'DownloadAsOutlineFont'
-      | 'DownloadAsRasterFont'
-      | 'RenderAsBitmap'
-      | 'Unknown';
+      | "Automatic"
+      | "DownloadAsNativeTrueTypeFont"
+      | "DownloadAsOutlineFont"
+      | "DownloadAsRasterFont"
+      | "RenderAsBitmap"
+      | "Unknown";
   };
   responses: never;
   parameters: never;
@@ -689,42 +689,42 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type CollationDto = components['schemas']['CollationDto'];
+export type CollationDto = components["schemas"]["CollationDto"];
 export type DeviceFontSubstitutionDto =
-  components['schemas']['DeviceFontSubstitutionDto'];
-export type DuplexingDto = components['schemas']['DuplexingDto'];
-export type InputBinDto = components['schemas']['InputBinDto'];
-export type OutputColorDto = components['schemas']['OutputColorDto'];
-export type OutputQualityDto = components['schemas']['OutputQualityDto'];
-export type PageBorderlessDto = components['schemas']['PageBorderlessDto'];
+  components["schemas"]["DeviceFontSubstitutionDto"];
+export type DuplexingDto = components["schemas"]["DuplexingDto"];
+export type InputBinDto = components["schemas"]["InputBinDto"];
+export type OutputColorDto = components["schemas"]["OutputColorDto"];
+export type OutputQualityDto = components["schemas"]["OutputQualityDto"];
+export type PageBorderlessDto = components["schemas"]["PageBorderlessDto"];
 export type PageImageableAreaDto =
-  components['schemas']['PageImageableAreaDto'];
-export type PageMediaSizeDto = components['schemas']['PageMediaSizeDto'];
+  components["schemas"]["PageImageableAreaDto"];
+export type PageMediaSizeDto = components["schemas"]["PageMediaSizeDto"];
 export type PageMediaSizeNameDto =
-  components['schemas']['PageMediaSizeNameDto'];
+  components["schemas"]["PageMediaSizeNameDto"];
 export type PageMediaSizeTicketDto =
-  components['schemas']['PageMediaSizeTicketDto'];
-export type PageMediaTypeDto = components['schemas']['PageMediaTypeDto'];
-export type PageOrderDto = components['schemas']['PageOrderDto'];
-export type PageOrientationDto = components['schemas']['PageOrientationDto'];
+  components["schemas"]["PageMediaSizeTicketDto"];
+export type PageMediaTypeDto = components["schemas"]["PageMediaTypeDto"];
+export type PageOrderDto = components["schemas"]["PageOrderDto"];
+export type PageOrientationDto = components["schemas"]["PageOrientationDto"];
 export type PageQualitativeResolutionDto =
-  components['schemas']['PageQualitativeResolutionDto'];
-export type PageResolutionDto = components['schemas']['PageResolutionDto'];
+  components["schemas"]["PageQualitativeResolutionDto"];
+export type PageResolutionDto = components["schemas"]["PageResolutionDto"];
 export type PageResolutionTicketDto =
-  components['schemas']['PageResolutionTicketDto'];
+  components["schemas"]["PageResolutionTicketDto"];
 export type PageScalingFactorRangeDto =
-  components['schemas']['PageScalingFactorRangeDto'];
+  components["schemas"]["PageScalingFactorRangeDto"];
 export type PagesPerSheetDirectionDto =
-  components['schemas']['PagesPerSheetDirectionDto'];
+  components["schemas"]["PagesPerSheetDirectionDto"];
 export type PhotoPrintingIntentDto =
-  components['schemas']['PhotoPrintingIntentDto'];
+  components["schemas"]["PhotoPrintingIntentDto"];
 export type PrintCapabilitiesDto =
-  components['schemas']['PrintCapabilitiesDto'];
-export type PrintJobDto = components['schemas']['PrintJobDto'];
-export type PrintJobInfoDto = components['schemas']['PrintJobInfoDto'];
-export type PrintQueueDto = components['schemas']['PrintQueueDto'];
-export type PrintTicketDto = components['schemas']['PrintTicketDto'];
-export type StaplingDto = components['schemas']['StaplingDto'];
-export type TrueTypeFontModeDto = components['schemas']['TrueTypeFontModeDto'];
+  components["schemas"]["PrintCapabilitiesDto"];
+export type PrintJobDto = components["schemas"]["PrintJobDto"];
+export type PrintJobInfoDto = components["schemas"]["PrintJobInfoDto"];
+export type PrintQueueDto = components["schemas"]["PrintQueueDto"];
+export type PrintTicketDto = components["schemas"]["PrintTicketDto"];
+export type StaplingDto = components["schemas"]["StaplingDto"];
+export type TrueTypeFontModeDto = components["schemas"]["TrueTypeFontModeDto"];
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

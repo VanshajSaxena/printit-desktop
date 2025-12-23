@@ -36,6 +36,8 @@
     "eslint-plugin-react-x": "^2.3.12",
     "glob": "11.1.0",
     "playwright": "^1.57.0",
+    "prettier": "3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {

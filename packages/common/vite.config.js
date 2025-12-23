@@ -1,29 +1,35 @@
-import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 export default defineConfig(() => {
   return {
     plugins: [
-      tsconfigPaths(),
       dts({
-        insertTypesEntry: true,
-        rollupTypes: true,
+        entryRoot: "src",
+        tsconfigPath: "./tsconfig.json",
+        exclude: ["**/*.test.ts", "**/*.spec.ts"],
+        copyDtsFiles: true,
       }),
     ],
     build: {
       lib: {
-        entry: 'index.ts',
-        formats: ['es'],
-        fileName: 'index',
+        entry: "src/index.ts",
+        formats: ["es"],
+        fileName: "index",
       },
-      outDir: 'dist',
-      sourcemap: 'inline',
+      outDir: "dist",
+      sourcemap: "inline",
       emptyOutDir: true,
       reportCompressedSize: true,
       rollupOptions: {
-        external: ['electron-log'],
+        external: ["electron-log"],
+        output: {
+          preserveModules: false,
+          entryFileNames: "[name].js",
+        },
       },
+      target: "es2022",
+      minify: false,
     },
   };
 });

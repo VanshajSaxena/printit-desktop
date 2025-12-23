@@ -1,7 +1,7 @@
-import type { AppModule } from '../AppModule.js';
-import { ModuleContext } from '../ModuleContext.js';
-import { BrowserWindow, Menu } from 'electron';
-import type { AppInitConfig } from '../AppInitConfig.js';
+import type { AppModule } from "../AppModule.js";
+import { ModuleContext } from "../ModuleContext.js";
+import { BrowserWindow, Menu } from "electron";
+import type { AppInitConfig } from "../AppInitConfig.js";
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
@@ -23,8 +23,8 @@ class WindowManager implements AppModule {
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
     await this.restoreOrCreateWindow(true);
-    app.on('second-instance', () => void this.restoreOrCreateWindow(true));
-    app.on('activate', () => void this.restoreOrCreateWindow(true));
+    app.on("second-instance", () => void this.restoreOrCreateWindow(true));
+    app.on("activate", () => void this.restoreOrCreateWindow(true));
   }
 
   async createWindow(): Promise<BrowserWindow> {

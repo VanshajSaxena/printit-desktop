@@ -1,7 +1,7 @@
-import { AppModule } from '../AppModule.js';
-import { ModuleContext } from '../ModuleContext.js';
-import { ipcMain, IpcMainInvokeEvent } from 'electron';
-import log from 'electron-log';
+import { AppModule } from "../AppModule.js";
+import { ModuleContext } from "../ModuleContext.js";
+import { ipcMain, IpcMainInvokeEvent } from "electron";
+import log from "electron-log";
 
 export type IpcHandler = (
   event: IpcMainInvokeEvent,
@@ -18,7 +18,7 @@ class IpcHandlersModule implements AppModule {
   }
 
   enable(context: ModuleContext): void {
-    log.info('IpcHandlersModule: Registering handlers...');
+    log.info("IpcHandlersModule: Registering handlers...");
 
     const registeredChannels: string[] = [];
 
@@ -47,8 +47,8 @@ class IpcHandlersModule implements AppModule {
       registeredChannels,
     );
 
-    context.app.on('will-quit', () => {
-      log.info('IpcHandlersModule: Cleaning up handlers...');
+    context.app.on("will-quit", () => {
+      log.info("IpcHandlersModule: Cleaning up handlers...");
       registeredChannels.forEach((channel) => {
         ipcMain.removeHandler(channel);
       });

@@ -1,12 +1,12 @@
-import { AppModule } from '../AppModule.js';
+import { AppModule } from "../AppModule.js";
 import electronUpdater, {
   type AppUpdater,
   type Logger,
-} from 'electron-updater';
-import log from 'electron-log';
+} from "electron-updater";
+import log from "electron-log";
 
 type DownloadNotification = Parameters<
-  AppUpdater['checkForUpdatesAndNotify']
+  AppUpdater["checkForUpdatesAndNotify"]
 >[0];
 
 export class AutoUpdater implements AppModule {
@@ -48,12 +48,12 @@ export class AutoUpdater implements AppModule {
       return await updater.checkForUpdatesAndNotify(this.#notification);
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message.includes('No published versions')) {
+        if (error.message.includes("No published versions")) {
           return null;
         }
       }
 
-      log.error('Auto Update Failed...');
+      log.error("Auto Update Failed...");
     }
   }
 }

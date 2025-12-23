@@ -2,9 +2,11 @@
   "name": "@app/common",
   "version": "0.0.1",
   "type": "module",
-  "main": "./dist/index.js",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
   "types": "./dist/index.d.ts",
   "files": [
@@ -12,19 +14,19 @@
     "gen"
   ],
   "scripts": {
-    "gen:print-service-api": "openapi-typescript ./print-service-description.json --alphabetize --root-types --root-types-no-schema-prefix --output ./gen/types/print-service-api-types.ts",
-    "gen:cloud-api": "openapi-typescript ./cloud-api-description.json --alphabetize  --root-types --root-types-no-schema-prefix --output ./gen/types/cloud-api-types.ts",
+    "gen:print-service-api": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api-types.ts",
+    "gen:cloud-api": "openapi-typescript ./cloud-api-description.json --output ./gen/types/cloud-api-types.ts",
     "build": "vite build",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.15.0",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "openapi-typescript": "^7.10.1",
     "typescript": "^5.9.3",
     "vite": "7.2.7",
-    "vite-plugin-dts": "^4.5.4",
-    "vite-tsconfig-paths": "^5.1.4"
-  },
-  "dependencies": {
-    "openapi-fetch": "^0.15.0"
+    "vite-plugin-dts": "^4.5.4"
   }
 }
