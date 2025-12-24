@@ -61,7 +61,7 @@ for (const pkg of packagesToStart) {
     root: path.resolve(pkg),
     plugins: isElectronProcess ? [rendererWatchServerProvider] : [],
     build: {
-      watch: {},
+      watch: pkg === "packages/common" ? {} : undefined, // Enable watch mode for common
     },
   });
 }
