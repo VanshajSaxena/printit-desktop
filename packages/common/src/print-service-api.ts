@@ -1,4 +1,4 @@
-import createClient, { Client } from "openapi-fetch";
+import createClient, { type Client } from "openapi-fetch";
 import type {
   paths as PrintServicePaths,
   PrintCapabilitiesDto,

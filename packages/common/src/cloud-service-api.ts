@@ -1,5 +1,5 @@
 import log from "electron-log";
-import createClient, { Client } from "openapi-fetch";
+import createClient, { type Client } from "openapi-fetch";
 import type { paths } from "../gen/types/cloud-api-types.ts";
 
 export class CloudServiceApi {
