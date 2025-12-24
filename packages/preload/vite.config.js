@@ -104,7 +104,9 @@ function handleHotReload() {
 
       return {
         build: {
-          watch: {},
+          watch: {
+            include: ["src/**", "../common/dist/**"],
+          },
         },
       };
     },
