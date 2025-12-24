@@ -1,16 +1,19 @@
-import { IpcMainInvokeEvent } from "electron";
-import type {
-  IpcHandler,
-  IpcHandlerRegistry,
-} from "../modules/IpcHandlersModule.js";
 import type {
   CloudServiceApi,
   PrintServiceApi,
   WsNotificationsApi,
 } from "@app/common";
+import { IpcMainInvokeEvent } from "electron";
+import type {
+  IpcHandler,
+  IpcHandlerRegistry,
+} from "../modules/IpcHandlersModule.js";
+import { getPrintServiceHandlers } from "./print-service-handlers.js";
+import { getCloudSeriveHandlers } from "./cloud-service-handlers.js";
+import { getWsNotificationSeriveHandlers } from "./ws-notification-handlers.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
-function createHandler<TArgs extends unknown[], TReturn>(
+export function createHandler<TArgs extends unknown[], TReturn>(
   handler: (
     event: IpcMainInvokeEvent,
     ...args: TArgs
@@ -24,63 +27,42 @@ export function createIpcHandlers(
   cloudServiceApi: CloudServiceApi,
   webSocketApi: WsNotificationsApi,
 ) {
-  const pingHandler: IpcHandlerRegistry = {
-    "ps:ping": createHandler(() => {
-      return printServiceApi.ping();
-    }),
-    "cs:ping": createHandler(() => {
-      return cloudServiceApi.ping();
-    }),
-  };
-
-  const printServiceHandlers: IpcHandlerRegistry = {
-    "printer:list": createHandler(() => {
-      return printServiceApi.getPrintQueues();
-    }),
-
-    "printer:printer": createHandler((_event, printQueue: string) => {
-      return printServiceApi.getPrintQueue(printQueue);
-    }),
-
-    "printer:capabilities": createHandler((_event, printQueue: string) => {
-      return printServiceApi.getPrintQueueCapabilities(printQueue);
-    }),
-  };
-
-  const cloudServiceHandlers: IpcHandlerRegistry = {
-    "cs:transactions:get": createHandler(async () => {
-      return cloudServiceApi.getTransactions();
-    }),
-  };
-
-  const webSocketNotifications: IpcHandlerRegistry = {
-    "ws:is-connected": createHandler(() => {
-      return webSocketApi.isConnected();
-    }),
-
-    "ws:is-active": createHandler(() => {
-      return webSocketApi.isActive();
-    }),
-
-    "ws:disconnect": createHandler(() => {
-      webSocketApi.disconnect();
-    }),
-  };
-
-  const appHandlers: IpcHandlerRegistry = {
-    "app:getVersion": createHandler(async () => {
-      const { app } = await import("electron");
-      return app.getVersion();
-    }),
-  };
+  const {
+    printServiceHandlers,
+    cloudServiceHandlers,
+    webSocketNotifications,
+  }: {
+    printServiceHandlers: IpcHandlerRegistry;
+    cloudServiceHandlers: IpcHandlerRegistry;
+    webSocketNotifications: IpcHandlerRegistry;
+  } = getAllIpcHandlers(printServiceApi, cloudServiceApi, webSocketApi);
 
   const allHandlers: IpcHandlerRegistry = {
-    ...pingHandler,
     ...printServiceHandlers,
     ...cloudServiceHandlers,
-    ...appHandlers,
     ...webSocketNotifications,
   };
 
   return allHandlers;
+}
+
+function getAllIpcHandlers(
+  printServiceApi: PrintServiceApi,
+  cloudServiceApi: CloudServiceApi,
+  webSocketApi: WsNotificationsApi,
+) {
+  const printServiceHandlers: IpcHandlerRegistry =
+    getPrintServiceHandlers(printServiceApi);
+
+  const cloudServiceHandlers: IpcHandlerRegistry =
+    getCloudSeriveHandlers(cloudServiceApi);
+
+  const webSocketNotifications: IpcHandlerRegistry =
+    getWsNotificationSeriveHandlers(webSocketApi);
+
+  return {
+    printServiceHandlers,
+    cloudServiceHandlers,
+    webSocketNotifications,
+  };
 }
