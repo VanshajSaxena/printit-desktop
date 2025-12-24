@@ -24,10 +24,9 @@ class IpcHandlersModule implements AppModule {
 
     for (const [channel, handler] of Object.entries(this.#handlers)) {
       try {
-        ipcMain.handle(channel, async (event, ...args) => {
+        ipcMain.handle(channel, async (event, ...args: unknown[]) => {
           log.debug(`IPC: ${channel} called with args:`, args);
           try {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             const result = await handler(event, ...args);
             log.debug(`IPC: ${channel} returned:`, result);
             return result;
