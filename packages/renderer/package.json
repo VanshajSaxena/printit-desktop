@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build --base ./",
     "lint": "eslint .",
+    "gen:cloud-api": "openapi-typescript ./src/api/printly-cloud-api-description.json --alphabetize --root-types --root-types-no-schema-prefix --output ./src/api/gen/cloud-api-types.ts",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-query": "^5.90.12",
     "clsx": "^2.1.1",
+    "openapi-react-query": "^0.5.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "tailwindcss": "^4.1.17"
@@ -27,6 +30,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-react-x": "^2.3.12",
     "globals": "^16.5.0",
+    "openapi-typescript": "^7.10.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.1",
     "vite": "7.2.7"

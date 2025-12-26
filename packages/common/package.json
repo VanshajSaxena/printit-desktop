@@ -15,7 +15,6 @@
   ],
   "scripts": {
     "gen:print-service-api": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api-types.ts",
-    "gen:cloud-api": "openapi-typescript ./cloud-api-description.json --output ./gen/types/cloud-api-types.ts",
     "build": "vite build",
     "typecheck": "tsc --noEmit"
   },

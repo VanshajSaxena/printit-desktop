@@ -9,6 +9,7 @@ log.transports.file.resolvePathFn = () => {
   const appName = app.getName();
   const baseDir = path.join(app.getPath("appData"), appName);
   const logDir = path.join(baseDir, "logs");
+  // "%APPDATA%\printly\logs\main.log"
 
   if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });

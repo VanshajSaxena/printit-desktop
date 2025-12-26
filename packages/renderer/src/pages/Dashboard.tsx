@@ -1,6 +1,5 @@
 import { Button } from "@components/buttons/Button";
 import { TopBar } from "@components/layout/TopBar";
-import { getPrintTransactions } from "@app/preload";
 import { RequestListContainer } from "@pages/dashboard/RequestListContainer";
 import { useTheme } from "@context/theme/useTheme";
 import { RequestListItem } from "@components/list-items/RequestListItem";
@@ -11,8 +10,12 @@ import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
 import { SearchInput } from "./dashboard/SearchInput";
 import { DisplayButton } from "@components/buttons/DisplayButton";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
+import { client } from "@api/client";
 
 export function Dashboard() {
+  const { data, error } = client.useQuery("get", "/api/v1/vendors/{selector}", {
+    params: { path: { selector: "@harrypotter" } },
+  });
   const { toggleTheme } = useTheme();
   return (
     <>
@@ -25,13 +28,8 @@ export function Dashboard() {
           ></Button>
           <GetQRCodeButton
             onClick={() => {
-              getPrintTransactions()
-                .then((response) => {
-                  console.log(response);
-                })
-                .catch((error: unknown) => {
-                  console.log(error);
-                });
+              console.log(data);
+              console.log(error);
             }}
           ></GetQRCodeButton>
         </div>

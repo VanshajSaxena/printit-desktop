@@ -60,3 +60,4 @@ thumbs.db
 TASKS.norg
 buildResources/PrintService.exe
 buildResources/logs/*
+.env*
