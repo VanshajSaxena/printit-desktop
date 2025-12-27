@@ -1,8 +1,8 @@
 import { Button } from "@components/buttons/Button";
 import { TopBar } from "@components/layout/TopBar";
-import { RequestListContainer } from "@pages/dashboard/RequestListContainer";
+import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useTheme } from "@context/theme/useTheme";
-import { RequestListItem } from "@components/list-items/RequestListItem";
+import { TransactionItem } from "@components/list-items/RequestListItem";
 import { MoonIcon } from "@components/icons/MoonIcon";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
@@ -47,14 +47,7 @@ export function Dashboard() {
             <BulkActionButton />
           </div>
         </div>
-        <RequestListContainer>
-          <RequestListItem></RequestListItem>
-          <RequestListItem></RequestListItem>
-          <RequestListItem></RequestListItem>
-          <RequestListItem></RequestListItem>
-          <RequestListItem></RequestListItem>
-          <RequestListItem></RequestListItem>
-        </RequestListContainer>
+        <TransactionListContainer children={JSON.stringify(data)} />
       </div>
     </>
   );

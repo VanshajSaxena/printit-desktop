@@ -11,7 +11,7 @@ import { NewItemBadge } from "./NewItemBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
 import { AlarmIcon } from "@components/icons/AlarmIcon";
 
-export function RequestListItem() {
+export function TransactionItem(transaction: TransactionItemProps) {
   return (
     <>
       <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">

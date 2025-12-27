@@ -216,7 +216,7 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    CreateDocumentDto: {
+    CreateDocumentRequestDto: {
       contentType: string;
       filename: string;
     };
@@ -225,11 +225,14 @@ export interface components {
       filename: string;
       id: number;
     };
-    CreateJobDto: {
+    CreateJobRequestDto: {
       copyCount: number;
       documentId: number;
       /** @enum {string} */
       outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    };
+    CreateJobResponseDto: {
+      id: number;
     };
     CreatePrinterDto: {
       /** Format: json */
@@ -237,10 +240,16 @@ export interface components {
       name: string;
       vendorId: number;
     };
-    CreateTransactionDto: {
-      jobs: components["schemas"]["CreateJobDto"][];
+    CreateTransactionRequestDto: {
+      jobs: components["schemas"]["CreateJobRequestDto"][];
       printerId?: number;
       vendorId: number;
+    };
+    CreateTransactionResponseDto: {
+      friendlyId: string;
+      id: number;
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
     CreateVendorDto: {
       address?: string;
@@ -258,20 +267,34 @@ export interface components {
     DownloadFileResponseDto: {
       url: string;
     };
-    JobResponseDto: {
+    FindDocumentResponseDto: {
+      contentType: string;
+      filename: string;
       id: number;
+    };
+    FindJobResponseDto: {
+      copyCount: number;
+      document: components["schemas"]["FindDocumentResponseDto"];
+      id: number;
+      /** @enum {string} */
+      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    };
+    FindTransactionResponseDto: {
+      /** Format: date-time */
+      createdAt: string;
+      friendlyId: string;
+      id: number;
+      jobs: components["schemas"]["FindJobResponseDto"][];
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      /** Format: date-time */
+      updatedAt: string;
     };
     PrinterResponseDto: {
       /** Format: json */
       capabilities: string;
       id: number;
       name: string;
-    };
-    TransactionResponseDto: {
-      friendlyId: string;
-      id: number;
-      /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
     UpdateDocumentDto: Record<string, never>;
     UpdateJobDto: {
@@ -309,22 +332,29 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type CreateDocumentDto = components["schemas"]["CreateDocumentDto"];
+export type CreateDocumentRequestDto =
+  components["schemas"]["CreateDocumentRequestDto"];
 export type CreateDocumentResponseDto =
   components["schemas"]["CreateDocumentResponseDto"];
-export type CreateJobDto = components["schemas"]["CreateJobDto"];
+export type CreateJobRequestDto = components["schemas"]["CreateJobRequestDto"];
+export type CreateJobResponseDto =
+  components["schemas"]["CreateJobResponseDto"];
 export type CreatePrinterDto = components["schemas"]["CreatePrinterDto"];
-export type CreateTransactionDto =
-  components["schemas"]["CreateTransactionDto"];
+export type CreateTransactionRequestDto =
+  components["schemas"]["CreateTransactionRequestDto"];
+export type CreateTransactionResponseDto =
+  components["schemas"]["CreateTransactionResponseDto"];
 export type CreateVendorDto = components["schemas"]["CreateVendorDto"];
 export type DownloadFileRequestDto =
   components["schemas"]["DownloadFileRequestDto"];
 export type DownloadFileResponseDto =
   components["schemas"]["DownloadFileResponseDto"];
-export type JobResponseDto = components["schemas"]["JobResponseDto"];
+export type FindDocumentResponseDto =
+  components["schemas"]["FindDocumentResponseDto"];
+export type FindJobResponseDto = components["schemas"]["FindJobResponseDto"];
+export type FindTransactionResponseDto =
+  components["schemas"]["FindTransactionResponseDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
-export type TransactionResponseDto =
-  components["schemas"]["TransactionResponseDto"];
 export type UpdateDocumentDto = components["schemas"]["UpdateDocumentDto"];
 export type UpdateJobDto = components["schemas"]["UpdateJobDto"];
 export type UpdatePrinterDto = components["schemas"]["UpdatePrinterDto"];
@@ -354,7 +384,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["JobResponseDto"][];
+          "application/json": components["schemas"]["CreateJobResponseDto"][];
         };
       };
     };
@@ -368,7 +398,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["CreateJobDto"];
+        "application/json": components["schemas"]["CreateJobRequestDto"];
       };
     };
     responses: {
@@ -377,7 +407,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["JobResponseDto"];
+          "application/json": components["schemas"]["CreateJobResponseDto"];
         };
       };
     };
@@ -398,7 +428,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["JobResponseDto"];
+          "application/json": components["schemas"]["CreateJobResponseDto"];
         };
       };
     };
@@ -419,7 +449,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["JobResponseDto"];
+          "application/json": components["schemas"]["CreateJobResponseDto"];
         };
       };
     };
@@ -444,7 +474,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["JobResponseDto"];
+          "application/json": components["schemas"]["CreateJobResponseDto"];
         };
       };
     };
@@ -477,7 +507,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["CreateDocumentDto"];
+        "application/json": components["schemas"]["CreateDocumentRequestDto"];
       };
     };
     responses: {
@@ -746,7 +776,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["TransactionResponseDto"][];
+          "application/json": components["schemas"]["CreateTransactionResponseDto"][];
         };
       };
     };
@@ -760,7 +790,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["CreateTransactionDto"];
+        "application/json": components["schemas"]["CreateTransactionRequestDto"];
       };
     };
     responses: {
@@ -769,7 +799,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["TransactionResponseDto"];
+          "application/json": components["schemas"]["CreateTransactionResponseDto"];
         };
       };
     };
@@ -790,7 +820,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["TransactionResponseDto"];
+          "application/json": components["schemas"]["FindTransactionResponseDto"];
         };
       };
     };
@@ -811,7 +841,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["TransactionResponseDto"];
+          "application/json": components["schemas"]["CreateTransactionResponseDto"];
         };
       };
     };
@@ -836,7 +866,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["TransactionResponseDto"];
+          "application/json": components["schemas"]["CreateTransactionResponseDto"];
         };
       };
     };

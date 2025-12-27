@@ -275,7 +275,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateTransactionDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequestDto"
+              }
             }
           }
         },
@@ -285,7 +287,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionResponseDto"
+                  "$ref": "#/components/schemas/CreateTransactionResponseDto"
                 }
               }
             }
@@ -304,7 +306,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TransactionResponseDto"
+                    "$ref": "#/components/schemas/CreateTransactionResponseDto"
                   }
                 }
               }
@@ -331,7 +333,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionResponseDto"
+                  "$ref": "#/components/schemas/FindTransactionResponseDto"
                 }
               }
             }
@@ -363,7 +365,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionResponseDto"
+                  "$ref": "#/components/schemas/CreateTransactionResponseDto"
                 }
               }
             }
@@ -387,7 +389,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionResponseDto"
+                  "$ref": "#/components/schemas/CreateTransactionResponseDto"
                 }
               }
             }
@@ -404,7 +406,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateDocumentDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateDocumentRequestDto"
+              }
             }
           }
         },
@@ -533,7 +537,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateJobDto" }
+              "schema": { "$ref": "#/components/schemas/CreateJobRequestDto" }
             }
           }
         },
@@ -542,7 +546,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/CreateJobResponseDto"
+                }
               }
             }
           }
@@ -559,7 +565,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/JobResponseDto" }
+                  "items": {
+                    "$ref": "#/components/schemas/CreateJobResponseDto"
+                  }
                 }
               }
             }
@@ -584,7 +592,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/CreateJobResponseDto"
+                }
               }
             }
           }
@@ -614,7 +624,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/CreateJobResponseDto"
+                }
               }
             }
           }
@@ -636,7 +648,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobResponseDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/CreateJobResponseDto"
+                }
               }
             }
           }
@@ -769,7 +783,7 @@
         "required": ["id", "name", "capabilities"]
       },
       "UpdatePrinterDto": { "type": "object", "properties": {} },
-      "CreateJobDto": {
+      "CreateJobRequestDto": {
         "type": "object",
         "properties": {
           "documentId": { "type": "number" },
@@ -781,19 +795,19 @@
         },
         "required": ["documentId", "outputColor", "copyCount"]
       },
-      "CreateTransactionDto": {
+      "CreateTransactionRequestDto": {
         "type": "object",
         "properties": {
           "vendorId": { "type": "number" },
           "printerId": { "type": "number" },
           "jobs": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/CreateJobDto" }
+            "items": { "$ref": "#/components/schemas/CreateJobRequestDto" }
           }
         },
         "required": ["vendorId", "jobs"]
       },
-      "TransactionResponseDto": {
+      "CreateTransactionResponseDto": {
         "type": "object",
         "properties": {
           "id": { "type": "number" },
@@ -805,8 +819,55 @@
         },
         "required": ["id", "status", "friendlyId"]
       },
+      "FindDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "filename": { "type": "string" },
+          "contentType": { "type": "string" }
+        },
+        "required": ["id", "filename", "contentType"]
+      },
+      "FindJobResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "outputColor": {
+            "type": "string",
+            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"]
+          },
+          "copyCount": { "type": "number" },
+          "document": { "$ref": "#/components/schemas/FindDocumentResponseDto" }
+        },
+        "required": ["id", "outputColor", "copyCount", "document"]
+      },
+      "FindTransactionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"]
+          },
+          "friendlyId": { "type": "string" },
+          "jobs": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FindJobResponseDto" }
+          },
+          "createdAt": { "format": "date-time", "type": "string" },
+          "updatedAt": { "format": "date-time", "type": "string" }
+        },
+        "required": [
+          "id",
+          "status",
+          "friendlyId",
+          "jobs",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
       "UpdateTransactionDto": { "type": "object", "properties": {} },
-      "CreateDocumentDto": {
+      "CreateDocumentRequestDto": {
         "type": "object",
         "properties": {
           "filename": { "type": "string" },
@@ -824,7 +885,7 @@
         "required": ["id", "filename", "contentType"]
       },
       "UpdateDocumentDto": { "type": "object", "properties": {} },
-      "JobResponseDto": {
+      "CreateJobResponseDto": {
         "type": "object",
         "properties": { "id": { "type": "number" } },
         "required": ["id"]
