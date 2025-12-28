@@ -2,7 +2,12 @@ import { client } from "@api/client";
 import { TransactionItem } from "@components/list-items/TransactionItem";
 
 export function TransactionListContainer() {
-  const { data } = client.useQuery("get", "/api/v1/transactions");
+  const { data } = client.useQuery(
+    "get",
+    "/api/v1/transactions",
+    {},
+    { refetchOnWindowFocus: false },
+  );
   console.log(data);
 
   return (

@@ -18,12 +18,19 @@ export function TransactionItem({
   jobs,
   createdAt,
 }: FindTransactionResponseDto) {
-  let filename = jobs[0].document.filename;
+  let title = jobs[0].document.filename;
   if (jobs.length > 1) {
-    filename = filename.concat(" & ", (jobs.length - 1).toString(), " more");
+    title = title.concat(" & ", (jobs.length - 1).toString(), " more");
   }
   const formattedDate = formatRelativeTime(createdAt);
   const copyCount = jobs.reduce((total, job) => job.copyCount + total, 0);
+  const filesCound = jobs.length;
+  const isColorOnly = jobs.every((job) => {
+    return job.outputColor === "COLOR";
+  });
+  const isBnWOnly = jobs.every((job) => {
+    return job.outputColor === "GRAYSCALE";
+  });
   return (
     <>
       <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
@@ -33,7 +40,7 @@ export function TransactionItem({
             <div className="flex h-fit flex-col gap-1 pb-0.5">
               <div className="flex size-fit gap-2">
                 <h3 className="text-base leading-6 text-nowrap text-primary-content">
-                  {filename}
+                  {title}
                 </h3>
                 <NewItemBadge />
               </div>
@@ -63,10 +70,10 @@ export function TransactionItem({
         <div className="flex justify-between">
           <div className="flex h-fit w-full gap-4 px-10.5">
             <SheetsBadge />
-            <FilesBadge />
-            <ColorPalatteBadge />
+            <FilesBadge count={filesCound} />
+            {isColorOnly && <ColorPalatteBadge />}
             <CopiesBadge count={copyCount} />
-            <BnWBadge />
+            {isBnWOnly && <BnWBadge />}
           </div>
           <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
             <AlarmIcon size={18} />
