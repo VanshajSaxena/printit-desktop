@@ -1,45 +1,27 @@
+import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { CopiesBadge } from "@components/badges/CopiesBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
+import { SheetsBadge } from "@components/badges/SheetsBadge";
+import { KebabButton } from "@components/buttons/KebabButton";
+import { PrintButton } from "@components/buttons/PrintButton";
+import { RejectButton } from "@components/buttons/RejectButton";
+import { formatRelativeTime } from "@components/formatRelativeTime";
+import { AlarmIcon } from "@components/icons/AlarmIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
-import { KebabButton } from "@components/buttons/KebabButton";
-import { RejectButton } from "@components/buttons/RejectButton";
-import { PrintButton } from "@components/buttons/PrintButton";
 import { NewItemBadge } from "./NewItemBadge";
-import { SheetsBadge } from "@components/badges/SheetsBadge";
-import { AlarmIcon } from "@components/icons/AlarmIcon";
-import { formatRelativeTime } from "@components/formatRelativeTime";
-
-interface TransactionItemProps {
-  createdAt: string;
-  friendlyId: string;
-  id: number;
-  jobs: {
-    copyCount: number;
-    document: {
-      contentType: string;
-      filename: string;
-      id: number;
-    };
-    id: number;
-    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
-  }[];
-  status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
-  updatedAt: string;
-}
 
 export function TransactionItem({
   friendlyId,
   jobs,
   createdAt,
-}: TransactionItemProps) {
-  const filename = jobs
-    .map((job) => {
-      return job.document.filename;
-    })
-    .join(", ");
+}: FindTransactionResponseDto) {
+  let filename = jobs[0].document.filename;
+  if (jobs.length > 1) {
+    filename = filename.concat(" & ", (jobs.length - 1).toString(), " more");
+  }
   const formattedDate = formatRelativeTime(createdAt);
   const copyCount = jobs.reduce((total, job) => job.copyCount + total, 0);
   return (
