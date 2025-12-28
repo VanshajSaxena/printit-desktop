@@ -1,16 +1,15 @@
-import { Button } from "@components/buttons/Button";
-import { TopBar } from "@components/layout/TopBar";
-import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
-import { useTheme } from "@context/theme/useTheme";
-import { TransactionItem } from "@components/list-items/RequestListItem";
-import { MoonIcon } from "@components/icons/MoonIcon";
-import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
-import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
-import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
-import { SearchInput } from "./dashboard/SearchInput";
-import { DisplayButton } from "@components/buttons/DisplayButton";
-import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { client } from "@api/client";
+import { BulkActionButton } from "@components/buttons/BulkActionButton";
+import { Button } from "@components/buttons/Button";
+import { DisplayButton } from "@components/buttons/DisplayButton";
+import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
+import { PrinterStatusCard } from "@components/cards/PrinterStatusCard";
+import { SheetsPrintedCard } from "@components/cards/SheetsPrintedCard";
+import { MoonIcon } from "@components/icons/MoonIcon";
+import { TopBar } from "@components/layout/TopBar";
+import { useTheme } from "@context/theme/useTheme";
+import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
+import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
   const { data, error } = client.useQuery("get", "/api/v1/vendors/{selector}", {
@@ -47,7 +46,7 @@ export function Dashboard() {
             <BulkActionButton />
           </div>
         </div>
-        <TransactionListContainer children={JSON.stringify(data)} />
+        <TransactionListContainer />
       </div>
     </>
   );

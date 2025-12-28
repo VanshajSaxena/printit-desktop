@@ -10,8 +10,38 @@ import { PrintButton } from "@components/buttons/PrintButton";
 import { NewItemBadge } from "./NewItemBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
 import { AlarmIcon } from "@components/icons/AlarmIcon";
+import { formatRelativeTime } from "@components/formatRelativeTime";
 
-export function TransactionItem(transaction: TransactionItemProps) {
+interface TransactionItemProps {
+  createdAt: string;
+  friendlyId: string;
+  id: number;
+  jobs: {
+    copyCount: number;
+    document: {
+      contentType: string;
+      filename: string;
+      id: number;
+    };
+    id: number;
+    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+  }[];
+  status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+  updatedAt: string;
+}
+
+export function TransactionItem({
+  friendlyId,
+  jobs,
+  createdAt,
+}: TransactionItemProps) {
+  const filename = jobs
+    .map((job) => {
+      return job.document.filename;
+    })
+    .join(", ");
+  const formattedDate = formatRelativeTime(createdAt);
+  const copyCount = jobs.reduce((total, job) => job.copyCount + total, 0);
   return (
     <>
       <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
@@ -21,7 +51,7 @@ export function TransactionItem(transaction: TransactionItemProps) {
             <div className="flex h-fit flex-col gap-1 pb-0.5">
               <div className="flex size-fit gap-2">
                 <h3 className="text-base leading-6 text-nowrap text-primary-content">
-                  Final Year Dissertation
+                  {filename}
                 </h3>
                 <NewItemBadge />
               </div>
@@ -29,11 +59,11 @@ export function TransactionItem(transaction: TransactionItemProps) {
                 <div className="flex items-center gap-2">
                   <GridScanIcon></GridScanIcon>
                   <p className="text-xs leading-4 text-secondary-content">
-                    FXMP4LPF
+                    {friendlyId}
                   </p>
                 </div>
                 <p className="text-xs leading-4 text-primary-content">
-                  just now
+                  {formattedDate}
                 </p>
               </div>
             </div>
@@ -53,7 +83,7 @@ export function TransactionItem(transaction: TransactionItemProps) {
             <SheetsBadge />
             <FilesBadge />
             <ColorPalatteBadge />
-            <CopiesBadge />
+            <CopiesBadge count={copyCount} />
             <BnWBadge />
           </div>
           <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">

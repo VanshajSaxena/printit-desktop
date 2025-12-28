@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build --base ./",
     "lint": "eslint .",
     "gen:cloud-api": "openapi-typescript ./src/api/printly-cloud-api-description.json --alphabetize --root-types --root-types-no-schema-prefix --output ./src/api/gen/cloud-api-types.ts",
+    "update:cloud-api": "openapi-typescript http://localhost:3000/docs/json --alphabetize --root-types --root-types-no-schema-prefix --output ./src/api/gen/cloud-api-types.ts",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -776,7 +776,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["CreateTransactionResponseDto"][];
+          "application/json": components["schemas"]["FindTransactionResponseDto"][];
         };
       };
     };
