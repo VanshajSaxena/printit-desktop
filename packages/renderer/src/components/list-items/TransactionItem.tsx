@@ -1,7 +1,6 @@
 import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
-import { CopiesBadge } from "@components/badges/CopiesBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
 import { KebabButton } from "@components/buttons/KebabButton";
@@ -23,7 +22,6 @@ export function TransactionItem({
     title = title.concat(" & ", (jobs.length - 1).toString(), " more");
   }
   const formattedDate = formatRelativeTime(createdAt);
-  const copyCount = jobs.reduce((total, job) => job.copyCount + total, 0);
   const filesCount = jobs.length;
   const isColorOnly = jobs.every((job) => {
     return job.outputColor === "COLOR";
