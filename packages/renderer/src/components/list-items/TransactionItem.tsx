@@ -72,7 +72,6 @@ export function TransactionItem({
             <SheetsBadge />
             <FilesBadge count={filesCount} />
             {isColorOnly && <ColorPalatteBadge />}
-            <CopiesBadge count={copyCount} />
             {isBnWOnly && <BnWBadge />}
           </div>
           <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
