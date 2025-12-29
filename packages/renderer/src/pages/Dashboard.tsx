@@ -1,4 +1,3 @@
-import { client } from "@api/client";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
 import { DisplayButton } from "@components/buttons/DisplayButton";
@@ -12,9 +11,6 @@ import { TransactionListContainer } from "@pages/dashboard/TransactionListContai
 import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
-  const { data, error } = client.useQuery("get", "/api/v1/vendors/{selector}", {
-    params: { path: { selector: "@harrypotter" } },
-  });
   const { toggleTheme } = useTheme();
   return (
     <>
@@ -27,8 +23,7 @@ export function Dashboard() {
           ></Button>
           <GetQRCodeButton
             onClick={() => {
-              console.log(data);
-              console.log(error);
+              console.log("clicked");
             }}
           ></GetQRCodeButton>
         </div>

@@ -8,7 +8,6 @@ export function TransactionListContainer() {
     {},
     { refetchOnWindowFocus: false },
   );
-  console.log(data);
 
   return (
     <div className="h-full w-full overflow-y-auto rounded-3xl border border-border-default mask-[linear-gradient(black,black)]">

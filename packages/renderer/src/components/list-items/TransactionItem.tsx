@@ -24,7 +24,7 @@ export function TransactionItem({
   }
   const formattedDate = formatRelativeTime(createdAt);
   const copyCount = jobs.reduce((total, job) => job.copyCount + total, 0);
-  const filesCound = jobs.length;
+  const filesCount = jobs.length;
   const isColorOnly = jobs.every((job) => {
     return job.outputColor === "COLOR";
   });
@@ -70,7 +70,7 @@ export function TransactionItem({
         <div className="flex justify-between">
           <div className="flex h-fit w-full gap-4 px-10.5">
             <SheetsBadge />
-            <FilesBadge count={filesCound} />
+            <FilesBadge count={filesCount} />
             {isColorOnly && <ColorPalatteBadge />}
             <CopiesBadge count={copyCount} />
             {isBnWOnly && <BnWBadge />}
