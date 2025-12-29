@@ -6,15 +6,15 @@ function ProfileHash({ size, ...props }: IconProps) {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    let isMounted = false;
+    let isMounted = true;
 
     const checkWebSocket = async () => {
       try {
         const result = await isWebSocketConnected();
-        if (!isMounted) setConnected(result);
+        if (isMounted) setConnected(result);
       } catch (error) {
-        if (!isMounted) setConnected(false);
         console.error(error);
+        if (isMounted) setConnected(false);
       }
     };
 
@@ -23,7 +23,7 @@ function ProfileHash({ size, ...props }: IconProps) {
     });
 
     return () => {
-      isMounted = true;
+      isMounted = false;
     };
   }, []);
 
@@ -33,11 +33,12 @@ function ProfileHash({ size, ...props }: IconProps) {
       height={size}
       viewBox="0 0 40 40"
       xmlns="http://www.w3.org/2000/svg"
+      className="overflow-visible"
       {...props}
     >
       <rect width={size} height={size} rx={8} className="fill-tertiary" />
 
-      {connected && <circle cx="35" cy="35" r="4" className="fill-green-600" />}
+      {connected && <circle cx="36" cy="36" r="5" className="fill-green-600" />}
 
       <path
         d="M18.31 10l-4.543 20m12.854-20l-4.505 20M10 24.056h18.718m-17.087-8.635H30"
