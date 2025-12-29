@@ -9,7 +9,7 @@ export function DisplayButton({ className = "", ...props }: ButtonProps) {
       size="md"
       icon={<SlidersIcon size={20}></SlidersIcon>}
       className={clsx(
-        "text-primary-content outline -outline-offset-1 outline-border-default",
+        "text-primary-content outline -outline-offset-1 outline-border-default hover:bg-tertiary",
         className,
       )}
       {...props}
