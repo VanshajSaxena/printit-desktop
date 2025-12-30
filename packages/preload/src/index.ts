@@ -9,6 +9,9 @@ export type WsChannelTypeMap = {
   "ws:disconnected": {
     reason: string | undefined;
   };
+  "ws:new_transaction": {
+    id: string | undefined;
+  };
 };
 
 export type WsChannel = keyof WsChannelTypeMap;

@@ -1,8 +1,12 @@
 import { client } from "@api/client";
 import { EmptyTrayIcon } from "@components/icons/EmptyTrayIcon";
 import { TransactionItem } from "@components/list-items/TransactionItem";
+import { useWsEvent } from "@components/hooks/useWsHandler";
 
 export function TransactionListContainer() {
+  useWsEvent("ws:new_transaction", ({ id }) => {
+    console.log(id);
+  });
   const { data, isSuccess } = client.useQuery(
     "get",
     "/api/v1/transactions",
