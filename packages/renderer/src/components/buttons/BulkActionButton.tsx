@@ -7,7 +7,7 @@ export function BulkActionButton({ className = "", ...props }: ButtonProps) {
   return (
     <Button
       size="md"
-      icon={<GearIcon size={20}></GearIcon>}
+      icon={<GearIcon strokeWidth={1.5} size={20}></GearIcon>}
       className={clsx(
         "text-primary-content outline -outline-offset-1 outline-border-default hover:bg-tertiary",
         className,

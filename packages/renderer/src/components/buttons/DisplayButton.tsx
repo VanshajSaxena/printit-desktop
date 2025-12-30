@@ -3,14 +3,13 @@ import { Button } from "./Button";
 import type { ButtonProps } from "./types";
 import clsx from "clsx";
 
-export function DisplayButton({ className = "", ...props }: ButtonProps) {
+export function DisplayButton({ ...props }: ButtonProps) {
   return (
     <Button
       size="md"
       icon={<SlidersIcon size={20}></SlidersIcon>}
       className={clsx(
         "text-primary-content outline -outline-offset-1 outline-border-default hover:bg-tertiary",
-        className,
       )}
       {...props}
     >
