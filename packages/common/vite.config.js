@@ -1,16 +1,9 @@
+import { builtinModules } from "node:module";
 import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import pkg from "./package.json" with { type: "json" };
 
 export default defineConfig(() => {
   return {
-    plugins: [
-      dts({
-        entryRoot: "src",
-        tsconfigPath: "./tsconfig.json",
-        exclude: ["**/*.test.ts", "**/*.spec.ts"],
-        copyDtsFiles: true,
-      }),
-    ],
     build: {
       lib: {
         entry: "src/index.ts",
@@ -22,7 +15,12 @@ export default defineConfig(() => {
       emptyOutDir: true,
       reportCompressedSize: true,
       rollupOptions: {
-        external: ["electron-log"],
+        external: [
+          ...builtinModules,
+          ...Object.keys(pkg.dependencies || {}),
+          "electron-log",
+          "electron",
+        ],
         output: {
           preserveModules: false,
           entryFileNames: "[name].js",

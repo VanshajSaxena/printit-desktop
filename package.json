@@ -17,11 +17,11 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "build": "yarn workspaces foreach -Rt run build",
+    "build": "yarn workspaces foreach --all --topological-dev run build",
     "compile": "yarn build && electron-builder build --config electron-builder.cjs",
     "test": "yarn playwright test ./tests/e2e.spec.ts",
     "start": "node packages/dev-mode.js",
-    "typecheck": "yarn workspaces foreach -R run typecheck",
+    "typecheck": "yarn workspaces foreach --all --topological-dev run typecheck",
     "create-renderer": "cd packages && node ./integrate-renderer/create-renderer.js",
     "integrate-renderer": "yarn workspace @app/integrate-renderer start",
     "init": "yarn create-renderer && yarn integrate-renderer && yarn install"
@@ -39,11 +39,6 @@
     "prettier": "3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "@app/main": "workspace:*",
-    "electron-log": "^5.4.3",
-    "socket.io-client": "^4.8.1"
   },
   "packageManager": "yarn@4.12.0"
 }

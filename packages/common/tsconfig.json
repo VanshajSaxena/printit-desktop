@@ -5,12 +5,13 @@
     "target": "ESNext",
     "sourceMap": false,
     "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
-    "types": ["node"],
     "baseUrl": ".",
-    "paths": {}
+    "declaration": false,
+    "composite": false
   },
   "include": ["**/*.ts", "../../types/**/*.d.ts"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "dist"]

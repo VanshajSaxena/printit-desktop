@@ -1,6 +1,17 @@
+import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
-import { ipcRenderer } from "electron";
+
+export type WsChannelTypeMap = {
+  "ws:connected": {
+    socketId: string | undefined;
+  };
+  "ws:disconnected": {
+    reason: string | undefined;
+  };
+};
+
+export type WsChannel = keyof WsChannelTypeMap;
 
 function send(channel: string, message: string) {
   return ipcRenderer.invoke(channel, message);
@@ -30,5 +41,19 @@ export function disconnectWebSocket() {
 export function getPrintTransactions() {
   return ipcRenderer.invoke("cs:transactions:get");
 }
+export function subscribeToWsEvent<C extends WsChannel>(
+  channel: C,
+  callback: (data: WsChannelTypeMap[C]) => void,
+) {
+  const subscription = (
+    _event: Electron.IpcRendererEvent,
+    data: WsChannelTypeMap[C],
+  ) => callback(data);
+  ipcRenderer.on(channel, subscription);
 
-export { sha256sum, versions, send };
+  return () => {
+    ipcRenderer.removeListener(channel, subscription);
+  };
+}
+
+export { send, sha256sum, versions };

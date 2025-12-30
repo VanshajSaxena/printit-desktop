@@ -1,12 +1,21 @@
 import { getNodeMajorVersion } from "@app/electron-versions";
 import { spawn } from "child_process";
 import electronPath from "electron";
+import { builtinModules } from "node:module";
+import pkg from "./package.json" with { type: "json" };
+import { resolve } from "node:path";
 
 export default /**
  * @type {import('vite').UserConfig}
  * @see https://vitejs.dev/config/
  */
 ({
+  resolve: {
+    alias: {
+      // FORCE Vite to bundle the source code of common
+      "@app/common": resolve(__dirname, "../common/src/index.ts"),
+    },
+  },
   build: {
     ssr: true,
     sourcemap: "inline",
@@ -21,7 +30,17 @@ export default /**
       output: {
         entryFileNames: "[name].js",
       },
-      external: ["electron-log"],
+      external: [
+        "electron-log",
+        "electron",
+        "electron-devtools-installer",
+        "electron-updater",
+        ...builtinModules,
+        ...builtinModules.map((m) => `node:${m}`),
+        ...Object.keys(pkg.dependencies || {}).filter(
+          (d) => d !== "@app/common",
+        ),
+      ],
     },
     emptyOutDir: true,
     reportCompressedSize: false,

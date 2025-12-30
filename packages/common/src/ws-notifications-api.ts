@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import log from "electron-log";
 import { Fetch, WebSocket, WebTransport, XHR } from "engine.io-client";
+import { EventEmitter } from "events";
 
 export interface WsNotificationsApiConfig {
   url: string;
@@ -12,10 +13,11 @@ export interface WsNotificationsApiConfig {
   debug?: boolean;
 }
 
-export class WsNotificationsApi {
+export class WsNotificationsApi extends EventEmitter {
   private client: Socket;
   private config: WsNotificationsApiConfig;
   constructor(config: WsNotificationsApiConfig) {
+    super();
     this.config = {
       reconnection: true,
       reconnectionAttempt: 15,
@@ -46,6 +48,7 @@ export class WsNotificationsApi {
         this.client.io.engine.transport.name,
       );
       this.joinVendor(1);
+      this.emit("ws:connected", { socketId: this.client.id });
     });
 
     this.client.io.engine.on("upgrade", () => {
@@ -62,6 +65,7 @@ export class WsNotificationsApi {
 
     this.client.on("disconnect", (reason) => {
       log.warn("WsHandlerModule: Disconnected:", reason);
+      this.emit("ws:disconnected", reason);
     });
 
     this.client.on("ping", () => {
@@ -88,8 +92,9 @@ export class WsNotificationsApi {
       log.warn("WsHandlerModule: Failed to reconnect after maximum attempts");
     });
 
-    this.client.on("new_transactions", () => {
+    this.client.on("new_transaction", (data) => {
       log.info("WsHandlerModule: New transaction received");
+      this.emit("ws:new_transaction", data);
     });
   }
 

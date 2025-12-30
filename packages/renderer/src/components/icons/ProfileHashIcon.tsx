@@ -1,9 +1,19 @@
+import { useWsEvent } from "@components/hooks/useWsHandler.ts";
 import { useEffect, useState } from "react";
 import type { IconProps } from "./types.ts";
 import { isWebSocketConnected } from "@app/preload";
 
 function ProfileHash({ size, ...props }: IconProps) {
   const [connected, setConnected] = useState(false);
+
+  useWsEvent("ws:disconnected", ({ reason }) => {
+    console.log(reason);
+    setConnected(false);
+  });
+  useWsEvent("ws:connected", ({ socketId }) => {
+    console.log(socketId);
+    setConnected(true);
+  });
 
   useEffect(() => {
     let isMounted = true;
