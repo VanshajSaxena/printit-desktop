@@ -10,7 +10,7 @@ export function PrinterStatusCard({
 }) {
   return (
     <PulseCard
-      heroTextStyle="text-lg leading-8 font-semibold text-green-600"
+      heroTextStyle="text-xl leading-8 font-semibold text-green-600"
       title="Printer Status"
       heroText={heroText}
       subText={subText}

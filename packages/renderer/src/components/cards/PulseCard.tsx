@@ -17,13 +17,13 @@ export function PulseCard({
 }: PulseCardProps) {
   return (
     <div className="flex size-fit min-h-28 min-w-38 flex-col justify-between gap-4 rounded-3xl bg-secondary px-4 py-3 outline -outline-offset-1 outline-border-default">
-      <div className="flex items-center justify-between">
-        <p className="text-xs leading-4 text-secondary-content">{title}</p>
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm leading-5 text-secondary-content">{title}</p>
         <div className="stroke-secondary-content">{icon}</div>
       </div>
       <div className="flex flex-col items-start">
         <p className={heroTextStyle}>{heroText}</p>
-        <p className="text-xs leading-4 text-tertiary-content">{subText}</p>
+        <p className="text-sm leading-5 text-tertiary-content">{subText}</p>
       </div>
     </div>
   );
