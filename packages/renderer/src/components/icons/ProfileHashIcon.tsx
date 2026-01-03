@@ -1,4 +1,4 @@
-import { useWsEvent } from "@components/hooks/useWsHandler.ts";
+import { useWsEvent } from "src/hooks/useWsHandler.ts";
 import { useEffect, useState } from "react";
 import type { IconProps } from "./types.ts";
 import { isWebSocketConnected } from "@app/preload";

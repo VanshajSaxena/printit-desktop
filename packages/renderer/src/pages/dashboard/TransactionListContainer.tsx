@@ -1,7 +1,7 @@
 import { client, queryClient } from "@api/client";
 import { EmptyTrayIcon } from "@components/icons/EmptyTrayIcon";
 import { TransactionItem } from "@components/list-items/TransactionItem";
-import { useWsEvent } from "@components/hooks/useWsHandler";
+import { useWsEvent } from "src/hooks/useWsHandler";
 import { useCallback } from "react";
 
 export function TransactionListContainer() {
