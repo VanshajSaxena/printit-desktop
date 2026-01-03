@@ -1,12 +1,25 @@
-import { client } from "@api/client";
+import { client, queryClient } from "@api/client";
 import { EmptyTrayIcon } from "@components/icons/EmptyTrayIcon";
 import { TransactionItem } from "@components/list-items/TransactionItem";
 import { useWsEvent } from "@components/hooks/useWsHandler";
+import { useCallback } from "react";
 
 export function TransactionListContainer() {
-  useWsEvent("ws:new_transaction", ({ id }) => {
-    console.log(id);
-  });
+  useWsEvent(
+    "ws:new_transaction",
+    useCallback(({ id }) => {
+      console.log(id);
+      void queryClient.invalidateQueries({
+        queryKey: client.queryOptions(
+          "get",
+          "/api/v1/transactions",
+          {},
+          { refetchOnWindowFocus: false },
+        ).queryKey,
+      });
+    }, []),
+  );
+
   const { data, isSuccess } = client.useQuery(
     "get",
     "/api/v1/transactions",
