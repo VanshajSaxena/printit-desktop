@@ -2678,16 +2678,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:38.7.2":
-  version: 38.7.2
-  resolution: "electron@npm:38.7.2"
+"electron@npm:^39":
+  version: 39.2.7
+  resolution: "electron@npm:39.2.7"
   dependencies:
     "@electron/get": "npm:^2.0.0"
     "@types/node": "npm:^22.7.7"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10c0/b79fc6bf44086649c8ff0ffd3572bb1e6ba65993a6a09a32c42f246cd69aaedd5864fac7d3ed4aacdedb03f2d6c21dee9b92d0982c20617e288c185d847b570b
+  checksum: 10c0/5923992063245f4b9593edd4186d9d7738f808120b60592bce16bd2e53815c551b2fc824a633597e7a542bd1b456760df0dbdf02d18dde5b1d77eb037979037c
   languageName: node
   linkType: hard
 
@@ -5036,7 +5036,7 @@ __metadata:
     "@playwright/test": "npm:1.57.0"
     "@types/node": "npm:24.10.1"
     create-vite: "npm:7.1.3"
-    electron: "npm:38.7.2"
+    electron: "npm:^39"
     electron-builder: "npm:26.3.5"
     eslint-plugin-react-dom: "npm:^2.5.0"
     eslint-plugin-react-x: "npm:^2.5.0"
