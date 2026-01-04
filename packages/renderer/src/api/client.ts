@@ -9,6 +9,12 @@ const fetchClient = createFetchClient<paths>({
   baseUrl,
 });
 
-export const queryClient = new QueryClient({});
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+});
 
 export const client = createClient<paths>(fetchClient);

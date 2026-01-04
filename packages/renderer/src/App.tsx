@@ -1,16 +1,24 @@
 import { ThemeProvider } from "./context/theme/ThemeProvider";
 import "./App.css";
 import { AppLayout } from "./components/layout/AppLayout";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./api/client";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { queryClient } from "@api/client";
+import { queryPersister } from "@api/queryPersister";
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: queryPersister,
+        maxAge: Infinity,
+        buster: "v1",
+      }}
+    >
       <ThemeProvider>
-        <AppLayout></AppLayout>
+        <AppLayout />
       </ThemeProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }
 
