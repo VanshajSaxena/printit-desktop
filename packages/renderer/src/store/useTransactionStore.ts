@@ -1,31 +1,28 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
 import { createIdbStorage } from "./createIdbStorage";
 
-interface TransactionObject {
+export interface TransactionObject {
   id: number;
 }
 
-interface TransactionState {
+export interface TransactionState {
   transactions: TransactionObject[];
 }
 
-interface TransactionStore {
+export interface TransactionStore {
   state: TransactionState;
-  addTransaction: (transaction: TransactionObject) => void;
+  setState: (state: TransactionState) => void;
 }
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(
-    immer((set) => ({
+    (set) => ({
       state: { transactions: [] },
-      addTransaction: (transaction: TransactionObject) => {
-        set((store) => {
-          store.state.transactions.push(transaction);
-        });
+      setState: (state: TransactionState) => {
+        set({ state });
       },
-    })),
+    }),
     {
       name: "transaction-storage",
       storage: createIdbStorage<Pick<TransactionStore, "state">>(),
