@@ -260,11 +260,14 @@ export interface components {
       lastName: string;
       username: string;
     };
-    DownloadFileRequestDto: {
-      contentType?: string;
-      key: string;
+    DownloadFileBatchRequestDto: {
+      ids: number[];
+    };
+    DownloadFileBatchResponseDto: {
+      signedUrls: components["schemas"]["DownloadFileResponseDto"][];
     };
     DownloadFileResponseDto: {
+      id: number;
       url: string;
     };
     FindDocumentResponseDto: {
@@ -287,8 +290,6 @@ export interface components {
       jobs: components["schemas"]["FindJobResponseDto"][];
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
-      /** Format: date-time */
-      updatedAt: string;
     };
     PrinterResponseDto: {
       /** Format: json */
@@ -345,8 +346,10 @@ export type CreateTransactionRequestDto =
 export type CreateTransactionResponseDto =
   components["schemas"]["CreateTransactionResponseDto"];
 export type CreateVendorDto = components["schemas"]["CreateVendorDto"];
-export type DownloadFileRequestDto =
-  components["schemas"]["DownloadFileRequestDto"];
+export type DownloadFileBatchRequestDto =
+  components["schemas"]["DownloadFileBatchRequestDto"];
+export type DownloadFileBatchResponseDto =
+  components["schemas"]["DownloadFileBatchResponseDto"];
 export type DownloadFileResponseDto =
   components["schemas"]["DownloadFileResponseDto"];
 export type FindDocumentResponseDto =
@@ -597,7 +600,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["DownloadFileRequestDto"];
+        "application/json": components["schemas"]["DownloadFileBatchRequestDto"];
       };
     };
     responses: {
@@ -606,7 +609,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["DownloadFileResponseDto"];
+          "application/json": components["schemas"]["DownloadFileBatchResponseDto"];
         };
       };
     };
