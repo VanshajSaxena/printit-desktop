@@ -11,7 +11,7 @@ function App() {
       client={queryClient}
       persistOptions={{
         persister: queryPersister,
-        maxAge: Infinity,
+        maxAge: 1000 * 60 * 60 * 24,
         buster: "v1",
       }}
     >
