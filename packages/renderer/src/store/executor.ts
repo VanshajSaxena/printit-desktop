@@ -7,10 +7,10 @@ export class ObservableExecutor {
 
   constructor(
     dispatch: (event: TransactionEvent) => void,
-    queryClient: FetchClientType,
+    fetchClient: FetchClientType,
   ) {
     this.dispatch = dispatch;
-    this.fetchClient = queryClient;
+    this.fetchClient = fetchClient;
   }
 
   async execute(operation: TransactionOperation): Promise<void> {
