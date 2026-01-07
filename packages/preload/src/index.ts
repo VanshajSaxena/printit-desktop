@@ -44,6 +44,15 @@ export function disconnectWebSocket() {
 export function getPrintTransactions() {
   return ipcRenderer.invoke("cs:transactions:get");
 }
+export function downloadFiles(
+  files: {
+    id: number;
+    url: string;
+    contentType: string;
+  }[],
+) {
+  return ipcRenderer.invoke("files:download", files);
+}
 export function subscribeToWsEvent<C extends WsChannel>(
   channel: C,
   callback: (data: WsChannelTypeMap[C]) => void,

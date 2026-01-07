@@ -1,5 +1,6 @@
 import { type FetchClientType } from "@api/client";
 import type { TransactionEvent, TransactionOperation } from "./reducer";
+import { downloadFiles } from "@app/preload";
 
 export class ObservableExecutor {
   private dispatch: (event: TransactionEvent) => void;
@@ -15,10 +16,14 @@ export class ObservableExecutor {
 
   async execute(operation: TransactionOperation): Promise<void> {
     switch (operation.type) {
-      case "download-files": {
+      case "files:download": {
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });
+
+        if (data?.signedUrls) {
+          await downloadFiles(data.signedUrls);
+        }
 
         break;
       }

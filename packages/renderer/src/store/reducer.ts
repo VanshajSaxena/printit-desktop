@@ -9,7 +9,7 @@ export type TransactionEvent =
   | { type: "user:print"; files: { id: number }[] };
 
 export type TransactionOperation =
-  | { type: "download-files"; files: { id: number }[] }
+  | { type: "files:download"; files: { id: number }[] }
   | { type: "print-documents" }
   | { type: "error" };
 
@@ -26,7 +26,7 @@ export const reducer = (
         break;
       }
       case "user:print": {
-        operations.push({ type: "download-files", files: event.files });
+        operations.push({ type: "files:download", files: event.files });
         break;
       }
 
