@@ -283,6 +283,7 @@ export interface components {
       signedUrls: components["schemas"]["DownloadFileResponseDto"][];
     };
     DownloadFileResponseDto: {
+      contentType: string;
       id: number;
       url: string;
     };
