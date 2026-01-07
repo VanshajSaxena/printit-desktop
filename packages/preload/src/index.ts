@@ -3,13 +3,13 @@ import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
 
 export type WsChannelTypeMap = {
-  "ws:connected": {
+  "server:connected": {
     socketId: string | undefined;
   };
-  "ws:disconnected": {
+  "server:disconnected": {
     reason: string | undefined;
   };
-  "ws:new_transaction": {
+  "transaction:new": {
     id: string | undefined;
   };
 };
@@ -33,13 +33,13 @@ export function getPrintQueueCapabilitites() {
   return ipcRenderer.invoke("printer:capabilities");
 }
 export function isWebSocketConnected(): Promise<boolean> {
-  return ipcRenderer.invoke("ws:is-connected");
+  return ipcRenderer.invoke("server:is-connected");
 }
 export function isWebSocketActive() {
-  return ipcRenderer.invoke("ws:is-active");
+  return ipcRenderer.invoke("server:is-active");
 }
 export function disconnectWebSocket() {
-  return ipcRenderer.invoke("ws:disconnect");
+  return ipcRenderer.invoke("server:disconnect");
 }
 export function getPrintTransactions() {
   return ipcRenderer.invoke("cs:transactions:get");

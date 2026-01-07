@@ -31,14 +31,14 @@ class WsHandlerModule implements AppModule {
   }
 
   private setupRendererForwarding() {
-    this.#api.on("ws:new_transaction", (data) => {
-      this.sendToRenderer("ws:new_transaction", data);
+    this.#api.on("transaction:new", (data) => {
+      this.sendToRenderer("transaction:new", data);
     });
-    this.#api.on("ws:disconnected", (reason) => {
-      this.sendToRenderer("ws:disconnected", reason);
+    this.#api.on("server:disconnected", (reason) => {
+      this.sendToRenderer("server:disconnected", reason);
     });
-    this.#api.on("ws:connected", (data) => {
-      this.sendToRenderer("ws:connected", data);
+    this.#api.on("server:connected", (data) => {
+      this.sendToRenderer("server:connected", data);
     });
   }
 

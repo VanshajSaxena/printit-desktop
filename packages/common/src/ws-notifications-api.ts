@@ -48,7 +48,7 @@ export class WsNotificationsApi extends EventEmitter {
         this.client.io.engine.transport.name,
       );
       this.joinVendor(1);
-      this.emit("ws:connected", { socketId: this.client.id });
+      this.emit("server:connected", { socketId: this.client.id });
     });
 
     this.client.io.engine.on("upgrade", () => {
@@ -65,7 +65,7 @@ export class WsNotificationsApi extends EventEmitter {
 
     this.client.on("disconnect", (reason) => {
       log.warn("WsHandlerModule: Disconnected:", reason);
-      this.emit("ws:disconnected", reason);
+      this.emit("server:disconnected", reason);
     });
 
     this.client.on("ping", () => {
@@ -92,9 +92,9 @@ export class WsNotificationsApi extends EventEmitter {
       log.warn("WsHandlerModule: Failed to reconnect after maximum attempts");
     });
 
-    this.client.on("new_transaction", (data) => {
+    this.client.on("transaction:new", (data) => {
       log.info("WsHandlerModule: New transaction received");
-      this.emit("ws:new_transaction", data);
+      this.emit("transaction:new", data);
     });
   }
 

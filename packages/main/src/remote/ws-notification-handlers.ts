@@ -6,15 +6,15 @@ export function getWsNotificationSeriveHandlers(
   webSocketApi: WsNotificationsApi,
 ): IpcHandlerRegistry {
   return {
-    "ws:is-connected": createHandler(() => {
+    "server:is-connected": createHandler(() => {
       return webSocketApi.isConnected();
     }),
 
-    "ws:is-active": createHandler(() => {
+    "server:is-active": createHandler(() => {
       return webSocketApi.isActive();
     }),
 
-    "ws:disconnect": createHandler(() => {
+    "server:disconnect": createHandler(() => {
       webSocketApi.disconnect();
     }),
   };
