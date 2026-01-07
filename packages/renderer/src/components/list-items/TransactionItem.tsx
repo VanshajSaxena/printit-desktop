@@ -11,6 +11,7 @@ import { AlarmIcon } from "@components/icons/AlarmIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import { NewItemBadge } from "./NewItemBadge";
+import { useTransactionStore } from "src/store/useTransactionStore";
 
 export function TransactionItem({
   friendlyId,
@@ -21,6 +22,8 @@ export function TransactionItem({
   if (jobs.length > 1) {
     title = title.concat(" & ", (jobs.length - 1).toString(), " more");
   }
+
+  const dispatch = useTransactionStore((store) => store.dispatch);
   const formattedDate = formatRelativeTime(createdAt);
   const filesCount = jobs.length;
   const isColorOnly = jobs.every((job) => {
@@ -58,7 +61,16 @@ export function TransactionItem({
           <div className="flex items-center justify-center gap-5">
             <div className="flex gap-4">
               <RejectButton></RejectButton>
-              <PrintButton></PrintButton>
+              <PrintButton
+                onClick={() => {
+                  dispatch({
+                    type: "user:print",
+                    files: jobs.map((job) => {
+                      return { id: job.document.id };
+                    }),
+                  });
+                }}
+              ></PrintButton>
             </div>
             <div className="flex gap-4">
               <KebabButton></KebabButton>

@@ -4,16 +4,16 @@ import type {
   TransactionState,
 } from "./useTransactionStore";
 
-type TransactionEvent =
+export type TransactionEvent =
   | { type: "transaction:new"; transaction: TransactionObject }
-  | { type: "user:print" };
+  | { type: "user:print"; files: { id: number }[] };
 
-type TransactionOperation =
-  | { type: "download-files"; urls: { id: number; url: string }[] }
+export type TransactionOperation =
+  | { type: "download-files"; files: { id: number }[] }
   | { type: "print-documents" }
   | { type: "error" };
 
-export const transactionReducer = (
+export const reducer = (
   transactionState: TransactionState,
   event: TransactionEvent,
 ): [TransactionState, TransactionOperation[]] => {
@@ -23,15 +23,10 @@ export const transactionReducer = (
     switch (event.type) {
       case "transaction:new": {
         draft.transactions.push(event.transaction);
-        operations.push({
-          type: "download-files",
-          urls: [{ id: 1, url: "someurl.com" }],
-        });
         break;
       }
-
       case "user:print": {
-        operations.push({ type: "print-documents" });
+        operations.push({ type: "download-files", files: event.files });
         break;
       }
 

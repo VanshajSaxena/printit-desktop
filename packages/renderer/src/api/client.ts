@@ -5,7 +5,9 @@ import createClient from "openapi-react-query";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-const fetchClient = createFetchClient<paths>({
+export type FetchClientType = typeof fetchClient;
+
+export const fetchClient = createFetchClient<paths>({
   baseUrl,
 });
 
