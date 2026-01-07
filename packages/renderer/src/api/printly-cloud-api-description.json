@@ -658,7 +658,7 @@
         "tags": ["Job"]
       }
     },
-    "/api/v1/files": {
+    "/api/v1/files/upload": {
       "post": {
         "operationId": "R2Controller_requestUploadFiles_v1",
         "parameters": [],
@@ -685,8 +685,10 @@
           }
         },
         "tags": ["R2"]
-      },
-      "get": {
+      }
+    },
+    "/api/v1/files/download": {
+      "post": {
         "operationId": "R2Controller_requestDownloadFile_v1",
         "parameters": [],
         "requestBody": {
@@ -700,7 +702,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {

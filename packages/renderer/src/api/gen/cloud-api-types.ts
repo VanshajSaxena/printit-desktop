@@ -68,14 +68,30 @@ export interface paths {
     patch: operations["DocumentController_update_v1"];
     trace?: never;
   };
-  "/api/v1/files": {
+  "/api/v1/files/download": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations["R2Controller_requestDownloadFile_v1"];
+    get?: never;
+    put?: never;
+    post: operations["R2Controller_requestDownloadFile_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/files/upload": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
     put?: never;
     post: operations["R2Controller_requestUploadFiles_v1"];
     delete?: never;
@@ -604,7 +620,7 @@ export interface operations {
       };
     };
     responses: {
-      200: {
+      201: {
         headers: {
           [name: string]: unknown;
         };
