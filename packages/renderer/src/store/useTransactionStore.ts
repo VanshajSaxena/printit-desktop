@@ -41,7 +41,8 @@ export const useTransactionStore = create<TransactionStore>()(
     },
     {
       name: "transaction-storage",
-      storage: createIdbStorage<Pick<TransactionStore, "state">>(),
+      storage: createIdbStorage<TransactionState>(),
+      partialize: (store) => store.state,
     },
   ),
 );

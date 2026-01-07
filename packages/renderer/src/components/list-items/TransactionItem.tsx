@@ -11,7 +11,7 @@ import { AlarmIcon } from "@components/icons/AlarmIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import { NewItemBadge } from "./NewItemBadge";
-import { useTransactionStore } from "src/store/useTransactionStore";
+import { useTransactionStore } from "@store/useTransactionStore";
 
 export function TransactionItem({
   friendlyId,

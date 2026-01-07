@@ -16,7 +16,7 @@ export class ObservableExecutor {
   async execute(operation: TransactionOperation): Promise<void> {
     switch (operation.type) {
       case "download-files": {
-        await this.fetchClient.GET("/api/v1/files", {
+        const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });
 
