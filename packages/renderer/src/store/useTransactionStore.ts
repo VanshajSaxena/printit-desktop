@@ -3,20 +3,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
 import { ObservableExecutor } from "./executor";
-import { reducer, type TransactionEvent } from "./reducer";
-
-export interface TransactionObject {
-  id: number;
-}
-
-export interface TransactionState {
-  transactions: TransactionObject[];
-}
-
-export interface TransactionStore {
-  state: TransactionState;
-  dispatch: (event: TransactionEvent) => void;
-}
+import { reducer } from "./reducer";
+import type {
+  TransactionEvent,
+  TransactionState,
+  TransactionStore,
+} from "./types";
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(

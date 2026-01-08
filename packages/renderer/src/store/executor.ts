@@ -1,6 +1,6 @@
 import { type FetchClientType } from "@api/client";
-import type { TransactionEvent, TransactionOperation } from "./reducer";
 import { downloadFiles } from "@app/preload";
+import type { TransactionEvent, TransactionOperation } from "./types";
 
 export class ObservableExecutor {
   private dispatch: (event: TransactionEvent) => void;

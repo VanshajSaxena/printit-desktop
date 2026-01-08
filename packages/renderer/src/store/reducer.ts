@@ -1,18 +1,9 @@
 import { produce } from "immer";
 import type {
-  TransactionObject,
+  TransactionEvent,
+  TransactionOperation,
   TransactionState,
-} from "./useTransactionStore";
-
-export type TransactionEvent =
-  | { type: "transaction:new"; transaction: TransactionObject }
-  | { type: "user:print"; files: { id: number }[] }
-  | { type: "files:download:started" };
-
-export type TransactionOperation =
-  | { type: "files:download"; files: { id: number }[] }
-  | { type: "print-documents" }
-  | { type: "error" };
+} from "./types";
 
 export const reducer = (
   state: TransactionState,
