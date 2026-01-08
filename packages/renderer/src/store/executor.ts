@@ -1,6 +1,6 @@
 import { type FetchClientType } from "@api/client";
 import { downloadFiles } from "@app/preload";
-import type { TransactionEvent, TransactionOperation } from "./types";
+import type { TransactionEvent, TransactionEffect } from "./types";
 
 export class ObservableExecutor {
   private dispatch: (event: TransactionEvent) => void;
@@ -14,9 +14,9 @@ export class ObservableExecutor {
     this.fetchClient = fetchClient;
   }
 
-  async execute(operation: TransactionOperation): Promise<void> {
+  async execute(operation: TransactionEffect): Promise<void> {
     switch (operation.type) {
-      case "files:download": {
+      case "download-files": {
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });

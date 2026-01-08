@@ -11,14 +11,36 @@ export interface TransactionStore {
   dispatch: (event: TransactionEvent) => void;
 }
 
-export type TransactionEvent =
-  | { type: "transaction:new"; transaction: TransactionObject }
-  | { type: "user:print"; files: { id: number }[] }
-  | { type: "files:download:started" }
-  | { type: "files:download:progress" }
-  | { type: "files:download:completed" };
+export interface NewTransactionEvent {
+  type: "transaction:new";
+  transaction: TransactionObject;
+}
 
-export type TransactionOperation =
-  | { type: "files:download"; files: { id: number }[] }
+export interface UserSendToPrinterEvent {
+  type: "user:print";
+  files: { id: number }[];
+}
+
+export interface FilesDownloadStartedEvent {
+  type: "files:download:started";
+}
+
+export interface FilesDownloadProgressEvent {
+  type: "files:download:progress";
+}
+
+export interface FilesDownloadCompletedEvent {
+  type: "files:download:completed";
+}
+
+export type TransactionEvent =
+  | NewTransactionEvent
+  | UserSendToPrinterEvent
+  | FilesDownloadStartedEvent
+  | FilesDownloadProgressEvent
+  | FilesDownloadCompletedEvent;
+
+export type TransactionEffect =
+  | { type: "download-files"; files: { id: number }[] }
   | { type: "print-documents" }
   | { type: "error" };

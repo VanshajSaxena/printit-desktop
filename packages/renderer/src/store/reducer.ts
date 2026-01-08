@@ -1,16 +1,16 @@
 import { produce } from "immer";
 import type {
   TransactionEvent,
-  TransactionOperation,
+  TransactionEffect,
   TransactionState,
 } from "./types";
 
 export const reducer = (
   state: TransactionState,
   event: TransactionEvent,
-): [TransactionState, TransactionOperation[]] => {
+): [TransactionState, TransactionEffect[]] => {
   let nextState = state;
-  const operations: TransactionOperation[] = [];
+  const operations: TransactionEffect[] = [];
   switch (event.type) {
     case "transaction:new":
       nextState = produce(state, (draft) => {
@@ -19,15 +19,22 @@ export const reducer = (
       break;
 
     case "user:print":
-      operations.push({ type: "files:download", files: event.files });
+      operations.push({ type: "download-files", files: event.files });
       break;
 
     case "files:download:started":
       break;
 
-    default:
+    case "files:download:progress":
+      break;
+
+    case "files:download:completed":
+      break;
+
+    default: {
       operations.push({ type: "error" });
       break;
+    }
   }
 
   return [nextState, operations];
