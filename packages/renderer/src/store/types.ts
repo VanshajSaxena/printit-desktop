@@ -3,7 +3,7 @@ export interface TransactionObject {
 }
 
 export interface TransactionState {
-  transactions: TransactionObject[];
+  transactions: Record<number, TransactionObject>;
 }
 
 export interface TransactionStore {
@@ -40,12 +40,18 @@ export type TransactionEvent =
   | FilesDownloadProgressEvent
   | FilesDownloadCompletedEvent;
 
-interface DownloadFilesEffect {
+interface DownloadFilesOperation {
   type: "download-files";
   files: { id: number }[];
 }
-interface PrintDocumentsEffect {
+interface PrintDocumentsOperation {
   type: "print-documents";
 }
 
-export type TransactionOperation = DownloadFilesEffect | PrintDocumentsEffect;
+interface OperationWithId {
+  operationId: string;
+}
+
+export type OperationUnion = DownloadFilesOperation | PrintDocumentsOperation;
+
+export type TransactionOperation = OperationUnion & OperationWithId;

@@ -22,8 +22,8 @@ export class ObservableExecutor {
         });
 
         if (data?.signedUrls) {
-          this.dispatch({ type: "files:download:started" });
           await downloadFiles(data.signedUrls);
+          this.dispatch({ type: "files:download:started" });
         }
 
         break;

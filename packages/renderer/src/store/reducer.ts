@@ -5,6 +5,10 @@ import type {
   TransactionState,
 } from "./types";
 
+function generateOperationId() {
+  return crypto.randomUUID().slice(0, 8);
+}
+
 export const reducer = (
   state: TransactionState,
   event: TransactionEvent,
@@ -14,16 +18,24 @@ export const reducer = (
   switch (event.type) {
     case "transaction:new":
       nextState = produce(state, (draft) => {
-        draft.transactions.push(event.transaction);
+        draft.transactions[event.transaction.id] = event.transaction;
       });
       break;
 
-    case "user:print":
-      operations.push({ type: "download-files", files: event.files });
+    case "user:print": {
+      const operationId = generateOperationId();
+      operations.push({
+        operationId,
+        type: "download-files",
+        files: event.files,
+      });
       break;
+    }
 
-    case "files:download:started":
+    case "files:download:started": {
+      nextState = produce(state, (draft) => {});
       break;
+    }
 
     case "files:download:progress":
       break;
