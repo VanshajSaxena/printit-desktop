@@ -40,7 +40,12 @@ export type TransactionEvent =
   | FilesDownloadProgressEvent
   | FilesDownloadCompletedEvent;
 
-export type TransactionEffect =
-  | { type: "download-files"; files: { id: number }[] }
-  | { type: "print-documents" }
-  | { type: "error" };
+interface DownloadFilesEffect {
+  type: "download-files";
+  files: { id: number }[];
+}
+interface PrintDocumentsEffect {
+  type: "print-documents";
+}
+
+export type TransactionOperation = DownloadFilesEffect | PrintDocumentsEffect;

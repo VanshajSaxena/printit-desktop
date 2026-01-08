@@ -1,16 +1,16 @@
 import { produce } from "immer";
 import type {
   TransactionEvent,
-  TransactionEffect,
+  TransactionOperation,
   TransactionState,
 } from "./types";
 
 export const reducer = (
   state: TransactionState,
   event: TransactionEvent,
-): [TransactionState, TransactionEffect[]] => {
+): [TransactionState, TransactionOperation[]] => {
   let nextState = state;
-  const operations: TransactionEffect[] = [];
+  const operations: TransactionOperation[] = [];
   switch (event.type) {
     case "transaction:new":
       nextState = produce(state, (draft) => {
@@ -32,7 +32,6 @@ export const reducer = (
       break;
 
     default: {
-      operations.push({ type: "error" });
       break;
     }
   }
