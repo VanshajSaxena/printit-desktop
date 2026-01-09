@@ -27,6 +27,7 @@ export const reducer = (
       operations.push({
         operationId,
         type: "download-files",
+        transactionId: event.transactionId,
         files: event.files,
       });
       break;

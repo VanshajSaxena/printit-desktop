@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { createWriteStream } from "fs";
 import { mkdir } from "fs/promises";
 import { app } from "electron";
@@ -7,12 +6,16 @@ import { pipeline } from "stream/promises";
 
 export const downloadManager = {
   async downloadFiles(
+    transactionId: number,
     files: { id: number; url: string; contentType: string }[],
   ) {
-    const batchId = randomUUID();
     const appName = app.getName();
     const baseDir = path.join(app.getPath("appData"), appName);
-    const downloadDir = path.join(baseDir, "downloads");
+    const downloadDir = path.join(
+      baseDir,
+      "downloads",
+      transactionId.toString(),
+    );
 
     await mkdir(downloadDir, { recursive: true });
 
@@ -36,7 +39,6 @@ export const downloadManager = {
     );
 
     return {
-      batchId,
       path: downloadDir,
       fileCount: files.length,
     };

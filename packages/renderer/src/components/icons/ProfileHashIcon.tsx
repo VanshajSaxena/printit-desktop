@@ -6,11 +6,11 @@ import { isWebSocketConnected } from "@app/preload";
 function ProfileHash({ size, ...props }: IconProps) {
   const [connected, setConnected] = useState(false);
 
-  useWsEvent("ws:disconnected", ({ reason }) => {
+  useWsEvent("server:disconnected", ({ reason }) => {
     console.log(reason);
     setConnected(false);
   });
-  useWsEvent("ws:connected", ({ socketId }) => {
+  useWsEvent("server:connected", ({ socketId }) => {
     console.log(socketId);
     setConnected(true);
   });

@@ -18,6 +18,7 @@ export interface NewTransactionEvent {
 
 export interface UserSendToPrinterEvent {
   type: "user:print";
+  transactionId: number;
   files: { id: number }[];
 }
 
@@ -33,25 +34,34 @@ export interface FilesDownloadCompletedEvent {
   type: "files:download:completed";
 }
 
+export interface FilesDownloadErrorEvent {
+  type: "files:download:error";
+  reason:
+    | "presigned-url-fetch-failed"
+    | "download-manager-threw-during-download";
+}
+
 export type TransactionEvent =
   | NewTransactionEvent
   | UserSendToPrinterEvent
   | FilesDownloadStartedEvent
   | FilesDownloadProgressEvent
-  | FilesDownloadCompletedEvent;
+  | FilesDownloadCompletedEvent
+  | FilesDownloadErrorEvent;
 
 interface DownloadFilesOperation {
   type: "download-files";
+  transactionId: number;
   files: { id: number }[];
 }
 interface PrintDocumentsOperation {
   type: "print-documents";
 }
 
-interface OperationWithId {
+interface OperationBase {
   operationId: string;
 }
 
 export type OperationUnion = DownloadFilesOperation | PrintDocumentsOperation;
 
-export type TransactionOperation = OperationUnion & OperationWithId;
+export type TransactionOperation = OperationUnion & OperationBase;

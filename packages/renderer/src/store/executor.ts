@@ -1,6 +1,6 @@
 import { type FetchClientType } from "@api/client";
-import { downloadFiles } from "@app/preload";
 import type { TransactionEvent, TransactionOperation } from "./types";
+import { downloadFiles } from "@app/preload";
 
 export class ObservableExecutor {
   private dispatch: (event: TransactionEvent) => void;
@@ -21,10 +21,19 @@ export class ObservableExecutor {
           body: { ids: operation.files.map((file) => file.id) },
         });
 
-        if (data?.signedUrls) {
-          await downloadFiles(data.signedUrls);
-          this.dispatch({ type: "files:download:started" });
+        if (!data) {
+          this.dispatch({
+            type: "files:download:error",
+            reason: "presigned-url-fetch-failed",
+          });
+          break;
         }
+
+        const downloadResult = await downloadFiles(
+          operation.transactionId,
+          data.signedUrls,
+        );
+        console.log(downloadResult);
 
         break;
       }

@@ -45,13 +45,14 @@ export function getPrintTransactions() {
   return ipcRenderer.invoke("cs:transactions:get");
 }
 export function downloadFiles(
+  transactionId: number,
   files: {
     id: number;
     url: string;
     contentType: string;
   }[],
 ) {
-  return ipcRenderer.invoke("files:download", files);
+  return ipcRenderer.invoke("files:download", transactionId, files);
 }
 export function subscribeToWsEvent<C extends WsChannel>(
   channel: C,

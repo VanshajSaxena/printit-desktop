@@ -23,13 +23,14 @@ export function getPrintServiceHandlers(
     "files:download": createHandler(
       async (
         _event,
+        transactionId: number,
         files: {
           id: number;
           url: string;
           contentType: string;
         }[],
       ) => {
-        await downloadManager.downloadFiles(files);
+        return await downloadManager.downloadFiles(transactionId, files);
       },
     ),
   };

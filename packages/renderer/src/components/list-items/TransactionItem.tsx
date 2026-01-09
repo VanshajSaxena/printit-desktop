@@ -14,6 +14,7 @@ import { NewItemBadge } from "./NewItemBadge";
 import { useTransactionStore } from "@store/useTransactionStore";
 
 export function TransactionItem({
+  id,
   friendlyId,
   jobs,
   createdAt,
@@ -65,6 +66,7 @@ export function TransactionItem({
                 onClick={() => {
                   dispatch({
                     type: "user:print",
+                    transactionId: id,
                     files: jobs.map((job) => {
                       return { id: job.document.id };
                     }),
