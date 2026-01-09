@@ -49,16 +49,17 @@ export type TransactionEvent =
   | FilesDownloadCompletedEvent
   | FilesDownloadErrorEvent;
 
-interface DownloadFilesOperation {
+export interface DownloadFilesOperation {
   type: "download-files";
   transactionId: number;
   files: { id: number }[];
 }
-interface PrintDocumentsOperation {
+
+export interface PrintDocumentsOperation {
   type: "print-documents";
 }
 
-interface OperationBase {
+export interface OperationBase {
   operationId: string;
 }
 

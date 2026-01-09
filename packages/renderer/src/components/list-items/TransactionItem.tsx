@@ -20,6 +20,9 @@ export function TransactionItem({
   createdAt,
 }: FindTransactionResponseDto) {
   let title = jobs[0].document.filename;
+  if (title.length > 30) {
+    title = title.slice(0, 30).concat("...");
+  }
   if (jobs.length > 1) {
     title = title.concat(" & ", (jobs.length - 1).toString(), " more");
   }
@@ -71,6 +74,8 @@ export function TransactionItem({
                       return { id: job.document.id };
                     }),
                   });
+                  // __AUTO_GENERATED_PRINT_VAR_START__
+                  console.log("TransactionItem#(anon) id:", id); // __AUTO_GENERATED_PRINT_VAR_END__
                 }}
               ></PrintButton>
             </div>

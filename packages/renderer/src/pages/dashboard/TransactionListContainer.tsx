@@ -6,7 +6,7 @@ import { useCallback } from "react";
 
 export function TransactionListContainer() {
   useWsEvent(
-    "ws:new_transaction",
+    "transaction:new",
     useCallback(({ id }) => {
       console.log(id);
       void queryClient.invalidateQueries({
