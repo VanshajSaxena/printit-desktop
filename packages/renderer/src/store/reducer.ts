@@ -24,8 +24,6 @@ export const reducer = (
 
     case "user:print": {
       const operationId = generateOperationId();
-      // __AUTO_GENERATED_PRINT_VAR_START__
-      console.log("reducer operationId:", operationId); // __AUTO_GENERATED_PRINT_VAR_END__
       operations.push({
         operationId,
         type: "download-files",

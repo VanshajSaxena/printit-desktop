@@ -20,8 +20,6 @@ export class ObservableExecutor {
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });
-        // __AUTO_GENERATED_PRINT_VAR_START__
-        console.log("ObservableExecutor#execute data:", data); // __AUTO_GENERATED_PRINT_VAR_END__
 
         if (!data) {
           this.dispatch({

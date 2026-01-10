@@ -1,3 +1,28 @@
+export type TransactionEventUnion =
+  | NewTransactionEvent
+  | UserSendToPrinterEvent
+  | FilesDownloadStartedEvent
+  | FilesDownloadProgressEvent
+  | FilesDownloadCompletedEvent
+  | FilesDownloadErrorEvent;
+
+export type TransactionOperationUnion =
+  | DownloadFilesOperation
+  | PrintDocumentsOperation;
+
+export type TransactionEvent = TransactionEventUnion & TransactionEventBase;
+export type TransactionOperation = TransactionOperationUnion &
+  TransactionOperationBase;
+
+export interface TransactionEventBase {
+  transactionId: number;
+}
+
+export interface TransactionOperationBase {
+  transactionId: number;
+  operationId: string;
+}
+
 export interface TransactionObject {
   id: number;
 }
@@ -18,7 +43,6 @@ export interface NewTransactionEvent {
 
 export interface UserSendToPrinterEvent {
   type: "user:print";
-  transactionId: number;
   files: { id: number }[];
 }
 
@@ -41,28 +65,11 @@ export interface FilesDownloadErrorEvent {
     | "download-manager-threw-during-download";
 }
 
-export type TransactionEvent =
-  | NewTransactionEvent
-  | UserSendToPrinterEvent
-  | FilesDownloadStartedEvent
-  | FilesDownloadProgressEvent
-  | FilesDownloadCompletedEvent
-  | FilesDownloadErrorEvent;
-
 export interface DownloadFilesOperation {
   type: "download-files";
-  transactionId: number;
   files: { id: number }[];
 }
 
 export interface PrintDocumentsOperation {
   type: "print-documents";
 }
-
-export interface OperationBase {
-  operationId: string;
-}
-
-export type OperationUnion = DownloadFilesOperation | PrintDocumentsOperation;
-
-export type TransactionOperation = OperationUnion & OperationBase;
