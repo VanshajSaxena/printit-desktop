@@ -8,7 +8,7 @@ import type {
   TransactionEvent,
   TransactionState,
   TransactionStore,
-} from "./types";
+} from "./event.types";
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(
@@ -21,7 +21,7 @@ export const useTransactionStore = create<TransactionStore>()(
         operations.forEach((operation) => void executor.execute(operation));
       }, fetchClient);
       return {
-        state: { transactions: [] },
+        state: { transactions: {} },
         dispatch: (event: TransactionEvent) => {
           const [newState, operations] = reducer(get().state, event);
 

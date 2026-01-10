@@ -1,4 +1,4 @@
-import type { components } from "@api/gen/cloud-api-types";
+import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 
 export type TransactionEventUnion =
   | NewTransactionEvent
@@ -8,30 +8,16 @@ export type TransactionEventUnion =
   | FilesDownloadCompletedEvent
   | FilesDownloadErrorEvent;
 
-export type TransactionOperationUnion =
-  | DownloadFilesOperation
-  | PrintDocumentsOperation;
-
-export type TransactionEvent = TransactionEventUnion & TransactionEventBase;
-export type TransactionOperation = TransactionOperationUnion &
-  TransactionOperationBase;
+export type TransactionEvent =
+  | (TransactionEventUnion & TransactionEventBase)
+  | TransactionRequestEvent
+  | TransactionResponseEvent;
 
 export interface TransactionEventBase {
   transactionId: number;
 }
 
-export interface TransactionOperationBase {
-  transactionId: number;
-  operationId: string;
-}
-
-export interface TransactionObject {
-  createdAt: string;
-  friendlyId: string;
-  jobs: components["schemas"]["FindJobResponseDto"][];
-  /** @enum {string} */
-  id: number;
-  status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+export interface TransactionObject extends FindTransactionResponseDto {
   currentJob?: number;
 }
 
@@ -44,9 +30,17 @@ export interface TransactionStore {
   dispatch: (event: TransactionEvent) => void;
 }
 
+export interface TransactionRequestEvent {
+  type: "transaction:request";
+}
+
+export interface TransactionResponseEvent {
+  type: "transaction:response";
+  response: FindTransactionResponseDto[];
+}
+
 export interface NewTransactionEvent {
   type: "transaction:new";
-  jobs: [number];
 }
 
 export interface UserSendToPrinterEvent {
@@ -71,13 +65,4 @@ export interface FilesDownloadErrorEvent {
   reason:
     | "presigned-url-fetch-failed"
     | "download-manager-threw-during-download";
-}
-
-export interface DownloadFilesOperation {
-  type: "download-files";
-  files: { id: number }[];
-}
-
-export interface PrintDocumentsOperation {
-  type: "print-documents";
 }

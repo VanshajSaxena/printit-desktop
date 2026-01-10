@@ -18,6 +18,7 @@ export function TransactionItem({
   friendlyId,
   jobs,
   createdAt,
+  status,
 }: FindTransactionResponseDto) {
   let title = jobs[0].document.filename;
   if (title.length > 30) {
@@ -47,7 +48,7 @@ export function TransactionItem({
                 <h3 className="text-base leading-6 text-nowrap text-primary-content">
                   {title}
                 </h3>
-                <NewItemBadge />
+                {status === "PENDING" && <NewItemBadge />}
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
