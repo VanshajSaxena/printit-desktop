@@ -297,7 +297,17 @@
       },
       "get": {
         "operationId": "TransactionController_findAll_v1",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"],
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",

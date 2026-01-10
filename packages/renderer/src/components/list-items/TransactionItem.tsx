@@ -74,8 +74,6 @@ export function TransactionItem({
                       return { id: job.document.id };
                     }),
                   });
-                  // __AUTO_GENERATED_PRINT_VAR_START__
-                  console.log("TransactionItem#(anon) id:", id); // __AUTO_GENERATED_PRINT_VAR_END__
                 }}
               ></PrintButton>
             </div>

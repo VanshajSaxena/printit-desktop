@@ -1,3 +1,5 @@
+import type { components } from "@api/gen/cloud-api-types";
+
 export type TransactionEventUnion =
   | NewTransactionEvent
   | UserSendToPrinterEvent
@@ -24,7 +26,13 @@ export interface TransactionOperationBase {
 }
 
 export interface TransactionObject {
+  createdAt: string;
+  friendlyId: string;
+  jobs: components["schemas"]["FindJobResponseDto"][];
+  /** @enum {string} */
   id: number;
+  status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+  currentJob?: number;
 }
 
 export interface TransactionState {
@@ -38,7 +46,7 @@ export interface TransactionStore {
 
 export interface NewTransactionEvent {
   type: "transaction:new";
-  transaction: TransactionObject;
+  jobs: [number];
 }
 
 export interface UserSendToPrinterEvent {

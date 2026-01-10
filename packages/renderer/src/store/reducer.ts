@@ -18,12 +18,20 @@ export const reducer = (
   switch (event.type) {
     case "transaction:new":
       nextState = produce(state, (draft) => {
-        draft.transactions[event.transaction.id] = event.transaction;
+        draft.transactions[event.transactionId] = {
+          id: event.transactionId,
+          status: "new",
+          jobs: event.jobs,
+          currentJob: event.jobs[0],
+        };
       });
       break;
 
     case "user:print": {
       const operationId = generateOperationId();
+      nextState = produce(state, (draft) => {
+        draft.transactions[event.transactionId].status = "printing";
+      });
       operations.push({
         operationId,
         type: "download-files",

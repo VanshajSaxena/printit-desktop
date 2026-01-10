@@ -25,11 +25,15 @@ export class ObservableExecutor {
           this.dispatch({
             type: "files:download:error",
             reason: "presigned-url-fetch-failed",
+            transactionId: operation.transactionId,
           });
           break;
         }
 
-        this.dispatch({ type: "files:download:started" });
+        this.dispatch({
+          type: "files:download:started",
+          transactionId: operation.transactionId,
+        });
         const downloadResult = await downloadFiles(
           operation.transactionId,
           data.signedUrls,

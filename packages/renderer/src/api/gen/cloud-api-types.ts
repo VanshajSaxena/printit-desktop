@@ -784,7 +784,9 @@ export interface operations {
   };
   TransactionController_findAll_v1: {
     parameters: {
-      query?: never;
+      query?: {
+        status?: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      };
       header?: never;
       path?: never;
       cookie?: never;
