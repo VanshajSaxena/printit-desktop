@@ -95,9 +95,13 @@ export function TransactionItem({
             {status === "PENDING" && (
               <>
                 <ClockIcon size={18} />
-                <p>Est. 10 mins</p>{" "}
+                <p>Est. 10 mins</p>
               </>
             )}
+            {status === "QUEUED" && (
+              <p className="italic">Preparing your files...</p>
+            )}
+            {status === "PRINTING" && <p className="italic">Printing...</p>}
           </div>
         </div>
       </div>

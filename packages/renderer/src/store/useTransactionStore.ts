@@ -2,13 +2,9 @@ import { fetchClient } from "@api/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
+import type { TransactionEvent, TransactionStore } from "./events";
 import { ObservableExecutor } from "./executor";
 import { reducer } from "./reducer";
-import type {
-  TransactionEvent,
-  TransactionState,
-  TransactionStore,
-} from "./events";
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(
@@ -33,11 +29,12 @@ export const useTransactionStore = create<TransactionStore>()(
     },
     {
       name: "transaction-storage",
-      storage: createIdbStorage<TransactionState>(),
-      partialize: (store) => store.state,
+      storage: createIdbStorage<Pick<TransactionStore, "state">>(),
+      partialize: (store) => ({ state: store.state }),
       onRehydrateStorage() {
         console.log("Rehydration Complete");
       },
+      version: 1,
     },
   ),
 );
