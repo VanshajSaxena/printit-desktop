@@ -16,9 +16,8 @@ export const reducer = (
     case "transaction:request": {
       // __AUTO_GENERATED_PRINT_VAR_START__
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
-      const operationId = generateOperationId();
       operations.push({
-        operationId,
+        operationId: generateOperationId(),
         type: "fetch-transactions",
       });
       break;
@@ -40,12 +39,11 @@ export const reducer = (
     case "user:print": {
       // __AUTO_GENERATED_PRINT_VAR_START__
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
-      const operationId = generateOperationId();
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "QUEUED";
       });
       operations.push({
-        operationId,
+        operationId: generateOperationId(),
         type: "download-files",
         files: state.transactions[event.transactionId].jobs.map((job) => {
           return { id: job.document.id };
@@ -79,6 +77,12 @@ export const reducer = (
           )?.filePath;
         });
         draft.transactions[event.transactionId].status = "DOWNLOADED";
+      });
+
+      operations.push({
+        operationId: generateOperationId(),
+        type: "print-documents",
+        transactionId: event.transactionId,
       });
       break;
     }
