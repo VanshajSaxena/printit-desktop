@@ -22,5 +22,5 @@ export interface FetchTransactionOperation {
 }
 
 export interface PrintDocumentsOperation {
-  type: "print-documents";
+  type: "print-files";
 }

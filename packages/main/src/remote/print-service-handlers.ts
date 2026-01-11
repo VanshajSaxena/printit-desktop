@@ -1,4 +1,8 @@
-import { downloadManager, type PrintServiceApi } from "@app/common";
+import {
+  downloadManager,
+  type PrintTypes,
+  type PrintServiceApi,
+} from "@app/common";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
 import { createHandler } from "./ipc-handlers.js";
 
@@ -6,20 +10,27 @@ export function getPrintServiceHandlers(
   printServiceApi: PrintServiceApi,
 ): IpcHandlerRegistry {
   return {
-    "ps:ping": createHandler(() => {
+    ping: createHandler(() => {
       return printServiceApi.ping();
     }),
-    "printer:list": createHandler(() => {
+    "printQueue:list": createHandler(() => {
       return printServiceApi.getPrintQueues();
     }),
 
-    "printer:printer": createHandler((_event, printQueue: string) => {
+    "printQueue:info": createHandler((_event, printQueue: string) => {
       return printServiceApi.getPrintQueue(printQueue);
     }),
 
-    "printer:capabilities": createHandler((_event, printQueue: string) => {
+    "printQueue:capabilities": createHandler((_event, printQueue: string) => {
       return printServiceApi.getPrintQueueCapabilities(printQueue);
     }),
+
+    "printQueue:print": createHandler(
+      (_event, printQueue: string, printJob: PrintTypes.PrintJobDto) => {
+        return printServiceApi.cratePrintJob(printQueue, printJob);
+      },
+    ),
+
     "files:download": createHandler(
       async (
         _event,

@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
+import { PrintTypes } from "@app/common";
 
 export type WsChannelTypeMap = {
   "server:connected": {
@@ -24,13 +25,13 @@ export function ping() {
   return ipcRenderer.invoke("ping");
 }
 export function getPrintQueues() {
-  return ipcRenderer.invoke("printer:list");
+  return ipcRenderer.invoke("printQueue:list");
 }
 export function getPrintQueue() {
-  return ipcRenderer.invoke("printer:printer");
+  return ipcRenderer.invoke("printQueue:info");
 }
 export function getPrintQueueCapabilitites() {
-  return ipcRenderer.invoke("printer:capabilities");
+  return ipcRenderer.invoke("printQueue:capabilities");
 }
 export function isWebSocketConnected(): Promise<boolean> {
   return ipcRenderer.invoke("server:is-connected");
@@ -44,7 +45,7 @@ export function disconnectWebSocket() {
 export function getPrintTransactions() {
   return ipcRenderer.invoke("cs:transactions:get");
 }
-export function downloadFiles(
+export function downloadFilesToFileSystem(
   transactionId: number,
   files: {
     id: number;
@@ -58,6 +59,12 @@ export function downloadFiles(
   }[]
 > {
   return ipcRenderer.invoke("files:download", transactionId, files);
+}
+export function sendFilesToPrinter(
+  printQueue: string,
+  printJob: PrintTypes.PrintJobDto,
+) {
+  return ipcRenderer.invoke("printQueue:print", printQueue, printJob);
 }
 export function subscribeToWsEvent<C extends WsChannel>(
   channel: C,

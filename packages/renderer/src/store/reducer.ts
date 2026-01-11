@@ -81,7 +81,7 @@ export const reducer = (
 
       operations.push({
         operationId: generateOperationId(),
-        type: "print-documents",
+        type: "print-files",
         transactionId: event.transactionId,
       });
       break;

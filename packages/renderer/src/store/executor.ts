@@ -1,5 +1,5 @@
 import { type FetchClientType } from "@api/client";
-import { downloadFiles } from "@app/preload";
+import { downloadFilesToFileSystem } from "@app/preload";
 import type { TransactionEvent } from "./events";
 import type { TransactionOperation } from "./operations";
 
@@ -54,7 +54,7 @@ export class ObservableExecutor {
           type: "files:download:started",
           transactionId: operation.transactionId,
         });
-        const downloadResult = await downloadFiles(
+        const downloadedFiles = await downloadFilesToFileSystem(
           operation.transactionId,
           data.signedUrls,
         );
@@ -62,11 +62,11 @@ export class ObservableExecutor {
         this.dispatch({
           type: "files:download:completed",
           transactionId: operation.transactionId,
-          downloadedFiles: downloadResult,
+          downloadedFiles,
         });
         break;
       }
-      case "print-documents": {
+      case "print-files": {
         break;
       }
 
