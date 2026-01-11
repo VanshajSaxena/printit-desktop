@@ -33,6 +33,12 @@ export function getPrintQueue() {
 export function getPrintQueueCapabilitites() {
   return ipcRenderer.invoke("printQueue:capabilities");
 }
+export function sendFilesToPrinter(
+  printQueue: string,
+  printJob: PrintTypes.PrintJobDto,
+): Promise<PrintTypes.PrintJobInfoDto | undefined> {
+  return ipcRenderer.invoke("printQueue:print", printQueue, printJob);
+}
 export function isWebSocketConnected(): Promise<boolean> {
   return ipcRenderer.invoke("server:is-connected");
 }
@@ -41,9 +47,6 @@ export function isWebSocketActive() {
 }
 export function disconnectWebSocket() {
   return ipcRenderer.invoke("server:disconnect");
-}
-export function getPrintTransactions() {
-  return ipcRenderer.invoke("cs:transactions:get");
 }
 export function downloadFilesToFileSystem(
   transactionId: number,
@@ -59,12 +62,6 @@ export function downloadFilesToFileSystem(
   }[]
 > {
   return ipcRenderer.invoke("files:download", transactionId, files);
-}
-export function sendFilesToPrinter(
-  printQueue: string,
-  printJob: PrintTypes.PrintJobDto,
-) {
-  return ipcRenderer.invoke("printQueue:print", printQueue, printJob);
 }
 export function subscribeToWsEvent<C extends WsChannel>(
   channel: C,
