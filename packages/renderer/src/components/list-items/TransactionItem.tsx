@@ -104,6 +104,9 @@ export function TransactionItem({
             {status === "DOWNLOADING" && (
               <p className="italic">Downloading files...</p>
             )}
+            {status === "DOWNLOADED" && (
+              <p className="italic">Sending files to printer...</p>
+            )}
             {status === "PRINTING" && <p className="italic">Printing...</p>}
           </div>
         </div>

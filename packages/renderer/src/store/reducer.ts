@@ -69,7 +69,7 @@ export const reducer = (
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       break;
 
-    case "files:download:completed":
+    case "files:download:completed": {
       // __AUTO_GENERATED_PRINT_VAR_START__
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       nextState = produce(state, (draft) => {
@@ -78,8 +78,10 @@ export const reducer = (
             (file) => file.id === job.document.id,
           )?.filePath;
         });
+        draft.transactions[event.transactionId].status = "DOWNLOADED";
       });
       break;
+    }
 
     default: {
       break;

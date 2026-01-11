@@ -25,6 +25,7 @@ export interface TransactionObject {
     | "PENDING"
     | "QUEUED"
     | "DOWNLOADING"
+    | "DOWNLOADED"
     | "PRINTING"
     | "COMPLETED"
     | "ERROR";
