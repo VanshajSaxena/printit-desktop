@@ -1,12 +1,16 @@
 export interface TransactionOperationBase {
   operationId: string;
 }
-export type TransactionOperation = TransactionOperationUnion &
-  TransactionOperationBase;
-export type TransactionOperationUnion =
+export type TransactionOperation = (
   | FetchTransactionOperation
+  | TransactionOperationUnion
+) &
+  TransactionOperationBase;
+
+export type TransactionOperationUnion = { transactionId: number } & (
   | DownloadFilesOperation
-  | PrintDocumentsOperation;
+  | PrintDocumentsOperation
+);
 
 export interface DownloadFilesOperation {
   type: "download-files";

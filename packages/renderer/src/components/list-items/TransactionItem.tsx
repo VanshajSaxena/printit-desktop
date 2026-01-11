@@ -71,9 +71,6 @@ export function TransactionItem({
                   dispatch({
                     type: "user:print",
                     transactionId: id,
-                    files: jobs.map((job) => {
-                      return { id: job.document.id };
-                    }),
                   });
                 }}
               ></PrintButton>

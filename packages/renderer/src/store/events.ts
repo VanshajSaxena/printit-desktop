@@ -9,9 +9,9 @@ export type TransactionEventUnion =
   | FilesDownloadErrorEvent;
 
 export type TransactionEvent =
-  | (TransactionEventUnion & TransactionEventBase)
   | TransactionRequestEvent
-  | TransactionResponseEvent;
+  | TransactionResponseEvent
+  | (TransactionEventUnion & TransactionEventBase);
 
 export interface TransactionEventBase {
   transactionId: number;
@@ -45,7 +45,6 @@ export interface NewTransactionEvent {
 
 export interface UserSendToPrinterEvent {
   type: "user:print";
-  files: { id: number }[];
 }
 
 export interface FilesDownloadStartedEvent {

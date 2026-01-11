@@ -8,7 +8,7 @@ import type {
   TransactionEvent,
   TransactionState,
   TransactionStore,
-} from "./event.types";
+} from "./events";
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(

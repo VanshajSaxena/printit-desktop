@@ -1,6 +1,6 @@
 import { produce } from "immer";
-import type { TransactionEvent, TransactionState } from "./event.types";
-import type { TransactionOperation } from "./operation.types";
+import type { TransactionEvent, TransactionState } from "./events";
+import type { TransactionOperation } from "./operations";
 
 function generateOperationId() {
   return crypto.randomUUID().slice(0, 8);
@@ -14,6 +14,8 @@ export const reducer = (
   const operations: TransactionOperation[] = [];
   switch (event.type) {
     case "transaction:request": {
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       const operationId = generateOperationId();
       operations.push({
         operationId,
@@ -22,6 +24,8 @@ export const reducer = (
       break;
     }
     case "transaction:response": {
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       nextState = produce(state, (draft) => {
         event.response.forEach((transaction) => {
           draft.transactions[transaction.id] ??= transaction;
@@ -30,29 +34,41 @@ export const reducer = (
       break;
     }
     case "transaction:new":
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       break;
-
     case "user:print": {
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       const operationId = generateOperationId();
       nextState = produce(state, (draft) => {
-        draft.transactions[event.transactionId].status = "PRINTING";
+        draft.transactions[event.transactionId].status = "QUEUED";
       });
       operations.push({
         operationId,
         type: "download-files",
-        files: event.files,
+        files: state.transactions[event.transactionId].jobs.map((job) => {
+          return { id: job.document.id };
+        }),
+        transactionId: event.transactionId,
       });
       break;
     }
 
     case "files:download:started": {
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       break;
     }
 
     case "files:download:progress":
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       break;
 
     case "files:download:completed":
+      // __AUTO_GENERATED_PRINT_VAR_START__
+      console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
       break;
 
     default: {
