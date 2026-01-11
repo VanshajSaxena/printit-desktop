@@ -7,11 +7,11 @@ import { KebabButton } from "@components/buttons/KebabButton";
 import { PrintButton } from "@components/buttons/PrintButton";
 import { RejectButton } from "@components/buttons/RejectButton";
 import { formatRelativeTime } from "@components/formatRelativeTime";
-import { AlarmIcon } from "@components/icons/AlarmIcon";
+import { ClockIcon } from "@components/icons/ClockIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
-import { NewItemBadge } from "./NewItemBadge";
 import { useTransactionStore } from "@store/useTransactionStore";
+import { NewItemBadge } from "./NewItemBadge";
 
 export function TransactionItem({
   id,
@@ -92,8 +92,12 @@ export function TransactionItem({
             {isBnWOnly && <BnWBadge />}
           </div>
           <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
-            <AlarmIcon size={18} />
-            <p>Est. 10 mins</p>
+            {status === "PENDING" && (
+              <>
+                <ClockIcon size={18} />
+                <p>Est. 10 mins</p>{" "}
+              </>
+            )}
           </div>
         </div>
       </div>
