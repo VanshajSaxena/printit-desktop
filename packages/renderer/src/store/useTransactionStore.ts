@@ -35,6 +35,9 @@ export const useTransactionStore = create<TransactionStore>()(
       name: "transaction-storage",
       storage: createIdbStorage<TransactionState>(),
       partialize: (store) => store.state,
+      onRehydrateStorage() {
+        console.log("Rehydration Complete");
+      },
     },
   ),
 );

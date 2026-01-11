@@ -65,15 +65,19 @@ export function TransactionItem({
           </div>
           <div className="flex items-center justify-center gap-5">
             <div className="flex gap-4">
-              <RejectButton></RejectButton>
-              <PrintButton
-                onClick={() => {
-                  dispatch({
-                    type: "user:print",
-                    transactionId: id,
-                  });
-                }}
-              ></PrintButton>
+              {status === "PENDING" && (
+                <>
+                  <RejectButton />
+                  <PrintButton
+                    onClick={() => {
+                      dispatch({
+                        type: "user:print",
+                        transactionId: id,
+                      });
+                    }}
+                  />
+                </>
+              )}
             </div>
             <div className="flex gap-4">
               <KebabButton></KebabButton>
