@@ -18,6 +18,11 @@ export class ObservableExecutor {
   async execute(operation: TransactionOperation): Promise<void> {
     switch (operation.type) {
       case "fetch-transactions": {
+        // __AUTO_GENERATED_PRINT_VAR_START__
+        console.log(
+          "ObservableExecutor#execute operation.type:",
+          operation.type,
+        ); // __AUTO_GENERATED_PRINT_VAR_END__
         const { data } = await this.fetchClient.GET("/api/v1/transactions", {
           params: { query: { status: "PENDING" } },
         });
@@ -27,6 +32,11 @@ export class ObservableExecutor {
         break;
       }
       case "download-files": {
+        // __AUTO_GENERATED_PRINT_VAR_START__
+        console.log(
+          "ObservableExecutor#execute operation.type:",
+          operation.type,
+        ); // __AUTO_GENERATED_PRINT_VAR_END__
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });
@@ -49,6 +59,11 @@ export class ObservableExecutor {
           data.signedUrls,
         );
 
+        this.dispatch({
+          type: "files:download:completed",
+          transactionId: operation.transactionId,
+          downloadedFiles: downloadResult,
+        });
         break;
       }
 

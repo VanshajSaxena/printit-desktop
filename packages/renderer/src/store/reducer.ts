@@ -58,6 +58,9 @@ export const reducer = (
     case "files:download:started": {
       // __AUTO_GENERATED_PRINT_VAR_START__
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
+      nextState = produce(state, (draft) => {
+        draft.transactions[event.transactionId].status = "DOWNLOADING";
+      });
       break;
     }
 
@@ -69,6 +72,13 @@ export const reducer = (
     case "files:download:completed":
       // __AUTO_GENERATED_PRINT_VAR_START__
       console.log("reducer event.type:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
+      nextState = produce(state, (draft) => {
+        draft.transactions[event.transactionId].jobs.map((job) => {
+          job.document.filePath = event.downloadedFiles.find(
+            (file) => file.id === job.document.id,
+          )?.filePath;
+        });
+      });
       break;
 
     default: {

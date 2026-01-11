@@ -19,7 +19,7 @@ export const downloadManager = {
 
     await mkdir(downloadDir, { recursive: true });
 
-    await Promise.all(
+    const downloadedFiles = await Promise.all(
       files.map(async ({ id, url, contentType }) => {
         const response = await fetch(url);
 
@@ -34,13 +34,11 @@ export const downloadManager = {
         const fileStream = createWriteStream(filePath);
 
         await pipeline(response.body, fileStream);
-        console.log("file downloaded successfully");
+        return { id, filePath };
       }),
     );
 
-    return {
-      path: downloadDir,
-      fileCount: files.length,
-    };
+    console.log("files downloaded successfully");
+    return downloadedFiles;
   },
 };

@@ -51,7 +51,12 @@ export function downloadFiles(
     url: string;
     contentType: string;
   }[],
-) {
+): Promise<
+  {
+    id: number;
+    filePath: string;
+  }[]
+> {
   return ipcRenderer.invoke("files:download", transactionId, files);
 }
 export function subscribeToWsEvent<C extends WsChannel>(

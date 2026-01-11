@@ -1,4 +1,3 @@
-import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
@@ -10,6 +9,7 @@ import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
+import type { TransactionObject } from "@store/events";
 import { useTransactionStore } from "@store/useTransactionStore";
 import { NewItemBadge } from "./NewItemBadge";
 
@@ -19,7 +19,7 @@ export function TransactionItem({
   jobs,
   createdAt,
   status,
-}: FindTransactionResponseDto) {
+}: TransactionObject) {
   let title = jobs[0].document.filename;
   if (title.length > 30) {
     title = title.slice(0, 30).concat("...");
@@ -100,6 +100,9 @@ export function TransactionItem({
             )}
             {status === "QUEUED" && (
               <p className="italic">Preparing your files...</p>
+            )}
+            {status === "DOWNLOADING" && (
+              <p className="italic">Downloading files...</p>
             )}
             {status === "PRINTING" && <p className="italic">Printing...</p>}
           </div>

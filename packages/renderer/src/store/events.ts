@@ -17,8 +17,28 @@ export interface TransactionEventBase {
   transactionId: number;
 }
 
-export interface TransactionObject extends FindTransactionResponseDto {
-  currentJob?: number;
+export interface TransactionObject {
+  id: number;
+  createdAt: string;
+  friendlyId: string;
+  status:
+    | "PENDING"
+    | "QUEUED"
+    | "DOWNLOADING"
+    | "PRINTING"
+    | "COMPLETED"
+    | "ERROR";
+  jobs: {
+    copyCount: number;
+    document: {
+      filePath?: string;
+      contentType: string;
+      filename: string;
+      id: number;
+    };
+    id: number;
+    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+  }[];
 }
 
 export interface TransactionState {
@@ -57,6 +77,10 @@ export interface FilesDownloadProgressEvent {
 
 export interface FilesDownloadCompletedEvent {
   type: "files:download:completed";
+  downloadedFiles: {
+    id: number;
+    filePath: string;
+  }[];
 }
 
 export interface FilesDownloadErrorEvent {
