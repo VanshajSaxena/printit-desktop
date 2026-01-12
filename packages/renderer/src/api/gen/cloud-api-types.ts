@@ -298,6 +298,8 @@ export interface components {
       id: number;
       /** @enum {string} */
       outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
     FindTransactionResponseDto: {
       /** Format: date-time */

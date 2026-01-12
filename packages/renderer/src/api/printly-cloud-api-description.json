@@ -849,9 +849,13 @@
             "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"]
           },
           "copyCount": { "type": "number" },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"]
+          },
           "document": { "$ref": "#/components/schemas/FindDocumentResponseDto" }
         },
-        "required": ["id", "outputColor", "copyCount", "document"]
+        "required": ["id", "outputColor", "copyCount", "status", "document"]
       },
       "FindTransactionResponseDto": {
         "type": "object",
