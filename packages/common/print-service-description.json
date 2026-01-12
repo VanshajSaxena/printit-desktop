@@ -105,6 +105,80 @@
         }
       }
     },
+    "/api/v1/printqueues/{queueName}/status": {
+      "get": {
+        "tags": ["PrintQueue"],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueStatus"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintQueueStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/printqueues/{queueName}/reachable": {
+      "get": {
+        "tags": ["PrintQueue"],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/printqueues/{queueName}/capabilities": {
       "get": {
         "tags": ["PrintQueue"],
@@ -944,6 +1018,37 @@
           }
         },
         "additionalProperties": false
+      },
+      "PrintQueueStatus": {
+        "enum": [
+          "None",
+          "Paused",
+          "Error",
+          "PendingDeletion",
+          "PaperJam",
+          "PaperOut",
+          "ManualFeed",
+          "PaperProblem",
+          "Offline",
+          "IOActive",
+          "Busy",
+          "Printing",
+          "OutputBinFull",
+          "NotAvailable",
+          "Waiting",
+          "Processing",
+          "Initializing",
+          "WarmingUp",
+          "TonerLow",
+          "NoToner",
+          "PagePunt",
+          "UserIntervention",
+          "OutOfMemory",
+          "DoorOpen",
+          "ServerUnknown",
+          "PowerSave"
+        ],
+        "type": "string"
       },
       "PrintTicketDto": {
         "type": "object",
