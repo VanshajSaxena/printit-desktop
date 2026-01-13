@@ -1,5 +1,5 @@
 import { type FetchClientType } from "@api/client";
-import { downloadFilesToFileSystem } from "@app/preload";
+import { downloadFilesToFileSystem, sendFilesToPrinter } from "@app/preload";
 import type { TransactionEvent } from "./events";
 import type { TransactionOperation } from "./operations";
 
@@ -56,7 +56,10 @@ export class ObservableExecutor {
         });
         break;
       }
-      case "print-files": {
+      case "print-file": {
+        const response = await sendFilesToPrinter("microsoft print to pdf", {
+          documentPath: operation.job.document.filePath,
+        });
         break;
       }
 

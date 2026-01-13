@@ -33,6 +33,9 @@ export const reducer = (
     case "user:print": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "QUEUED";
+        draft.transactions[event.transactionId].jobs.forEach(
+          (job) => (job.status = "QUEUED"),
+        );
       });
       operations.push({
         operationId: generateOperationId(),
@@ -57,19 +60,29 @@ export const reducer = (
 
     case "files:download:completed": {
       nextState = produce(state, (draft) => {
-        draft.transactions[event.transactionId].jobs.map((job) => {
+        draft.transactions[event.transactionId].jobs.forEach((job) => {
           job.document.filePath = event.downloadedFiles.find(
             (file) => file.id === job.document.id,
           )?.filePath;
         });
         draft.transactions[event.transactionId].status = "DOWNLOADED";
+        draft.transactions[event.transactionId].jobs.forEach(
+          (job) => (job.status = "DOWNLOADED"),
+        );
       });
 
-      operations.push({
-        operationId: generateOperationId(),
-        type: "print-files",
-        transactionId: event.transactionId,
-      });
+      const job = nextState.transactions[event.transactionId].jobs.find(
+        (job) => job.status === "DOWNLOADED",
+      );
+
+      if (job) {
+        operations.push({
+          operationId: generateOperationId(),
+          type: "print-file",
+          transactionId: event.transactionId,
+          job,
+        });
+      }
       break;
     }
 

@@ -26,18 +26,28 @@ export interface TransactionObject {
     | "QUEUED"
     | "DOWNLOADING"
     | "DOWNLOADED"
+    | "SPOOLED"
     | "PRINTING"
     | "COMPLETED"
     | "ERROR";
   jobs: {
-    copyCount: number;
+    id: number;
+    status:
+      | "PENDING"
+      | "QUEUED"
+      | "DOWNLOADING"
+      | "DOWNLOADED"
+      | "SPOOLED"
+      | "PRINTING"
+      | "COMPLETED"
+      | "ERROR";
     document: {
       filePath?: string;
       contentType: string;
       filename: string;
       id: number;
     };
-    id: number;
+    copyCount: number;
     outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
   }[];
 }

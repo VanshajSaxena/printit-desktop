@@ -22,5 +22,25 @@ export interface FetchTransactionOperation {
 }
 
 export interface PrintDocumentsOperation {
-  type: "print-files";
+  type: "print-file";
+  job: {
+    id: number;
+    status:
+      | "PENDING"
+      | "QUEUED"
+      | "DOWNLOADING"
+      | "DOWNLOADED"
+      | "SPOOLED"
+      | "PRINTING"
+      | "COMPLETED"
+      | "ERROR";
+    document: {
+      filePath?: string;
+      contentType: string;
+      filename: string;
+      id: number;
+    };
+    copyCount: number;
+    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+  };
 }
