@@ -26,9 +26,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": string;
             "application/json": string;
             "text/json": string;
+            "text/plain": string;
           };
         };
       };
@@ -63,9 +63,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": string[];
             "application/json": string[];
             "text/json": string[];
+            "text/plain": string[];
           };
         };
       };
@@ -102,87 +102,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": components["schemas"]["PrintQueueDto"];
             "application/json": components["schemas"]["PrintQueueDto"];
             "text/json": components["schemas"]["PrintQueueDto"];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/printqueues/{queueName}/status": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          queueName: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "text/plain": components["schemas"]["PrintQueueStatus"];
-            "application/json": components["schemas"]["PrintQueueStatus"];
-            "text/json": components["schemas"]["PrintQueueStatus"];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/printqueues/{queueName}/reachable": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          queueName: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "text/plain": boolean;
-            "application/json": boolean;
-            "text/json": boolean;
+            "text/plain": components["schemas"]["PrintQueueDto"];
           };
         };
       };
@@ -219,9 +141,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": components["schemas"]["PrintCapabilitiesDto"];
             "application/json": components["schemas"]["PrintCapabilitiesDto"];
             "text/json": components["schemas"]["PrintCapabilitiesDto"];
+            "text/plain": components["schemas"]["PrintCapabilitiesDto"];
           };
         };
       };
@@ -258,9 +180,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": components["schemas"]["PrintJobInfoDto"][];
             "application/json": components["schemas"]["PrintJobInfoDto"][];
             "text/json": components["schemas"]["PrintJobInfoDto"][];
+            "text/plain": components["schemas"]["PrintJobInfoDto"][];
           };
         };
       };
@@ -277,9 +199,9 @@ export interface paths {
       };
       requestBody?: {
         content: {
+          "application/*+json": components["schemas"]["PrintJobDto"];
           "application/json": components["schemas"]["PrintJobDto"];
           "text/json": components["schemas"]["PrintJobDto"];
-          "application/*+json": components["schemas"]["PrintJobDto"];
         };
       };
       responses: {
@@ -289,9 +211,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": components["schemas"]["PrintJobInfoDto"];
             "application/json": components["schemas"]["PrintJobInfoDto"];
             "text/json": components["schemas"]["PrintJobInfoDto"];
+            "text/plain": components["schemas"]["PrintJobInfoDto"];
           };
         };
       };
@@ -314,8 +236,8 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          queueName: string;
           jobId: number;
+          queueName: string;
         };
         cookie?: never;
       };
@@ -327,9 +249,87 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "text/plain": components["schemas"]["PrintJobInfoDto"];
             "application/json": components["schemas"]["PrintJobInfoDto"];
             "text/json": components["schemas"]["PrintJobInfoDto"];
+            "text/plain": components["schemas"]["PrintJobInfoDto"];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/printqueues/{queueName}/reachable": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          queueName: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": boolean;
+            "text/json": boolean;
+            "text/plain": boolean;
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/printqueues/{queueName}/status": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          queueName: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["PrintQueueStatus"];
+            "text/json": components["schemas"]["PrintQueueStatus"];
+            "text/plain": components["schemas"]["PrintQueueStatus"];
           };
         };
       };
@@ -389,8 +389,8 @@ export interface components {
       originWidth?: number | null;
     };
     PageMediaSizeDto: {
-      sizeName?: string | null;
       height?: string | null;
+      sizeName?: string | null;
       width?: string | null;
     };
     /** @enum {string} */
@@ -567,9 +567,9 @@ export interface components {
       | "CreditCard"
       | "Unknown";
     PageMediaSizeTicketDto: {
-      name?: components["schemas"]["PageMediaSizeNameDto"];
       /** Format: double */
       height?: number | null;
+      name?: components["schemas"]["PageMediaSizeNameDto"];
       /** Format: double */
       width?: number | null;
     };
@@ -686,16 +686,16 @@ export interface components {
       trueTypeFontMode?: string[] | null;
     };
     PrintJobDto: {
-      name?: string | null;
       documentPath: string | null;
       fastCopy?: boolean | null;
+      name?: string | null;
       ticket?: components["schemas"]["PrintTicketDto"];
     };
     PrintJobInfoDto: {
       /** Format: int32 */
       jobIdentifier?: number | null;
-      jobStatus?: string | null;
       jobName?: string | null;
+      jobStatus?: string | null;
       /** Format: int32 */
       numberOfPages?: number | null;
       /** Format: int32 */
@@ -709,10 +709,10 @@ export interface components {
       timeSinceStartedPrinting?: number | null;
     };
     PrintQueueDto: {
-      fullName?: string | null;
-      name?: string | null;
       comment?: string | null;
       description?: string | null;
+      fullName?: string | null;
+      name?: string | null;
       status?: string | null;
     };
     /** @enum {string} */
@@ -795,5 +795,43 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+export type CollationDto = components["schemas"]["CollationDto"];
+export type DeviceFontSubstitutionDto =
+  components["schemas"]["DeviceFontSubstitutionDto"];
+export type DuplexingDto = components["schemas"]["DuplexingDto"];
+export type InputBinDto = components["schemas"]["InputBinDto"];
+export type OutputColorDto = components["schemas"]["OutputColorDto"];
+export type OutputQualityDto = components["schemas"]["OutputQualityDto"];
+export type PageBorderlessDto = components["schemas"]["PageBorderlessDto"];
+export type PageImageableAreaDto =
+  components["schemas"]["PageImageableAreaDto"];
+export type PageMediaSizeDto = components["schemas"]["PageMediaSizeDto"];
+export type PageMediaSizeNameDto =
+  components["schemas"]["PageMediaSizeNameDto"];
+export type PageMediaSizeTicketDto =
+  components["schemas"]["PageMediaSizeTicketDto"];
+export type PageMediaTypeDto = components["schemas"]["PageMediaTypeDto"];
+export type PageOrderDto = components["schemas"]["PageOrderDto"];
+export type PageOrientationDto = components["schemas"]["PageOrientationDto"];
+export type PageQualitativeResolutionDto =
+  components["schemas"]["PageQualitativeResolutionDto"];
+export type PageResolutionDto = components["schemas"]["PageResolutionDto"];
+export type PageResolutionTicketDto =
+  components["schemas"]["PageResolutionTicketDto"];
+export type PageScalingFactorRangeDto =
+  components["schemas"]["PageScalingFactorRangeDto"];
+export type PagesPerSheetDirectionDto =
+  components["schemas"]["PagesPerSheetDirectionDto"];
+export type PhotoPrintingIntentDto =
+  components["schemas"]["PhotoPrintingIntentDto"];
+export type PrintCapabilitiesDto =
+  components["schemas"]["PrintCapabilitiesDto"];
+export type PrintJobDto = components["schemas"]["PrintJobDto"];
+export type PrintJobInfoDto = components["schemas"]["PrintJobInfoDto"];
+export type PrintQueueDto = components["schemas"]["PrintQueueDto"];
+export type PrintQueueStatus = components["schemas"]["PrintQueueStatus"];
+export type PrintTicketDto = components["schemas"]["PrintTicketDto"];
+export type StaplingDto = components["schemas"]["StaplingDto"];
+export type TrueTypeFontModeDto = components["schemas"]["TrueTypeFontModeDto"];
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

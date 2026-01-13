@@ -14,7 +14,7 @@
     "gen"
   ],
   "scripts": {
-    "gen:print-service-api": "openapi-typescript ./print-service-description.json --output ./gen/types/print-service-api-types.ts",
+    "gen:print-service-api": "openapi-typescript ./print-service-description.json --alphabetize --root-types --root-types-no-schema-prefix --output ./gen/types/print-service-api-types.ts",
     "build": "vite build",
     "typecheck": "tsc --noEmit"
   },
