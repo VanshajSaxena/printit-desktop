@@ -28,6 +28,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -61,6 +91,36 @@
                   "items": {
                     "type": "string"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
                 }
               }
             }
@@ -101,6 +161,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -124,17 +214,47 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatus"
+                  "$ref": "#/components/schemas/PrintQueueStatusDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatus"
+                  "$ref": "#/components/schemas/PrintQueueStatusDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatus"
+                  "$ref": "#/components/schemas/PrintQueueStatusDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
                 }
               }
             }
@@ -175,6 +295,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -209,6 +359,36 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PrintCapabilitiesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
                 }
               }
             }
@@ -255,6 +435,36 @@
                   "items": {
                     "$ref": "#/components/schemas/PrintJobInfoDto"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
                 }
               }
             }
@@ -312,6 +522,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -358,6 +598,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -381,6 +651,20 @@
           "Unknown"
         ],
         "type": "string"
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "InputBinDto": {
         "enum": [
@@ -946,16 +1230,15 @@
         "additionalProperties": false
       },
       "PrintJobInfoDto": {
+        "required": ["jobName", "priority"],
         "type": "object",
         "properties": {
           "jobIdentifier": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "jobStatus": {
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/PrintJobStatusDto"
           },
           "jobName": {
             "type": "string",
@@ -963,18 +1246,15 @@
           },
           "numberOfPages": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "numberOfPagesPrinted": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "positionInPrintQueue": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "priority": {
             "type": "string",
@@ -982,16 +1262,34 @@
           },
           "timeJobSubmitted": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
           "timeSinceStartedPrinting": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           }
         },
         "additionalProperties": false
+      },
+      "PrintJobStatusDto": {
+        "enum": [
+          "Blocked",
+          "Completed",
+          "Deleted",
+          "Deleting",
+          "Error",
+          "None",
+          "Offline",
+          "PaperOut",
+          "Paused",
+          "Printed",
+          "Printing",
+          "Restarted",
+          "Retained",
+          "Spooling",
+          "UserIntervention"
+        ],
+        "type": "string"
       },
       "PrintQueueDto": {
         "type": "object",
@@ -1013,40 +1311,118 @@
             "nullable": true
           },
           "status": {
-            "type": "string",
-            "nullable": true
+            "$ref": "#/components/schemas/PrintQueueStatusDto"
+          },
+          "defaultPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPaperProblem": {
+            "type": "boolean"
+          },
+          "hasToner": {
+            "type": "boolean"
+          },
+          "inPartialTrust": {
+            "type": "boolean"
+          },
+          "isBidiEnabled": {
+            "type": "boolean"
+          },
+          "isBusy": {
+            "type": "boolean"
+          },
+          "isPaused": {
+            "type": "boolean"
+          },
+          "isWaiting": {
+            "type": "boolean"
+          },
+          "isWarmingUp": {
+            "type": "boolean"
+          },
+          "isDevQueryEnabled": {
+            "type": "boolean"
+          },
+          "isDirect": {
+            "type": "boolean"
+          },
+          "isDoorOpened": {
+            "type": "boolean"
+          },
+          "isHidden": {
+            "type": "boolean"
+          },
+          "isInError": {
+            "type": "boolean"
+          },
+          "isInitializing": {
+            "type": "boolean"
+          },
+          "isIOActive": {
+            "type": "boolean"
+          },
+          "isManualFeedRequired": {
+            "type": "boolean"
+          },
+          "isNotAvailable": {
+            "type": "boolean"
+          },
+          "isOffline": {
+            "type": "boolean"
+          },
+          "isOutOfMemory": {
+            "type": "boolean"
+          },
+          "isOutOfPaper": {
+            "type": "boolean"
+          },
+          "isOutputBinFull": {
+            "type": "boolean"
+          },
+          "isServerUnknown": {
+            "type": "boolean"
+          },
+          "isShared": {
+            "type": "boolean"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "isPowerSaveOn": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
-      "PrintQueueStatus": {
+      "PrintQueueStatusDto": {
         "enum": [
-          "None",
-          "Paused",
+          "Busy",
+          "DoorOpen",
           "Error",
-          "PendingDeletion",
+          "Initializing",
+          "IOActive",
+          "ManualFeed",
+          "None",
+          "NotAvailable",
+          "NoToner",
+          "Offline",
+          "OutOfMemory",
+          "OutputBinFull",
+          "PagePunt",
           "PaperJam",
           "PaperOut",
-          "ManualFeed",
           "PaperProblem",
-          "Offline",
-          "IOActive",
-          "Busy",
+          "Paused",
+          "PendingDeletion",
+          "PowerSave",
           "Printing",
-          "OutputBinFull",
-          "NotAvailable",
-          "Waiting",
           "Processing",
-          "Initializing",
-          "WarmingUp",
-          "TonerLow",
-          "NoToner",
-          "PagePunt",
-          "UserIntervention",
-          "OutOfMemory",
-          "DoorOpen",
           "ServerUnknown",
-          "PowerSave"
+          "TonerLow",
+          "UserIntervention",
+          "Waiting",
+          "WarmingUp"
         ],
         "type": "string"
       },

@@ -31,6 +31,33 @@ export interface paths {
             "text/plain": string;
           };
         };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
       };
     };
     put?: never;
@@ -66,6 +93,33 @@ export interface paths {
             "application/json": string[];
             "text/json": string[];
             "text/plain": string[];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
           };
         };
       };
@@ -107,6 +161,33 @@ export interface paths {
             "text/plain": components["schemas"]["PrintQueueDto"];
           };
         };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
       };
     };
     put?: never;
@@ -144,6 +225,33 @@ export interface paths {
             "application/json": components["schemas"]["PrintCapabilitiesDto"];
             "text/json": components["schemas"]["PrintCapabilitiesDto"];
             "text/plain": components["schemas"]["PrintCapabilitiesDto"];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
           };
         };
       };
@@ -185,6 +293,33 @@ export interface paths {
             "text/plain": components["schemas"]["PrintJobInfoDto"][];
           };
         };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
       };
     };
     put?: never;
@@ -214,6 +349,33 @@ export interface paths {
             "application/json": components["schemas"]["PrintJobInfoDto"];
             "text/json": components["schemas"]["PrintJobInfoDto"];
             "text/plain": components["schemas"]["PrintJobInfoDto"];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
           };
         };
       };
@@ -252,6 +414,33 @@ export interface paths {
             "application/json": components["schemas"]["PrintJobInfoDto"];
             "text/json": components["schemas"]["PrintJobInfoDto"];
             "text/plain": components["schemas"]["PrintJobInfoDto"];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
           };
         };
       };
@@ -293,6 +482,33 @@ export interface paths {
             "text/plain": boolean;
           };
         };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
       };
     };
     put?: never;
@@ -327,9 +543,36 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": components["schemas"]["PrintQueueStatus"];
-            "text/json": components["schemas"]["PrintQueueStatus"];
-            "text/plain": components["schemas"]["PrintQueueStatus"];
+            "application/json": components["schemas"]["PrintQueueStatusDto"];
+            "text/json": components["schemas"]["PrintQueueStatusDto"];
+            "text/plain": components["schemas"]["PrintQueueStatusDto"];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ErrorResponseDto"];
           };
         };
       };
@@ -356,6 +599,10 @@ export interface components {
       | "TwoSidedLongEdge"
       | "TwoSidedShortEdge"
       | "Unknown";
+    ErrorResponseDto: {
+      code?: string | null;
+      message?: string | null;
+    };
     /** @enum {string} */
     InputBinDto:
       | "AutoSelect"
@@ -693,56 +940,100 @@ export interface components {
     };
     PrintJobInfoDto: {
       /** Format: int32 */
-      jobIdentifier?: number | null;
-      jobName?: string | null;
-      jobStatus?: string | null;
+      jobIdentifier?: number;
+      jobName: string | null;
+      jobStatus?: components["schemas"]["PrintJobStatusDto"];
       /** Format: int32 */
-      numberOfPages?: number | null;
+      numberOfPages?: number;
       /** Format: int32 */
-      numberOfPagesPrinted?: number | null;
+      numberOfPagesPrinted?: number;
       /** Format: int32 */
-      positionInPrintQueue?: number | null;
-      priority?: string | null;
+      positionInPrintQueue?: number;
+      priority: string | null;
       /** Format: date-time */
-      timeJobSubmitted?: string | null;
+      timeJobSubmitted?: string;
       /** Format: int32 */
-      timeSinceStartedPrinting?: number | null;
-    };
-    PrintQueueDto: {
-      comment?: string | null;
-      description?: string | null;
-      fullName?: string | null;
-      name?: string | null;
-      status?: string | null;
+      timeSinceStartedPrinting?: number;
     };
     /** @enum {string} */
-    PrintQueueStatus:
-      | "None"
-      | "Paused"
+    PrintJobStatusDto:
+      | "Blocked"
+      | "Completed"
+      | "Deleted"
+      | "Deleting"
       | "Error"
-      | "PendingDeletion"
+      | "None"
+      | "Offline"
+      | "PaperOut"
+      | "Paused"
+      | "Printed"
+      | "Printing"
+      | "Restarted"
+      | "Retained"
+      | "Spooling"
+      | "UserIntervention";
+    PrintQueueDto: {
+      comment?: string | null;
+      /** Format: int32 */
+      defaultPriority?: number;
+      description?: string | null;
+      fullName?: string | null;
+      hasPaperProblem?: boolean;
+      hasToner?: boolean;
+      inPartialTrust?: boolean;
+      isBidiEnabled?: boolean;
+      isBusy?: boolean;
+      isDevQueryEnabled?: boolean;
+      isDirect?: boolean;
+      isDoorOpened?: boolean;
+      isHidden?: boolean;
+      isInError?: boolean;
+      isInitializing?: boolean;
+      isIOActive?: boolean;
+      isManualFeedRequired?: boolean;
+      isNotAvailable?: boolean;
+      isOffline?: boolean;
+      isOutOfMemory?: boolean;
+      isOutOfPaper?: boolean;
+      isOutputBinFull?: boolean;
+      isPaused?: boolean;
+      isPowerSaveOn?: boolean;
+      isPublished?: boolean;
+      isServerUnknown?: boolean;
+      isShared?: boolean;
+      isWaiting?: boolean;
+      isWarmingUp?: boolean;
+      name?: string | null;
+      status?: components["schemas"]["PrintQueueStatusDto"];
+    };
+    /** @enum {string} */
+    PrintQueueStatusDto:
+      | "Busy"
+      | "DoorOpen"
+      | "Error"
+      | "Initializing"
+      | "IOActive"
+      | "ManualFeed"
+      | "None"
+      | "NotAvailable"
+      | "NoToner"
+      | "Offline"
+      | "OutOfMemory"
+      | "OutputBinFull"
+      | "PagePunt"
       | "PaperJam"
       | "PaperOut"
-      | "ManualFeed"
       | "PaperProblem"
-      | "Offline"
-      | "IOActive"
-      | "Busy"
+      | "Paused"
+      | "PendingDeletion"
+      | "PowerSave"
       | "Printing"
-      | "OutputBinFull"
-      | "NotAvailable"
-      | "Waiting"
       | "Processing"
-      | "Initializing"
-      | "WarmingUp"
-      | "TonerLow"
-      | "NoToner"
-      | "PagePunt"
-      | "UserIntervention"
-      | "OutOfMemory"
-      | "DoorOpen"
       | "ServerUnknown"
-      | "PowerSave";
+      | "TonerLow"
+      | "UserIntervention"
+      | "Waiting"
+      | "WarmingUp";
     PrintTicketDto: {
       collation?: components["schemas"]["CollationDto"];
       /** Format: int32 */
@@ -799,6 +1090,7 @@ export type CollationDto = components["schemas"]["CollationDto"];
 export type DeviceFontSubstitutionDto =
   components["schemas"]["DeviceFontSubstitutionDto"];
 export type DuplexingDto = components["schemas"]["DuplexingDto"];
+export type ErrorResponseDto = components["schemas"]["ErrorResponseDto"];
 export type InputBinDto = components["schemas"]["InputBinDto"];
 export type OutputColorDto = components["schemas"]["OutputColorDto"];
 export type OutputQualityDto = components["schemas"]["OutputQualityDto"];
@@ -828,8 +1120,9 @@ export type PrintCapabilitiesDto =
   components["schemas"]["PrintCapabilitiesDto"];
 export type PrintJobDto = components["schemas"]["PrintJobDto"];
 export type PrintJobInfoDto = components["schemas"]["PrintJobInfoDto"];
+export type PrintJobStatusDto = components["schemas"]["PrintJobStatusDto"];
 export type PrintQueueDto = components["schemas"]["PrintQueueDto"];
-export type PrintQueueStatus = components["schemas"]["PrintQueueStatus"];
+export type PrintQueueStatusDto = components["schemas"]["PrintQueueStatusDto"];
 export type PrintTicketDto = components["schemas"]["PrintTicketDto"];
 export type StaplingDto = components["schemas"]["StaplingDto"];
 export type TrueTypeFontModeDto = components["schemas"]["TrueTypeFontModeDto"];
