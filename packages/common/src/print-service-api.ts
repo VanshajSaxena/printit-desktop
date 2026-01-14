@@ -5,6 +5,7 @@ import type {
   PrintJobDto,
   PrintJobInfoDto,
   PrintQueueDto,
+  PrintQueueStatusDto,
 } from "../gen/types/print-service-api-types.ts";
 import log from "electron-log";
 
@@ -64,6 +65,22 @@ export class PrintServiceApi {
   ): Promise<IPCResponse<PrintQueueDto | undefined>> {
     const { data, error } = await this.client.GET(
       "/api/v1/printqueues/{queueName}",
+      {
+        params: { path: { queueName: queueName } },
+      },
+    );
+    if (error) {
+      this.logger.error(error);
+      return toIpcError(error);
+    }
+    return { success: true, data };
+  }
+
+  async getPrintQueueStatus(
+    queueName: string,
+  ): Promise<IPCResponse<PrintQueueStatusDto | undefined>> {
+    const { data, error } = await this.client.GET(
+      "/api/v1/printqueues/{queueName}/status",
       {
         params: { path: { queueName: queueName } },
       },

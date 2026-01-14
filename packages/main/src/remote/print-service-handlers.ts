@@ -21,6 +21,10 @@ export function getPrintServiceHandlers(
       return printServiceApi.getPrintQueue(printQueue);
     }),
 
+    "printQueue:status": createHandler((_event, printQueue: string) => {
+      return printServiceApi.getPrintQueueStatus(printQueue);
+    }),
+
     "printQueue:capabilities": createHandler((_event, printQueue: string) => {
       return printServiceApi.getPrintQueueCapabilities(printQueue);
     }),
