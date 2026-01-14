@@ -599,9 +599,17 @@ export interface components {
       | "TwoSidedLongEdge"
       | "TwoSidedShortEdge"
       | "Unknown";
+    /** @enum {string} */
+    ErrorResponseCode:
+      | "QUEUE_NOT_FOUND"
+      | "JOB_NOT_FOUND"
+      | "CONVERSION_FAILED"
+      | "INVALID_ARGUMENT"
+      | "INVALID_OPERATION"
+      | "UNEXPECTED_ERROR";
     ErrorResponseDto: {
-      code?: string | null;
-      message?: string | null;
+      code: components["schemas"]["ErrorResponseCode"];
+      message: string;
     };
     /** @enum {string} */
     InputBinDto:
@@ -816,7 +824,7 @@ export interface components {
     PageMediaSizeTicketDto: {
       /** Format: double */
       height?: number | null;
-      name?: components["schemas"]["PageMediaSizeNameDto"];
+      name?: components["schemas"]["PageMediaSizeNameDto"] | null;
       /** Format: double */
       width?: number | null;
     };
@@ -875,7 +883,7 @@ export interface components {
       y?: string | null;
     };
     PageResolutionTicketDto: {
-      resolution?: components["schemas"]["PageQualitativeResolutionDto"];
+      resolution?: components["schemas"]["PageQualitativeResolutionDto"] | null;
       /** Format: int32 */
       x?: number | null;
       /** Format: int32 */
@@ -919,13 +927,15 @@ export interface components {
       outputColor?: string[] | null;
       outputQuality?: string[] | null;
       pageBorderless?: string[] | null;
-      pageImageableArea?: components["schemas"]["PageImageableAreaDto"];
+      pageImageableArea?: components["schemas"]["PageImageableAreaDto"] | null;
       pageMediaSize?: components["schemas"]["PageMediaSizeDto"][] | null;
       pageMediaType?: string[] | null;
       pageOrder?: string[] | null;
       pageOrientation?: string[] | null;
       pageResolution?: components["schemas"]["PageResolutionDto"][] | null;
-      pageScalingFactorRange?: components["schemas"]["PageScalingFactorRangeDto"];
+      pageScalingFactorRange?:
+        | components["schemas"]["PageScalingFactorRangeDto"]
+        | null;
       pagesPerSheet?: string[] | null;
       pagesPerSheetDirection?: string[] | null;
       photoPrintingIntent?: string[] | null;
@@ -933,27 +943,27 @@ export interface components {
       trueTypeFontMode?: string[] | null;
     };
     PrintJobDto: {
-      documentPath: string | null;
+      documentPath: string;
       fastCopy?: boolean | null;
       name?: string | null;
-      ticket?: components["schemas"]["PrintTicketDto"];
+      ticket?: components["schemas"]["PrintTicketDto"] | null;
     };
     PrintJobInfoDto: {
       /** Format: int32 */
-      jobIdentifier?: number;
-      jobName: string | null;
-      jobStatus?: components["schemas"]["PrintJobStatusDto"];
+      jobIdentifier: number;
+      jobName: string;
+      jobStatus: components["schemas"]["PrintJobStatusDto"];
       /** Format: int32 */
-      numberOfPages?: number;
+      numberOfPages: number;
       /** Format: int32 */
-      numberOfPagesPrinted?: number;
+      numberOfPagesPrinted: number;
       /** Format: int32 */
-      positionInPrintQueue?: number;
-      priority: string | null;
+      positionInPrintQueue: number;
+      priority: string;
       /** Format: date-time */
-      timeJobSubmitted?: string;
+      timeJobSubmitted: string;
       /** Format: int32 */
-      timeSinceStartedPrinting?: number;
+      timeSinceStartedPrinting: number;
     };
     /** @enum {string} */
     PrintJobStatusDto:
@@ -973,38 +983,38 @@ export interface components {
       | "Spooling"
       | "UserIntervention";
     PrintQueueDto: {
-      comment?: string | null;
+      comment: string;
       /** Format: int32 */
-      defaultPriority?: number;
-      description?: string | null;
-      fullName?: string | null;
-      hasPaperProblem?: boolean;
-      hasToner?: boolean;
-      inPartialTrust?: boolean;
-      isBidiEnabled?: boolean;
-      isBusy?: boolean;
-      isDevQueryEnabled?: boolean;
-      isDirect?: boolean;
-      isDoorOpened?: boolean;
-      isHidden?: boolean;
-      isInError?: boolean;
-      isInitializing?: boolean;
-      isIOActive?: boolean;
-      isManualFeedRequired?: boolean;
-      isNotAvailable?: boolean;
-      isOffline?: boolean;
-      isOutOfMemory?: boolean;
-      isOutOfPaper?: boolean;
-      isOutputBinFull?: boolean;
-      isPaused?: boolean;
-      isPowerSaveOn?: boolean;
-      isPublished?: boolean;
-      isServerUnknown?: boolean;
-      isShared?: boolean;
-      isWaiting?: boolean;
-      isWarmingUp?: boolean;
-      name?: string | null;
-      status?: components["schemas"]["PrintQueueStatusDto"];
+      defaultPriority: number;
+      description: string;
+      fullName: string;
+      hasPaperProblem: boolean;
+      hasToner: boolean;
+      inPartialTrust: boolean;
+      isBidiEnabled: boolean;
+      isBusy: boolean;
+      isDevQueryEnabled: boolean;
+      isDirect: boolean;
+      isDoorOpened: boolean;
+      isHidden: boolean;
+      isInError: boolean;
+      isInitializing: boolean;
+      isIOActive: boolean;
+      isManualFeedRequired: boolean;
+      isNotAvailable: boolean;
+      isOffline: boolean;
+      isOutOfMemory: boolean;
+      isOutOfPaper: boolean;
+      isOutputBinFull: boolean;
+      isPaused: boolean;
+      isPowerSaveOn: boolean;
+      isPublished: boolean;
+      isServerUnknown: boolean;
+      isShared: boolean;
+      isWaiting: boolean;
+      isWarmingUp: boolean;
+      name: string;
+      status: components["schemas"]["PrintQueueStatusDto"];
     };
     /** @enum {string} */
     PrintQueueStatusDto:
@@ -1035,28 +1045,34 @@ export interface components {
       | "Waiting"
       | "WarmingUp";
     PrintTicketDto: {
-      collation?: components["schemas"]["CollationDto"];
+      collation?: components["schemas"]["CollationDto"] | null;
       /** Format: int32 */
       copyCount?: number | null;
-      deviceFontSubstitution?: components["schemas"]["DeviceFontSubstitutionDto"];
-      duplexing?: components["schemas"]["DuplexingDto"];
-      inputBin?: components["schemas"]["InputBinDto"];
-      outputColor?: components["schemas"]["OutputColorDto"];
-      outputQuality?: components["schemas"]["OutputQualityDto"];
-      pageBorderless?: components["schemas"]["PageBorderlessDto"];
-      pageMediaSize?: components["schemas"]["PageMediaSizeTicketDto"];
-      pageMediaType?: components["schemas"]["PageMediaTypeDto"];
-      pageOrder?: components["schemas"]["PageOrderDto"];
-      pageOrientation?: components["schemas"]["PageOrientationDto"];
-      pageResolution?: components["schemas"]["PageResolutionTicketDto"];
+      deviceFontSubstitution?:
+        | components["schemas"]["DeviceFontSubstitutionDto"]
+        | null;
+      duplexing?: components["schemas"]["DuplexingDto"] | null;
+      inputBin?: components["schemas"]["InputBinDto"] | null;
+      outputColor?: components["schemas"]["OutputColorDto"] | null;
+      outputQuality?: components["schemas"]["OutputQualityDto"] | null;
+      pageBorderless?: components["schemas"]["PageBorderlessDto"] | null;
+      pageMediaSize?: components["schemas"]["PageMediaSizeTicketDto"] | null;
+      pageMediaType?: components["schemas"]["PageMediaTypeDto"] | null;
+      pageOrder?: components["schemas"]["PageOrderDto"] | null;
+      pageOrientation?: components["schemas"]["PageOrientationDto"] | null;
+      pageResolution?: components["schemas"]["PageResolutionTicketDto"] | null;
       /** Format: int32 */
       pageScalingFactor?: number | null;
       /** Format: int32 */
       pagesPerSheet?: number | null;
-      pagesPerSheetDirection?: components["schemas"]["PagesPerSheetDirectionDto"];
-      photoPrintingIntent?: components["schemas"]["PhotoPrintingIntentDto"];
-      stapling?: components["schemas"]["StaplingDto"];
-      trueTypeFontMode?: components["schemas"]["TrueTypeFontModeDto"];
+      pagesPerSheetDirection?:
+        | components["schemas"]["PagesPerSheetDirectionDto"]
+        | null;
+      photoPrintingIntent?:
+        | components["schemas"]["PhotoPrintingIntentDto"]
+        | null;
+      stapling?: components["schemas"]["StaplingDto"] | null;
+      trueTypeFontMode?: components["schemas"]["TrueTypeFontModeDto"] | null;
     };
     /** @enum {string} */
     StaplingDto:
@@ -1090,6 +1106,7 @@ export type CollationDto = components["schemas"]["CollationDto"];
 export type DeviceFontSubstitutionDto =
   components["schemas"]["DeviceFontSubstitutionDto"];
 export type DuplexingDto = components["schemas"]["DuplexingDto"];
+export type ErrorResponseCode = components["schemas"]["ErrorResponseCode"];
 export type ErrorResponseDto = components["schemas"]["ErrorResponseDto"];
 export type InputBinDto = components["schemas"]["InputBinDto"];
 export type OutputColorDto = components["schemas"]["OutputColorDto"];

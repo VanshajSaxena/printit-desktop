@@ -487,17 +487,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PrintJobDto"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PrintJobDto"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PrintJobDto"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PrintJobDto"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PrintJobDto"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PrintJobDto"
+                  }
+                ]
               }
             }
           }
@@ -652,16 +664,30 @@
         ],
         "type": "string"
       },
+      "ErrorResponseCode": {
+        "enum": [
+          "QUEUE_NOT_FOUND",
+          "JOB_NOT_FOUND",
+          "CONVERSION_FAILED",
+          "INVALID_ARGUMENT",
+          "INVALID_OPERATION",
+          "UNEXPECTED_ERROR"
+        ],
+        "type": "string"
+      },
       "ErrorResponseDto": {
+        "required": ["code", "message"],
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorResponseCode"
+              }
+            ]
           },
           "message": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -922,7 +948,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "$ref": "#/components/schemas/PageMediaSizeNameDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageMediaSizeNameDto"
+              }
+            ],
+            "nullable": true
           },
           "height": {
             "type": "number",
@@ -1012,7 +1043,12 @@
         "type": "object",
         "properties": {
           "resolution": {
-            "$ref": "#/components/schemas/PageQualitativeResolutionDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageQualitativeResolutionDto"
+              }
+            ],
+            "nullable": true
           },
           "x": {
             "type": "integer",
@@ -1129,7 +1165,12 @@
             "nullable": true
           },
           "pageImageableArea": {
-            "$ref": "#/components/schemas/PageImageableAreaDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageImageableAreaDto"
+              }
+            ],
+            "nullable": true
           },
           "pageMediaSize": {
             "type": "array",
@@ -1167,7 +1208,12 @@
             "nullable": true
           },
           "pageScalingFactorRange": {
-            "$ref": "#/components/schemas/PageScalingFactorRangeDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageScalingFactorRangeDto"
+              }
+            ],
+            "nullable": true
           },
           "pagesPerSheet": {
             "type": "array",
@@ -1216,21 +1262,35 @@
             "nullable": true
           },
           "documentPath": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "fastCopy": {
             "type": "boolean",
             "nullable": true
           },
           "ticket": {
-            "$ref": "#/components/schemas/PrintTicketDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PrintTicketDto"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
       "PrintJobInfoDto": {
-        "required": ["jobName", "priority"],
+        "required": [
+          "jobIdentifier",
+          "jobName",
+          "jobStatus",
+          "numberOfPages",
+          "numberOfPagesPrinted",
+          "positionInPrintQueue",
+          "priority",
+          "timeJobSubmitted",
+          "timeSinceStartedPrinting"
+        ],
         "type": "object",
         "properties": {
           "jobIdentifier": {
@@ -1238,11 +1298,14 @@
             "format": "int32"
           },
           "jobStatus": {
-            "$ref": "#/components/schemas/PrintJobStatusDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PrintJobStatusDto"
+              }
+            ]
           },
           "jobName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "numberOfPages": {
             "type": "integer",
@@ -1257,8 +1320,7 @@
             "format": "int32"
           },
           "priority": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "timeJobSubmitted": {
             "type": "string",
@@ -1292,26 +1354,59 @@
         "type": "string"
       },
       "PrintQueueDto": {
+        "required": [
+          "comment",
+          "defaultPriority",
+          "description",
+          "fullName",
+          "hasPaperProblem",
+          "hasToner",
+          "inPartialTrust",
+          "isBidiEnabled",
+          "isBusy",
+          "isDevQueryEnabled",
+          "isDirect",
+          "isDoorOpened",
+          "isHidden",
+          "isInError",
+          "isInitializing",
+          "isIOActive",
+          "isManualFeedRequired",
+          "isNotAvailable",
+          "isOffline",
+          "isOutOfMemory",
+          "isOutOfPaper",
+          "isOutputBinFull",
+          "isPaused",
+          "isPowerSaveOn",
+          "isPublished",
+          "isServerUnknown",
+          "isShared",
+          "isWaiting",
+          "isWarmingUp",
+          "name",
+          "status"
+        ],
         "type": "object",
         "properties": {
           "fullName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "comment": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/PrintQueueStatusDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PrintQueueStatusDto"
+              }
+            ]
           },
           "defaultPriority": {
             "type": "integer",
@@ -1430,7 +1525,12 @@
         "type": "object",
         "properties": {
           "collation": {
-            "$ref": "#/components/schemas/CollationDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CollationDto"
+              }
+            ],
+            "nullable": true
           },
           "copyCount": {
             "type": "integer",
@@ -1438,37 +1538,92 @@
             "nullable": true
           },
           "deviceFontSubstitution": {
-            "$ref": "#/components/schemas/DeviceFontSubstitutionDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviceFontSubstitutionDto"
+              }
+            ],
+            "nullable": true
           },
           "duplexing": {
-            "$ref": "#/components/schemas/DuplexingDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DuplexingDto"
+              }
+            ],
+            "nullable": true
           },
           "inputBin": {
-            "$ref": "#/components/schemas/InputBinDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InputBinDto"
+              }
+            ],
+            "nullable": true
           },
           "outputColor": {
-            "$ref": "#/components/schemas/OutputColorDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OutputColorDto"
+              }
+            ],
+            "nullable": true
           },
           "outputQuality": {
-            "$ref": "#/components/schemas/OutputQualityDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OutputQualityDto"
+              }
+            ],
+            "nullable": true
           },
           "pageBorderless": {
-            "$ref": "#/components/schemas/PageBorderlessDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageBorderlessDto"
+              }
+            ],
+            "nullable": true
           },
           "pageMediaSize": {
-            "$ref": "#/components/schemas/PageMediaSizeTicketDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageMediaSizeTicketDto"
+              }
+            ],
+            "nullable": true
           },
           "pageMediaType": {
-            "$ref": "#/components/schemas/PageMediaTypeDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageMediaTypeDto"
+              }
+            ],
+            "nullable": true
           },
           "pageOrder": {
-            "$ref": "#/components/schemas/PageOrderDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageOrderDto"
+              }
+            ],
+            "nullable": true
           },
           "pageOrientation": {
-            "$ref": "#/components/schemas/PageOrientationDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageOrientationDto"
+              }
+            ],
+            "nullable": true
           },
           "pageResolution": {
-            "$ref": "#/components/schemas/PageResolutionTicketDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PageResolutionTicketDto"
+              }
+            ],
+            "nullable": true
           },
           "pageScalingFactor": {
             "type": "integer",
@@ -1481,16 +1636,36 @@
             "nullable": true
           },
           "pagesPerSheetDirection": {
-            "$ref": "#/components/schemas/PagesPerSheetDirectionDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PagesPerSheetDirectionDto"
+              }
+            ],
+            "nullable": true
           },
           "photoPrintingIntent": {
-            "$ref": "#/components/schemas/PhotoPrintingIntentDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PhotoPrintingIntentDto"
+              }
+            ],
+            "nullable": true
           },
           "stapling": {
-            "$ref": "#/components/schemas/StaplingDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StaplingDto"
+              }
+            ],
+            "nullable": true
           },
           "trueTypeFontMode": {
-            "$ref": "#/components/schemas/TrueTypeFontModeDto"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TrueTypeFontModeDto"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
