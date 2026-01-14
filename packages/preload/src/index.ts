@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
-import { PrintTypes } from "@app/common";
+import { PrintTypes, type IPCResponse } from "@app/common";
 
 export type WsChannelTypeMap = {
   "server:connected": {
@@ -33,10 +33,13 @@ export function getPrintQueue() {
 export function getPrintQueueCapabilitites() {
   return ipcRenderer.invoke("printQueue:capabilities");
 }
+export function getPrintJob(printQueue: string, jobIdentifier: number) {
+  return ipcRenderer.invoke("printQueue:job", printQueue, jobIdentifier);
+}
 export function sendFilesToPrinter(
   printQueue: string,
   printJob: PrintTypes.PrintJobDto,
-): Promise<PrintTypes.PrintJobInfoDto | undefined> {
+): Promise<IPCResponse<PrintTypes.PrintJobInfoDto | undefined>> {
   return ipcRenderer.invoke("printQueue:print", printQueue, printJob);
 }
 export function isWebSocketConnected(): Promise<boolean> {

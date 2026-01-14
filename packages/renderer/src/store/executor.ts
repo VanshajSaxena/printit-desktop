@@ -59,14 +59,13 @@ export class ObservableExecutor {
       case "print-file": {
         const documentPath = operation.job.document.filePath;
         if (!documentPath) {
-          //NOTE: temporary check, should not be needed
           return;
         }
         const response = await sendFilesToPrinter("microsoft print to pdf", {
           documentPath,
           ticket: {},
         });
-        console.log(response);
+
         break;
       }
 

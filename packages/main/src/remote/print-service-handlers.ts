@@ -25,6 +25,12 @@ export function getPrintServiceHandlers(
       return printServiceApi.getPrintQueueCapabilities(printQueue);
     }),
 
+    "printQueue:job": createHandler(
+      (_event, printQueue: string, jobId: number) => {
+        return printServiceApi.getPrintJob(printQueue, jobId);
+      },
+    ),
+
     "printQueue:print": createHandler(
       (_event, printQueue: string, printJob: PrintTypes.PrintJobDto) => {
         return printServiceApi.cratePrintJob(printQueue, printJob);
