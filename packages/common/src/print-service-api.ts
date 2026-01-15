@@ -6,27 +6,20 @@ import type {
   PrintJobInfoDto,
   PrintQueueDto,
   PrintQueueStatusDto,
+  ErrorResponseDto,
+  ErrorResponseCode,
 } from "../gen/types/print-service-api-types.ts";
 import log from "electron-log";
 
-const UNEXPECTED_ERROR_CODE = "UNEXPECTED_ERROR";
-
 export type IPCResponse<T> =
   | { success: true; data: T }
-  | { success: false; error?: string; code: string };
+  | { success: false; error: string; code: ErrorResponseCode };
 
-type ApiError =
-  | {
-      code?: string | null;
-      message?: string | null;
-    }
-  | undefined;
-
-function toIpcError(error: ApiError): IPCResponse<never> {
+function toIpcError(error: ErrorResponseDto): IPCResponse<never> {
   return {
     success: false,
-    code: error?.code ?? UNEXPECTED_ERROR_CODE,
-    ...(error?.message ? { error: error.message } : {}),
+    code: error.code,
+    error: error.message,
   };
 }
 
