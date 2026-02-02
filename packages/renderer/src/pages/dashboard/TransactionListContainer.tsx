@@ -14,7 +14,6 @@ export function TransactionListContainer() {
   const transactionList = useMemo(() => {
     return Object.values(transactionsMap);
   }, [transactionsMap]);
-  console.log("TransactionListContainer");
 
   useEffect(() => {
     dispatch({ type: "transaction:request" });

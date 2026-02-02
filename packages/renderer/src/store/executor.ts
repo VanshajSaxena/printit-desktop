@@ -61,11 +61,10 @@ export class ObservableExecutor {
         if (!documentPath) {
           return;
         }
-        const response = await sendFilesToPrinter("microsoft print to pdf", {
+        const response = await sendFilesToPrinter("hp smart tank 580", {
           documentPath,
           ticket: {},
         });
-
         break;
       }
 

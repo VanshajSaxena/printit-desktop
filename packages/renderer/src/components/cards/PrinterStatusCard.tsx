@@ -10,7 +10,6 @@ export function PrinterStatusCard({ subText }: { subText: string }) {
     refetchInterval: 1000,
   });
 
-  console.log(data);
   const response = data?.success ? data.data : "None";
   const heroText = response ?? "NONE";
   return (
