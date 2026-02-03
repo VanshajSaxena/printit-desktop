@@ -1,19 +1,21 @@
 import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
+import type { PrintJobInfoDto } from "@app/common/gen/types/print-service-api-types";
 
-export type TransactionEventUnion =
+export type TransactionEventUnionType =
   | NewTransactionEvent
   | UserSendToPrinterEvent
   | FilesDownloadStartedEvent
   | FilesDownloadProgressEvent
   | FilesDownloadCompletedEvent
-  | FilesDownloadErrorEvent;
+  | FilesDownloadErrorEvent
+  | FileSpooledSuccess;
 
 export type TransactionEvent =
   | TransactionRequestEvent
   | TransactionResponseEvent
-  | (TransactionEventUnion & TransactionEventBase);
+  | (TransactionEventUnionType & TransactionEventBaseType);
 
-export interface TransactionEventBase {
+export interface TransactionEventBaseType {
   transactionId: number;
 }
 
@@ -99,4 +101,9 @@ export interface FilesDownloadErrorEvent {
   reason:
     | "presigned-url-fetch-failed"
     | "download-manager-threw-during-download";
+}
+
+export interface FileSpooledSuccess {
+  type: "files:spooled:success";
+  printJobInfo: PrintJobInfoDto;
 }

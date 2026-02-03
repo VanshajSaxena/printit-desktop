@@ -11,6 +11,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
+      "@app/*": ["../*"],
       "@app/preload": ["../preload"],
       "@app/renderer": ["../renderer"],
       "@app/common": ["../common"]

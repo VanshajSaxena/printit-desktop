@@ -1,10 +1,7 @@
-import {
-  downloadManager,
-  type PrintTypes,
-  type PrintServiceApi,
-} from "@app/common";
+import { downloadManager, type PrintServiceApi } from "@app/common";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
 import { createHandler } from "./ipc-handlers.js";
+import { PrintJobDto } from "@app/common/gen/types/print-service-api-types.js";
 
 export function getPrintServiceHandlers(
   printServiceApi: PrintServiceApi,
@@ -36,7 +33,7 @@ export function getPrintServiceHandlers(
     ),
 
     "printQueue:print": createHandler(
-      (_event, printQueue: string, printJob: PrintTypes.PrintJobDto) => {
+      (_event, printQueue: string, printJob: PrintJobDto) => {
         return printServiceApi.cratePrintJob(printQueue, printJob);
       },
     ),

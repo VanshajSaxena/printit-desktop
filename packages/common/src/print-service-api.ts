@@ -1,15 +1,15 @@
+import log from "electron-log";
 import createClient, { type Client } from "openapi-fetch";
 import type {
-  paths as PrintServicePaths,
+  ErrorResponseCode,
+  ErrorResponseDto,
   PrintCapabilitiesDto,
   PrintJobDto,
   PrintJobInfoDto,
   PrintQueueDto,
   PrintQueueStatusDto,
-  ErrorResponseDto,
-  ErrorResponseCode,
+  paths as PrintServicePaths,
 } from "../gen/types/print-service-api-types.ts";
-import log from "electron-log";
 
 export type IPCResponse<T> =
   | { success: true; data: T }

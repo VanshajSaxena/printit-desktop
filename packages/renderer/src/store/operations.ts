@@ -9,11 +9,11 @@ export type TransactionOperation = (
 
 export type TransactionOperationUnion = { transactionId: number } & (
   | DownloadFilesOperation
-  | PrintDocumentsOperation
+  | SendFilesToPrinterOperation
 );
 
 export interface DownloadFilesOperation {
-  type: "download-files";
+  type: "download-files-to-file-system";
   files: { id: number }[];
 }
 
@@ -21,8 +21,8 @@ export interface FetchTransactionOperation {
   type: "fetch-transactions";
 }
 
-export interface PrintDocumentsOperation {
-  type: "print-file";
+export interface SendFilesToPrinterOperation {
+  type: "spool-files-to-printer";
   job: {
     id: number;
     status:

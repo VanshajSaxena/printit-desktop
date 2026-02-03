@@ -39,7 +39,7 @@ export const reducer = (
       });
       operations.push({
         operationId: generateOperationId(),
-        type: "download-files",
+        type: "download-files-to-file-system",
         files: state.transactions[event.transactionId].jobs.map((job) => {
           return { id: job.document.id };
         }),
@@ -78,7 +78,7 @@ export const reducer = (
       if (job) {
         operations.push({
           operationId: generateOperationId(),
-          type: "print-file",
+          type: "spool-files-to-printer",
           transactionId: event.transactionId,
           job,
         });

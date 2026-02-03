@@ -1,5 +1,5 @@
 import { type FetchClientType } from "@api/client";
-import { downloadFilesToFileSystem, sendFilesToPrinter } from "@app/preload";
+import { downloadFilesToFileSystem, spoolFilesToPrinter } from "@app/preload";
 import type { TransactionEvent } from "./events";
 import type { TransactionOperation } from "./operations";
 
@@ -26,7 +26,7 @@ export class ObservableExecutor {
         }
         break;
       }
-      case "download-files": {
+      case "download-files-to-file-system": {
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },
         });
@@ -56,15 +56,19 @@ export class ObservableExecutor {
         });
         break;
       }
-      case "print-file": {
+      case "spool-files-to-printer": {
         const documentPath = operation.job.document.filePath;
         if (!documentPath) {
           return;
         }
-        const response = await sendFilesToPrinter("hp smart tank 580", {
+        const response = await spoolFilesToPrinter("hp smart tank 580", {
           documentPath,
           ticket: {},
         });
+
+        if (response.success) {
+          const data = response.data;
+        }
         break;
       }
 

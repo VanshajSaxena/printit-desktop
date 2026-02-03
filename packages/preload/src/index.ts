@@ -1,7 +1,12 @@
+import { type IPCResponse } from "@app/common";
+import {
+  PrintJobDto,
+  PrintJobInfoDto,
+  PrintQueueStatusDto,
+} from "@app/common/gen/types/print-service-api-types.js";
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
-import { PrintTypes, type IPCResponse } from "@app/common";
 
 export type WsChannelTypeMap = {
   "server:connected": {
@@ -32,7 +37,7 @@ export function getPrintQueue() {
 }
 export function getPrintQueueStatus(
   printQueue: string,
-): Promise<IPCResponse<PrintTypes.PrintQueueStatusDto | undefined>> {
+): Promise<IPCResponse<PrintQueueStatusDto | undefined>> {
   return ipcRenderer.invoke("printQueue:status", printQueue);
 }
 export function getPrintQueueCapabilitites() {
@@ -41,10 +46,10 @@ export function getPrintQueueCapabilitites() {
 export function getPrintJob(printQueue: string, jobIdentifier: number) {
   return ipcRenderer.invoke("printQueue:job", printQueue, jobIdentifier);
 }
-export function sendFilesToPrinter(
+export function spoolFilesToPrinter(
   printQueue: string,
-  printJob: PrintTypes.PrintJobDto,
-): Promise<IPCResponse<PrintTypes.PrintJobInfoDto | undefined>> {
+  printJob: PrintJobDto,
+): Promise<IPCResponse<PrintJobInfoDto | undefined>> {
   return ipcRenderer.invoke("printQueue:print", printQueue, printJob);
 }
 export function isWebSocketConnected(): Promise<boolean> {
