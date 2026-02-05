@@ -1,7 +1,7 @@
-import { io, Socket } from "socket.io-client";
 import log from "electron-log";
 import { Fetch, WebSocket, WebTransport, XHR } from "engine.io-client";
 import { EventEmitter } from "events";
+import { io, Socket } from "socket.io-client";
 
 export interface WsNotificationsApiConfig {
   url: string;
@@ -35,7 +35,12 @@ export class WsNotificationsApi extends EventEmitter {
       reconnectionAttempts: this.config.reconnectionAttempt,
       transports: [XHR, Fetch, WebSocket, WebTransport],
       tryAllTransports: true,
-      auth: { clientType: "vendor" },
+      auth: {
+        clientType: "vendor",
+        clientId: 1,
+        username: "vanshaj",
+        slug: "xlmpwfyzbywgbse",
+      },
     });
 
     this.setupEventHandlers();
