@@ -18,8 +18,8 @@ export async function initApp(initConfig: AppInitConfig) {
   log.info("### Main Process Initialization Started ###");
   const printServiceApi = new PrintServiceApi();
   const webSocketApi = new WsNotificationsApi({
-    url: import.meta.env.PROD ? "api.print-ly.ink" : "localhost:3000",
-    protocol: import.meta.env.PROD ? "https" : "http",
+    url: import.meta.env.PROD ? "api.print-ly.ink" : "api.dev.print-ly.ink",
+    protocol: "https",
     namespace: `notifications`,
   });
   const allHandlers = createIpcHandlers(printServiceApi, webSocketApi);
