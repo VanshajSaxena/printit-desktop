@@ -8,7 +8,7 @@ export type TransactionEventUnionType =
   | FilesDownloadProgressEvent
   | FilesDownloadCompletedEvent
   | FilesDownloadErrorEvent
-  | FileSpooledSuccess;
+  | FilesSpooledSuccess;
 
 export type TransactionEvent =
   | TransactionRequestEvent
@@ -103,7 +103,7 @@ export interface FilesDownloadErrorEvent {
     | "download-manager-threw-during-download";
 }
 
-export interface FileSpooledSuccess {
+export interface FilesSpooledSuccess {
   type: "files:spooled:success";
-  printJobInfo: PrintJobInfoDto;
+  printJobInfo: PrintJobInfoDto | undefined;
 }

@@ -86,6 +86,10 @@ export const reducer = (
       break;
     }
 
+    case "files:spooled:success": {
+      break;
+    }
+
     default: {
       break;
     }

@@ -67,7 +67,11 @@ export class ObservableExecutor {
         });
 
         if (response.success) {
-          const data = response.data;
+          this.dispatch({
+            type: "files:spooled:success",
+            printJobInfo: response.data,
+            transactionId: operation.transactionId,
+          });
         }
         break;
       }

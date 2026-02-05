@@ -35,6 +35,7 @@ export class WsNotificationsApi extends EventEmitter {
       reconnectionAttempts: this.config.reconnectionAttempt,
       transports: [XHR, Fetch, WebSocket, WebTransport],
       tryAllTransports: true,
+      auth: { clientType: "vendor" },
     });
 
     this.setupEventHandlers();
