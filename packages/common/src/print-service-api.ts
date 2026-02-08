@@ -59,7 +59,7 @@ export class PrintServiceApi {
     const { data, error } = await this.client.GET(
       "/api/v1/printqueues/{queueName}",
       {
-        params: { path: { queueName: queueName } },
+        params: { path: { queueName } },
       },
     );
     if (error) {
@@ -75,7 +75,7 @@ export class PrintServiceApi {
     const { data, error } = await this.client.GET(
       "/api/v1/printqueues/{queueName}/status",
       {
-        params: { path: { queueName: queueName } },
+        params: { path: { queueName } },
       },
     );
     if (error) {
@@ -91,7 +91,7 @@ export class PrintServiceApi {
     const { data, error } = await this.client.GET(
       "/api/v1/printqueues/{queueName}/capabilities",
       {
-        params: { path: { queueName: queueName } },
+        params: { path: { queueName } },
       },
     );
     if (error) {
@@ -123,7 +123,7 @@ export class PrintServiceApi {
     const { data, error } = await this.client.POST(
       "/api/v1/printqueues/{queueName}/jobs",
       {
-        params: { path: { queueName: queueName } },
+        params: { path: { queueName } },
         body: printJob,
       },
     );

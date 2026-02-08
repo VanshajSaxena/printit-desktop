@@ -4,38 +4,6 @@
  */
 
 export interface paths {
-  "/api/job": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["JobController_findAll"];
-    put?: never;
-    post: operations["JobController_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/job/{id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["JobController_findOne"];
-    put?: never;
-    post?: never;
-    delete: operations["JobController_remove"];
-    options?: never;
-    head?: never;
-    patch: operations["JobController_update"];
-    trace?: never;
-  };
   "/api/v1/documents": {
     parameters: {
       query?: never;
@@ -98,6 +66,38 @@ export interface paths {
     options?: never;
     head?: never;
     patch?: never;
+    trace?: never;
+  };
+  "/api/v1/jobs": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["JobController_findAll_v1"];
+    put?: never;
+    post: operations["JobController_create_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/jobs/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["JobController_findOne_v1"];
+    put?: never;
+    post?: never;
+    delete: operations["JobController_remove_v1"];
+    options?: never;
+    head?: never;
+    patch: operations["JobController_update_v1"];
     trace?: never;
   };
   "/api/v1/ping": {
@@ -228,18 +228,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/vendors/{selector}/presence": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["VendorController_vendorPresent_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    CreateDocumentBatchRequestDto: {
+      documents: components["schemas"]["CreateDocumentRequestDto"][];
+    };
+    CreateDocumentBatchResponseDto: {
+      documents: components["schemas"]["CreateDocumentResponseDto"][];
+    };
     CreateDocumentRequestDto: {
       contentType: string;
+      draftId: string;
       filename: string;
     };
     CreateDocumentResponseDto: {
       contentType: string;
+      /** Format: date-time */
+      createdAt: string;
+      draftId: string;
       filename: string;
       id: number;
+      /** Format: date-time */
+      updatedAt: string;
     };
     CreateJobRequestDto: {
       copyCount: number;
@@ -248,7 +276,15 @@ export interface components {
       outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
     };
     CreateJobResponseDto: {
+      copyCount: number;
+      /** Format: date-time */
+      createdAt: string;
+      document: components["schemas"]["CreateDocumentResponseDto"];
       id: number;
+      /** @enum {string} */
+      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      /** Format: date-time */
+      updatedAt: string;
     };
     CreatePrinterDto: {
       /** Format: json */
@@ -258,14 +294,18 @@ export interface components {
     };
     CreateTransactionRequestDto: {
       jobs: components["schemas"]["CreateJobRequestDto"][];
-      printerId?: number;
       vendorId: number;
     };
     CreateTransactionResponseDto: {
+      /** Format: date-time */
+      createdAt: string;
       friendlyId: string;
       id: number;
+      jobs: components["schemas"]["CreateJobResponseDto"][];
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      /** Format: date-time */
+      updatedAt: string;
     };
     CreateVendorDto: {
       address?: string;
@@ -310,13 +350,24 @@ export interface components {
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
+    NotFoundErrorDto: {
+      /** @example Not Found */
+      error: string;
+      /** @example Entity not found */
+      message: string;
+      /** @example 404 */
+      statusCode: number;
+    };
     PrinterResponseDto: {
       /** Format: json */
       capabilities: string;
       id: number;
       name: string;
     };
-    UpdateDocumentDto: Record<string, never>;
+    UpdateDocumentRequestDto: {
+      /** @enum {string} */
+      status: "CREATED" | "UPLOADED" | "FAILED" | "DELETED";
+    };
     UpdateJobDto: {
       copyCount?: number;
       documentId?: number;
@@ -336,6 +387,11 @@ export interface components {
       id: number;
       url: string;
     };
+    VendorPresenceDto: {
+      id: number;
+      /** @enum {string} */
+      status: "online" | "offline" | "away";
+    };
     VendorResponseDto: {
       address: string;
       firstName: string;
@@ -352,6 +408,10 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+export type CreateDocumentBatchRequestDto =
+  components["schemas"]["CreateDocumentBatchRequestDto"];
+export type CreateDocumentBatchResponseDto =
+  components["schemas"]["CreateDocumentBatchResponseDto"];
 export type CreateDocumentRequestDto =
   components["schemas"]["CreateDocumentRequestDto"];
 export type CreateDocumentResponseDto =
@@ -376,8 +436,10 @@ export type FindDocumentResponseDto =
 export type FindJobResponseDto = components["schemas"]["FindJobResponseDto"];
 export type FindTransactionResponseDto =
   components["schemas"]["FindTransactionResponseDto"];
+export type NotFoundErrorDto = components["schemas"]["NotFoundErrorDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
-export type UpdateDocumentDto = components["schemas"]["UpdateDocumentDto"];
+export type UpdateDocumentRequestDto =
+  components["schemas"]["UpdateDocumentRequestDto"];
 export type UpdateJobDto = components["schemas"]["UpdateJobDto"];
 export type UpdatePrinterDto = components["schemas"]["UpdatePrinterDto"];
 export type UpdateTransactionDto =
@@ -389,118 +451,10 @@ export type UploadFileBatchResponseDto =
   components["schemas"]["UploadFileBatchResponseDto"];
 export type UploadFileResponseDto =
   components["schemas"]["UploadFileResponseDto"];
+export type VendorPresenceDto = components["schemas"]["VendorPresenceDto"];
 export type VendorResponseDto = components["schemas"]["VendorResponseDto"];
 export type $defs = Record<string, never>;
 export interface operations {
-  JobController_findAll: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateJobResponseDto"][];
-        };
-      };
-    };
-  };
-  JobController_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateJobRequestDto"];
-      };
-    };
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateJobResponseDto"];
-        };
-      };
-    };
-  };
-  JobController_findOne: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateJobResponseDto"];
-        };
-      };
-    };
-  };
-  JobController_remove: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateJobResponseDto"];
-        };
-      };
-    };
-  };
-  JobController_update: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateJobDto"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateJobResponseDto"];
-        };
-      };
-    };
-  };
   DocumentController_findAll_v1: {
     parameters: {
       query?: never;
@@ -529,7 +483,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["CreateDocumentRequestDto"];
+        "application/json": components["schemas"]["CreateDocumentBatchRequestDto"];
       };
     };
     responses: {
@@ -538,7 +492,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["CreateDocumentResponseDto"];
+          "application/json": components["schemas"]["CreateDocumentBatchResponseDto"];
         };
       };
     };
@@ -596,7 +550,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["UpdateDocumentDto"];
+        "application/json": components["schemas"]["UpdateDocumentRequestDto"];
       };
     };
     responses: {
@@ -652,6 +606,115 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["UploadFileBatchResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_findAll_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateJobResponseDto"][];
+        };
+      };
+    };
+  };
+  JobController_create_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateJobRequestDto"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateJobResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateJobResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_remove_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateJobResponseDto"];
+        };
+      };
+    };
+  };
+  JobController_update_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateJobDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateJobResponseDto"];
         };
       };
     };
@@ -1001,6 +1064,36 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["VendorResponseDto"];
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["NotFoundErrorDto"];
+        };
+      };
+    };
+  };
+  VendorController_vendorPresent_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The unique identifier */
+        selector: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VendorPresenceDto"];
         };
       };
     };
