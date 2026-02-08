@@ -1,5 +1,8 @@
 import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
-import type { PrintJobInfoDto } from "@app/common/gen/types/print-service-api-types";
+import type {
+  PrintJobInfoDto,
+  PrintJobStatusDto,
+} from "@app/common/gen/types/print-service-api-types";
 
 export type TransactionEventUnionType =
   | NewTransactionEvent
@@ -101,6 +104,54 @@ export interface FilesDownloadErrorEvent {
   reason:
     | "presigned-url-fetch-failed"
     | "download-manager-threw-during-download";
+}
+
+export interface PrintJobMonitoringStartedEvent {
+  type: "print-job:monitoring:started";
+  jobId: number;
+  printJobIdentifier: number;
+  printerName: string;
+}
+
+export interface PrintJobStatusPolledEvent {
+  type: "print-job:status:polled";
+  jobId: number;
+  printJobIdentifier: number;
+  status: PrintJobStatusDto;
+  numberOfPagesPrinted: number;
+}
+
+export interface PrintJobPrintingStartedEvent {
+  type: "print-job:printing:started";
+  jobId: number;
+  printJobIdentifier: number;
+}
+
+export interface PrintJobCompletedEvent {
+  type: "print-job:completed";
+  jobId: number;
+  printJobIdentifier: number;
+}
+
+export interface PrintJobFailedEvent {
+  type: "print-job:failed";
+  jobId: number;
+  printJobIdentifier: number;
+  reason: PrintJobStatusDto;
+}
+
+export interface PrintJobTimeoutEvent {
+  type: "print-job:timeout";
+  jobId: number;
+  printJobIdentifier: number;
+  lastKnownStatus: PrintJobStatusDto;
+}
+
+export interface PrintJobNotFoundEvent {
+  type: "print-job:not-found";
+  jobId: number;
+  printJobIdentifier: number;
+  lastKnownStatus?: PrintJobStatusDto;
 }
 
 export interface FilesSpooledSuccess {
