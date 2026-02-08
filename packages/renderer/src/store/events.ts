@@ -11,6 +11,13 @@ export type TransactionEventUnionType =
   | FilesDownloadProgressEvent
   | FilesDownloadCompletedEvent
   | FilesDownloadErrorEvent
+  | PrintJobMonitoringStartedEvent
+  | PrintJobStatusPolledEvent
+  | PrintJobPrintingStartedEvent
+  | PrintJobCompletedEvent
+  | PrintJobFailedEvent
+  | PrintJobTimeoutEvent
+  | PrintJobNotFoundEvent
   | FilesSpooledSuccess;
 
 export type TransactionEvent =
@@ -56,6 +63,9 @@ export interface TransactionObject {
     outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
     printJobIdentifier?: number;
     printerName?: string;
+    spooledAt?: string;
+    completedAt?: string;
+    failedAt?: string;
     monitoring?: {
       isActive: boolean;
       lastPolledAt?: string;
