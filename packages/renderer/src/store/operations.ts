@@ -13,7 +13,9 @@ export type TransactionOperationUnion = { transactionId: number } & (
   | DownloadFilesOperation
   | SpoolFilesToPrinterOperation
   | StartPrintJobMonitoringOperation
+  | StopPrintJobMonitoringOperation
   | ReportTransactionStatusOperation
+  | ReportJobStatusOperation
 );
 
 export interface DownloadFilesOperation {
@@ -41,6 +43,13 @@ export interface SpoolFilesToPrinterOperation {
   };
 }
 
+export interface StopPrintJobMonitoringOperation {
+  type: "stop-print-job-monitoring";
+  jobId: number;
+  printJobIdentifier: number;
+  reason: "completed" | "failed" | "user-cancelled" | "timeout";
+}
+
 export interface StartPrintJobMonitoringOperation {
   type: "start-print-job-monitoring";
   jobId: number;
@@ -55,10 +64,21 @@ export interface ReportTransactionStatusOperation {
   updates: {
     transactionId: number;
     status: TransactionObject["status"];
+    timestamp: string;
     jobUpdates: {
       jobId: number;
       status: TransactionObject["jobs"][0]["status"];
       pagesPrinted?: number;
+      timestamp: string;
     }[];
   };
+}
+
+export interface ReportJobStatusOperation {
+  type: "report-job-status";
+  transactionId: number;
+  jobId: number;
+  status: TransactionObject["jobs"][0]["status"];
+  pagesPrinted?: number;
+  timestamp: string;
 }

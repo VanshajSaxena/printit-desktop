@@ -54,6 +54,17 @@ export interface TransactionObject {
     };
     copyCount: number;
     outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    printJobIdentifier?: number;
+    printerName?: string;
+    monitoring?: {
+      isActive: boolean;
+      lastPolledAt?: string;
+      lastKnownStatus?: PrintJobStatusDto;
+      pagesPrinted: number;
+      startedPrintingAt?: string;
+      timedOut: boolean;
+      timeoutAt?: string;
+    };
   }[];
 }
 
