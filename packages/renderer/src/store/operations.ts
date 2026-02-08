@@ -1,3 +1,5 @@
+import type { TransactionObject } from "./events";
+
 export interface TransactionOperationBase {
   operationId: string;
 }
@@ -10,6 +12,8 @@ export type TransactionOperation = (
 export type TransactionOperationUnion = { transactionId: number } & (
   | DownloadFilesOperation
   | SpoolFilesToPrinterOperation
+  | StartPrintJobMonitoringOperation
+  | ReportTransactionStatusOperation
 );
 
 export interface DownloadFilesOperation {
@@ -25,15 +29,7 @@ export interface SpoolFilesToPrinterOperation {
   type: "spool-files-to-printer";
   job: {
     id: number;
-    status:
-      | "PENDING"
-      | "QUEUED"
-      | "DOWNLOADING"
-      | "DOWNLOADED"
-      | "SPOOLED"
-      | "PRINTING"
-      | "COMPLETED"
-      | "ERROR";
+    status: TransactionObject["status"];
     document: {
       filePath?: string;
       contentType: string;
@@ -41,6 +37,28 @@ export interface SpoolFilesToPrinterOperation {
       id: number;
     };
     copyCount: number;
-    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    outputColor: TransactionObject["jobs"][0]["outputColor"];
+  };
+}
+
+export interface StartPrintJobMonitoringOperation {
+  type: "start-print-job-monitoring";
+  jobId: number;
+  printJobIdentifier: number;
+  printerName: string;
+  pollingIntervalMs?: number;
+  timeoutMs?: number;
+}
+
+export interface ReportTransactionStatusOperation {
+  type: "report-transaction-status";
+  updates: {
+    transactionId: number;
+    status: TransactionObject["status"];
+    jobUpdates: {
+      jobId: number;
+      status: TransactionObject["jobs"][0]["status"];
+      pagesPrinted?: number;
+    }[];
   };
 }
