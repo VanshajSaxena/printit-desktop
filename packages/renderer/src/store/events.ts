@@ -7,10 +7,10 @@ import type {
 export type TransactionEventUnionType =
   | NewTransactionEvent
   | UserSendToPrinterEvent
-  | FilesDownloadStartedEvent
-  | FilesDownloadProgressEvent
-  | FilesDownloadCompletedEvent
-  | FilesDownloadErrorEvent
+  | FilesDownloadStartedAllEvent
+  | FilesDownloadProgressAllEvent
+  | FilesDownloadCompletedAllEvent
+  | FilesDownloadErrorAllEvent
   | PrintJobMonitoringStartedEvent
   | PrintJobStatusPolledEvent
   | PrintJobPrintingStartedEvent
@@ -18,9 +18,9 @@ export type TransactionEventUnionType =
   | PrintJobFailedEvent
   | PrintJobTimeoutEvent
   | PrintJobNotFoundEvent
-  | FilesSpooledSuccess;
+  | FilesSpooledSuccessAllEvent;
 
-export type TransactionEvent =
+export type ReducerEvent =
   | (TransactionEventUnionType & WithTransactionId)
   | TransactionRequestEvent
   | TransactionResponseEvent;
@@ -88,7 +88,7 @@ export interface PrintQueueItem {
 
 export interface TransactionStore {
   state: TransactionState;
-  dispatch: (event: TransactionEvent) => void;
+  dispatch: (event: ReducerEvent) => void;
 }
 
 export interface TransactionRequestEvent {
@@ -108,24 +108,24 @@ export interface UserSendToPrinterEvent {
   type: "user:print:transaction";
 }
 
-export interface FilesDownloadStartedEvent {
-  type: "files:download:started";
+export interface FilesDownloadStartedAllEvent {
+  type: "files:download:started:all";
 }
 
-export interface FilesDownloadProgressEvent {
-  type: "files:download:progress";
+export interface FilesDownloadProgressAllEvent {
+  type: "files:download:progress:all";
 }
 
-export interface FilesDownloadCompletedEvent {
-  type: "files:download:completed";
+export interface FilesDownloadCompletedAllEvent {
+  type: "files:download:completed:all";
   downloadedFiles: {
     id: number;
     filePath: string;
   }[];
 }
 
-export interface FilesDownloadErrorEvent {
-  type: "files:download:error";
+export interface FilesDownloadErrorAllEvent {
+  type: "files:download:error:all";
   reason:
     | "presigned-url-fetch-failed"
     | "download-manager-threw-during-download";
@@ -179,7 +179,7 @@ export interface PrintJobNotFoundEvent {
   lastKnownStatus?: PrintJobStatusDto;
 }
 
-export interface FilesSpooledSuccess {
-  type: "files:spooled:success";
+export interface FilesSpooledSuccessAllEvent {
+  type: "files:spooled:success:all";
   printJobInfo: PrintJobInfoDto | undefined;
 }

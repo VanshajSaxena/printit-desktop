@@ -1,14 +1,18 @@
 import { produce } from "immer";
-import type { TransactionEvent, TransactionState } from "./events";
+import type { PrintQueueItem, ReducerEvent, TransactionState } from "./events";
 import type { TransactionOperation } from "./operations";
 
 function generateOperationId() {
   return crypto.randomUUID().slice(0, 8);
 }
 
+function generateQueueItemId() {
+  return crypto.randomUUID();
+}
+
 export const reducer = (
   state: TransactionState,
-  event: TransactionEvent,
+  event: ReducerEvent,
 ): [TransactionState, TransactionOperation[]] => {
   let nextState = state;
   const operations: TransactionOperation[] = [];
@@ -32,10 +36,20 @@ export const reducer = (
       break;
     case "user:print:transaction": {
       nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const queueItems: PrintQueueItem[] = transaction.jobs.map((job) => ({
+          id: generateQueueItemId(),
+          transactionId: event.transactionId,
+          jobId: job.id,
+          queuedAt: new Date().toISOString(),
+        }));
+        draft.printQueue.items.push(...queueItems);
         draft.transactions[event.transactionId].status = "QUEUED";
-        draft.transactions[event.transactionId].jobs.forEach(
-          (job) => (job.status = "QUEUED"),
-        );
+        draft.transactions[event.transactionId].jobs.forEach((job) => {
+          if (job.status === "PENDING") {
+            job.status = "QUEUED";
+          }
+        });
       });
       operations.push({
         operationId: generateOperationId(),
@@ -48,17 +62,17 @@ export const reducer = (
       break;
     }
 
-    case "files:download:started": {
+    case "files:download:started:all": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "DOWNLOADING";
       });
       break;
     }
 
-    case "files:download:progress":
+    case "files:download:progress:all":
       break;
 
-    case "files:download:completed": {
+    case "files:download:completed:all": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].jobs.forEach((job) => {
           job.document.filePath = event.downloadedFiles.find(

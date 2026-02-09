@@ -1,14 +1,14 @@
 import { type FetchClientType } from "@api/client";
 import { downloadFilesToFileSystem, spoolFilesToPrinter } from "@app/preload";
-import type { TransactionEvent } from "./events";
+import type { ReducerEvent } from "./events";
 import type { TransactionOperation } from "./operations";
 
 export class ObservableExecutor {
-  private dispatch: (event: TransactionEvent) => void;
+  private dispatch: (event: ReducerEvent) => void;
   private fetchClient: FetchClientType;
 
   constructor(
-    dispatch: (event: TransactionEvent) => void,
+    dispatch: (event: ReducerEvent) => void,
     fetchClient: FetchClientType,
   ) {
     this.dispatch = dispatch;
@@ -33,7 +33,7 @@ export class ObservableExecutor {
 
         if (!data) {
           this.dispatch({
-            type: "files:download:error",
+            type: "files:download:error:all",
             reason: "presigned-url-fetch-failed",
             transactionId: operation.transactionId,
           });
@@ -41,16 +41,17 @@ export class ObservableExecutor {
         }
 
         this.dispatch({
-          type: "files:download:started",
+          type: "files:download:started:all",
           transactionId: operation.transactionId,
         });
+
         const downloadedFiles = await downloadFilesToFileSystem(
           operation.transactionId,
           data.signedUrls,
         );
 
         this.dispatch({
-          type: "files:download:completed",
+          type: "files:download:completed:all",
           transactionId: operation.transactionId,
           downloadedFiles,
         });
@@ -68,7 +69,7 @@ export class ObservableExecutor {
 
         if (response.success) {
           this.dispatch({
-            type: "files:spooled:success",
+            type: "files:spooled:success:all",
             printJobInfo: response.data,
             transactionId: operation.transactionId,
           });

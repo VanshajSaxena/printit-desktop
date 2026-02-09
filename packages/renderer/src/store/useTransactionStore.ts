@@ -2,7 +2,7 @@ import { fetchClient } from "@api/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
-import type { TransactionEvent, TransactionStore } from "./events";
+import type { ReducerEvent, TransactionStore } from "./events";
 import { ObservableExecutor } from "./executor";
 import { reducer } from "./reducer";
 
@@ -17,8 +17,8 @@ export const useTransactionStore = create<TransactionStore>()(
         operations.forEach((operation) => void executor.execute(operation));
       }, fetchClient);
       return {
-        state: { transactions: {} },
-        dispatch: (event: TransactionEvent) => {
+        state: { transactions: {}, printQueue: { items: [] } },
+        dispatch: (event: ReducerEvent) => {
           const [newState, operations] = reducer(get().state, event);
 
           set({ state: newState });
