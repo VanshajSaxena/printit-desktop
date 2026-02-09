@@ -71,7 +71,7 @@ export function TransactionItem({
                   <PrintButton
                     onClick={() => {
                       dispatch({
-                        type: "user:print",
+                        type: "user:print:transaction",
                         transactionId: id,
                       });
                     }}

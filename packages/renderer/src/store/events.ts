@@ -21,11 +21,11 @@ export type TransactionEventUnionType =
   | FilesSpooledSuccess;
 
 export type TransactionEvent =
+  | (TransactionEventUnionType & WithTransactionId)
   | TransactionRequestEvent
-  | TransactionResponseEvent
-  | (TransactionEventUnionType & TransactionEventBaseType);
+  | TransactionResponseEvent;
 
-export interface TransactionEventBaseType {
+export interface WithTransactionId {
   transactionId: number;
 }
 
@@ -44,15 +44,7 @@ export interface TransactionObject {
     | "ERROR";
   jobs: {
     id: number;
-    status:
-      | "PENDING"
-      | "QUEUED"
-      | "DOWNLOADING"
-      | "DOWNLOADED"
-      | "SPOOLED"
-      | "PRINTING"
-      | "COMPLETED"
-      | "ERROR";
+    status: TransactionObject["status"];
     document: {
       filePath?: string;
       contentType: string;
@@ -79,7 +71,19 @@ export interface TransactionObject {
 }
 
 export interface TransactionState {
-  transactions: Record<number, TransactionObject>;
+  transactions: Record<TransactionObject["id"], TransactionObject>;
+  printQueue: PrintQueue;
+}
+
+export interface PrintQueue {
+  items: PrintQueueItem[];
+}
+
+export interface PrintQueueItem {
+  id: string;
+  transactionId: number;
+  jobId: number;
+  queuedAt: string;
 }
 
 export interface TransactionStore {
@@ -101,7 +105,7 @@ export interface NewTransactionEvent {
 }
 
 export interface UserSendToPrinterEvent {
-  type: "user:print";
+  type: "user:print:transaction";
 }
 
 export interface FilesDownloadStartedEvent {

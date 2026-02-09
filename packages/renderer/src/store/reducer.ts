@@ -30,7 +30,7 @@ export const reducer = (
     }
     case "transaction:new":
       break;
-    case "user:print": {
+    case "user:print:transaction": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "QUEUED";
         draft.transactions[event.transactionId].jobs.forEach(
@@ -83,10 +83,6 @@ export const reducer = (
           job,
         });
       }
-      break;
-    }
-
-    case "files:spooled:success": {
       break;
     }
 
