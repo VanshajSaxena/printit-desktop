@@ -37,7 +37,7 @@ export interface TransactionObject {
     | "PENDING"
     | "QUEUED"
     | "DOWNLOADING"
-    | "DOWNLOADED"
+    | "READY"
     | "SPOOLED"
     | "PRINTING"
     | "COMPLETED"
@@ -77,6 +77,7 @@ export interface TransactionState {
 
 export interface PrintQueue {
   items: PrintQueueItem[];
+  status: "idle" | "working" | "printing" | "error";
 }
 
 export interface PrintQueueItem {

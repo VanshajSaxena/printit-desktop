@@ -44,6 +44,9 @@ export const reducer = (
           queuedAt: new Date().toISOString(),
         }));
         draft.printQueue.items.push(...queueItems);
+        if (draft.printQueue.status === "idle") {
+          draft.printQueue.status = "working";
+        }
         draft.transactions[event.transactionId].status = "QUEUED";
         draft.transactions[event.transactionId].jobs.forEach((job) => {
           if (job.status === "PENDING") {
@@ -65,6 +68,9 @@ export const reducer = (
     case "files:download:started:all": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "DOWNLOADING";
+        draft.transactions[event.transactionId].jobs.forEach(
+          (job) => (job.status = "DOWNLOADING"),
+        );
       });
       break;
     }
@@ -79,22 +85,31 @@ export const reducer = (
             (file) => file.id === job.document.id,
           )?.filePath;
         });
-        draft.transactions[event.transactionId].status = "DOWNLOADED";
+        draft.transactions[event.transactionId].status = "READY";
         draft.transactions[event.transactionId].jobs.forEach(
-          (job) => (job.status = "DOWNLOADED"),
+          (job) => (job.status = "READY"),
         );
       });
 
-      const job = nextState.transactions[event.transactionId].jobs.find(
-        (job) => job.status === "DOWNLOADED",
-      );
+      const readyItem = nextState.printQueue.items.find((item) => {
+        const jobItem = nextState.transactions[item.transactionId].jobs.find(
+          (job) => job.id === item.jobId,
+        );
+        return jobItem?.status === "READY";
+      });
 
-      if (job) {
+      if (nextState.printQueue.status === "working" && readyItem) {
+        const readyJob = nextState.transactions[
+          readyItem.transactionId
+        ].jobs.find((job) => job.id === readyItem.jobId);
+        if (!readyJob) {
+          break;
+        }
         operations.push({
           operationId: generateOperationId(),
           type: "spool-files-to-printer",
-          transactionId: event.transactionId,
-          job,
+          transactionId: readyItem.transactionId,
+          job: readyJob,
         });
       }
       break;

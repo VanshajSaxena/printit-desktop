@@ -17,7 +17,7 @@ export const useTransactionStore = create<TransactionStore>()(
         operations.forEach((operation) => void executor.execute(operation));
       }, fetchClient);
       return {
-        state: { transactions: {}, printQueue: { items: [] } },
+        state: { transactions: {}, printQueue: { items: [], status: "idle" } },
         dispatch: (event: ReducerEvent) => {
           const [newState, operations] = reducer(get().state, event);
 
@@ -32,7 +32,9 @@ export const useTransactionStore = create<TransactionStore>()(
       storage: createIdbStorage<Pick<TransactionStore, "state">>(),
       partialize: (store) => ({ state: store.state }),
       onRehydrateStorage() {
-        console.log("Rehydration Complete");
+        return () => {
+          console.log("Rehydration Complete");
+        };
       },
       version: 1,
     },
