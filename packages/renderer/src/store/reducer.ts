@@ -115,6 +115,39 @@ export const reducer = (
       break;
     }
 
+    case "file:spooled:success": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const job = transaction.jobs.find((j) => j.id === event.jobId);
+
+        if (job && event.printJobInfo) {
+          job.status = "SPOOLED";
+          job.printJobIdentifier = event.printJobInfo.jobIdentifier;
+          job.printerName = event.printerName;
+          job.spooledAt = new Date().toISOString();
+          job.monitoring = {
+            isActive: false,
+            pagesPrinted: 0,
+            timedOut: false,
+          };
+        }
+      });
+
+      if (event.printJobInfo) {
+        operations.push({
+          operationId: generateOperationId(),
+          type: "start-print-job-monitoring",
+          transactionId: event.transactionId,
+          jobId: event.jobId,
+          printJobIdentifier: event.printJobInfo.jobIdentifier,
+          printerName: event.printerName,
+          pollingIntervalMs: 500,
+          timeoutMs: 5000,
+        });
+      }
+      break;
+    }
+
     default: {
       break;
     }

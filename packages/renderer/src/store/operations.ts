@@ -41,6 +41,7 @@ export interface SpoolFilesToPrinterOperation {
     copyCount: number;
     outputColor: TransactionObject["jobs"][0]["outputColor"];
   };
+  printerName?: string;
 }
 
 export interface StopPrintJobMonitoringOperation {

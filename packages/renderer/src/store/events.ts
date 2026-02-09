@@ -18,7 +18,7 @@ export type TransactionEventUnionType =
   | PrintJobFailedEvent
   | PrintJobTimeoutEvent
   | PrintJobNotFoundEvent
-  | FilesSpooledSuccessAllEvent;
+  | FileSpooledSuccessEvent;
 
 export type ReducerEvent =
   | (TransactionEventUnionType & WithTransactionId)
@@ -180,7 +180,9 @@ export interface PrintJobNotFoundEvent {
   lastKnownStatus?: PrintJobStatusDto;
 }
 
-export interface FilesSpooledSuccessAllEvent {
-  type: "files:spooled:success:all";
+export interface FileSpooledSuccessEvent {
+  type: "file:spooled:success";
   printJobInfo: PrintJobInfoDto | undefined;
+  jobId: number;
+  printerName: string;
 }

@@ -59,19 +59,22 @@ export class ObservableExecutor {
       }
       case "spool-files-to-printer": {
         const documentPath = operation.job.document.filePath;
+        const printerName = operation.printerName ?? "hp smart tank 580";
         if (!documentPath) {
           return;
         }
-        const response = await spoolFilesToPrinter("hp smart tank 580", {
+        const response = await spoolFilesToPrinter(printerName, {
           documentPath,
           ticket: {},
         });
 
         if (response.success) {
           this.dispatch({
-            type: "files:spooled:success:all",
+            type: "file:spooled:success",
             printJobInfo: response.data,
             transactionId: operation.transactionId,
+            jobId: operation.job.id,
+            printerName,
           });
         }
         break;
