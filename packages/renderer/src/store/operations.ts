@@ -46,6 +46,7 @@ export interface SpoolFilesToPrinterOperation {
 
 export interface StopPrintJobMonitoringOperation {
   type: "stop-print-job-monitoring";
+  transactionId: number;
   jobId: number;
   printJobIdentifier: number;
   reason: "completed" | "failed" | "user-cancelled" | "timeout";
@@ -53,6 +54,7 @@ export interface StopPrintJobMonitoringOperation {
 
 export interface StartPrintJobMonitoringOperation {
   type: "start-print-job-monitoring";
+  transactionId: number;
   jobId: number;
   printJobIdentifier: number;
   printerName: string;

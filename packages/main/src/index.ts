@@ -18,7 +18,7 @@ export async function initApp(initConfig: AppInitConfig) {
   log.info("### Main Process Initialization Started ###");
   const printServiceApi = new PrintServiceApi();
   const webSocketApi = new WsNotificationsApi({
-    url: import.meta.env.PROD ? "api.print-ly.ink" : "api.dev.print-ly.ink",
+    url: import.meta.env.PROD ? "api.printit.ink" : "dev.api.printit.ink",
     protocol: "https",
     namespace: `notifications`,
   });

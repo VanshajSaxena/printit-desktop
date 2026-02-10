@@ -10,6 +10,8 @@ export const useTransactionStore = create<TransactionStore>()(
   persist(
     (set, get) => {
       const executor = new ObservableExecutor((event) => {
+        // __AUTO_GENERATED_PRINT_VAR_START__
+        console.log("(anon)#(anon) event:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
         const [newState, operations] = reducer(get().state, event);
 
         set({ state: newState });
@@ -36,7 +38,7 @@ export const useTransactionStore = create<TransactionStore>()(
           console.log("Rehydration Complete");
         };
       },
-      version: 2,
+      version: 1,
     },
   ),
 );

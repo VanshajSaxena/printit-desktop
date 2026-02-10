@@ -43,7 +43,10 @@ export function getPrintQueueStatus(
 export function getPrintQueueCapabilities() {
   return ipcRenderer.invoke("printQueue:capabilities");
 }
-export function getPrintJob(printQueue: string, jobIdentifier: number) {
+export function getPrintJob(
+  printQueue: string,
+  jobIdentifier: number,
+): Promise<IPCResponse<PrintJobInfoDto | undefined>> {
   return ipcRenderer.invoke("printQueue:job", printQueue, jobIdentifier);
 }
 export function spoolFilesToPrinter(

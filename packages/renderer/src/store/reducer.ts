@@ -136,7 +136,7 @@ export const reducer = (
           jobId: event.jobId,
           printJobIdentifier: event.printJobInfo.jobIdentifier,
           printerName: event.printerName,
-          pollingIntervalMs: 500,
+          pollingIntervalMs: 1500,
           timeoutMs: 5000,
         });
       }
