@@ -125,11 +125,6 @@ export const reducer = (
           job.printJobIdentifier = event.printJobInfo.jobIdentifier;
           job.printerName = event.printerName;
           job.spooledAt = new Date().toISOString();
-          job.monitoring = {
-            isActive: false,
-            pagesPrinted: 0,
-            timedOut: false,
-          };
         }
       });
 

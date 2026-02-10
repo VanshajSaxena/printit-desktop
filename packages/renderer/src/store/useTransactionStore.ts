@@ -36,7 +36,7 @@ export const useTransactionStore = create<TransactionStore>()(
           console.log("Rehydration Complete");
         };
       },
-      version: 1,
+      version: 2,
     },
   ),
 );

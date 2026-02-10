@@ -58,15 +58,6 @@ export interface TransactionObject {
     spooledAt?: string;
     completedAt?: string;
     failedAt?: string;
-    monitoring?: {
-      isActive: boolean;
-      lastPolledAt?: string;
-      lastKnownStatus?: PrintJobStatusDto;
-      pagesPrinted: number;
-      startedPrintingAt?: string;
-      timedOut: boolean;
-      timeoutAt?: string;
-    };
   }[];
 }
 
@@ -85,6 +76,15 @@ export interface PrintQueueItem {
   transactionId: number;
   jobId: number;
   queuedAt: string;
+  monitoring?: {
+    isActive: boolean;
+    lastPolledAt?: string;
+    lastKnownStatus?: PrintJobStatusDto;
+    pagesPrinted: number;
+    startedPrintingAt?: string;
+    timedOut: boolean;
+    timeoutAt?: string;
+  };
 }
 
 export interface TransactionStore {
