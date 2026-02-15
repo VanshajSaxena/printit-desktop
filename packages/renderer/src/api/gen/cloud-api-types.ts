@@ -244,6 +244,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/vendors/nearby": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["VendorController_findNearby_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -273,7 +289,7 @@ export interface components {
       copyCount: number;
       documentId: number;
       /** @enum {string} */
-      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      outputColor: "Color" | "Monochrome" | "Grayscale";
     };
     CreateJobResponseDto: {
       copyCount: number;
@@ -282,7 +298,7 @@ export interface components {
       document: components["schemas"]["CreateDocumentResponseDto"];
       id: number;
       /** @enum {string} */
-      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      outputColor: "Color" | "Monochrome" | "Grayscale";
       /** Format: date-time */
       updatedAt: string;
     };
@@ -314,6 +330,8 @@ export interface components {
       firstName: string;
       givenName?: string;
       lastName: string;
+      latitude?: number;
+      longitude?: number;
       username: string;
     };
     DownloadFileBatchRequestDto: {
@@ -337,7 +355,7 @@ export interface components {
       document: components["schemas"]["FindDocumentResponseDto"];
       id: number;
       /** @enum {string} */
-      outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      outputColor: "Color" | "Monochrome" | "Grayscale";
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
@@ -349,6 +367,12 @@ export interface components {
       jobs: components["schemas"]["FindJobResponseDto"][];
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+    };
+    LocationDto: {
+      /** @example 12.9716 */
+      latitude: number | null;
+      /** @example 77.5946 */
+      longitude: number | null;
     };
     NotFoundErrorDto: {
       /** @example Not Found */
@@ -372,7 +396,7 @@ export interface components {
       copyCount?: number;
       documentId?: number;
       /** @enum {string} */
-      outputColor?: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+      outputColor?: "Color" | "Monochrome" | "Grayscale";
     };
     UpdatePrinterDto: Record<string, never>;
     UpdateTransactionDto: Record<string, never>;
@@ -394,10 +418,12 @@ export interface components {
     };
     VendorResponseDto: {
       address: string;
+      distance: number;
       firstName: string;
       givenName: string | null;
       id: number;
       lastName: string;
+      location: components["schemas"]["LocationDto"] | null;
       slug: string;
       username: string;
     };
@@ -436,6 +462,7 @@ export type FindDocumentResponseDto =
 export type FindJobResponseDto = components["schemas"]["FindJobResponseDto"];
 export type FindTransactionResponseDto =
   components["schemas"]["FindTransactionResponseDto"];
+export type LocationDto = components["schemas"]["LocationDto"];
 export type NotFoundErrorDto = components["schemas"]["NotFoundErrorDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
 export type UpdateDocumentRequestDto =
@@ -1094,6 +1121,29 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["VendorPresenceDto"];
+        };
+      };
+    };
+  };
+  VendorController_findNearby_v1: {
+    parameters: {
+      query: {
+        lat: number;
+        lng: number;
+        range?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VendorResponseDto"][];
         };
       };
     };

@@ -59,6 +59,45 @@
         "tags": ["Vendor"]
       }
     },
+    "/api/v1/vendors/nearby": {
+      "get": {
+        "operationId": "VendorController_findNearby_v1",
+        "parameters": [
+          {
+            "name": "lat",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "lng",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "range",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/VendorResponseDto" }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Vendor"]
+      }
+    },
     "/api/v1/vendors/{selector}": {
       "get": {
         "operationId": "VendorController_findOne_v1",
@@ -87,6 +126,49 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/VendorResponseDto" }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundErrorDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Vendor"]
+      }
+    },
+    "/api/v1/vendors/{selector}/presence": {
+      "get": {
+        "operationId": "VendorController_vendorPresent_v1",
+        "parameters": [
+          {
+            "name": "selector",
+            "required": true,
+            "in": "path",
+            "description": "The unique identifier",
+            "examples": {
+              "id": { "summary": "Internal ID", "value": 999 },
+              "slug": { "summary": "Slug", "value": "xi28b2sg8d" },
+              "username": { "summary": "Username", "value": "@username" }
+            },
+            "schema": {
+              "oneOf": [
+                { "type": "string", "description": "Slug or Username" },
+                { "type": "integer", "description": "Internal Database ID" }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/VendorPresenceDto" }
               }
             }
           }
@@ -417,7 +499,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDocumentRequestDto"
+                "$ref": "#/components/schemas/CreateDocumentBatchRequestDto"
               }
             }
           }
@@ -428,7 +510,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateDocumentResponseDto"
+                  "$ref": "#/components/schemas/CreateDocumentBatchResponseDto"
                 }
               }
             }
@@ -496,7 +578,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateDocumentDto" }
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDocumentRequestDto"
+              }
             }
           }
         },
@@ -539,9 +623,9 @@
         "tags": ["Document"]
       }
     },
-    "/api/job": {
+    "/api/v1/jobs": {
       "post": {
-        "operationId": "JobController_create",
+        "operationId": "JobController_create_v1",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -566,7 +650,7 @@
         "tags": ["Job"]
       },
       "get": {
-        "operationId": "JobController_findAll",
+        "operationId": "JobController_findAll_v1",
         "parameters": [],
         "responses": {
           "200": {
@@ -586,9 +670,9 @@
         "tags": ["Job"]
       }
     },
-    "/api/job/{id}": {
+    "/api/v1/jobs/{id}": {
       "get": {
-        "operationId": "JobController_findOne",
+        "operationId": "JobController_findOne_v1",
         "parameters": [
           {
             "name": "id",
@@ -612,7 +696,7 @@
         "tags": ["Job"]
       },
       "patch": {
-        "operationId": "JobController_update",
+        "operationId": "JobController_update_v1",
         "parameters": [
           {
             "name": "id",
@@ -644,7 +728,7 @@
         "tags": ["Job"]
       },
       "delete": {
-        "operationId": "JobController_remove",
+        "operationId": "JobController_remove_v1",
         "parameters": [
           {
             "name": "id",
@@ -748,11 +832,29 @@
             "maxLength": 20,
             "pattern": "/^[a-zA-Z0-9_]+$/"
           },
+          "email": { "type": "string", "format": "email" },
           "givenName": { "type": "string" },
           "address": { "type": "string" },
-          "email": { "type": "string", "format": "email" }
+          "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+          "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
         },
         "required": ["firstName", "lastName", "username", "email"]
+      },
+      "LocationDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "nullable": true,
+            "example": 12.9716
+          },
+          "longitude": {
+            "type": "number",
+            "nullable": true,
+            "example": 77.5946
+          }
+        },
+        "required": ["latitude", "longitude"]
       },
       "VendorResponseDto": {
         "type": "object",
@@ -763,7 +865,12 @@
           "givenName": { "type": "string", "nullable": true },
           "username": { "type": "string" },
           "address": { "type": "string" },
-          "slug": { "type": "string" }
+          "slug": { "type": "string" },
+          "location": {
+            "nullable": true,
+            "allOf": [{ "$ref": "#/components/schemas/LocationDto" }]
+          },
+          "distance": { "type": "number" }
         },
         "required": [
           "id",
@@ -772,8 +879,27 @@
           "givenName",
           "username",
           "address",
-          "slug"
+          "slug",
+          "location",
+          "distance"
         ]
+      },
+      "NotFoundErrorDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 404 },
+          "message": { "type": "string", "example": "Entity not found" },
+          "error": { "type": "string", "example": "Not Found" }
+        },
+        "required": ["statusCode", "message", "error"]
+      },
+      "VendorPresenceDto": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["online", "offline", "away"] },
+          "id": { "type": "number" }
+        },
+        "required": ["status", "id"]
       },
       "UpdateVendorDto": { "type": "object", "properties": {} },
       "CreatePrinterDto": {
@@ -800,10 +926,10 @@
         "properties": {
           "documentId": { "type": "number" },
           "outputColor": {
-            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"],
+            "enum": ["Color", "Monochrome", "Grayscale"],
             "type": "string"
           },
-          "copyCount": { "type": "number" }
+          "copyCount": { "type": "number", "minimum": 1 }
         },
         "required": ["documentId", "outputColor", "copyCount"]
       },
@@ -811,13 +937,56 @@
         "type": "object",
         "properties": {
           "vendorId": { "type": "number" },
-          "printerId": { "type": "number" },
           "jobs": {
+            "minItems": 1,
             "type": "array",
             "items": { "$ref": "#/components/schemas/CreateJobRequestDto" }
           }
         },
         "required": ["vendorId", "jobs"]
+      },
+      "CreateDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "filename": { "type": "string" },
+          "contentType": { "type": "string" },
+          "draftId": { "type": "string" },
+          "createdAt": { "format": "date-time", "type": "string" },
+          "updatedAt": { "format": "date-time", "type": "string" }
+        },
+        "required": [
+          "id",
+          "filename",
+          "contentType",
+          "draftId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateJobResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "outputColor": {
+            "enum": ["Color", "Monochrome", "Grayscale"],
+            "type": "string"
+          },
+          "copyCount": { "type": "number" },
+          "document": {
+            "$ref": "#/components/schemas/CreateDocumentResponseDto"
+          },
+          "createdAt": { "format": "date-time", "type": "string" },
+          "updatedAt": { "format": "date-time", "type": "string" }
+        },
+        "required": [
+          "id",
+          "outputColor",
+          "copyCount",
+          "document",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       "CreateTransactionResponseDto": {
         "type": "object",
@@ -827,9 +996,22 @@
             "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"],
             "type": "string"
           },
-          "friendlyId": { "type": "string" }
+          "friendlyId": { "type": "string" },
+          "jobs": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CreateJobResponseDto" }
+          },
+          "createdAt": { "format": "date-time", "type": "string" },
+          "updatedAt": { "format": "date-time", "type": "string" }
         },
-        "required": ["id", "status", "friendlyId"]
+        "required": [
+          "id",
+          "status",
+          "friendlyId",
+          "jobs",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       "FindDocumentResponseDto": {
         "type": "object",
@@ -846,7 +1028,7 @@
           "id": { "type": "number" },
           "outputColor": {
             "type": "string",
-            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"]
+            "enum": ["Color", "Monochrome", "Grayscale"]
           },
           "copyCount": { "type": "number" },
           "status": {
@@ -879,24 +1061,43 @@
         "type": "object",
         "properties": {
           "filename": { "type": "string" },
-          "contentType": { "type": "string" }
+          "contentType": { "type": "string" },
+          "draftId": { "type": "string" }
         },
-        "required": ["filename", "contentType"]
+        "required": ["filename", "contentType", "draftId"]
       },
-      "CreateDocumentResponseDto": {
+      "CreateDocumentBatchRequestDto": {
         "type": "object",
         "properties": {
-          "id": { "type": "number" },
-          "filename": { "type": "string" },
-          "contentType": { "type": "string" }
+          "documents": {
+            "minItems": 1,
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CreateDocumentRequestDto" }
+          }
         },
-        "required": ["id", "filename", "contentType"]
+        "required": ["documents"]
       },
-      "UpdateDocumentDto": { "type": "object", "properties": {} },
-      "CreateJobResponseDto": {
+      "CreateDocumentBatchResponseDto": {
         "type": "object",
-        "properties": { "id": { "type": "number" } },
-        "required": ["id"]
+        "properties": {
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateDocumentResponseDto"
+            }
+          }
+        },
+        "required": ["documents"]
+      },
+      "UpdateDocumentRequestDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["CREATED", "UPLOADED", "FAILED", "DELETED"]
+          }
+        },
+        "required": ["status"]
       },
       "UpdateJobDto": {
         "type": "object",
@@ -904,15 +1105,19 @@
           "documentId": { "type": "number" },
           "outputColor": {
             "type": "string",
-            "enum": ["COLOR", "MONOCHROME", "GRAYSCALE"]
+            "enum": ["Color", "Monochrome", "Grayscale"]
           },
-          "copyCount": { "type": "number" }
+          "copyCount": { "type": "number", "minimum": 1 }
         }
       },
       "UploadFileBatchRequestDto": {
         "type": "object",
         "properties": {
-          "ids": { "type": "array", "items": { "type": "number" } }
+          "ids": {
+            "minItems": 1,
+            "type": "array",
+            "items": { "type": "number" }
+          }
         },
         "required": ["ids"]
       },
@@ -937,7 +1142,11 @@
       "DownloadFileBatchRequestDto": {
         "type": "object",
         "properties": {
-          "ids": { "type": "array", "items": { "type": "number" } }
+          "ids": {
+            "minItems": 1,
+            "type": "array",
+            "items": { "type": "number" }
+          }
         },
         "required": ["ids"]
       },
