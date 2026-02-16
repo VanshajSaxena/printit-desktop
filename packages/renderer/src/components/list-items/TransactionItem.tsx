@@ -20,22 +20,15 @@ export function TransactionItem({
   createdAt,
   status,
 }: TransactionObject) {
-  let title = jobs[0].document.filename;
-  if (title.length > 30) {
-    title = title.slice(0, 30).concat("...");
-  }
-  if (jobs.length > 1) {
-    title = title.concat(" & ", (jobs.length - 1).toString(), " more");
-  }
-
+  const title = jobs[0].document.filename;
   const dispatch = useTransactionStore((store) => store.dispatch);
   const formattedDate = formatRelativeTime(createdAt);
   const filesCount = jobs.length;
   const isColorOnly = jobs.every((job) => {
-    return job.outputColor === "COLOR";
+    return job.outputColor === "Color";
   });
   const isBnWOnly = jobs.every((job) => {
-    return job.outputColor === "GRAYSCALE";
+    return job.outputColor === "Grayscale";
   });
   return (
     <>
@@ -45,7 +38,7 @@ export function TransactionItem({
             <ListIconFile size={24}></ListIconFile>
             <div className="flex h-fit flex-col gap-1 pb-0.5">
               <div className="flex size-fit gap-2">
-                <h3 className="text-base leading-6 text-nowrap text-primary-content">
+                <h3 className="truncate text-base leading-6 text-nowrap text-primary-content">
                   {title}
                 </h3>
                 {status === "PENDING" && <NewItemBadge />}
@@ -104,7 +97,7 @@ export function TransactionItem({
             {status === "DOWNLOADING" && (
               <p className="italic">Downloading files...</p>
             )}
-            {status === "DOWNLOADED" && (
+            {status === "READY" && (
               <p className="italic">Sending files to printer...</p>
             )}
             {status === "PRINTING" && <p className="italic">Printing...</p>}

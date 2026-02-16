@@ -76,13 +76,14 @@ export class ObservableExecutor {
       }
       case "spool-files-to-printer": {
         const documentPath = operation.job.document.filePath;
+        const { copyCount, outputColor } = operation.job;
         const printerName = operation.printerName ?? "hp smart tank 580";
         if (!documentPath) {
           return;
         }
         const response = await spoolFilesToPrinter(printerName, {
           documentPath,
-          ticket: {},
+          ticket: { copyCount, outputColor },
         });
 
         if (response.success) {

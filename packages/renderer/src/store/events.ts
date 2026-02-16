@@ -1,5 +1,6 @@
 import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 import type {
+  OutputColorDto,
   PrintJobInfoDto,
   PrintJobStatusDto,
 } from "@app/common/gen/types/print-service-api-types";
@@ -52,7 +53,7 @@ export interface TransactionObject {
       id: number;
     };
     copyCount: number;
-    outputColor: "COLOR" | "MONOCHROME" | "GRAYSCALE";
+    outputColor: OutputColorDto;
     printJobIdentifier?: number;
     printerName?: string;
     spooledAt?: string;
