@@ -152,25 +152,10 @@ export class ObservableExecutor {
           return response;
         }),
         tap((response) => {
-          // __AUTO_GENERATED_PRINT_VAR_START__
-          console.log(
-            "ObservableExecutor#startMonitoring printingState:",
-            printingState,
-          ); // __AUTO_GENERATED_PRINT_VAR_END__
           if (response.success && response.data) {
             const jobInfo = response.data;
             const currentStatus = jobInfo.jobStatus;
-            // __AUTO_GENERATED_PRINT_VAR_START__
-            console.log(
-              "ObservableExecutor#startMonitoring#(anon)#if currentStatus:",
-              currentStatus,
-            ); // __AUTO_GENERATED_PRINT_VAR_END__
             const currentPageCount = jobInfo.numberOfPagesPrinted;
-            // __AUTO_GENERATED_PRINT_VAR_START__
-            console.log(
-              "ObservableExecutor#startMonitoring#(anon)#if currentPageCount:",
-              currentPageCount,
-            ); // __AUTO_GENERATED_PRINT_VAR_END__
             totalPages = jobInfo.numberOfPages;
 
             this.dispatch({
