@@ -28,13 +28,13 @@ export function Dashboard() {
           ></GetQRCodeButton>
         </div>
       </TopBar>
-      <div className="flex h-full flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
-        <div className="flex h-fit w-full justify-start gap-5">
+      <div className="flex h-full max-w-full min-w-0 flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
+        <div className="flex h-fit max-w-full min-w-0 justify-start gap-5">
           <SheetsPrintedCard heroText="24" subText="Today" />
           <SheetsPrintedCard heroText="425" subText="Weekly" />
-          <PrinterStatusCard heroText="Working" subText="HP Laserjet" />
+          <PrinterStatusCard subText="HP Laserjet" />
         </div>
-        <div className="flex h-fit w-full justify-between gap-4">
+        <div className="flex h-fit max-w-full min-w-0 justify-between gap-4">
           <SearchInput />
           <div className="flex size-fit justify-start gap-4">
             <DisplayButton />

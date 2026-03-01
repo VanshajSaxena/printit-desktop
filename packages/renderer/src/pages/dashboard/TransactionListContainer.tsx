@@ -24,7 +24,7 @@ export function TransactionListContainer() {
   });
 
   return (
-    <div className="h-full w-full overflow-y-auto rounded-3xl border border-border-default mask-[linear-gradient(black,black)]">
+    <div className="h-full max-w-full min-w-0 overflow-y-auto rounded-3xl border border-border-default mask-[linear-gradient(black,black)]">
       {transactionList.length === 0 && (
         <div className="flex size-full flex-col items-center justify-center gap-y-6">
           <EmptyTrayIcon />

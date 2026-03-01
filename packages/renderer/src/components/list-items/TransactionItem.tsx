@@ -32,12 +32,12 @@ export function TransactionItem({
   });
   return (
     <>
-      <div className="flex h-fit w-full flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
-        <div className="flex h-fit w-full items-center justify-between">
-          <div className="flex h-fit items-center gap-4">
+      <div className="flex h-fit max-w-full min-w-0 flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
+        <div className="flex h-fit max-w-full min-w-0 items-center justify-between">
+          <div className="flex h-fit min-w-0 items-center gap-4">
             <ListIconFile size={24}></ListIconFile>
-            <div className="flex h-fit flex-col gap-1 pb-0.5">
-              <div className="flex size-fit gap-2">
+            <div className="flex h-fit min-w-0 flex-col gap-1 pb-0.5">
+              <div className="flex max-w-full min-w-0 gap-2">
                 <h3 className="truncate text-base leading-6 text-nowrap text-primary-content">
                   {title}
                 </h3>
@@ -47,7 +47,7 @@ export function TransactionItem({
                 <div className="flex items-center gap-2">
                   <GridScanIcon></GridScanIcon>
                   <p className="text-xs leading-4 text-secondary-content">
-                    {friendlyId}
+                    {friendlyId.substring(0, 8)}
                   </p>
                 </div>
                 <p className="text-xs leading-4 text-primary-content">

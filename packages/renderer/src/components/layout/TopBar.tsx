@@ -11,7 +11,7 @@ export function TopBar({
 }: TopBarProps) {
   return (
     <div
-      className="flex h-18 items-center justify-between gap-4 border-b border-border-default px-6 py-4"
+      className="flex h-18 max-w-full min-w-0 items-center justify-between gap-4 border-b border-border-default px-6 py-4"
       {...props}
     >
       <h2 className="text-xl leading-7 font-semibold text-primary-content">
