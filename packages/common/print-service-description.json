@@ -214,17 +214,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrintQueueStatusDto"
+                  }
                 }
               }
             }
@@ -1283,7 +1292,7 @@
         "required": [
           "jobIdentifier",
           "jobName",
-          "jobStatus",
+          "jobStatuses",
           "numberOfPages",
           "numberOfPagesPrinted",
           "positionInPrintQueue",
@@ -1297,12 +1306,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "jobStatus": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/PrintJobStatusDto"
-              }
-            ]
+          "jobStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintJobStatusDto"
+            }
           },
           "jobName": {
             "type": "string"
@@ -1385,7 +1393,7 @@
           "isWaiting",
           "isWarmingUp",
           "name",
-          "status"
+          "statuses"
         ],
         "type": "object",
         "properties": {
@@ -1401,12 +1409,11 @@
           "description": {
             "type": "string"
           },
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/PrintQueueStatusDto"
-              }
-            ]
+          "statuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintQueueStatusDto"
+            }
           },
           "defaultPriority": {
             "type": "integer",

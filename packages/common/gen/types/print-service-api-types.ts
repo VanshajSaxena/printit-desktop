@@ -543,9 +543,9 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": components["schemas"]["PrintQueueStatusDto"];
-            "text/json": components["schemas"]["PrintQueueStatusDto"];
-            "text/plain": components["schemas"]["PrintQueueStatusDto"];
+            "application/json": components["schemas"]["PrintQueueStatusDto"][];
+            "text/json": components["schemas"]["PrintQueueStatusDto"][];
+            "text/plain": components["schemas"]["PrintQueueStatusDto"][];
           };
         };
         /** @description Bad Request */
@@ -952,7 +952,7 @@ export interface components {
       /** Format: int32 */
       jobIdentifier: number;
       jobName: string;
-      jobStatus: components["schemas"]["PrintJobStatusDto"];
+      jobStatuses: components["schemas"]["PrintJobStatusDto"][];
       /** Format: int32 */
       numberOfPages: number;
       /** Format: int32 */
@@ -1014,7 +1014,7 @@ export interface components {
       isWaiting: boolean;
       isWarmingUp: boolean;
       name: string;
-      status: components["schemas"]["PrintQueueStatusDto"];
+      statuses: components["schemas"]["PrintQueueStatusDto"][];
     };
     /** @enum {string} */
     PrintQueueStatusDto:
