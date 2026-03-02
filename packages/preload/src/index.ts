@@ -37,7 +37,7 @@ export function getPrintQueue() {
 }
 export function getPrintQueueStatus(
   printQueue: string,
-): Promise<IPCResponse<PrintQueueStatusDto | undefined>> {
+): Promise<IPCResponse<PrintQueueStatusDto[] | undefined>> {
   return ipcRenderer.invoke("printQueue:status", printQueue);
 }
 export function getPrintQueueCapabilities() {

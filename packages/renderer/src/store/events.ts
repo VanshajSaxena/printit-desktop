@@ -144,7 +144,7 @@ export interface PrintJobStatusPolledEvent {
   type: "print-job:status:polled";
   jobId: number;
   printJobIdentifier: number;
-  status: PrintJobStatusDto;
+  status: PrintJobStatusDto[];
   numberOfPagesPrinted: number;
 }
 
@@ -164,21 +164,21 @@ export interface PrintJobFailedEvent {
   type: "print-job:failed";
   jobId: number;
   printJobIdentifier: number;
-  reason: PrintJobStatusDto;
+  reason?: string[];
 }
 
 export interface PrintJobTimeoutEvent {
   type: "print-job:timeout";
   jobId: number;
   printJobIdentifier: number;
-  lastKnownStatus: PrintJobStatusDto;
+  lastKnownStatus: PrintJobStatusDto[];
 }
 
 export interface PrintJobNotFoundEvent {
   type: "print-job:not-found";
   jobId: number;
   printJobIdentifier: number;
-  lastKnownStatus?: PrintJobStatusDto;
+  lastKnownStatus?: PrintJobStatusDto[];
 }
 
 export interface FileSpooledSuccessEvent {

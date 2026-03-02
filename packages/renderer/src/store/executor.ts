@@ -120,7 +120,7 @@ export class ObservableExecutor {
       printJobIdentifier,
       printerName,
       pollingIntervalMs = 1500,
-      timeoutMs = 5000,
+      timeoutMs = 30000, // 30 seconds for generalist approach
     } = operation;
 
     const cancellation = new Subject<void>();
@@ -135,14 +135,21 @@ export class ObservableExecutor {
       printerName,
     });
 
-    // State tracking
-    let lastKnownStatus: PrintJobStatusDto | undefined;
+    let lastStatuses: PrintJobStatusDto[] = [];
     let lastPageCount = 0;
     let totalPages = 0;
-    let lastProgressTime = Date.now();
+    let lastActivityTime = Date.now();
+    let hasDispatchedTimeout = false;
 
-    type PrintingState = "waiting" | "printing" | "completing";
-    let printingState: PrintingState = "waiting";
+    type MonitoringState = "idle" | "active" | "finalizing";
+    let monitoringState: MonitoringState = "idle";
+
+    const arraysEqual = (a: string[], b: string[]): boolean => {
+      if (a.length !== b.length) return false;
+      const sortedA = [...a].sort();
+      const sortedB = [...b].sort();
+      return sortedA.every((val, idx) => val === sortedB[idx]);
+    };
 
     interval(pollingIntervalMs)
       .pipe(
@@ -154,25 +161,41 @@ export class ObservableExecutor {
         tap((response) => {
           if (response.success && response.data) {
             const jobInfo = response.data;
-            const currentStatus = jobInfo.jobStatus;
+            const currentStatuses = jobInfo.jobStatuses;
             const currentPageCount = jobInfo.numberOfPagesPrinted;
-            totalPages = jobInfo.numberOfPages;
+            const currentTotalPages = jobInfo.numberOfPages;
+
+            const statusesChanged = !arraysEqual(currentStatuses, lastStatuses);
+
+            const hasCompletedSignal = currentStatuses.includes("Completed");
+            const hasErrorSignal = currentStatuses.includes("Error");
+            const hasBlockedSignal = currentStatuses.includes("Blocked");
+
+            const pagesChanged = currentPageCount !== lastPageCount;
+            const totalPagesChanged = currentTotalPages !== totalPages;
+
+            const hasActivity =
+              statusesChanged || pagesChanged || totalPagesChanged;
+
+            if (statusesChanged) {
+              console.log(
+                `[Job ${printJobIdentifier.toString()}] Status transition: ${JSON.stringify(lastStatuses)} => ${JSON.stringify(currentStatuses)}`,
+              );
+            }
 
             this.dispatch({
               type: "print-job:status:polled",
               transactionId,
               jobId,
               printJobIdentifier,
-              status: currentStatus,
+              status: currentStatuses,
               numberOfPagesPrinted: currentPageCount,
             });
 
-            if (
-              printingState === "waiting" &&
-              currentStatus === "UserIntervention"
-            ) {
-              printingState = "printing";
-              lastProgressTime = Date.now();
+            if (monitoringState === "idle" && currentTotalPages > 0) {
+              monitoringState = "active";
+              lastActivityTime = Date.now();
+
               this.dispatch({
                 type: "print-job:printing:started",
                 transactionId,
@@ -181,91 +204,106 @@ export class ObservableExecutor {
               });
             }
 
+            // ACTIVE/IDLE → FINALIZING: Completion signals detected
             if (
-              printingState === "printing" &&
-              currentPageCount > lastPageCount
+              (monitoringState === "active" || monitoringState === "idle") &&
+              (hasCompletedSignal ||
+                (currentPageCount >= currentTotalPages &&
+                  currentTotalPages > 0 &&
+                  currentPageCount > 0))
             ) {
-              printingState = "completing";
-              lastProgressTime = Date.now();
+              monitoringState = "finalizing";
+              lastActivityTime = Date.now();
             }
 
-            if (currentPageCount > lastPageCount) {
-              lastPageCount = currentPageCount;
-              lastProgressTime = Date.now();
+            // === ACTIVITY TRACKING ===
+
+            if (hasActivity) {
+              lastActivityTime = Date.now();
+              hasDispatchedTimeout = false; // Reset timeout flag on activity
             }
 
-            if (currentStatus === "Error" || currentStatus === "Blocked") {
+            // === ERROR DETECTION ===
+
+            if (hasErrorSignal || hasBlockedSignal) {
               this.dispatch({
                 type: "print-job:failed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                reason: currentStatus,
+                reason: currentStatuses,
               });
               cancellation.next();
               return;
             }
 
-            const timeSinceProgress = Date.now() - lastProgressTime;
+            // === TIMEOUT DETECTION ===
 
-            if (printingState === "waiting" && timeSinceProgress > timeoutMs) {
-              this.dispatch({
-                type: "print-job:timeout",
-                transactionId,
-                jobId,
-                printJobIdentifier,
-                lastKnownStatus: currentStatus,
-              });
-            }
+            const timeSinceActivity = Date.now() - lastActivityTime;
 
             if (
-              printingState === "completing" &&
-              timeSinceProgress > timeoutMs
+              monitoringState === "active" &&
+              timeSinceActivity > timeoutMs &&
+              !hasDispatchedTimeout
             ) {
+              hasDispatchedTimeout = true;
               this.dispatch({
                 type: "print-job:timeout",
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                lastKnownStatus: currentStatus,
+                lastKnownStatus: currentStatuses,
               });
+              // Continue monitoring - printer might recover
             }
 
-            lastKnownStatus = currentStatus;
+            // === UPDATE TRACKING VARIABLES ===
+
+            lastStatuses = currentStatuses;
+            lastPageCount = currentPageCount;
+            totalPages = currentTotalPages;
           } else if (!response.success && response.code === "JOB_NOT_FOUND") {
+            // === JOB DISAPPEARED ===
+
             this.dispatch({
               type: "print-job:not-found",
               transactionId,
               jobId,
               printJobIdentifier,
-              lastKnownStatus,
+              lastKnownStatus: lastStatuses,
             });
 
+            // Determine success vs failure based on state and signals
+            const hadActivity = monitoringState !== "idle";
+            const printedSomePages = lastPageCount > 0;
             const printedAllPages =
               totalPages > 0 && lastPageCount >= totalPages;
 
-            if (printingState === "completing" || printedAllPages) {
+            if (monitoringState === "finalizing" || printedAllPages) {
+              // SUCCESS: Job was completing or all pages were printed
               this.dispatch({
                 type: "print-job:completed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
               });
-            } else if (printingState === "printing" && lastPageCount > 0) {
+            } else if (hadActivity && printedSomePages) {
+              // PARTIAL: Job started but didn't complete all pages
               this.dispatch({
                 type: "print-job:failed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                reason: "Error",
+                reason: ["Incomplete"],
               });
             } else {
+              // FAILURE: Job disappeared without meaningful progress
               this.dispatch({
                 type: "print-job:failed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                reason: lastKnownStatus ?? "None",
+                reason: lastStatuses.length > 0 ? lastStatuses : ["None"],
               });
             }
 
@@ -273,13 +311,16 @@ export class ObservableExecutor {
           }
         }),
         catchError((error) => {
-          console.error("Monitoring error:", error);
+          console.error(
+            `[Job ${printJobIdentifier.toString()}] Monitoring error:`,
+            error,
+          );
           this.dispatch({
             type: "print-job:failed",
             transactionId,
             jobId,
             printJobIdentifier,
-            reason: "Error",
+            reason: ["Error"],
           });
           cancellation.next();
           return [];

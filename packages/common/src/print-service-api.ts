@@ -71,7 +71,7 @@ export class PrintServiceApi {
 
   async getPrintQueueStatus(
     queueName: string,
-  ): Promise<IPCResponse<PrintQueueStatusDto | undefined>> {
+  ): Promise<IPCResponse<PrintQueueStatusDto[] | undefined>> {
     const { data, error } = await this.client.GET(
       "/api/v1/printqueues/{queueName}/status",
       {
