@@ -11,7 +11,7 @@ export const useTransactionStore = create<TransactionStore>()(
     (set, get) => {
       const executor = new ObservableExecutor((event) => {
         // __AUTO_GENERATED_PRINT_VAR_START__
-        console.log("(anon)#(anon) event:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
+        console.log("Dispatch Event Fired:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
         const [newState, operations] = reducer(get().state, event);
 
         set({ state: newState });

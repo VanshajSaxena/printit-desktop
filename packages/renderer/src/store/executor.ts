@@ -120,7 +120,7 @@ export class ObservableExecutor {
       printJobIdentifier,
       printerName,
       pollingIntervalMs = 1500,
-      timeoutMs = 30000, // 30 seconds for generalist approach
+      timeoutMs = 30000,
     } = operation;
 
     const cancellation = new Subject<void>();
@@ -162,7 +162,7 @@ export class ObservableExecutor {
           if (response.success && response.data) {
             const jobInfo = response.data;
             const currentStatuses = jobInfo.jobStatuses;
-            const currentPageCount = jobInfo.numberOfPagesPrinted;
+            const currentPrintedPageCount = jobInfo.numberOfPagesPrinted;
             const currentTotalPages = jobInfo.numberOfPages;
 
             const statusesChanged = !arraysEqual(currentStatuses, lastStatuses);
@@ -171,7 +171,7 @@ export class ObservableExecutor {
             const hasErrorSignal = currentStatuses.includes("Error");
             const hasBlockedSignal = currentStatuses.includes("Blocked");
 
-            const pagesChanged = currentPageCount !== lastPageCount;
+            const pagesChanged = currentPrintedPageCount !== lastPageCount;
             const totalPagesChanged = currentTotalPages !== totalPages;
 
             const hasActivity =
@@ -189,13 +189,15 @@ export class ObservableExecutor {
               jobId,
               printJobIdentifier,
               status: currentStatuses,
-              numberOfPagesPrinted: currentPageCount,
+              numberOfPagesPrinted: currentPrintedPageCount,
             });
 
+            // This does not actually deterministically tell if the printing was actually started. More like it only tell that the spooler actually cached our file (as currentTotalPages was updated).
             if (monitoringState === "idle" && currentTotalPages > 0) {
               monitoringState = "active";
               lastActivityTime = Date.now();
 
+              // We either have to rename this event or create a completely new event altogether. Printing doesn't start here.
               this.dispatch({
                 type: "print-job:printing:started",
                 transactionId,
@@ -204,28 +206,28 @@ export class ObservableExecutor {
               });
             }
 
-            // ACTIVE/IDLE → FINALIZING: Completion signals detected
             if (
               (monitoringState === "active" || monitoringState === "idle") &&
               (hasCompletedSignal ||
-                (currentPageCount >= currentTotalPages &&
+                (currentPrintedPageCount >= currentTotalPages &&
                   currentTotalPages > 0 &&
-                  currentPageCount > 0))
+                  currentPrintedPageCount > 0))
             ) {
               monitoringState = "finalizing";
               lastActivityTime = Date.now();
             }
-
-            // === ACTIVITY TRACKING ===
 
             if (hasActivity) {
               lastActivityTime = Date.now();
               hasDispatchedTimeout = false; // Reset timeout flag on activity
             }
 
-            // === ERROR DETECTION ===
-
             if (hasErrorSignal || hasBlockedSignal) {
+              // We don't want to dispatch print-job:failed here, a blocked or
+              // errored job doesn't always mean the job is dead, it can
+              // recover if the user fixes the issue manually (maybe by adding
+              // more pages to the printer tray if the printer errored because
+              // it was out of paper). We will create granular dispatch events like `print-job:error`, `print-job:blocked`
               this.dispatch({
                 type: "print-job:failed",
                 transactionId,
@@ -237,10 +239,7 @@ export class ObservableExecutor {
               return;
             }
 
-            // === TIMEOUT DETECTION ===
-
             const timeSinceActivity = Date.now() - lastActivityTime;
-
             if (
               monitoringState === "active" &&
               timeSinceActivity > timeoutMs &&
@@ -248,23 +247,24 @@ export class ObservableExecutor {
             ) {
               hasDispatchedTimeout = true;
               this.dispatch({
-                type: "print-job:timeout",
+                type: "print-job:timeout", // this event in my testing is actually working correctly (i.e. this is being fired correctly at the right time.)
                 transactionId,
                 jobId,
                 printJobIdentifier,
                 lastKnownStatus: currentStatuses,
               });
-              // Continue monitoring - printer might recover
             }
 
-            // === UPDATE TRACKING VARIABLES ===
-
             lastStatuses = currentStatuses;
-            lastPageCount = currentPageCount;
+            lastPageCount = currentPrintedPageCount;
             totalPages = currentTotalPages;
           } else if (!response.success && response.code === "JOB_NOT_FOUND") {
-            // === JOB DISAPPEARED ===
+            // This block needs thinking.
 
+            // Alright we fire not-found event here, but it's not actually very
+            // usefull for the reducer with out the context (which only
+            // executor's startMonitoring closure have. We will fire it for
+            // now, but the reducer might not do anything with it for now.)
             this.dispatch({
               type: "print-job:not-found",
               transactionId,
@@ -273,14 +273,12 @@ export class ObservableExecutor {
               lastKnownStatus: lastStatuses,
             });
 
-            // Determine success vs failure based on state and signals
             const hadActivity = monitoringState !== "idle";
             const printedSomePages = lastPageCount > 0;
             const printedAllPages =
               totalPages > 0 && lastPageCount >= totalPages;
 
             if (monitoringState === "finalizing" || printedAllPages) {
-              // SUCCESS: Job was completing or all pages were printed
               this.dispatch({
                 type: "print-job:completed",
                 transactionId,
@@ -288,22 +286,20 @@ export class ObservableExecutor {
                 printJobIdentifier,
               });
             } else if (hadActivity && printedSomePages) {
-              // PARTIAL: Job started but didn't complete all pages
               this.dispatch({
-                type: "print-job:failed",
+                type: "print-job:failed", // We need a different event for partially printed jobs, we don't declare them failed (failed ~= dead) altogether. The job could progress if the user might fix a hardware issue for example (like adding paper or ink)
                 transactionId,
                 jobId,
                 printJobIdentifier,
                 reason: ["Incomplete"],
               });
             } else {
-              // FAILURE: Job disappeared without meaningful progress
               this.dispatch({
-                type: "print-job:failed",
+                type: "print-job:failed", // This is appropriate here for now.
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                reason: lastStatuses.length > 0 ? lastStatuses : ["None"],
+                reason: lastStatuses.length > 0 ? lastStatuses : ["Unknown"],
               });
             }
 
