@@ -13,12 +13,17 @@ export type TransactionEventUnionType =
   | FilesDownloadCompletedAllEvent
   | FilesDownloadErrorAllEvent
   | PrintJobMonitoringStartedEvent
+  | PrintJobMonitoringErrorEvent
   | PrintJobStatusPolledEvent
   | PrintJobPrintingStartedEvent
   | PrintJobCompletedEvent
   | PrintJobFailedEvent
   | PrintJobTimeoutEvent
   | PrintJobNotFoundEvent
+  | PrintJobAcceptedEvent
+  | PrintJobErrorEvent
+  | PrintJobBlockedEvent
+  | PrintJobIncompleteEvent
   | FileSpooledSuccessEvent;
 
 export type ReducerEvent =
@@ -140,6 +145,14 @@ export interface PrintJobMonitoringStartedEvent {
   printerName: string;
 }
 
+export interface PrintJobMonitoringErrorEvent {
+  type: "print-job:monitoring:error";
+  jobId: number;
+  printJobIdentifier: number;
+  printerName: string;
+  reason?: string[];
+}
+
 export interface PrintJobStatusPolledEvent {
   type: "print-job:status:polled";
   jobId: number;
@@ -186,4 +199,33 @@ export interface FileSpooledSuccessEvent {
   printJobInfo: PrintJobInfoDto | undefined;
   jobId: number;
   printerName: string;
+}
+
+export interface PrintJobAcceptedEvent {
+  type: "print-job:accepted";
+  jobId: number;
+  printJobIdentifier: number;
+  totalPages: number;
+}
+
+export interface PrintJobErrorEvent {
+  type: "print-job:error";
+  jobId: number;
+  printJobIdentifier: number;
+  statuses: PrintJobStatusDto[];
+}
+
+export interface PrintJobBlockedEvent {
+  type: "print-job:blocked";
+  jobId: number;
+  printJobIdentifier: number;
+  statuses: PrintJobStatusDto[];
+}
+
+export interface PrintJobIncompleteEvent {
+  type: "print-job:incomplete";
+  jobId: number;
+  printJobIdentifier: number;
+  pagesPrinted: number;
+  totalPages: number;
 }
