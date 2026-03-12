@@ -167,8 +167,6 @@ export class ObservableExecutor {
             const currentPrintedPageCount = jobInfo.numberOfPagesPrinted;
             const currentTotalPages = jobInfo.numberOfPages;
 
-            // === SIGNAL DETECTION ===
-
             const statusesChanged = !arraysEqual(currentStatuses, lastStatuses);
 
             const hasCompletedSignal = currentStatuses.includes("Completed");
@@ -192,7 +190,7 @@ export class ObservableExecutor {
               transactionId,
               jobId,
               printJobIdentifier,
-              status: currentStatuses,
+              statuses: currentStatuses,
               numberOfPagesPrinted: currentPrintedPageCount,
             });
 
@@ -267,7 +265,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
-                lastKnownStatus: currentStatuses,
+                lastKnownStatuses: currentStatuses,
               });
             }
 
@@ -280,10 +278,9 @@ export class ObservableExecutor {
               transactionId,
               jobId,
               printJobIdentifier,
-              lastKnownStatus: lastStatuses,
+              lastKnownStatuses: lastStatuses,
             });
 
-            // Determine outcome based on monitoring state and progress
             const hadActivity = monitoringState !== "idle";
             const printedSomePages = lastPageCount > 0;
             const printedAllPages =
@@ -306,7 +303,6 @@ export class ObservableExecutor {
                 totalPages: totalPages,
               });
             } else {
-              // FAILED: No meaningful progress before disappearing
               this.dispatch({
                 type: "print-job:failed",
                 transactionId,

@@ -14,8 +14,8 @@ export type TransactionOperationUnion = { transactionId: number } & (
   | SpoolFilesToPrinterOperation
   | StartPrintJobMonitoringOperation
   | StopPrintJobMonitoringOperation
-  | ReportTransactionStatusOperation
   | ReportJobStatusOperation
+  | ReportTransactionStatusOperation
 );
 
 export interface DownloadFilesOperation {
@@ -64,17 +64,9 @@ export interface StartPrintJobMonitoringOperation {
 
 export interface ReportTransactionStatusOperation {
   type: "report-transaction-status";
-  updates: {
-    transactionId: number;
-    status: TransactionObject["status"];
-    timestamp: string;
-    jobUpdates: {
-      jobId: number;
-      status: TransactionObject["jobs"][0]["status"];
-      pagesPrinted?: number;
-      timestamp: string;
-    }[];
-  };
+  transactionId: number;
+  status: TransactionObject["status"];
+  timestamp: string;
 }
 
 export interface ReportJobStatusOperation {
@@ -82,6 +74,14 @@ export interface ReportJobStatusOperation {
   transactionId: number;
   jobId: number;
   status: TransactionObject["jobs"][0]["status"];
-  pagesPrinted?: number;
+  pagesPrinted?: number; // For INCOMPLETE jobs
+  totalPages?: number; // For INCOMPLETE jobs
+  timestamp: string;
+}
+
+export interface ReportTransactionStatusOperation {
+  type: "report-transaction-status";
+  transactionId: number;
+  status: TransactionObject["status"];
   timestamp: string;
 }

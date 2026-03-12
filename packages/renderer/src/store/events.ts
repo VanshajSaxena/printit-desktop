@@ -46,6 +46,7 @@ export interface TransactionObject {
     | "READY"
     | "SPOOLED"
     | "PRINTING"
+    | "INCOMPLETE"
     | "COMPLETED"
     | "ERROR";
   jobs: {
@@ -85,9 +86,11 @@ export interface PrintQueueItem {
   monitoring?: {
     isActive: boolean;
     lastPolledAt?: string;
-    lastKnownStatus?: PrintJobStatusDto;
+    lastKnownStatus?: PrintJobStatusDto[];
     pagesPrinted: number;
     startedPrintingAt?: string;
+    hasError: boolean;
+    errorStatuses: PrintJobStatusDto[];
     timedOut: boolean;
     timeoutAt?: string;
   };
@@ -157,7 +160,7 @@ export interface PrintJobStatusPolledEvent {
   type: "print-job:status:polled";
   jobId: number;
   printJobIdentifier: number;
-  status: PrintJobStatusDto[];
+  statuses: PrintJobStatusDto[];
   numberOfPagesPrinted: number;
 }
 
@@ -184,14 +187,14 @@ export interface PrintJobTimeoutEvent {
   type: "print-job:timeout";
   jobId: number;
   printJobIdentifier: number;
-  lastKnownStatus: PrintJobStatusDto[];
+  lastKnownStatuses: PrintJobStatusDto[];
 }
 
 export interface PrintJobNotFoundEvent {
   type: "print-job:not-found";
   jobId: number;
   printJobIdentifier: number;
-  lastKnownStatus?: PrintJobStatusDto[];
+  lastKnownStatuses?: PrintJobStatusDto[];
 }
 
 export interface FileSpooledSuccessEvent {
