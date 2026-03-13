@@ -91,6 +91,8 @@ export interface PrintQueueItem {
     startedPrintingAt?: string;
     hasError: boolean;
     errorStatuses: PrintJobStatusDto[];
+    isBlocked: boolean;
+    blockedStatuses: PrintJobStatusDto[];
     timedOut: boolean;
     timeoutAt?: string;
   };

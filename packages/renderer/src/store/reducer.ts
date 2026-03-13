@@ -160,6 +160,8 @@ export const reducer = (
             pagesPrinted: 0,
             hasError: false,
             errorStatuses: [],
+            isBlocked: false,
+            blockedStatuses: [],
             timedOut: false,
           };
         }
@@ -224,8 +226,8 @@ export const reducer = (
 
         if (queueItem?.monitoring) {
           // Track blocked in error statuses
-          queueItem.monitoring.hasError = true;
-          queueItem.monitoring.errorStatuses = event.statuses;
+          queueItem.monitoring.isBlocked = true;
+          queueItem.monitoring.blockedStatuses = event.statuses;
         }
 
         // Don't change job status - blocked is recoverable
