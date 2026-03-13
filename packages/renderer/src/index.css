@@ -1,67 +1,102 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 body {
   font-family: "Inter";
 }
 
-@theme {
-  --color-primary: #090909;
-  --color-primary-content: #ffffff;
-  --color-secondary: #101011;
-  --color-secondary-content: #bcbcbc;
-  --color-tertiary: #1f1f1f;
-  --color-tertiary-content: #999999;
+@custom-variant dark (&:is(.dark *));
 
-  --color-success: #203120;
-  --color-success-content: #22c55e;
-  --color-queued: #3424bf;
-  --color-queued-content: #8a75ff;
-  --color-waiting: #8f4b24;
-  --color-waiting-content: #ffd875;
-  --color-error: #3d2424;
-  --color-error-content: #f56161;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-  --color-border-default: #2e2e2e;
+  --color-primary: var(--primary);
+  --color-primary-content: var(--primary-content);
+  --color-secondary: var(--secondary);
+  --color-secondary-content: var(--secondary-content);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-content: var(--tertiary-content);
+  --color-success: var(--success);
+  --color-success-content: var(--success-content);
+  --color-queued: var(--queued);
+  --color-queued-content: var(--queued-content);
+  --color-waiting: var(--waiting);
+  --color-waiting-content: var(--waiting-content);
+  --color-error: var(--error);
+  --color-error-content: var(--error-content);
+  --color-border-default: var(--border-default);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
 }
 
 @layer base {
-  .dark {
-    --color-primary: #090909;
-    --color-primary-content: #ffffff;
-    --color-secondary: #101011;
-    --color-secondary-content: #bcbcbc;
-    --color-tertiary: #1f1f1f;
-    --color-tertiary-content: #999999;
-
-    --color-success: #203120;
-    --color-success-content: #22c55e;
-    --color-queued: #3424bf;
-    --color-queued-content: #8a75ff;
-    --color-waiting: #8f4b24;
-    --color-waiting-content: #ffd875;
-    --color-error: #3d2424;
-    --color-error-content: #f56161;
-
-    --color-border-default: #2e2e2e;
-  }
+  :root,
   .light {
-    --color-primary: #f2f2f2;
-    --color-primary-content: #000000;
-    --color-secondary: #e0e0e0;
-    --color-secondary-content: #424242;
-    --color-tertiary: #c7c7c7;
-    --color-tertiary-content: #666666;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --radius: 0.5rem;
 
-    --color-success: #94eb94;
-    --color-success-content: #122112;
-    --color-queued: #beb6ed;
-    --color-queued-content: #816bff;
-    --color-waiting: #bfbfbf;
-    --color-waiting-content: #2b2b2b;
-    --color-error: #ef9090;
-    --color-error-content: #211212;
+    --primary: #f2f2f2;
+    --primary-content: #000000;
+    --secondary: #e0e0e0;
+    --secondary-content: #424242;
+    --tertiary: #c7c7c7;
+    --tertiary-content: #666666;
+    --success: #94eb94;
+    --success-content: #122112;
+    --queued: #beb6ed;
+    --queued-content: #816bff;
+    --waiting: #bfbfbf;
+    --waiting-content: #2b2b2b;
+    --error: #ef9090;
+    --error-content: #211212;
+    --border-default: #bfbfbf;
+  }
 
-    --color-border-default: #bfbfbf;
+  .dark {
+    --background: oklch(0.145 0 0); /* This makes the sheet dark */
+    --foreground: oklch(0.985 0 0); /* This makes the sheet text white */
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+
+    --primary: #090909;
+    --primary-content: #ffffff;
+    --secondary: #101011;
+    --secondary-content: #bcbcbc;
+    --tertiary: #1f1f1f;
+    --tertiary-content: #999999;
+    --success: #203120;
+    --success-content: #22c55e;
+    --queued: #3424bf;
+    --queued-content: #8a75ff;
+    --waiting: #8f4b24;
+    --waiting-content: #ffd875;
+    --error: #3d2424;
+    --error-content: #f56161;
+    --border-default: #2e2e2e;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
@@ -89,5 +124,5 @@ body {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-secondary) var(--color-tertiary);
+  scrollbar-color: var(--secondary) var(--tertiary); /* Adjusted to use var() for dynamic theming */
 }
