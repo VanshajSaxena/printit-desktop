@@ -1,3 +1,4 @@
+import { OrderSheet } from "@/components/sheets/OrderSheet";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
 import { DisplayButton } from "@components/buttons/DisplayButton";
@@ -42,6 +43,7 @@ export function Dashboard() {
           </div>
         </div>
         <TransactionListContainer />
+        <OrderSheet></OrderSheet>
       </div>
     </>
   );

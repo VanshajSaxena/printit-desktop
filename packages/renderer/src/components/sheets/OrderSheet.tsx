@@ -1,0 +1,97 @@
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@components/ui/sheet";
+import { ChevronRight } from "lucide-react";
+import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
+import { CopiesBadge } from "../badges/CopiesBadge";
+import { SheetsBadge } from "../badges/SheetsBadge";
+import { ActivityIcon } from "../icons/ActivityIcon";
+import { FileIcon } from "../icons/FileIcon";
+import { ListIcon } from "../icons/ListIcon";
+import { PDFFileIcon } from "../icons/PDFFileIcon";
+import { RejectButton } from "../buttons/RejectButton";
+import { PrintButton } from "../buttons/PrintButton";
+
+function DocumentItem() {
+  return (
+    <div className="w-full max-w-5xl min-w-fit rounded-xl outline -outline-offset-1 outline-border-default">
+      <div className="flex justify-between p-4">
+        <div className="flex items-center gap-3">
+          <div className="rounded-md bg-success px-1.5 py-1.25 text-success-content">
+            <PDFFileIcon size={20} />
+          </div>
+          File Name
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-4 px-4 py-3">
+        <SheetsBadge></SheetsBadge>
+        <CopiesBadge></CopiesBadge>
+        <ColorPalatteBadge></ColorPalatteBadge>
+      </div>
+    </div>
+  );
+}
+
+export function OrderSheet() {
+  return (
+    <Sheet>
+      <SheetTrigger>Open</SheetTrigger>
+      <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t bg-secondary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
+        <SheetHeader className="flex flex-col gap-4 border-b p-5">
+          <SheetTitle className="flex items-center gap-2.5 text-sm">
+            Order
+            <ChevronRight size={20}></ChevronRight>
+            <p className="text-secondary-content">FPXWVPL4</p>
+          </SheetTitle>
+          <div className="flex items-center gap-3">
+            <FileIcon size={24} />
+            <p className="text-lg font-semibold">Final Year Dissertation</p>
+            <p className="text-sm font-semibold text-secondary-content">
+              just now
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <SheetsBadge />
+            <CopiesBadge />
+            <ColorPalatteBadge />
+          </div>
+          <SheetDescription className="hidden"></SheetDescription>
+        </SheetHeader>
+        <div className="grid min-h-0 flex-1 grid-cols-[3fr_1fr]">
+          <div className="flex min-h-0 w-full flex-col gap-6 overflow-y-auto px-6 py-8">
+            <div className="flex items-center gap-2">
+              <ListIcon size={24} />
+              <p>Document List</p>
+            </div>
+
+            <div className="mx-4 flex flex-col items-center gap-6">
+              <DocumentItem />
+              <DocumentItem />
+              <DocumentItem />
+              <DocumentItem />
+            </div>
+          </div>
+
+          <div className="h-full border-l px-5 py-6">
+            <div className="flex flex-col gap-6 border-b py-6">
+              <div className="flex gap-2">
+                <ActivityIcon />
+                Actions
+              </div>
+
+              <div className="flex flex-wrap items-center justify-evenly gap-2">
+                <RejectButton text="Reject All" />
+                <PrintButton text="Print All" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}

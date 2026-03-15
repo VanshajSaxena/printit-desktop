@@ -2,7 +2,7 @@ import { Button } from "./Button";
 import type { ButtonProps } from "./types";
 import { TrashXIcon } from "@components/icons/TrashXIcon";
 
-export function RejectButton({ ...props }: ButtonProps) {
+export function RejectButton({ text, ...props }: ButtonProps) {
   return (
     <>
       <Button
@@ -12,7 +12,7 @@ export function RejectButton({ ...props }: ButtonProps) {
         className="text-primary-content outline-none hover:bg-error hover:text-error-content"
         {...props}
       >
-        Reject
+        {text ?? "Reject"}
       </Button>
     </>
   );

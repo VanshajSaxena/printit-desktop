@@ -2,7 +2,7 @@ import { Button } from "./Button";
 import { PrinterIcon } from "@components/icons/PrinterIcon";
 import type { ButtonProps } from "./types";
 
-export function PrintButton({ ...props }: ButtonProps) {
+export function PrintButton({ text, ...props }: ButtonProps) {
   return (
     <>
       <Button
@@ -11,7 +11,7 @@ export function PrintButton({ ...props }: ButtonProps) {
         className="bg-tertiary text-primary-content outline-none hover:bg-success hover:text-success-content"
         {...props}
       >
-        Print
+        {text ?? "Print"}
       </Button>
     </>
   );
