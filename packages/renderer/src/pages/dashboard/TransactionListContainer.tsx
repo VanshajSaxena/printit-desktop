@@ -4,7 +4,11 @@ import { useWsEvent } from "@hooks/useWsHandler";
 import { useTransactionStore } from "@store/useTransactionStore";
 import { useEffect, useMemo } from "react";
 
-export function TransactionListContainer() {
+export function TransactionListContainer({
+  onTransactionClick,
+}: {
+  onTransactionClick: (transactionId: number) => void;
+}) {
   const dispatch = useTransactionStore((store) => store.dispatch);
 
   const transactionsMap = useTransactionStore(
@@ -34,7 +38,15 @@ export function TransactionListContainer() {
         </div>
       )}
       {transactionList.map((transaction) => {
-        return <TransactionItem key={transaction.id} {...transaction} />;
+        return (
+          <TransactionItem
+            key={transaction.id}
+            {...transaction}
+            onClick={() => {
+              onTransactionClick(transaction.id);
+            }}
+          />
+        );
       })}
     </div>
   );

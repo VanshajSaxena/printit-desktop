@@ -9,10 +9,21 @@ import { MoonIcon } from "@components/icons/MoonIcon";
 import { TopBar } from "@components/layout/TopBar";
 import { useTheme } from "@context/theme/useTheme";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
+import { useState } from "react";
 import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    number | undefined
+  >(undefined);
+  const [orderSheetOpen, setOrderSheetOpen] = useState(false);
+
+  const openOrderSheet = (transactionId: number) => {
+    setSelectedTransactionId(transactionId);
+    setOrderSheetOpen(true);
+  };
+
   return (
     <>
       <TopBar title="Dashboard">
@@ -42,8 +53,14 @@ export function Dashboard() {
             <BulkActionButton />
           </div>
         </div>
-        <TransactionListContainer />
-        <OrderSheet></OrderSheet>
+        <TransactionListContainer onTransactionClick={openOrderSheet} />
+        {selectedTransactionId && (
+          <OrderSheet
+            open={orderSheetOpen}
+            onOpenChange={setOrderSheetOpen}
+            transactionId={selectedTransactionId}
+          />
+        )}
       </div>
     </>
   );

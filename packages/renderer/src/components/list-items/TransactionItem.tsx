@@ -14,12 +14,13 @@ import { useTransactionStore } from "@store/useTransactionStore";
 import { NewItemBadge } from "./NewItemBadge";
 
 export function TransactionItem({
+  onClick,
   id,
   friendlyId,
   jobs,
   createdAt,
   status,
-}: TransactionObject) {
+}: TransactionObject & { onClick: () => void }) {
   const title = jobs[0].document.filename;
   const dispatch = useTransactionStore((store) => store.dispatch);
   const formattedDate = formatRelativeTime(createdAt);
@@ -32,7 +33,10 @@ export function TransactionItem({
   });
   return (
     <>
-      <div className="flex h-fit max-w-full min-w-0 flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5">
+      <div
+        onClick={onClick}
+        className="flex h-fit max-w-full min-w-0 flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5"
+      >
         <div className="flex h-fit max-w-full min-w-0 items-center justify-between">
           <div className="flex h-fit min-w-0 items-center gap-4">
             <ListIconFile size={24}></ListIconFile>
