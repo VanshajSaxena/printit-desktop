@@ -94,6 +94,12 @@ export class ObservableExecutor {
             jobId: operation.job.id,
             printerName,
           });
+        } else {
+          // __AUTO_GENERATED_PRINT_VAR_START__
+          console.log(
+            "ObservableExecutor#execute#if#if response.code:",
+            response.code,
+          ); // __AUTO_GENERATED_PRINT_VAR_END__
         }
         break;
       }

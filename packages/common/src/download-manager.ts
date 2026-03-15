@@ -1,7 +1,8 @@
+import { app } from "electron";
 import { createWriteStream } from "fs";
 import { mkdir } from "fs/promises";
-import { app } from "electron";
 import path, { join } from "path";
+import { Readable } from "stream";
 import { pipeline } from "stream/promises";
 
 export const downloadManager = {
@@ -33,7 +34,12 @@ export const downloadManager = {
         const filePath = join(downloadDir, `${String(id)}.${extention}`);
         const fileStream = createWriteStream(filePath);
 
-        await pipeline(response.body, fileStream);
+        await pipeline(
+          Readable.fromWeb(
+            response.body as unknown as globalThis.ReadableStream,
+          ),
+          fileStream,
+        );
         return { id, filePath };
       }),
     );

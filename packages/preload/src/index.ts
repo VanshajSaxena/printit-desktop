@@ -1,5 +1,5 @@
 import { type IPCResponse } from "@app/common";
-import {
+import type {
   PrintJobDto,
   PrintJobInfoDto,
   PrintQueueStatusDto,
