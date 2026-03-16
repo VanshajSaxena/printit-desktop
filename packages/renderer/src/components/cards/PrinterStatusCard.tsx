@@ -1,20 +1,24 @@
 import { ActivityIcon } from "@components/icons/ActivityIcon";
 import { PulseCard } from "./PulseCard";
+import { useTransactionStore } from "@/store/useTransactionStore";
+import clsx from "clsx";
 
 export function PrinterStatusCard({ subText }: { subText: string }) {
-  // const { data } = useQuery({
-  //   queryKey: ["printer-status"],
-  //   queryFn: () => getPrintQueueStatus("hp smart tank 580"),
-  //   refetchInterval: 1000,
-  // });
-
-  // const response = data?.success ? data.data : "None";
-  const heroText = "NONE";
+  const status = useTransactionStore((store) => store.state.printQueue.status);
+  const statusStyle = {
+    "text-success-content": status === "idle",
+    "text-waiting-content": status === "working",
+    "text-queued-content": status === "printing",
+    "text-error-content": status === "error",
+  };
   return (
     <PulseCard
-      heroTextStyle="text-xl leading-8 font-semibold text-green-600"
+      heroTextStyle={clsx(
+        "text-xl leading-8 font-semibold capitalize",
+        statusStyle,
+      )}
       title="Printer Status"
-      heroText={heroText}
+      heroText={status}
       subText={subText}
       icon={<ActivityIcon size={20} className="stroke-secondary-content" />}
     ></PulseCard>
