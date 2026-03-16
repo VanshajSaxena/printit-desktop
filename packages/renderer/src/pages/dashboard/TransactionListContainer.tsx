@@ -32,8 +32,8 @@ export function TransactionListContainer({
       {transactionList.length === 0 && (
         <div className="flex size-full flex-col items-center justify-center gap-y-6">
           <EmptyTrayIcon />
-          <p className="text-sm font-normal text-secondary-content">
-            This feels empty, have you shared your QR Code with others?
+          <p className="text-center text-sm font-normal text-secondary-content">
+            This is empty, share the QR Code to start receiving orders.
           </p>
         </div>
       )}
