@@ -2,7 +2,7 @@ import { MainContent } from "./MainContent";
 import { SideBar } from "./SideBar";
 import { useState } from "react";
 
-export type ViewType = "dashboard" | "history" | "settings" | "help";
+export type ViewType = "dashboard" | "analytics" | "settings" | "help";
 
 export function AppLayout() {
   const [selectedView, setSelectedView] = useState<ViewType>("dashboard");

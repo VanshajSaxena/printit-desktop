@@ -1,6 +1,5 @@
-import { HistoryIcon } from "@components/icons/HistoryIcon";
-import { HomeIcon } from "@components/icons/HomeIcon";
 import { GearIcon } from "@components/icons/GearIcon";
+import { HomeIcon } from "@components/icons/HomeIcon";
 import { SidebarRightCollapseIcon } from "@components/icons/SidebarRightCollapseIcon";
 import { SupportHeadphoneIcon } from "@components/icons/SupportHeadphoneIcon.tsx";
 import { ProfileArea } from "@components/sidebar/ProfileArea";
@@ -9,6 +8,7 @@ import {
   type SideBarItemProps,
 } from "@components/sidebar/SideBarItem";
 import clsx from "clsx";
+import { TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ViewType } from "./AppLayout";
 
@@ -27,9 +27,9 @@ export function SideBar({
       icon: <HomeIcon className="shrink-0" />,
     },
     {
-      type: "history",
-      label: "History",
-      icon: <HistoryIcon className="shrink-0" />,
+      type: "analytics",
+      label: "Analytics",
+      icon: <TrendingUp />,
     },
     {
       type: "settings",
