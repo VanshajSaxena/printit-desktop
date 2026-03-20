@@ -13,15 +13,17 @@ import { wsHandlers } from "./modules/WsHandlerModule.js";
 import log from "electron-log";
 import { createIpcHandlers } from "./remote/ipc-handlers.js";
 import { PrintServiceApi, WsNotificationsApi } from "@app/common";
+import { wsEventListeners } from "./modules/WsListenerModule.js";
 
+const wsNotificationsApiConfig = {
+  url: import.meta.env.PROD ? "api.printit.ink" : "dev.api.printit.ink",
+  protocol: "https",
+  namespace: `notifications`,
+};
 export async function initApp(initConfig: AppInitConfig) {
   log.info("### Main Process Initialization Started ###");
   const printServiceApi = new PrintServiceApi();
-  const webSocketApi = new WsNotificationsApi({
-    url: import.meta.env.PROD ? "api.printit.ink" : "dev.api.printit.ink",
-    protocol: "https",
-    namespace: `notifications`,
-  });
+  const webSocketApi = new WsNotificationsApi(wsNotificationsApiConfig);
   const allHandlers = createIpcHandlers(printServiceApi, webSocketApi);
   const moduleRunner = createModuleRunner()
     .init(
@@ -35,6 +37,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(hardwareAccelerationMode({ enable: false }))
     .init(ipcHandlers(allHandlers))
     .init(wsHandlers(webSocketApi))
+    .init(wsEventListeners(webSocketApi))
     .init(autoUpdater())
     .init(startPrintService({ required: !import.meta.env.DEV }))
 

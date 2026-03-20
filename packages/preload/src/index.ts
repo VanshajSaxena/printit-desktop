@@ -4,6 +4,7 @@ import type {
   PrintJobInfoDto,
   PrintQueueStatusDto,
 } from "@app/common/gen/types/print-service-api-types.js";
+import { WebSocketEvent, WebSocketEventMap } from "@app/common";
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
@@ -92,6 +93,13 @@ export function subscribeToWsEvent<C extends WsChannel>(
   return () => {
     ipcRenderer.removeListener(channel, subscription);
   };
+}
+
+export function emitWebSocketEvent<K extends WebSocketEvent>(
+  eventName: K,
+  payload: WebSocketEventMap[K],
+): void {
+  ipcRenderer.send(eventName, payload);
 }
 
 export { send, sha256sum, versions };

@@ -317,6 +317,8 @@ export interface components {
       id: number;
       /** @enum {string} */
       outputColor: "Color" | "Monochrome" | "Grayscale";
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
       /** Format: date-time */
       updatedAt: string;
     };
@@ -421,9 +423,14 @@ export interface components {
       documentId?: number;
       /** @enum {string} */
       outputColor?: "Color" | "Monochrome" | "Grayscale";
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
     UpdatePrinterDto: Record<string, never>;
-    UpdateTransactionDto: Record<string, never>;
+    UpdateTransactionDto: {
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+    };
     UpdateVendorDto: Record<string, never>;
     UploadFileBatchRequestDto: {
       ids: number[];
@@ -731,7 +738,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -752,7 +759,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };

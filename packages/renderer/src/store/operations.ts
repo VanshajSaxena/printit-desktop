@@ -62,26 +62,25 @@ export interface StartPrintJobMonitoringOperation {
   timeoutMs?: number;
 }
 
-export interface ReportTransactionStatusOperation {
-  type: "report-transaction-status";
-  transactionId: number;
-  status: TransactionObject["status"];
-  timestamp: string;
-}
-
 export interface ReportJobStatusOperation {
   type: "report-job-status";
   transactionId: number;
   jobId: number;
-  status: TransactionObject["jobs"][0]["status"];
-  pagesPrinted?: number; // For INCOMPLETE jobs
-  totalPages?: number; // For INCOMPLETE jobs
+  status: Exclude<
+    TransactionObject["jobs"][0]["status"],
+    "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
+  >;
+  pagesPrinted?: number;
+  totalPages?: number;
   timestamp: string;
 }
 
 export interface ReportTransactionStatusOperation {
   type: "report-transaction-status";
   transactionId: number;
-  status: TransactionObject["status"];
+  status: Exclude<
+    TransactionObject["jobs"][0]["status"],
+    "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
+  >;
   timestamp: string;
 }

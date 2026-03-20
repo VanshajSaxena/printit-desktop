@@ -13,6 +13,47 @@ export interface WsNotificationsApiConfig {
   debug?: boolean;
 }
 
+export interface WebSocketEventMap {
+  "job:status:updated": {
+    transactionId: number;
+    jobId: number;
+    status: string;
+    timestamp: string;
+  };
+  "job:completed": {
+    transactionId: number;
+    jobId: number;
+    timestamp: string;
+  };
+  "job:failed": {
+    transactionId: number;
+    jobId: number;
+    timestamp: string;
+  };
+  "job:incomplete": {
+    transactionId: number;
+    jobId: number;
+    pagesPrinted?: number;
+    totalPages?: number;
+    timestamp: string;
+  };
+  "transaction:status:updated": {
+    transactionId: number;
+    status: string;
+    timestamp: string;
+  };
+  "transaction:completed": {
+    transactionId: number;
+    timestamp: string;
+  };
+  "transaction:failed": {
+    transactionId: number;
+    timestamp: string;
+  };
+}
+
+export type WebSocketEvent = keyof WebSocketEventMap;
+
 export class WsNotificationsApi extends EventEmitter {
   private client: Socket;
   private config: WsNotificationsApiConfig;
@@ -102,6 +143,14 @@ export class WsNotificationsApi extends EventEmitter {
       log.info("WsHandlerModule: New transaction received");
       this.emit("transaction:new", data);
     });
+  }
+
+  emitToServer<K extends WebSocketEvent>(
+    eventName: K,
+    payload: WebSocketEventMap[K],
+  ): void {
+    log.info(`WsNotificationsApi: Emitting '${eventName}' to server`, payload);
+    this.client.emit(eventName, payload);
   }
 
   joinVendor(id: number) {

@@ -4,6 +4,7 @@ import {
   downloadFilesToFileSystem,
   getPrintJob,
   spoolFilesToPrinter,
+  emitWebSocketEvent,
 } from "@app/preload";
 import { interval, Subject } from "rxjs";
 import {
@@ -15,6 +16,8 @@ import {
 } from "rxjs/operators";
 import type { ReducerEvent } from "./events";
 import type {
+  ReportJobStatusOperation,
+  ReportTransactionStatusOperation,
   StartPrintJobMonitoringOperation,
   StopPrintJobMonitoringOperation,
   TransactionOperation,
@@ -24,12 +27,21 @@ export class ObservableExecutor {
   private dispatch: (event: ReducerEvent) => void;
   private fetchClient: FetchClientType;
   private monitoringCancellation = new Map<string, Subject<void>>();
+  private reportRetryQueue: {
+    operation: ReportJobStatusOperation | ReportTransactionStatusOperation;
+    attempts: number;
+    lastAttemptAt: number;
+  }[] = [];
+  private maxRetryAttempts = 5;
+  private retryIntervalMs = 5000;
   constructor(
     dispatch: (event: ReducerEvent) => void,
     fetchClient: FetchClientType,
   ) {
     this.dispatch = dispatch;
     this.fetchClient = fetchClient;
+
+    this.startRetryProcessor();
   }
 
   async execute(operation: TransactionOperation): Promise<void> {
@@ -111,6 +123,16 @@ export class ObservableExecutor {
 
       case "stop-print-job-monitoring": {
         this.stopMonitoring(operation);
+        break;
+      }
+
+      case "report-job-status": {
+        await this.reportJobStatus(operation);
+        break;
+      }
+
+      case "report-transaction-status": {
+        await this.reportTransactionStatus(operation);
         break;
       }
 
@@ -350,6 +372,173 @@ export class ObservableExecutor {
       cancellation.next();
       cancellation.complete();
       this.monitoringCancellation.delete(monitoringKey);
+    }
+  }
+
+  private async reportJobStatus(
+    operation: ReportJobStatusOperation,
+  ): Promise<void> {
+    try {
+      const { data, error, response } = await this.fetchClient.PATCH(
+        "/api/v1/jobs/{id}",
+        {
+          params: { path: { id: operation.jobId } },
+          body: { status: operation.status },
+        },
+      );
+
+      if (!response.ok) {
+        console.error("Failed to report job status:", error);
+        this.queueForRetry(operation);
+        return;
+      }
+
+      if (data) {
+        emitWebSocketEvent("job:status:updated", {
+          transactionId: operation.transactionId,
+          jobId: operation.jobId,
+          status: operation.status,
+          timestamp: operation.timestamp,
+        });
+        if (operation.status === "COMPLETED") {
+          emitWebSocketEvent("job:completed", {
+            transactionId: operation.transactionId,
+            jobId: operation.jobId,
+            timestamp: operation.timestamp,
+          });
+        } else if (operation.status === "ERROR") {
+          emitWebSocketEvent("job:failed", {
+            transactionId: operation.transactionId,
+            jobId: operation.jobId,
+            timestamp: operation.timestamp,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Exception reporting job status:", error);
+      this.queueForRetry(operation);
+    }
+  }
+
+  private async reportTransactionStatus(
+    operation: ReportTransactionStatusOperation,
+  ): Promise<void> {
+    try {
+      const { data, error, response } = await this.fetchClient.PATCH(
+        "/api/v1/transactions/{id}",
+        {
+          params: { path: { id: operation.transactionId } },
+          body: { status: operation.status },
+        },
+      );
+
+      if (!response.ok) {
+        console.error("Failed to report transaction status:", error);
+        this.queueForRetry(operation);
+        return;
+      }
+
+      if (data) {
+        emitWebSocketEvent("transaction:status:updated", {
+          transactionId: operation.transactionId,
+          status: operation.status,
+          timestamp: operation.timestamp,
+        });
+
+        if (operation.status === "COMPLETED") {
+          emitWebSocketEvent("transaction:completed", {
+            transactionId: operation.transactionId,
+            timestamp: operation.timestamp,
+          });
+        } else if (operation.status === "ERROR") {
+          emitWebSocketEvent("transaction:failed", {
+            transactionId: operation.transactionId,
+            timestamp: operation.timestamp,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Exception reporting transaction status:", error);
+      this.queueForRetry(operation);
+    }
+  }
+
+  private queueForRetry(
+    operation: ReportJobStatusOperation | ReportTransactionStatusOperation,
+  ): void {
+    const existing = this.reportRetryQueue.find(
+      (item) =>
+        item.operation.type === operation.type &&
+        item.operation.transactionId === operation.transactionId &&
+        (operation.type === "report-job-status"
+          ? (item.operation as ReportJobStatusOperation).jobId ===
+            operation.jobId
+          : true),
+    );
+
+    if (existing) {
+      existing.attempts += 1;
+      existing.lastAttemptAt = Date.now();
+    } else {
+      this.reportRetryQueue.push({
+        operation,
+        attempts: 1,
+        lastAttemptAt: Date.now(),
+      });
+    }
+
+    console.log(
+      `Queued report for retry. Queue size: ${this.reportRetryQueue.length.toString()}`,
+    );
+  }
+
+  private startRetryProcessor(): void {
+    setInterval(() => {
+      void this.processRetryQueue();
+    }, this.retryIntervalMs);
+  }
+
+  private async processRetryQueue(): Promise<void> {
+    if (this.reportRetryQueue.length === 0) {
+      return;
+    }
+
+    const now = Date.now();
+    const itemsToRetry: typeof this.reportRetryQueue = [];
+
+    this.reportRetryQueue.forEach((item) => {
+      const backoffMs = Math.min(
+        this.retryIntervalMs * Math.pow(2, item.attempts - 1),
+        60000,
+      );
+      const nextRetryTime = item.lastAttemptAt + backoffMs;
+
+      if (now >= nextRetryTime) {
+        if (item.attempts < this.maxRetryAttempts) {
+          itemsToRetry.push(item);
+        } else {
+          console.error(`Max retries exceeded for report:`, item.operation);
+        }
+      }
+    });
+
+    this.reportRetryQueue = this.reportRetryQueue.filter(
+      (item) =>
+        !itemsToRetry.includes(item) && item.attempts < this.maxRetryAttempts,
+    );
+
+    for (const item of itemsToRetry) {
+      console.log(
+        `Retrying report (attempt ${(item.attempts + 1).toString()}/${this.maxRetryAttempts.toString()}):`,
+        item.operation.type,
+      );
+
+      if (item.operation.type === "report-job-status") {
+        await this.reportJobStatus(item.operation);
+      }
+      if (item.operation.type === "report-transaction-status") {
+        await this.reportTransactionStatus(item.operation);
+      }
     }
   }
 }
