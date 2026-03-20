@@ -182,16 +182,28 @@ export const reducer = (
           queueItem.monitoring.lastKnownStatus = event.statuses;
           queueItem.monitoring.pagesPrinted = event.numberOfPagesPrinted;
         }
+
+        if (draft.printQueue.status === "spooled") {
+          const hasActivity = event.statuses.some(
+            (status) =>
+              status === "Printing" ||
+              status === "Completed" ||
+              event.numberOfPagesPrinted > 0,
+          );
+
+          if (hasActivity) {
+            draft.printQueue.status = "printing";
+          }
+        }
       });
       break;
     }
 
     case "print-job:accepted": {
       nextState = produce(state, (draft) => {
-        // Job accepted means spooler processed it and knows page count
-        // Transition queue to "printing" since active processing started
+        // Spooler accepted file - transition from working to spooled
         if (draft.printQueue.status === "working") {
-          draft.printQueue.status = "printing";
+          draft.printQueue.status = "spooled";
         }
       });
       break;
@@ -225,9 +237,10 @@ export const reducer = (
         );
 
         if (queueItem?.monitoring) {
-          // Track blocked in error statuses
           queueItem.monitoring.isBlocked = true;
           queueItem.monitoring.blockedStatuses = event.statuses;
+          queueItem.monitoring.hasError = true;
+          queueItem.monitoring.errorStatuses = event.statuses;
         }
 
         // Don't change job status - blocked is recoverable
@@ -290,11 +303,12 @@ export const reducer = (
         }
       });
 
-      // Only spool next job if queue is NOT in error state
-      if (
+      // Only spool next job if queue is NOT in error/stalled state
+      const canContinue =
         nextState.printQueue.status === "working" &&
-        nextState.printQueue.items.length > 0
-      ) {
+        nextState.printQueue.items.length > 0;
+
+      if (canContinue) {
         const nextItem = nextState.printQueue.items[0];
         const nextTransaction = nextState.transactions[nextItem.transactionId];
         const nextJob = nextTransaction.jobs.find(
@@ -355,8 +369,8 @@ export const reducer = (
             ),
         );
 
-        // Set queue to error - stops automatic spooling
-        draft.printQueue.status = "error";
+        // Set queue to "stalled" - recoverable, user can fix printer
+        draft.printQueue.status = "stalled";
 
         // Update transaction status
         const hasIncomplete = transaction.jobs.some(

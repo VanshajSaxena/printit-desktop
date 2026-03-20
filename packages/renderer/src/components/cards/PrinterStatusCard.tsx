@@ -7,9 +7,9 @@ export function PrinterStatusCard({ subText }: { subText: string }) {
   const status = useTransactionStore((store) => store.state.printQueue.status);
   const statusStyle = {
     "text-success-content": status === "idle",
-    "text-waiting-content": status === "working",
+    "text-waiting-content": status === "working" || status === "spooled",
     "text-queued-content": status === "printing",
-    "text-error-content": status === "error",
+    "text-error-content": status === "error" || status === "stalled",
   };
   return (
     <PulseCard

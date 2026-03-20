@@ -76,7 +76,7 @@ export interface TransactionState {
 
 export interface PrintQueue {
   items: PrintQueueItem[];
-  status: "idle" | "working" | "printing" | "error";
+  status: "idle" | "working" | "spooled" | "printing" | "stalled" | "error";
 }
 
 export interface PrintQueueItem {
