@@ -19,11 +19,13 @@ import { FileIcon } from "../icons/FileIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
 import { useTransactionStore } from "@/store/useTransactionStore";
+import { PagesBadge } from "../badges/PagesBadge";
 
 function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
+  const pageCount = job.document.pageCount;
   return (
     <div className="w-full rounded-xl outline -outline-offset-1 outline-border-default">
-      <div className="flex justify-between border-b p-4">
+      <div className="flex justify-between border-b border-border-default p-4">
         <div className="flex min-w-0 items-center gap-3">
           <div className="rounded-md bg-success px-1.5 py-1.25 text-success-content">
             <PDFFileIcon size={20} />
@@ -32,7 +34,7 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-4 px-4 py-3">
-        {/* <PagesBadge ></PagesBadge> */}
+        <PagesBadge count={pageCount}></PagesBadge>
         <CopiesBadge count={job.copyCount}></CopiesBadge>
         {job.outputColor === "Color" ? (
           <ColorPalatteBadge></ColorPalatteBadge>
@@ -65,10 +67,14 @@ export function OrderSheet({
   const isBnWOnly = transaction.jobs.every((job) => {
     return job.outputColor === "Grayscale";
   });
+
+  const sheetCount = transaction.jobs.reduce((total, currentJob) => {
+    return total + currentJob.document.pageCount * currentJob.copyCount;
+  }, 0);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t bg-secondary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
-        <SheetHeader className="flex flex-col gap-4 border-b p-5">
+      <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t border-border-default bg-secondary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
+        <SheetHeader className="flex flex-col gap-4 border-b border-border-default p-5">
           <SheetTitle className="flex items-center gap-2.5 text-sm">
             Order
             <ChevronRight size={20}></ChevronRight>
@@ -86,7 +92,7 @@ export function OrderSheet({
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <SheetsBadge />
+            <SheetsBadge count={sheetCount} />
             {isColorOnly && <ColorPalatteBadge />}
             {isBnWOnly && <BnWBadge />}
           </div>
@@ -106,8 +112,8 @@ export function OrderSheet({
             </div>
           </div>
 
-          <div className="h-full border-l px-5 py-6">
-            <div className="flex flex-col gap-6 border-b py-6">
+          <div className="h-full border-l border-border-default px-5 py-6">
+            <div className="flex flex-col gap-6 border-b border-border-default py-6">
               <div className="flex gap-2">
                 <ActivityIcon />
                 Actions

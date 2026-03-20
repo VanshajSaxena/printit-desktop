@@ -31,11 +31,14 @@ export function TransactionItem({
   const isBnWOnly = jobs.every((job) => {
     return job.outputColor === "Grayscale";
   });
+  const sheetCount = jobs.reduce((total, currentJob) => {
+    return total + currentJob.document.pageCount * currentJob.copyCount;
+  }, 0);
   return (
     <>
       <div
         onClick={onClick}
-        className="flex h-fit max-w-full min-w-0 flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5"
+        className="flex h-fit max-w-full min-w-0 cursor-pointer flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5"
       >
         <div className="flex h-fit max-w-full min-w-0 items-center justify-between">
           <div className="flex h-fit min-w-0 items-center gap-4">
@@ -64,9 +67,15 @@ export function TransactionItem({
             <div className="flex gap-4">
               {status === "PENDING" && (
                 <>
-                  <RejectButton />
+                  <RejectButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // reject logic here
+                    }}
+                  />
                   <PrintButton
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       dispatch({
                         type: "user:print:transaction",
                         transactionId: id,
@@ -77,13 +86,18 @@ export function TransactionItem({
               )}
             </div>
             <div className="flex gap-4">
-              <KebabButton></KebabButton>
+              <KebabButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // will show a context menu
+                }}
+              />
             </div>
           </div>
         </div>
         <div className="flex justify-between">
           <div className="flex h-fit w-full gap-4 px-10.5">
-            <SheetsBadge />
+            <SheetsBadge count={sheetCount} />
             <FilesBadge count={filesCount} />
             {isColorOnly && <ColorPalatteBadge />}
             {isBnWOnly && <BnWBadge />}

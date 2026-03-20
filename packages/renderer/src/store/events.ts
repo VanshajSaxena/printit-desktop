@@ -54,6 +54,7 @@ export interface TransactionObject {
     status: TransactionObject["status"];
     document: {
       filePath?: string;
+      pageCount: number;
       contentType: string;
       filename: string;
       id: number;
