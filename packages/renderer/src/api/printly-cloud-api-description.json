@@ -408,6 +408,32 @@
         "tags": ["Transaction"]
       }
     },
+    "/api/v1/transactions/{id}/status": {
+      "get": {
+        "operationId": "TransactionController_findTransactionStatus_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionStatusResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Transaction"]
+      }
+    },
     "/api/v1/transactions/{id}": {
       "get": {
         "operationId": "TransactionController_findOne_v1",
@@ -812,8 +838,8 @@
     }
   },
   "info": {
-    "title": "Printly",
-    "description": "Printly Cloud API.",
+    "title": "Printit",
+    "description": "Printit Cloud API.",
     "version": "0.1.0",
     "contact": {}
   },
@@ -833,7 +859,7 @@
             "pattern": "/^[a-zA-Z0-9_]+$/"
           },
           "email": { "type": "string", "format": "email" },
-          "givenName": { "type": "string" },
+          "displayName": { "type": "string" },
           "address": { "type": "string" },
           "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
           "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
@@ -862,7 +888,7 @@
           "id": { "type": "number" },
           "firstName": { "type": "string" },
           "lastName": { "type": "string" },
-          "givenName": { "type": "string", "nullable": true },
+          "displayName": { "type": "string", "nullable": true },
           "username": { "type": "string" },
           "address": { "type": "string" },
           "slug": { "type": "string" },
@@ -876,7 +902,7 @@
           "id",
           "firstName",
           "lastName",
-          "givenName",
+          "displayName",
           "username",
           "address",
           "slug",
@@ -952,6 +978,7 @@
           "filename": { "type": "string" },
           "contentType": { "type": "string" },
           "draftId": { "type": "string" },
+          "pageCount": { "type": "number" },
           "createdAt": { "format": "date-time", "type": "string" },
           "updatedAt": { "format": "date-time", "type": "string" }
         },
@@ -960,6 +987,7 @@
           "filename",
           "contentType",
           "draftId",
+          "pageCount",
           "createdAt",
           "updatedAt"
         ]
@@ -1002,7 +1030,8 @@
             "items": { "$ref": "#/components/schemas/CreateJobResponseDto" }
           },
           "createdAt": { "format": "date-time", "type": "string" },
-          "updatedAt": { "format": "date-time", "type": "string" }
+          "updatedAt": { "format": "date-time", "type": "string" },
+          "vendorId": { "type": "number" }
         },
         "required": [
           "id",
@@ -1010,7 +1039,8 @@
           "friendlyId",
           "jobs",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "vendorId"
         ]
       },
       "FindDocumentResponseDto": {
@@ -1018,9 +1048,10 @@
         "properties": {
           "id": { "type": "number" },
           "filename": { "type": "string" },
-          "contentType": { "type": "string" }
+          "contentType": { "type": "string" },
+          "pageCount": { "type": "number" }
         },
-        "required": ["id", "filename", "contentType"]
+        "required": ["id", "filename", "contentType", "pageCount"]
       },
       "FindJobResponseDto": {
         "type": "object",
@@ -1056,15 +1087,26 @@
         },
         "required": ["id", "status", "friendlyId", "jobs", "createdAt"]
       },
+      "TransactionStatusResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "QUEUED", "PRINTING", "COMPLETED", "ERROR"]
+          }
+        },
+        "required": ["status"]
+      },
       "UpdateTransactionDto": { "type": "object", "properties": {} },
       "CreateDocumentRequestDto": {
         "type": "object",
         "properties": {
           "filename": { "type": "string" },
           "contentType": { "type": "string" },
-          "draftId": { "type": "string" }
+          "draftId": { "type": "string" },
+          "pageCount": { "type": "number" }
         },
-        "required": ["filename", "contentType", "draftId"]
+        "required": ["filename", "contentType", "draftId", "pageCount"]
       },
       "CreateDocumentBatchRequestDto": {
         "type": "object",
