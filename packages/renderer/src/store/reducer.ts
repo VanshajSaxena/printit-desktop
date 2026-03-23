@@ -143,8 +143,6 @@ export const reducer = (
       break;
     }
 
-    // reducer.ts
-
     case "print-job:monitoring:started": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
@@ -201,7 +199,6 @@ export const reducer = (
 
     case "print-job:accepted": {
       nextState = produce(state, (draft) => {
-        // Spooler accepted file - transition from working to spooled
         if (draft.printQueue.status === "working") {
           draft.printQueue.status = "spooled";
         }
@@ -221,9 +218,6 @@ export const reducer = (
           queueItem.monitoring.hasError = true;
           queueItem.monitoring.errorStatuses = event.statuses;
         }
-
-        // Don't change job status - error might be recoverable
-        // Don't change queue status - keep monitoring
       });
       break;
     }
@@ -242,8 +236,6 @@ export const reducer = (
           queueItem.monitoring.hasError = true;
           queueItem.monitoring.errorStatuses = event.statuses;
         }
-
-        // Don't change job status - blocked is recoverable
       });
       break;
     }
@@ -260,8 +252,6 @@ export const reducer = (
           queueItem.monitoring.timedOut = true;
           queueItem.monitoring.timeoutAt = new Date().toISOString();
         }
-
-        // Don't change statuses - timeout doesn't mean failure yet
       });
       break;
     }
@@ -276,7 +266,6 @@ export const reducer = (
           job.completedAt = new Date().toISOString();
         }
 
-        // Remove completed item from queue
         draft.printQueue.items = draft.printQueue.items.filter(
           (item) =>
             !(
@@ -285,7 +274,6 @@ export const reducer = (
             ),
         );
 
-        // Check if all jobs in transaction are completed
         const allJobsCompleted = transaction.jobs.every(
           (j) => j.status === "COMPLETED",
         );
@@ -293,17 +281,13 @@ export const reducer = (
           transaction.status = "COMPLETED";
         }
 
-        // Update queue status based on remaining items
         if (draft.printQueue.items.length === 0) {
           draft.printQueue.status = "idle";
         } else {
-          // Queue has items but we stay in current state
-          // Will check below if we should spool next
           draft.printQueue.status = "working";
         }
       });
 
-      // Only spool next job if queue is NOT in error/stalled state
       const canContinue =
         nextState.printQueue.status === "working" &&
         nextState.printQueue.items.length > 0;
@@ -325,7 +309,6 @@ export const reducer = (
         }
       }
 
-      // Report milestone to backend (REST - authoritative)
       operations.push({
         operationId: generateOperationId(),
         type: "report-job-status",
@@ -335,7 +318,6 @@ export const reducer = (
         timestamp: new Date().toISOString(),
       });
 
-      // Check if transaction completed - report that too
       const transaction = nextState.transactions[event.transactionId];
       if (transaction.status === "COMPLETED") {
         operations.push({
@@ -360,7 +342,6 @@ export const reducer = (
           job.failedAt = new Date().toISOString();
         }
 
-        // Remove from queue
         draft.printQueue.items = draft.printQueue.items.filter(
           (item) =>
             !(
@@ -369,10 +350,8 @@ export const reducer = (
             ),
         );
 
-        // Set queue to "stalled" - recoverable, user can fix printer
         draft.printQueue.status = "stalled";
 
-        // Update transaction status
         const hasIncomplete = transaction.jobs.some(
           (j) => j.status === "INCOMPLETE",
         );
@@ -381,9 +360,6 @@ export const reducer = (
         }
       });
 
-      // DO NOT spool next job - queue is in error, user must intervene
-
-      // Report milestone to backend
       operations.push({
         operationId: generateOperationId(),
         type: "report-job-status",
@@ -408,7 +384,6 @@ export const reducer = (
           job.failedAt = new Date().toISOString();
         }
 
-        // Remove from queue
         draft.printQueue.items = draft.printQueue.items.filter(
           (item) =>
             !(
@@ -417,19 +392,14 @@ export const reducer = (
             ),
         );
 
-        // Set queue to error - stops automatic spooling
         draft.printQueue.status = "error";
 
-        // Update transaction status
         const hasError = transaction.jobs.some((j) => j.status === "ERROR");
         if (hasError) {
           transaction.status = "ERROR";
         }
       });
 
-      // DO NOT spool next job - queue is in error, user must intervene
-
-      // Report milestone to backend
       operations.push({
         operationId: generateOperationId(),
         type: "report-job-status",
@@ -443,7 +413,6 @@ export const reducer = (
     }
 
     case "print-job:not-found": {
-      // Observability only - terminal outcome events handle state
       break;
     }
     default: {
