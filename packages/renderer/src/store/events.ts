@@ -145,14 +145,14 @@ export interface FilesDownloadErrorAllEvent {
 }
 
 export interface PrintJobMonitoringStartedEvent {
-  type: "print-job:monitoring:started";
+  type: "job:monitoring:started";
   jobId: number;
   printJobIdentifier: number;
   printerName: string;
 }
 
 export interface PrintJobMonitoringErrorEvent {
-  type: "print-job:monitoring:error";
+  type: "job:monitoring:error";
   jobId: number;
   printJobIdentifier: number;
   printerName: string;
@@ -160,7 +160,7 @@ export interface PrintJobMonitoringErrorEvent {
 }
 
 export interface PrintJobStatusPolledEvent {
-  type: "print-job:status:polled";
+  type: "job:status:polled";
   jobId: number;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
@@ -168,33 +168,33 @@ export interface PrintJobStatusPolledEvent {
 }
 
 export interface PrintJobPrintingStartedEvent {
-  type: "print-job:printing:started";
+  type: "job:printing:started";
   jobId: number;
   printJobIdentifier: number;
 }
 
 export interface PrintJobCompletedEvent {
-  type: "print-job:completed";
+  type: "job:completed";
   jobId: number;
   printJobIdentifier: number;
 }
 
 export interface PrintJobFailedEvent {
-  type: "print-job:failed";
+  type: "job:failed";
   jobId: number;
   printJobIdentifier: number;
   reason?: string[];
 }
 
 export interface PrintJobTimeoutEvent {
-  type: "print-job:timeout";
+  type: "job:timeout";
   jobId: number;
   printJobIdentifier: number;
   lastKnownStatuses: PrintJobStatusDto[];
 }
 
 export interface PrintJobNotFoundEvent {
-  type: "print-job:not-found";
+  type: "job:not-found";
   jobId: number;
   printJobIdentifier: number;
   lastKnownStatuses?: PrintJobStatusDto[];
@@ -208,28 +208,28 @@ export interface FileSpooledSuccessEvent {
 }
 
 export interface PrintJobAcceptedEvent {
-  type: "print-job:accepted";
+  type: "job:accepted";
   jobId: number;
   printJobIdentifier: number;
   totalPages: number;
 }
 
 export interface PrintJobErrorEvent {
-  type: "print-job:error";
+  type: "job:error";
   jobId: number;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
 }
 
 export interface PrintJobBlockedEvent {
-  type: "print-job:blocked";
+  type: "job:blocked";
   jobId: number;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
 }
 
 export interface PrintJobIncompleteEvent {
-  type: "print-job:incomplete";
+  type: "job:incomplete";
   jobId: number;
   printJobIdentifier: number;
   pagesPrinted: number;

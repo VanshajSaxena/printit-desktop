@@ -116,12 +116,12 @@ export class ObservableExecutor {
         break;
       }
 
-      case "start-print-job-monitoring": {
+      case "start-job-monitoring": {
         this.startMonitoring(operation);
         break;
       }
 
-      case "stop-print-job-monitoring": {
+      case "stop-job-monitoring": {
         this.stopMonitoring(operation);
         break;
       }
@@ -156,7 +156,7 @@ export class ObservableExecutor {
     this.monitoringCancellation.set(monitoringKey, cancellation);
 
     this.dispatch({
-      type: "print-job:monitoring:started",
+      type: "job:monitoring:started",
       transactionId,
       jobId,
       printJobIdentifier,
@@ -214,7 +214,7 @@ export class ObservableExecutor {
             }
 
             this.dispatch({
-              type: "print-job:status:polled",
+              type: "job:status:polled",
               transactionId,
               jobId,
               printJobIdentifier,
@@ -227,7 +227,7 @@ export class ObservableExecutor {
               lastActivityTime = Date.now();
 
               this.dispatch({
-                type: "print-job:accepted",
+                type: "job:accepted",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -254,7 +254,7 @@ export class ObservableExecutor {
             if (hasErrorSignal && !hasDispatchedError) {
               hasDispatchedError = true;
               this.dispatch({
-                type: "print-job:error",
+                type: "job:error",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -269,7 +269,7 @@ export class ObservableExecutor {
             if (hasBlockedSignal && !hasDispatchedBlocked) {
               hasDispatchedBlocked = true;
               this.dispatch({
-                type: "print-job:blocked",
+                type: "job:blocked",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -289,7 +289,7 @@ export class ObservableExecutor {
             ) {
               hasDispatchedTimeout = true;
               this.dispatch({
-                type: "print-job:timeout",
+                type: "job:timeout",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -302,7 +302,7 @@ export class ObservableExecutor {
             totalPages = currentTotalPages;
           } else if (!response.success && response.code === "JOB_NOT_FOUND") {
             this.dispatch({
-              type: "print-job:not-found",
+              type: "job:not-found",
               transactionId,
               jobId,
               printJobIdentifier,
@@ -316,14 +316,14 @@ export class ObservableExecutor {
 
             if (monitoringState === "finalizing" || printedAllPages) {
               this.dispatch({
-                type: "print-job:completed",
+                type: "job:completed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
               });
             } else if (hadActivity && printedSomePages) {
               this.dispatch({
-                type: "print-job:incomplete",
+                type: "job:incomplete",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -332,7 +332,7 @@ export class ObservableExecutor {
               });
             } else {
               this.dispatch({
-                type: "print-job:failed",
+                type: "job:failed",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -349,7 +349,7 @@ export class ObservableExecutor {
             error,
           );
           this.dispatch({
-            type: "print-job:monitoring:error",
+            type: "job:monitoring:error",
             transactionId,
             jobId,
             printerName,

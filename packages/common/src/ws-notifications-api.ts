@@ -155,7 +155,7 @@ export class WsNotificationsApi extends EventEmitter {
 
   joinVendor(id: number) {
     log.info("join vendor was called");
-    this.client.emit("join_vendor", { id });
+    this.client.emit("vendor:join", { id });
   }
 
   isActive(): boolean {

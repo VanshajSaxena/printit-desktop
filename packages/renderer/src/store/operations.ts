@@ -45,7 +45,7 @@ export interface SpoolFilesToPrinterOperation {
 }
 
 export interface StopPrintJobMonitoringOperation {
-  type: "stop-print-job-monitoring";
+  type: "stop-job-monitoring";
   transactionId: number;
   jobId: number;
   printJobIdentifier: number;
@@ -53,7 +53,7 @@ export interface StopPrintJobMonitoringOperation {
 }
 
 export interface StartPrintJobMonitoringOperation {
-  type: "start-print-job-monitoring";
+  type: "start-job-monitoring";
   transactionId: number;
   jobId: number;
   printJobIdentifier: number;

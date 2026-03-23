@@ -131,7 +131,7 @@ export const reducer = (
       if (event.printJobInfo) {
         operations.push({
           operationId: generateOperationId(),
-          type: "start-print-job-monitoring",
+          type: "start-job-monitoring",
           transactionId: event.transactionId,
           jobId: event.jobId,
           printJobIdentifier: event.printJobInfo.jobIdentifier,
@@ -143,7 +143,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:monitoring:started": {
+    case "job:monitoring:started": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -167,7 +167,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:status:polled": {
+    case "job:status:polled": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -197,7 +197,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:accepted": {
+    case "job:accepted": {
       nextState = produce(state, (draft) => {
         if (draft.printQueue.status === "working") {
           draft.printQueue.status = "spooled";
@@ -206,7 +206,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:error": {
+    case "job:error": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -222,7 +222,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:blocked": {
+    case "job:blocked": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -240,7 +240,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:timeout": {
+    case "job:timeout": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -256,7 +256,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:completed": {
+    case "job:completed": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((j) => j.id === event.jobId);
@@ -332,7 +332,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:incomplete": {
+    case "job:incomplete": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((j) => j.id === event.jobId);
@@ -374,7 +374,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:failed": {
+    case "job:failed": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((j) => j.id === event.jobId);
@@ -412,7 +412,7 @@ export const reducer = (
       break;
     }
 
-    case "print-job:not-found": {
+    case "job:not-found": {
       break;
     }
     default: {
