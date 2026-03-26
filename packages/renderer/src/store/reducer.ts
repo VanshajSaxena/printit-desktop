@@ -359,18 +359,6 @@ export const reducer = (
           transaction.status = "INCOMPLETE";
         }
       });
-
-      operations.push({
-        operationId: generateOperationId(),
-        type: "report-job-status",
-        transactionId: event.transactionId,
-        jobId: event.jobId,
-        status: "INCOMPLETE",
-        pagesPrinted: event.pagesPrinted,
-        totalPages: event.totalPages,
-        timestamp: new Date().toISOString(),
-      });
-
       break;
     }
 
@@ -398,15 +386,6 @@ export const reducer = (
         if (hasError) {
           transaction.status = "ERROR";
         }
-      });
-
-      operations.push({
-        operationId: generateOperationId(),
-        type: "report-job-status",
-        transactionId: event.transactionId,
-        jobId: event.jobId,
-        status: "ERROR",
-        timestamp: new Date().toISOString(),
       });
 
       break;

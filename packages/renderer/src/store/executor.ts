@@ -4,7 +4,6 @@ import {
   downloadFilesToFileSystem,
   getPrintJob,
   spoolFilesToPrinter,
-  emitWebSocketEvent,
 } from "@app/preload";
 import { interval, Subject } from "rxjs";
 import {
@@ -379,7 +378,7 @@ export class ObservableExecutor {
     operation: ReportJobStatusOperation,
   ): Promise<void> {
     try {
-      const { data, error, response } = await this.fetchClient.PATCH(
+      const { error, response } = await this.fetchClient.PATCH(
         "/api/v1/jobs/{id}",
         {
           params: { path: { id: operation.jobId } },
@@ -389,34 +388,12 @@ export class ObservableExecutor {
 
       if (!response.ok) {
         console.error("Failed to report job status:", error);
-        this.queueForRetry(operation);
+        this.queueReportingForRetry(operation);
         return;
-      }
-
-      if (data) {
-        emitWebSocketEvent("job:status:updated", {
-          transactionId: operation.transactionId,
-          jobId: operation.jobId,
-          status: operation.status,
-          timestamp: operation.timestamp,
-        });
-        if (operation.status === "COMPLETED") {
-          emitWebSocketEvent("job:completed", {
-            transactionId: operation.transactionId,
-            jobId: operation.jobId,
-            timestamp: operation.timestamp,
-          });
-        } else if (operation.status === "ERROR") {
-          emitWebSocketEvent("job:failed", {
-            transactionId: operation.transactionId,
-            jobId: operation.jobId,
-            timestamp: operation.timestamp,
-          });
-        }
       }
     } catch (error) {
       console.error("Exception reporting job status:", error);
-      this.queueForRetry(operation);
+      this.queueReportingForRetry(operation);
     }
   }
 
@@ -424,7 +401,7 @@ export class ObservableExecutor {
     operation: ReportTransactionStatusOperation,
   ): Promise<void> {
     try {
-      const { data, error, response } = await this.fetchClient.PATCH(
+      const { error, response } = await this.fetchClient.PATCH(
         "/api/v1/transactions/{id}",
         {
           params: { path: { id: operation.transactionId } },
@@ -434,36 +411,16 @@ export class ObservableExecutor {
 
       if (!response.ok) {
         console.error("Failed to report transaction status:", error);
-        this.queueForRetry(operation);
+        this.queueReportingForRetry(operation);
         return;
-      }
-
-      if (data) {
-        emitWebSocketEvent("transaction:status:updated", {
-          transactionId: operation.transactionId,
-          status: operation.status,
-          timestamp: operation.timestamp,
-        });
-
-        if (operation.status === "COMPLETED") {
-          emitWebSocketEvent("transaction:completed", {
-            transactionId: operation.transactionId,
-            timestamp: operation.timestamp,
-          });
-        } else if (operation.status === "ERROR") {
-          emitWebSocketEvent("transaction:failed", {
-            transactionId: operation.transactionId,
-            timestamp: operation.timestamp,
-          });
-        }
       }
     } catch (error) {
       console.error("Exception reporting transaction status:", error);
-      this.queueForRetry(operation);
+      this.queueReportingForRetry(operation);
     }
   }
 
-  private queueForRetry(
+  private queueReportingForRetry(
     operation: ReportJobStatusOperation | ReportTransactionStatusOperation,
   ): void {
     const existing = this.reportRetryQueue.find(
