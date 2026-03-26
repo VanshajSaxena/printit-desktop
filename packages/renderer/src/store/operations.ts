@@ -1,4 +1,4 @@
-import type { TransactionObject } from "./events";
+import type { ReportingStatus, TransactionObject } from "./events";
 
 export interface TransactionOperationBase {
   operationId: string;
@@ -66,10 +66,7 @@ export interface ReportJobStatusOperation {
   type: "report-job-status";
   transactionId: number;
   jobId: number;
-  status: Exclude<
-    TransactionObject["jobs"][0]["status"],
-    "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
-  >;
+  status: ReportingStatus;
   pagesPrinted?: number;
   totalPages?: number;
   timestamp: string;
@@ -78,9 +75,6 @@ export interface ReportJobStatusOperation {
 export interface ReportTransactionStatusOperation {
   type: "report-transaction-status";
   transactionId: number;
-  status: Exclude<
-    TransactionObject["jobs"][0]["status"],
-    "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
-  >;
+  status: ReportingStatus;
   timestamp: string;
 }

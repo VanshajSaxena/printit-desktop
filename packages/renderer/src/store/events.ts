@@ -69,6 +69,11 @@ export interface TransactionObject {
   }[];
 }
 
+export type ReportingStatus = Exclude<
+  TransactionObject["jobs"][0]["status"],
+  "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
+>;
+
 export interface TransactionState {
   transactions: Record<TransactionObject["id"], TransactionObject>;
   printQueue: PrintQueue;
