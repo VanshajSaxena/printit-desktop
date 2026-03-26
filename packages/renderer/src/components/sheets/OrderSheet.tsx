@@ -59,6 +59,9 @@ export function OrderSheet({
   const transaction = useTransactionStore(
     (store) => store.state.transactions[transactionId],
   );
+  const printQueueStatus = useTransactionStore(
+    (store) => store.state.printQueue.status,
+  );
   const formattedDate = formatRelativeTime(transaction.createdAt);
   const isColorOnly = transaction.jobs.every((job) => {
     return job.outputColor === "Color";
@@ -130,6 +133,14 @@ export function OrderSheet({
                     });
                   }}
                 />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6 border-b border-border-default py-6">
+              <div className="flex gap-2">Status</div>
+
+              <div className="flex flex-wrap items-center justify-evenly gap-2 lowercase">
+                {transaction.status} {printQueueStatus}
               </div>
             </div>
           </div>

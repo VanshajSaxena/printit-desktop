@@ -392,6 +392,7 @@ export const reducer = (
     }
 
     case "job:not-found": {
+      // left intentionally
       break;
     }
     default: {
