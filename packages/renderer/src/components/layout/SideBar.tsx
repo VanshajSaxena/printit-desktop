@@ -29,7 +29,7 @@ export function SideBar({
     {
       type: "analytics",
       label: "Analytics",
-      icon: <TrendingUp />,
+      icon: <TrendingUp className="shrink-0" />,
     },
     {
       type: "settings",
