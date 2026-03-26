@@ -30,7 +30,7 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
           <div className="rounded-md bg-success px-1.5 py-1.25 text-success-content">
             <PDFFileIcon size={20} />
           </div>
-          <span className="truncate">{job.document.filename}</span>
+          {job.document.filename}
         </div>
       </div>
       <div className="flex flex-wrap gap-4 px-4 py-3">
