@@ -11,7 +11,7 @@ import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import type { TransactionObject } from "@store/events";
 import { useTransactionStore } from "@store/useTransactionStore";
-import { NewItemBadge } from "./NewItemBadge";
+import { Badge } from "../ui/badge";
 
 export function TransactionItem({
   onClick,
@@ -48,7 +48,14 @@ export function TransactionItem({
                 <h3 className="truncate text-base leading-6 text-nowrap text-primary-content">
                   {title}
                 </h3>
-                {status === "PENDING" && <NewItemBadge />}
+                {status === "PENDING" && (
+                  <Badge
+                    variant={"ghost"}
+                    className="bg-success text-success-content"
+                  >
+                    New
+                  </Badge>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
