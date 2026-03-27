@@ -10,6 +10,7 @@ import { TopBar } from "@components/layout/TopBar";
 import { useTheme } from "@context/theme/useTheme";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useState } from "react";
+import { toast } from "sonner";
 import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
@@ -35,7 +36,9 @@ export function Dashboard() {
           ></Button>
           <GetQRCodeButton
             onClick={() => {
-              console.log("clicked");
+              toast.warning("Will show QR Code", {
+                position: "top-center",
+              });
             }}
           ></GetQRCodeButton>
         </div>
