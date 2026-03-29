@@ -391,6 +391,25 @@ export const reducer = (
       break;
     }
 
+    case "transaction:report:success": {
+      nextState = produce(state, (draft) => {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete draft.transactions[event.transactionId];
+      });
+      break;
+    }
+
+    case "job:report:success": {
+      nextState = produce(state, (draft) => {
+        draft.printQueue.items = draft.printQueue.items.filter(
+          (item) =>
+            item.jobId !== event.jobId &&
+            item.transactionId !== event.transactionId,
+        );
+      });
+      break;
+    }
+
     case "job:not-found": {
       // left intentionally
       break;

@@ -56,6 +56,30 @@ export function TransactionItem({
                     New
                   </Badge>
                 )}
+                {status === "QUEUED" && (
+                  <Badge
+                    variant={"ghost"}
+                    className="bg-queued text-queued-content"
+                  >
+                    New
+                  </Badge>
+                )}
+                {status === "ERROR" && (
+                  <Badge
+                    variant={"ghost"}
+                    className="bg-error text-error-content"
+                  >
+                    New
+                  </Badge>
+                )}
+                {status === "PRINTING" && (
+                  <Badge
+                    variant={"ghost"}
+                    className="bg-success text-success-content"
+                  >
+                    New
+                  </Badge>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">

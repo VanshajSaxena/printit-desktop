@@ -391,6 +391,12 @@ export class ObservableExecutor {
         this.queueReportingForRetry(operation);
         return;
       }
+
+      this.dispatch({
+        type: "job:report:success",
+        jobId: operation.jobId,
+        transactionId: operation.transactionId,
+      });
     } catch (error) {
       console.error("Exception reporting job status:", error);
       this.queueReportingForRetry(operation);
@@ -414,6 +420,11 @@ export class ObservableExecutor {
         this.queueReportingForRetry(operation);
         return;
       }
+
+      this.dispatch({
+        type: "transaction:report:success",
+        transactionId: operation.transactionId,
+      });
     } catch (error) {
       console.error("Exception reporting transaction status:", error);
       this.queueReportingForRetry(operation);

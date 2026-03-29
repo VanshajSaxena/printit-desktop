@@ -17,6 +17,8 @@ export type TransactionEventUnionType =
   | PrintJobStatusPolledEvent
   | PrintJobPrintingStartedEvent
   | PrintJobCompletedEvent
+  | PrintTransactionReportSuccessEvent
+  | PrintJobReportSuccessEvent
   | PrintJobFailedEvent
   | PrintJobTimeoutEvent
   | PrintJobNotFoundEvent
@@ -118,6 +120,10 @@ export interface TransactionResponseEvent {
   response: FindTransactionResponseDto[];
 }
 
+export interface PrintTransactionReportSuccessEvent {
+  type: "transaction:report:success";
+}
+
 export interface NewTransactionEvent {
   type: "transaction:new";
 }
@@ -182,6 +188,11 @@ export interface PrintJobCompletedEvent {
   type: "job:completed";
   jobId: number;
   printJobIdentifier: number;
+}
+
+export interface PrintJobReportSuccessEvent {
+  type: "job:report:success";
+  jobId: number;
 }
 
 export interface PrintJobFailedEvent {
