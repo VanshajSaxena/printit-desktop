@@ -10,8 +10,8 @@ export function DotIcon({ type }: DotIconProps) {
       innerFill = "fill-success-content";
       break;
     case "gray":
-      outerFill = "fill-waiting";
-      innerFill = "fill-waiting-content";
+      outerFill = "fill-queued";
+      innerFill = "fill-queued-content";
       break;
     default:
       break;

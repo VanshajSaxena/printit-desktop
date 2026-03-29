@@ -26,8 +26,8 @@ body {
   --color-success-content: var(--success-content);
   --color-queued: var(--queued);
   --color-queued-content: var(--queued-content);
-  --color-waiting: var(--waiting);
-  --color-waiting-content: var(--waiting-content);
+  --color-printing: var(--printing);
+  --color-printing-content: var(--printing-content);
   --color-error: var(--error);
   --color-error-content: var(--error-content);
   --color-border-default: var(--border-default);

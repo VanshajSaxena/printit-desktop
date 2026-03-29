@@ -16,7 +16,10 @@ export function TransactionListContainer({
   );
 
   const transactionList = useMemo(() => {
-    return Object.values(transactionsMap);
+    return Object.values(transactionsMap).sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
   }, [transactionsMap]);
 
   useEffect(() => {

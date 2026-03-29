@@ -191,6 +191,7 @@ export const reducer = (
 
           if (hasActivity) {
             draft.printQueue.status = "printing";
+            draft.transactions[event.transactionId].status = "PRINTING";
           }
         }
       });

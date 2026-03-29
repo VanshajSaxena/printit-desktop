@@ -61,7 +61,7 @@ export function TransactionItem({
                     variant={"ghost"}
                     className="bg-queued text-queued-content"
                   >
-                    New
+                    Queued
                   </Badge>
                 )}
                 {status === "ERROR" && (
@@ -69,15 +69,15 @@ export function TransactionItem({
                     variant={"ghost"}
                     className="bg-error text-error-content"
                   >
-                    New
+                    Error
                   </Badge>
                 )}
                 {status === "PRINTING" && (
                   <Badge
                     variant={"ghost"}
-                    className="bg-success text-success-content"
+                    className="bg-printing text-printing-content"
                   >
-                    New
+                    Printing
                   </Badge>
                 )}
               </div>

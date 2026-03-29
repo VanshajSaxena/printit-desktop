@@ -1,4 +1,5 @@
 import type { TransactionObject } from "@/store/events";
+import { useTransactionStore } from "@/store/useTransactionStore";
 import {
   Sheet,
   SheetContent,
@@ -10,6 +11,7 @@ import { ChevronRight } from "lucide-react";
 import { BnWBadge } from "../badges/BnWBadge";
 import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
 import { CopiesBadge } from "../badges/CopiesBadge";
+import { PagesBadge } from "../badges/PagesBadge";
 import { SheetsBadge } from "../badges/SheetsBadge";
 import { PrintButton } from "../buttons/PrintButton";
 import { RejectButton } from "../buttons/RejectButton";
@@ -18,8 +20,7 @@ import { ActivityIcon } from "../icons/ActivityIcon";
 import { FileIcon } from "../icons/FileIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
-import { useTransactionStore } from "@/store/useTransactionStore";
-import { PagesBadge } from "../badges/PagesBadge";
+import { useEffect } from "react";
 
 function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
   const pageCount = job.document.pageCount;
@@ -58,10 +59,20 @@ export function OrderSheet({
   const dispatch = useTransactionStore((store) => store.dispatch);
   const transaction = useTransactionStore(
     (store) => store.state.transactions[transactionId],
-  );
+  ) as TransactionObject | undefined;
   const printQueueStatus = useTransactionStore(
     (store) => store.state.printQueue.status,
   );
+
+  useEffect(() => {
+    if (!transaction && open) {
+      onOpenChange(false);
+    }
+  }, [transaction, open, onOpenChange]);
+
+  if (!transaction) {
+    return null;
+  }
   const formattedDate = formatRelativeTime(transaction.createdAt);
   const isColorOnly = transaction.jobs.every((job) => {
     return job.outputColor === "Color";
