@@ -1,11 +1,19 @@
-export function formatRelativeTime(dateString: string) {
-  const date = new Date(dateString);
-  const now = new Date();
+export function formatRelativeTime(
+  dateInput: Date | string,
+  style?: "short" | "long" | "narrow",
+) {
+  const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
+  if (isNaN(date.getTime())) {
+    return "";
+  }
+
+  const now = new Date();
   const diffInSeconds = Math.round((date.getTime() - now.getTime()) / 1000);
 
   const rtf = new Intl.RelativeTimeFormat(undefined, {
     numeric: "always",
+    style,
   });
 
   const divisions: { amount: number; unit: Intl.RelativeTimeFormatUnit }[] = [
@@ -19,6 +27,9 @@ export function formatRelativeTime(dateString: string) {
   ];
 
   let duration = diffInSeconds;
+  if (Math.abs(diffInSeconds) < 60) {
+    return "1 min.";
+  }
 
   for (const division of divisions) {
     if (Math.abs(duration) < division.amount) {
@@ -26,4 +37,6 @@ export function formatRelativeTime(dateString: string) {
     }
     duration /= division.amount;
   }
+
+  return "";
 }

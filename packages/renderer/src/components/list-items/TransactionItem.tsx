@@ -34,6 +34,7 @@ export function TransactionItem({
   const sheetCount = jobs.reduce((total, currentJob) => {
     return total + currentJob.document.pageCount * currentJob.copyCount;
   }, 0);
+  const estTime = new Date(Date.now() + sheetCount * 5_000 + 10_000);
   return (
     <>
       <div
@@ -56,14 +57,17 @@ export function TransactionItem({
                     New
                   </Badge>
                 )}
-                {status === "QUEUED" && (
-                  <Badge
-                    variant={"ghost"}
-                    className="bg-queued text-queued-content"
-                  >
-                    Queued
-                  </Badge>
-                )}
+                {status === "QUEUED" ||
+                  status === "DOWNLOADING" ||
+                  status === "READY" ||
+                  (status === "SPOOLED" && (
+                    <Badge
+                      variant={"ghost"}
+                      className="bg-queued text-queued-content"
+                    >
+                      Queued
+                    </Badge>
+                  ))}
                 {status === "ERROR" && (
                   <Badge
                     variant={"ghost"}
@@ -137,7 +141,9 @@ export function TransactionItem({
             {status === "PENDING" && (
               <>
                 <ClockIcon size={18} />
-                <p>Est. 10 mins</p>
+                <p>
+                  Prints {formatRelativeTime(estTime.toISOString(), "short")}
+                </p>
               </>
             )}
             {status === "QUEUED" && (
