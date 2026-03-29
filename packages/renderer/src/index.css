@@ -55,14 +55,14 @@ body {
     --secondary-content: #424242;
     --tertiary: #c7c7c7;
     --tertiary-content: #666666;
-    --success: #94eb94;
+    --success: #8cf28c;
     --success-content: #122112;
-    --queued: #beb6ed;
-    --queued-content: #816bff;
-    --waiting: #bfbfbf;
-    --waiting-content: #2b2b2b;
-    --error: #ef9090;
-    --error-content: #211212;
+    --queued: #dacaff;
+    --queued-content: #1c1a2c;
+    --printing: #f1bfff;
+    --printing-content: #221828;
+    --error: #ffbfbd;
+    --error-content: #2b1616;
     --border-default: #bfbfbf;
   }
 
@@ -83,12 +83,12 @@ body {
     --tertiary-content: #999999;
     --success: #203120;
     --success-content: #22c55e;
-    --queued: #3424bf;
-    --queued-content: #8a75ff;
-    --waiting: #8f4b24;
-    --waiting-content: #ffd875;
+    --queued: #2b293e;
+    --queued-content: #a68dff;
+    --printing: #32273a;
+    --printing-content: #cf7cf9;
     --error: #3d2424;
-    --error-content: #f56161;
+    --error-content: #ff6a6a;
     --border-default: #2e2e2e;
   }
 
