@@ -9,6 +9,9 @@ function generateOperationId() {
 function generateQueueItemId() {
   return crypto.randomUUID();
 }
+function getvendorId() {
+  return 1;
+}
 
 export const reducer = (
   state: TransactionState,
@@ -64,6 +67,12 @@ export const reducer = (
           .map((job) => {
             return { id: job.document.id };
           }),
+        transactionId: event.transactionId,
+      });
+      operations.push({
+        operationId: generateOperationId(),
+        type: "emit-user-print-intent",
+        vendorId: getvendorId(),
         transactionId: event.transactionId,
       });
       break;
@@ -210,6 +219,18 @@ export const reducer = (
           }
         }
       });
+
+      if (
+        nextState.printQueue.status === "printing" ||
+        nextState.printQueue.status === "working"
+      ) {
+        operations.push({
+          operationId: generateOperationId(),
+          type: "emit-transaction-printing",
+          vendorId: getvendorId(),
+          transactionId: event.transactionId,
+        });
+      }
       break;
     }
 

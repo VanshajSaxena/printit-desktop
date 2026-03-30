@@ -50,6 +50,16 @@ export interface WebSocketEventMap {
     transactionId: number;
     timestamp: string;
   };
+  "milestone:transaction:queued": {
+    vendorId: number;
+    transactionId: number;
+    timestamp: string;
+  };
+  "milestone:transaction:printing": {
+    vendorId: number;
+    transactionId: number;
+    timestamp: string;
+  };
 }
 
 export type WebSocketEvent = keyof WebSocketEventMap;

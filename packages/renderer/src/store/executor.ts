@@ -2,6 +2,7 @@ import { type FetchClientType } from "@api/client";
 import type { PrintJobStatusDto } from "@app/common/gen/types/print-service-api-types";
 import {
   downloadFilesToFileSystem,
+  emitWebSocketEvent,
   getPrintJob,
   spoolFilesToPrinter,
 } from "@app/preload";
@@ -52,6 +53,22 @@ export class ObservableExecutor {
         if (data) {
           this.dispatch({ type: "transaction:response", response: data });
         }
+        break;
+      }
+      case "emit-user-print-intent": {
+        emitWebSocketEvent("milestone:transaction:queued", {
+          transactionId: operation.transactionId,
+          vendorId: operation.vendorId,
+          timestamp: new Date().toISOString(),
+        });
+        break;
+      }
+      case "emit-transaction-printing": {
+        emitWebSocketEvent("milestone:transaction:printing", {
+          transactionId: operation.transactionId,
+          vendorId: operation.vendorId,
+          timestamp: new Date().toISOString(),
+        });
         break;
       }
       case "download-files-to-file-system": {

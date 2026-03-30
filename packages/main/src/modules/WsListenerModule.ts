@@ -23,6 +23,8 @@ class WsEventListenerModule implements AppModule {
     this.registerListener("transaction:status:updated");
     this.registerListener("transaction:completed");
     this.registerListener("transaction:failed");
+    this.registerListener("milestone:transaction:queued");
+    this.registerListener("milestone:transaction:printing");
 
     log.info("WsEventListenerModule: Registered 7 event listeners");
 
@@ -55,6 +57,8 @@ class WsEventListenerModule implements AppModule {
       "transaction:status:updated",
       "transaction:completed",
       "transaction:failed",
+      "milestone:transaction:queued",
+      "milestone:transaction:printing",
     ];
 
     events.forEach((event) => {

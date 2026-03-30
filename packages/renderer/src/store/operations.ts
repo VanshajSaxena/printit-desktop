@@ -1,4 +1,8 @@
-import type { ReportingStatus, TransactionObject } from "./events";
+import type {
+  ReportingStatus,
+  TransactionObject,
+  WithTransactionId,
+} from "./events";
 
 export interface TransactionOperationBase {
   operationId: string;
@@ -9,14 +13,27 @@ export type TransactionOperation = (
 ) &
   TransactionOperationBase;
 
-export type TransactionOperationUnion = { transactionId: number } & (
-  | DownloadFilesOperation
-  | SpoolFilesToPrinterOperation
-  | StartPrintJobMonitoringOperation
-  | StopPrintJobMonitoringOperation
-  | ReportJobStatusOperation
-  | ReportTransactionStatusOperation
-);
+export type TransactionOperationUnion = WithTransactionId &
+  (
+    | EmitTransactionPrintingOperation
+    | EmitUserPrintIntentOperation
+    | DownloadFilesOperation
+    | SpoolFilesToPrinterOperation
+    | StartPrintJobMonitoringOperation
+    | StopPrintJobMonitoringOperation
+    | ReportJobStatusOperation
+    | ReportTransactionStatusOperation
+  );
+
+export interface EmitTransactionPrintingOperation {
+  type: "emit-transaction-printing";
+  vendorId: number;
+}
+
+export interface EmitUserPrintIntentOperation {
+  type: "emit-user-print-intent";
+  vendorId: number;
+}
 
 export interface DownloadFilesOperation {
   type: "download-files-to-file-system";
