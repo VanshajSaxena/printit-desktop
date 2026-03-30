@@ -37,29 +37,33 @@ export const reducer = (
     case "user:print:transaction": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
-        const queueItems: PrintQueueItem[] = transaction.jobs.map((job) => ({
-          id: generateQueueItemId(),
-          transactionId: event.transactionId,
-          jobId: job.id,
-          queuedAt: new Date().toISOString(),
-        }));
+        const queueItems: PrintQueueItem[] = transaction.jobs
+          .filter((job) => job.status === "PENDING")
+          .map((job) => ({
+            id: generateQueueItemId(),
+            transactionId: event.transactionId,
+            jobId: job.id,
+            queuedAt: new Date().toISOString(),
+          }));
         draft.printQueue.items.push(...queueItems);
         if (draft.printQueue.status === "idle") {
           draft.printQueue.status = "working";
         }
         draft.transactions[event.transactionId].status = "QUEUED";
-        draft.transactions[event.transactionId].jobs.forEach((job) => {
-          if (job.status === "PENDING") {
+        draft.transactions[event.transactionId].jobs
+          .filter((job) => job.status === "PENDING")
+          .forEach((job) => {
             job.status = "QUEUED";
-          }
-        });
+          });
       });
       operations.push({
         operationId: generateOperationId(),
         type: "download-files-to-file-system",
-        files: state.transactions[event.transactionId].jobs.map((job) => {
-          return { id: job.document.id };
-        }),
+        files: nextState.transactions[event.transactionId].jobs
+          .filter((job) => job.status === "QUEUED")
+          .map((job) => {
+            return { id: job.document.id };
+          }),
         transactionId: event.transactionId,
       });
       break;
@@ -68,9 +72,9 @@ export const reducer = (
     case "files:download:started:all": {
       nextState = produce(state, (draft) => {
         draft.transactions[event.transactionId].status = "DOWNLOADING";
-        draft.transactions[event.transactionId].jobs.forEach(
-          (job) => (job.status = "DOWNLOADING"),
-        );
+        draft.transactions[event.transactionId].jobs
+          .filter((job) => job.status === "QUEUED")
+          .forEach((job) => (job.status = "DOWNLOADING"));
       });
       break;
     }
@@ -80,15 +84,17 @@ export const reducer = (
 
     case "files:download:completed:all": {
       nextState = produce(state, (draft) => {
-        draft.transactions[event.transactionId].jobs.forEach((job) => {
-          job.document.filePath = event.downloadedFiles.find(
-            (file) => file.id === job.document.id,
-          )?.filePath;
-        });
+        draft.transactions[event.transactionId].jobs
+          .filter((job) => job.status === "DOWNLOADING")
+          .forEach((job) => {
+            job.document.filePath = event.downloadedFiles.find(
+              (file) => file.id === job.document.id,
+            )?.filePath;
+          });
         draft.transactions[event.transactionId].status = "READY";
-        draft.transactions[event.transactionId].jobs.forEach(
-          (job) => (job.status = "READY"),
-        );
+        draft.transactions[event.transactionId].jobs
+          .filter((job) => job.status === "DOWNLOADING")
+          .forEach((job) => (job.status = "READY"));
       });
 
       const readyItem = nextState.printQueue.items.find((item) => {
@@ -98,19 +104,22 @@ export const reducer = (
         return jobItem?.status === "READY";
       });
 
-      if (nextState.printQueue.status === "working" && readyItem) {
+      if (
+        nextState.printQueue.status !== "error" &&
+        nextState.printQueue.status !== "stalled" &&
+        readyItem
+      ) {
         const readyJob = nextState.transactions[
           readyItem.transactionId
         ].jobs.find((job) => job.id === readyItem.jobId);
-        if (!readyJob) {
-          break;
+        if (readyJob) {
+          operations.push({
+            operationId: generateOperationId(),
+            type: "spool-files-to-printer",
+            transactionId: readyItem.transactionId,
+            job: readyJob,
+          });
         }
-        operations.push({
-          operationId: generateOperationId(),
-          type: "spool-files-to-printer",
-          transactionId: readyItem.transactionId,
-          job: readyJob,
-        });
       }
       break;
     }
@@ -137,7 +146,7 @@ export const reducer = (
           printJobIdentifier: event.printJobInfo.jobIdentifier,
           printerName: event.printerName,
           pollingIntervalMs: 1500,
-          timeoutMs: 5000,
+          timeoutMs: 30_000,
         });
       }
       break;
@@ -192,6 +201,12 @@ export const reducer = (
           if (hasActivity) {
             draft.printQueue.status = "printing";
             draft.transactions[event.transactionId].status = "PRINTING";
+            const job = draft.transactions[event.transactionId].jobs.find(
+              (job) => job.id === event.jobId,
+            );
+            if (job) {
+              job.status = "PRINTING";
+            }
           }
         }
       });
@@ -290,7 +305,8 @@ export const reducer = (
       });
 
       const canContinue =
-        nextState.printQueue.status === "working" &&
+        nextState.printQueue.status !== "error" &&
+        nextState.printQueue.status !== "stalled" &&
         nextState.printQueue.items.length > 0;
 
       if (canContinue) {
@@ -404,8 +420,10 @@ export const reducer = (
       nextState = produce(state, (draft) => {
         draft.printQueue.items = draft.printQueue.items.filter(
           (item) =>
-            item.jobId !== event.jobId &&
-            item.transactionId !== event.transactionId,
+            !(
+              item.jobId === event.jobId &&
+              item.transactionId === event.transactionId
+            ),
         );
       });
       break;

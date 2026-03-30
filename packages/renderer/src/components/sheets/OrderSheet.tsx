@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@components/ui/sheet";
-import { ChevronRight } from "lucide-react";
+import { CheckCircle, ChevronRight } from "lucide-react";
 import { useEffect } from "react";
 import { BnWBadge } from "../badges/BnWBadge";
 import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
@@ -60,6 +60,9 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
           >
             Printing
           </Badge>
+        )}
+        {status === "COMPLETED" && (
+          <CheckCircle className="text-success-content" size={20} />
         )}
       </div>
       <div className="flex flex-wrap gap-4 px-4 py-3">
@@ -148,9 +151,16 @@ export function OrderSheet({
             </div>
 
             <div className="mx-4 flex flex-col items-center gap-6">
-              {transaction.jobs.map((job) => {
-                return <DocumentItem key={job.id} job={job}></DocumentItem>;
-              })}
+              {transaction.jobs
+                .filter((job) => job.status !== "COMPLETED")
+                .map((job) => {
+                  return <DocumentItem key={job.id} job={job}></DocumentItem>;
+                })}
+              {transaction.jobs
+                .filter((job) => job.status === "COMPLETED")
+                .map((job) => {
+                  return <DocumentItem key={job.id} job={job}></DocumentItem>;
+                })}
             </div>
           </div>
 
