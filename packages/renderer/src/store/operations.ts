@@ -73,7 +73,7 @@ export interface ReportJobStatusOperation {
 }
 
 export interface ReportTransactionStatusOperation {
-  type: "report-transaction-status";
+  type: "report-transaction-and-jobs-status";
   transactionId: number;
   status: ReportingStatus;
   timestamp: string;

@@ -326,20 +326,11 @@ export const reducer = (
         }
       }
 
-      operations.push({
-        operationId: generateOperationId(),
-        type: "report-job-status",
-        transactionId: event.transactionId,
-        jobId: event.jobId,
-        status: "COMPLETED",
-        timestamp: new Date().toISOString(),
-      });
-
       const transaction = nextState.transactions[event.transactionId];
       if (transaction.status === "COMPLETED") {
         operations.push({
           operationId: generateOperationId(),
-          type: "report-transaction-status",
+          type: "report-transaction-and-jobs-status",
           transactionId: event.transactionId,
           status: "COMPLETED",
           timestamp: new Date().toISOString(),

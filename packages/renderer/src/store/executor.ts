@@ -130,7 +130,7 @@ export class ObservableExecutor {
         break;
       }
 
-      case "report-transaction-status": {
+      case "report-transaction-and-jobs-status": {
         await this.reportTransactionStatus(operation);
         break;
       }
@@ -379,7 +379,7 @@ export class ObservableExecutor {
   ): Promise<void> {
     try {
       const { error, response } = await this.fetchClient.PATCH(
-        "/api/v1/jobs/{id}",
+        "/api/v1/jobs/{id}/status",
         {
           params: { path: { id: operation.jobId } },
           body: { status: operation.status },
@@ -408,7 +408,7 @@ export class ObservableExecutor {
   ): Promise<void> {
     try {
       const { error, response } = await this.fetchClient.PATCH(
-        "/api/v1/transactions/{id}",
+        "/api/v1/transactions/{id}/status",
         {
           params: { path: { id: operation.transactionId } },
           body: { status: operation.status },
@@ -504,7 +504,7 @@ export class ObservableExecutor {
       if (item.operation.type === "report-job-status") {
         await this.reportJobStatus(item.operation);
       }
-      if (item.operation.type === "report-transaction-status") {
+      if (item.operation.type === "report-transaction-and-jobs-status") {
         await this.reportTransactionStatus(item.operation);
       }
     }
