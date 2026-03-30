@@ -100,6 +100,22 @@ export interface paths {
     patch: operations["JobController_update_v1"];
     trace?: never;
   };
+  "/api/v1/jobs/{id}/status": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations["JobController_updateStatus_v1"];
+    trace?: never;
+  };
   "/api/v1/ping": {
     parameters: {
       query?: never;
@@ -426,6 +442,10 @@ export interface components {
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
+    UpdateJobStatusDto: {
+      /** @enum {string} */
+      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+    };
     UpdatePrinterDto: Record<string, never>;
     UpdateTransactionDto: {
       /** @enum {string} */
@@ -501,6 +521,7 @@ export type TransactionStatusResponseDto =
 export type UpdateDocumentRequestDto =
   components["schemas"]["UpdateDocumentRequestDto"];
 export type UpdateJobDto = components["schemas"]["UpdateJobDto"];
+export type UpdateJobStatusDto = components["schemas"]["UpdateJobStatusDto"];
 export type UpdatePrinterDto = components["schemas"]["UpdatePrinterDto"];
 export type UpdateTransactionDto =
   components["schemas"]["UpdateTransactionDto"];
@@ -776,6 +797,29 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["CreateJobResponseDto"];
         };
+      };
+    };
+  };
+  JobController_updateStatus_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateJobStatusDto"];
+      };
+    };
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
