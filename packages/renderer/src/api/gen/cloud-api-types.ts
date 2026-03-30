@@ -209,7 +209,7 @@ export interface paths {
     delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
+    patch: operations["TransactionController_updateTransactionAndJobStatus_v1"];
     trace?: never;
   };
   "/api/v1/vendors": {
@@ -1080,6 +1080,29 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["TransactionStatusResponseDto"];
         };
+      };
+    };
+  };
+  TransactionController_updateTransactionAndJobStatus_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateTransactionDto"];
+      };
+    };
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
