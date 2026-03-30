@@ -57,17 +57,17 @@ export function TransactionItem({
                     New
                   </Badge>
                 )}
-                {status === "QUEUED" ||
+                {(status === "QUEUED" ||
                   status === "DOWNLOADING" ||
                   status === "READY" ||
-                  (status === "SPOOLED" && (
-                    <Badge
-                      variant={"ghost"}
-                      className="bg-queued text-queued-content"
-                    >
-                      Queued
-                    </Badge>
-                  ))}
+                  status === "SPOOLED") && (
+                  <Badge
+                    variant={"ghost"}
+                    className="bg-queued text-queued-content"
+                  >
+                    Queued
+                  </Badge>
+                )}
                 {status === "ERROR" && (
                   <Badge
                     variant={"ghost"}

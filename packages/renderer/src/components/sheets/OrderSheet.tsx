@@ -8,6 +8,7 @@ import {
   SheetTitle,
 } from "@components/ui/sheet";
 import { ChevronRight } from "lucide-react";
+import { useEffect } from "react";
 import { BnWBadge } from "../badges/BnWBadge";
 import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
 import { CopiesBadge } from "../badges/CopiesBadge";
@@ -20,10 +21,11 @@ import { ActivityIcon } from "../icons/ActivityIcon";
 import { FileIcon } from "../icons/FileIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
-import { useEffect } from "react";
+import { Badge } from "../ui/badge";
 
 function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
   const pageCount = job.document.pageCount;
+  const status = job.status;
   return (
     <div className="w-full rounded-xl outline -outline-offset-1 outline-border-default">
       <div className="flex justify-between border-b border-border-default p-4">
@@ -33,6 +35,32 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
           </div>
           {job.document.filename}
         </div>
+        {status === "PENDING" && (
+          <Badge variant={"ghost"} className="bg-success text-success-content">
+            New
+          </Badge>
+        )}
+        {(status === "QUEUED" ||
+          status === "DOWNLOADING" ||
+          status === "READY" ||
+          status === "SPOOLED") && (
+          <Badge variant={"ghost"} className="bg-queued text-queued-content">
+            Queued
+          </Badge>
+        )}
+        {status === "ERROR" && (
+          <Badge variant={"ghost"} className="bg-error text-error-content">
+            Error
+          </Badge>
+        )}
+        {status === "PRINTING" && (
+          <Badge
+            variant={"ghost"}
+            className="bg-printing text-printing-content"
+          >
+            Printing
+          </Badge>
+        )}
       </div>
       <div className="flex flex-wrap gap-4 px-4 py-3">
         <PagesBadge count={pageCount}></PagesBadge>
