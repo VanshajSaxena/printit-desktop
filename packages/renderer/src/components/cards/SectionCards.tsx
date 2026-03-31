@@ -12,7 +12,7 @@ import {
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:to-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-secondary">
+    <div className="*:data-[slot=card]:to-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-secondary/80 *:data-[slot=card]:from-primary/5 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>

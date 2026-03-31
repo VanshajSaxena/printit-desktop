@@ -1,7 +1,6 @@
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Toaster } from "../ui/sonner";
 import { MainContent } from "./MainContent";
 import { SideBar } from "./SideBar";
 
@@ -36,7 +35,6 @@ export function AppLayout() {
         onViewChange={setSelectedView}
       ></SideBar>
       <MainContent activeView={selectedView}></MainContent>
-      <Toaster />
     </div>
   );
 }

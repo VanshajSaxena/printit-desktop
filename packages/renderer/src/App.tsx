@@ -4,6 +4,7 @@ import { AppLayout } from "./components/layout/AppLayout";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { queryClient } from "@api/client";
 import { queryPersister } from "@api/queryPersister";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
     >
       <ThemeProvider>
         <AppLayout />
+        <Toaster />
       </ThemeProvider>
     </PersistQueryClientProvider>
   );

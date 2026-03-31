@@ -42,7 +42,7 @@ export function Dashboard() {
           ></GetQRCodeButton>
         </div>
       </TopBar>
-      <div className="@container/main flex h-full max-w-full min-w-0 flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
+      <div className="flex h-full max-w-full min-w-0 flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
         {/* <SheetsPrintedCard heroText="24" subText="Today" /> */}
         {/* <SheetsPrintedCard heroText="425" subText="Weekly" /> */}
         {/* <PrinterStatusCard subText="HP Laserjet" /> */}
