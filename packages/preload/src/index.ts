@@ -4,7 +4,7 @@ import type {
   PrintJobInfoDto,
   PrintQueueStatusDto,
 } from "@app/common/gen/types/print-service-api-types.js";
-import { WebSocketEvent, WebSocketEventMap } from "@app/common";
+import type { WebSocketEvent, WebSocketEventMap } from "@app/common";
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";

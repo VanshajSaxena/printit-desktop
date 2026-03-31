@@ -36,7 +36,7 @@ export const downloadManager = {
 
         await pipeline(
           Readable.fromWeb(
-            response.body as unknown as globalThis.ReadableStream,
+            response.body as unknown as import("stream/web").ReadableStream,
           ),
           fileStream,
         );
