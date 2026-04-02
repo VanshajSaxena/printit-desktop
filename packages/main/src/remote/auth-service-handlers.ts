@@ -14,6 +14,19 @@ const API_BASE_URL = import.meta.env.PROD
 
 let _accessToken: string | null = null;
 
+export async function exchangeOAuthCode(code: string): Promise<TokenPair> {
+  const tokens = await fetchJson<TokenPair>("/auth/exchange", {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+
+  _accessToken = tokens.accessToken;
+  await KeychainService.setAccessToken(tokens.accessToken);
+  await KeychainService.setRefreshToken(tokens.refreshToken);
+
+  return tokens;
+}
+
 async function fetchJson<T>(
   path: string,
   options: RequestInit & { body?: unknown } = {},

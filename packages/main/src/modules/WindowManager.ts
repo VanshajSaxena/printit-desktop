@@ -2,7 +2,7 @@ import type { AppModule } from "../AppModule.js";
 import { ModuleContext } from "../ModuleContext.js";
 import { BrowserWindow, Menu } from "electron";
 import type { AppInitConfig } from "../AppInitConfig.js";
-import { exchangeOAuthCode } from "src/remote/exchangeOAuthCode.js";
+import { exchangeOAuthCode } from "../remote/auth-service-handlers.js";
 
 const PROTOCOL = "printit";
 
