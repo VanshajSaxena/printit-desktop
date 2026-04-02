@@ -879,6 +879,149 @@
         },
         "tags": ["R2"]
       }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "401": { "description": "Invalid credentials" }
+        },
+        "summary": "Authenticate with email and password",
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RefreshRequestDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "401": { "description": "Refresh token invalid or expired" }
+        },
+        "summary": "Rotate access and refresh tokens",
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1/auth/exchange": {
+      "post": {
+        "description": "Called by the Electron app after receiving the code via the `printit://` custom protocol redirect.",
+        "operationId": "AuthController_exchangeCode_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ExchangeRequestDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
+              }
+            }
+          },
+          "401": { "description": "Code invalid or expired" }
+        },
+        "summary": "Exchange one-time OAuth code for token pair",
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RefreshRequestDto" }
+            }
+          }
+        },
+        "responses": { "204": { "description": "Successfully logged out" } },
+        "summary": "Revoke refresh token and end session",
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1/auth/google": {
+      "get": {
+        "description": "Redirects to Google consent screen. Open in system browser from Electron via `shell.openExternal`.",
+        "operationId": "AuthController_googleAuth_v1",
+        "parameters": [],
+        "responses": { "200": { "description": "Redirects to Google" } },
+        "summary": "Initiate Google OAuth flow",
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1/auth/microsoft": {
+      "get": {
+        "description": "Redirects to Microsoft consent screen. Open in system browser from Electron via `shell.openExternal`.",
+        "operationId": "AuthController_microsoftAuth_v1",
+        "parameters": [],
+        "responses": { "200": { "description": "Redirects to Microsoft" } },
+        "summary": "Initiate Microsoft OAuth flow",
+        "tags": ["Auth"]
+      }
     }
   },
   "info": {
@@ -1283,6 +1426,32 @@
           }
         },
         "required": ["signedUrls"]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        },
+        "required": ["email", "password"]
+      },
+      "TokenResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "refreshToken": { "type": "string" }
+        },
+        "required": ["accessToken", "refreshToken"]
+      },
+      "RefreshRequestDto": {
+        "type": "object",
+        "properties": { "refreshToken": { "type": "string" } },
+        "required": ["refreshToken"]
+      },
+      "ExchangeRequestDto": {
+        "type": "object",
+        "properties": { "code": { "type": "string", "format": "uuid" } },
+        "required": ["code"]
       }
     }
   }

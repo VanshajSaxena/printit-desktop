@@ -4,6 +4,117 @@
  */
 
 export interface paths {
+  "/api/v1/auth/exchange": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Exchange one-time OAuth code for token pair
+     * @description Called by the Electron app after receiving the code via the `printit://` custom protocol redirect.
+     */
+    post: operations["AuthController_exchangeCode_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/google": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Initiate Google OAuth flow
+     * @description Redirects to Google consent screen. Open in system browser from Electron via `shell.openExternal`.
+     */
+    get: operations["AuthController_googleAuth_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/login": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Authenticate with email and password */
+    post: operations["AuthController_login_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/logout": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Revoke refresh token and end session */
+    post: operations["AuthController_logout_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/microsoft": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Initiate Microsoft OAuth flow
+     * @description Redirects to Microsoft consent screen. Open in system browser from Electron via `shell.openExternal`.
+     */
+    get: operations["AuthController_microsoftAuth_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/refresh": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Rotate access and refresh tokens */
+    post: operations["AuthController_refresh_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/documents": {
     parameters: {
       query?: never;
@@ -382,6 +493,10 @@ export interface components {
       id: number;
       url: string;
     };
+    ExchangeRequestDto: {
+      /** Format: uuid */
+      code: string;
+    };
     FindDocumentResponseDto: {
       contentType: string;
       filename: string;
@@ -412,6 +527,11 @@ export interface components {
       /** @example 77.5946 */
       longitude: number | null;
     };
+    LoginDto: {
+      /** Format: email */
+      email: string;
+      password: string;
+    };
     NotFoundErrorDto: {
       /** @example Not Found */
       error: string;
@@ -425,6 +545,13 @@ export interface components {
       capabilities: string;
       id: number;
       name: string;
+    };
+    RefreshRequestDto: {
+      refreshToken: string;
+    };
+    TokenResponseDto: {
+      accessToken: string;
+      refreshToken: string;
     };
     TransactionStatusResponseDto: {
       /** @enum {string} */
@@ -508,14 +635,18 @@ export type DownloadFileBatchResponseDto =
   components["schemas"]["DownloadFileBatchResponseDto"];
 export type DownloadFileResponseDto =
   components["schemas"]["DownloadFileResponseDto"];
+export type ExchangeRequestDto = components["schemas"]["ExchangeRequestDto"];
 export type FindDocumentResponseDto =
   components["schemas"]["FindDocumentResponseDto"];
 export type FindJobResponseDto = components["schemas"]["FindJobResponseDto"];
 export type FindTransactionResponseDto =
   components["schemas"]["FindTransactionResponseDto"];
 export type LocationDto = components["schemas"]["LocationDto"];
+export type LoginDto = components["schemas"]["LoginDto"];
 export type NotFoundErrorDto = components["schemas"]["NotFoundErrorDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
+export type RefreshRequestDto = components["schemas"]["RefreshRequestDto"];
+export type TokenResponseDto = components["schemas"]["TokenResponseDto"];
 export type TransactionStatusResponseDto =
   components["schemas"]["TransactionStatusResponseDto"];
 export type UpdateDocumentRequestDto =
@@ -536,6 +667,178 @@ export type VendorPresenceDto = components["schemas"]["VendorPresenceDto"];
 export type VendorResponseDto = components["schemas"]["VendorResponseDto"];
 export type $defs = Record<string, never>;
 export interface operations {
+  AuthController_exchangeCode_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ExchangeRequestDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      /** @description Code invalid or expired */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_googleAuth_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Redirects to Google */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_login_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LoginDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      /** @description Invalid credentials */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_logout_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RefreshRequestDto"];
+      };
+    };
+    responses: {
+      /** @description Successfully logged out */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_microsoftAuth_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Redirects to Microsoft */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_refresh_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RefreshRequestDto"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      /** @description Refresh token invalid or expired */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   DocumentController_findAll_v1: {
     parameters: {
       query?: never;
