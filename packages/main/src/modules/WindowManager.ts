@@ -2,6 +2,9 @@ import type { AppModule } from "../AppModule.js";
 import { ModuleContext } from "../ModuleContext.js";
 import { BrowserWindow, Menu } from "electron";
 import type { AppInitConfig } from "../AppInitConfig.js";
+import { exchangeOAuthCode } from "src/remote/exchangeOAuthCode.js";
+
+const PROTOCOL = "printit";
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
@@ -23,8 +26,37 @@ class WindowManager implements AppModule {
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
     await this.restoreOrCreateWindow(true);
-    app.on("second-instance", () => void this.restoreOrCreateWindow(true));
+    app.on("second-instance", (_event, argv) => {
+      void this.restoreOrCreateWindow(true);
+      const url = argv.find((arg) => arg.startsWith(`${PROTOCOL}://`));
+      if (url) this.handleProtocolUrl(url);
+    });
     app.on("activate", () => void this.restoreOrCreateWindow(true));
+  }
+
+  handleProtocolUrl(url: string) {
+    const mainWindow = BrowserWindow.getAllWindows().find(
+      (w) => !w.isDestroyed(),
+    );
+    const parsed = new URL(url);
+
+    if (parsed.hostname === "auth") {
+      const code = parsed.searchParams.get("code");
+      if (code) {
+        exchangeOAuthCode(code)
+          .then((tokens) => {
+            mainWindow?.webContents.send("auth:oauth-complete", {
+              success: true,
+              accessToken: tokens.accessToken,
+            });
+          })
+          .catch(() => {
+            mainWindow?.webContents.send("auth:oauth-complete", {
+              success: false,
+            });
+          });
+      }
+    }
   }
 
   async createWindow(): Promise<BrowserWindow> {

@@ -6,6 +6,7 @@ import type {
 } from "../modules/IpcHandlersModule.js";
 import { getPrintServiceHandlers } from "./print-service-handlers.js";
 import { getWsNotificationSeriveHandlers } from "./ws-notification-handlers.js";
+import { getAuthHandlers } from "./auth-service-handlers.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export function createHandler<TArgs extends unknown[], TReturn>(
@@ -24,14 +25,17 @@ export function createIpcHandlers(
   const {
     printServiceHandlers,
     webSocketNotifications,
+    authServiceHandlers,
   }: {
     printServiceHandlers: IpcHandlerRegistry;
     webSocketNotifications: IpcHandlerRegistry;
+    authServiceHandlers: IpcHandlerRegistry;
   } = getAllIpcHandlers(printServiceApi, webSocketApi);
 
   const allHandlers: IpcHandlerRegistry = {
     ...printServiceHandlers,
     ...webSocketNotifications,
+    ...authServiceHandlers,
   };
 
   return allHandlers;
@@ -41,6 +45,7 @@ function getAllIpcHandlers(
   printServiceApi: PrintServiceApi,
   webSocketApi: WsNotificationsApi,
 ) {
+  const authServiceHandlers: IpcHandlerRegistry = getAuthHandlers();
   const printServiceHandlers: IpcHandlerRegistry =
     getPrintServiceHandlers(printServiceApi);
 
@@ -50,5 +55,6 @@ function getAllIpcHandlers(
   return {
     printServiceHandlers,
     webSocketNotifications,
+    authServiceHandlers,
   };
 }
