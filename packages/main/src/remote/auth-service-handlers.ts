@@ -47,6 +47,7 @@ export function getAuthHandlers(): IpcHandlerRegistry {
         });
 
         _accessToken = tokens.accessToken;
+        await KeychainService.setAccessToken(tokens.accessToken);
         await KeychainService.setRefreshToken(tokens.refreshToken);
         await KeychainService.setEmail(email);
 
