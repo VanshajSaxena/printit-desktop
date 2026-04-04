@@ -6,8 +6,6 @@ export default function SignupPage({
 }: {
   switchToLogin: () => void;
 }) {
-  // __AUTO_GENERATED_PRINT_VAR_START__
-  console.log("SignupPage :"); // __AUTO_GENERATED_PRINT_VAR_END__
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
