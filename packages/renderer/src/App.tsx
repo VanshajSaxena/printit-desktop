@@ -6,18 +6,13 @@ import { Toaster } from "sonner";
 import "./App.css";
 import { AppLayout } from "./components/layout/AppLayout";
 import { ThemeProvider } from "./context/theme/ThemeProvider";
-import LoginPage from "./pages/LoginPage";
 import { useAuthStore } from "./store/useAuthStore";
 
 function App() {
-  const isAuthenticated = useAuthStore((store) => store.isAuthenticated);
-  const isBootstrapping = useAuthStore((store) => store.isBootstrapping);
-
   useEffect(() => {
     void useAuthStore.getState().bootstrap();
   }, []);
 
-  if (isBootstrapping) return <div>Loading....</div>;
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -28,7 +23,7 @@ function App() {
       }}
     >
       <ThemeProvider>
-        {!isAuthenticated ? <LoginPage /> : <AppLayout />}
+        <AppLayout />
         <Toaster />
       </ThemeProvider>
     </PersistQueryClientProvider>

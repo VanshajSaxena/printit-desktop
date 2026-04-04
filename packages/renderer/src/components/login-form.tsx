@@ -13,10 +13,15 @@ import {
   IconBrandWindowsFilled,
 } from "@tabler/icons-react";
 
+type LoginFormProps = React.ComponentProps<"form"> & {
+  switchToSignup: () => void;
+};
+
 export function LoginForm({
   className,
+  switchToSignup,
   ...props
-}: React.ComponentProps<"form">) {
+}: LoginFormProps) {
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -57,7 +62,10 @@ export function LoginForm({
           </Button>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <a href="#" className="underline underline-offset-4">
+            <a
+              onClick={switchToSignup}
+              className="underline underline-offset-4"
+            >
               Sign up
             </a>
           </FieldDescription>
