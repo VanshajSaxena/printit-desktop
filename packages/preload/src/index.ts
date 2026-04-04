@@ -21,6 +21,11 @@ export type WsChannelTypeMap = {
   };
 };
 
+interface OAuthResult {
+  success: boolean;
+  accessToken?: string;
+}
+
 export type WsChannel = keyof WsChannelTypeMap;
 
 function send(channel: string, message: string) {
@@ -80,6 +85,7 @@ export function downloadFilesToFileSystem(
 > {
   return ipcRenderer.invoke("files:download", transactionId, files);
 }
+
 export function subscribeToWsEvent<C extends WsChannel>(
   channel: C,
   callback: (data: WsChannelTypeMap[C]) => void,
@@ -93,6 +99,30 @@ export function subscribeToWsEvent<C extends WsChannel>(
   return () => {
     ipcRenderer.removeListener(channel, subscription);
   };
+}
+
+export function onOAuthComplete(cb: (result: OAuthResult) => void) {
+  ipcRenderer.on("auth:oauth-complete", (_event, result) => cb(result));
+  return () => ipcRenderer.removeAllListeners("auth:oauth-complete");
+}
+
+export function login(
+  email: string,
+  password: string,
+): Promise<{ accessToken: string }> {
+  return ipcRenderer.invoke("auth:login", email, password);
+}
+
+export function oauthStart(provider: "google" | "microsoft"): Promise<void> {
+  return ipcRenderer.invoke("auth:oauth-start", provider);
+}
+
+export function refresh(): Promise<{ accessToken: string } | null> {
+  return ipcRenderer.invoke("auth:refresh");
+}
+
+export function logout(): Promise<void> {
+  return ipcRenderer.invoke("auth:logout");
 }
 
 export function emitWebSocketEvent<K extends WebSocketEvent>(
