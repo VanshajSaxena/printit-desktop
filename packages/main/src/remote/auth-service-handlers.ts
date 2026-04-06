@@ -60,7 +60,7 @@ export function getAuthHandlers(): IpcHandlerRegistry {
       async (_event, email: string, password: string) => {
         const tokens = await fetchJson<TokenPair>("/auth/login", {
           method: "POST",
-          body: JSON.stringify({ email, password }),
+          body: { email, password },
         });
 
         _accessToken = tokens.accessToken;
@@ -86,7 +86,7 @@ export function getAuthHandlers(): IpcHandlerRegistry {
       try {
         const tokens = await fetchJson<TokenPair>("/auth/refresh", {
           method: "POST",
-          body: JSON.stringify({ refreshToken }),
+          body: { refreshToken },
         });
 
         _accessToken = tokens.accessToken;
@@ -105,7 +105,7 @@ export function getAuthHandlers(): IpcHandlerRegistry {
       if (refreshToken) {
         await fetchJson("/auth/logout", {
           method: "POST",
-          body: JSON.stringify({ refreshToken }),
+          body: { refreshToken },
         });
       }
 
