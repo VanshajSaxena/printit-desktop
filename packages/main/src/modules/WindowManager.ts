@@ -1,13 +1,12 @@
-import type { AppModule } from "../AppModule.js";
-import { ModuleContext } from "../ModuleContext.js";
 import { BrowserWindow, Menu } from "electron";
 import type { AppInitConfig } from "../AppInitConfig.js";
+import type { AppModule } from "../AppModule.js";
+import { ModuleContext } from "../ModuleContext.js";
 import { exchangeOAuthCode } from "../remote/auth-service-handlers.js";
-
-const PROTOCOL = "printit";
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
+  readonly #protocol: string;
   readonly #renderer: { path: string } | URL;
   readonly #openDevTools;
 
@@ -21,6 +20,7 @@ class WindowManager implements AppModule {
     this.#preload = initConfig.preload;
     this.#renderer = initConfig.renderer;
     this.#openDevTools = openDevTools;
+    this.#protocol = initConfig.preload.protocol;
   }
 
   async enable({ app }: ModuleContext): Promise<void> {
@@ -28,7 +28,7 @@ class WindowManager implements AppModule {
     await this.restoreOrCreateWindow(true);
     app.on("second-instance", (_event, argv) => {
       void this.restoreOrCreateWindow(true);
-      const url = argv.find((arg) => arg.startsWith(`${PROTOCOL}://`));
+      const url = argv.find((arg) => arg.startsWith(`${this.#protocol}://`));
       if (url) this.handleProtocolUrl(url);
     });
     app.on("activate", () => void this.restoreOrCreateWindow(true));
@@ -39,7 +39,6 @@ class WindowManager implements AppModule {
       (w) => !w.isDestroyed(),
     );
     const parsed = new URL(url);
-
     if (parsed.hostname === "auth") {
       const code = parsed.searchParams.get("code");
       if (code) {

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/useAuthStore";
 import {
   IconBrandGoogleFilled,
   IconBrandWindowsFilled,
@@ -22,6 +23,7 @@ export function LoginForm({
   switchToSignup,
   ...props
 }: LoginFormProps) {
+  const oauthStart = useAuthStore((store) => store.oauthStart);
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -52,11 +54,19 @@ export function LoginForm({
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>
-          <Button variant="outline" type="button">
+          <Button
+            onClick={() => void oauthStart("microsoft")}
+            variant="outline"
+            type="button"
+          >
             <IconBrandWindowsFilled />
             Login with Microsoft
           </Button>
-          <Button variant="outline" type="button">
+          <Button
+            onClick={() => void oauthStart("google")}
+            variant="outline"
+            type="button"
+          >
             <IconBrandGoogleFilled />
             Login with Google
           </Button>

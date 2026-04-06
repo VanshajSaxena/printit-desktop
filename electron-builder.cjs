@@ -33,6 +33,12 @@ function getListOfFilesFromEachWorkspace() {
 
 /** @type import('electron-builder').Configuration */
 const config = {
+  protocols: [
+    {
+      name: "PrintIt",
+      schemes: ["printit"],
+    },
+  ],
   win: {
     target: [
       {

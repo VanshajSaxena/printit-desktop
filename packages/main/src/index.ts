@@ -14,9 +14,10 @@ import log from "electron-log";
 import { createIpcHandlers } from "./remote/ipc-handlers.js";
 import { PrintServiceApi, WsNotificationsApi } from "@app/common";
 import { wsEventListeners } from "./modules/WsListenerModule.js";
+import { setAsDefaultProtocolClient } from "./modules/DefaultProtocolClient.js";
 
 const wsNotificationsApiConfig = {
-  url: import.meta.env.PROD ? "api.printit.ink" : "dev.api.printit.ink",
+  url: import.meta.env.PROD ? "dev.api.printit.ink" : "dev.api.printit.ink",
   protocol: "https",
   namespace: `notifications`,
 };
@@ -33,6 +34,7 @@ export async function initApp(initConfig: AppInitConfig) {
       }),
     )
     .init(disallowMultipleAppInstance())
+    .init(setAsDefaultProtocolClient(initConfig.preload.protocol))
     .init(terminateAppOnLastWindowClose())
     .init(hardwareAccelerationMode({ enable: false }))
     .init(ipcHandlers(allHandlers))

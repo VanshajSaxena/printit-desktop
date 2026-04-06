@@ -1,7 +1,8 @@
 import { shell } from "electron";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
-import { createHandler } from "./ipc-handlers.js";
 import { KeychainService } from "../services/kyechain.service.js";
+import { createHandler } from "./ipc-handlers.js";
+import log from "electron-log";
 
 export interface TokenPair {
   accessToken: string;
@@ -9,16 +10,17 @@ export interface TokenPair {
 }
 
 const API_BASE_URL = import.meta.env.PROD
-  ? "api.printit.ink"
-  : "dev.api.printit.ink";
+  ? "https://dev.api.printit.ink/api"
+  : "https://dev.api.printit.ink/api";
 
 let _accessToken: string | null = null;
 
 export async function exchangeOAuthCode(code: string): Promise<TokenPair> {
   const tokens = await fetchJson<TokenPair>("/auth/exchange", {
     method: "POST",
-    body: JSON.stringify({ code }),
+    body: { code },
   });
+  log.debug("exchangeOAuthCode exchangeOAuthCode:", tokens);
 
   _accessToken = tokens.accessToken;
   await KeychainService.setAccessToken(tokens.accessToken);
@@ -29,7 +31,7 @@ export async function exchangeOAuthCode(code: string): Promise<TokenPair> {
 
 async function fetchJson<T>(
   path: string,
-  options: RequestInit & { body?: unknown } = {},
+  options: Omit<RequestInit, "body"> & { body?: unknown } = {},
 ): Promise<T> {
   const res = await fetch(`${API_BASE_URL}/v1${path}`, {
     ...options,
@@ -44,7 +46,9 @@ async function fetchJson<T>(
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`HTTP ${res.status.toString()}: ${text || res.statusText}`);
+    log.error(
+      `HTTP ${options.method ?? "unknown"} ${path} returned: ${res.status.toString()}: ${text || res.statusText}`,
+    );
   }
 
   return res.json() as Promise<T>;

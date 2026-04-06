@@ -81,6 +81,7 @@ initApp({
 
   preload: {
     path: fileURLToPath(import.meta.resolve("@app/preload/exposed.mjs")),
+    protocol: "printit",
   },
 })
   .then(() => {
