@@ -44,14 +44,26 @@ async function fetchJson<T>(
     body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
   });
 
+  const text = await res.text().catch(() => "");
+
   if (!res.ok) {
-    const text = await res.text().catch(() => "");
     log.error(
-      `HTTP ${options.method ?? "unknown"} ${path} returned: ${res.status.toString()}: ${text || res.statusText}`,
+      `HTTP ${options.method ?? "unknown"} ${path} returned: ${res.status.toString()}: ${
+        text || res.statusText
+      }`,
     );
   }
 
-  return res.json() as Promise<T>;
+  if (!text) {
+    return undefined as T;
+  }
+
+  try {
+    return JSON.parse(text) as T;
+  } catch (err) {
+    log.error(`Failed to parse JSON for ${path}: ${text}`);
+    throw err;
+  }
 }
 
 export function getAuthHandlers(): IpcHandlerRegistry {
