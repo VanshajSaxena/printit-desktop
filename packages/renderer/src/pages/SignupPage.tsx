@@ -1,6 +1,6 @@
 import { BenefitsSidePanel } from "@/components/layout/BenefitsSidePanel";
+import { PrintitIcon } from "@/components/Printit";
 import { SignupForm } from "@/components/signup-form";
-import { GalleryVerticalEnd } from "lucide-react";
 
 export default function SignupPage({
   switchToLogin,
@@ -14,12 +14,7 @@ export default function SignupPage({
       <div className="flex h-full flex-col overflow-y-auto p-6 md:p-10">
         {/* Added shrink-0 so the logo never gets squished when scrolling */}
         <div className="flex shrink-0 justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            Printit
-            <div className="text-primary-foreground flex size-6 items-center justify-center rounded-md bg-primary">
-              <GalleryVerticalEnd className="size-4" />
-            </div>
-          </a>
+          <PrintitIcon width={120} />
         </div>
 
         {/* 3. Replaced 'items-center justify-center' with margins to prevent top cut-off on overflow */}
