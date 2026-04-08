@@ -1,4 +1,9 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import {
+  IconClock,
+  IconFileCheck,
+  IconTrendingUp,
+  IconUsers,
+} from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,75 +18,85 @@ import {
 export function SectionCards() {
   return (
     <div className="*:data-[slot=card]:to-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-secondary/80 *:data-[slot=card]:from-primary/5 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      {/* Volume Metric */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Sheets Printed</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            842
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
+              +15.2%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            Higher volume than yesterday <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Total A4/Legal output today
           </div>
         </CardFooter>
       </Card>
+
+      {/* Throughput Metric */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Orders Completed</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            47
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
+              +8%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+            Average 4.2 mins per order <IconClock className="size-4" />
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            Jobs cleared via desktop queue
+          </div>
         </CardFooter>
       </Card>
+
+      {/* Footfall Metric */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Unique Customers</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            32
+          </CardTitle>
+          <CardAction>
+            <Badge variant="outline">
+              <IconTrendingUp />
+              +12%
+            </Badge>
+          </CardAction>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            6 new users discovered your shop <IconUsers className="size-4" />
+          </div>
+          <div className="text-muted-foreground">Unique PWA scans today</div>
+        </CardFooter>
+      </Card>
+
+      {/* Efficiency Metric */}
+      <Card className="@container/card">
+        <CardHeader>
+          <CardDescription>Time Saved</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            2.4
+            <span className="ml-1 text-lg font-normal text-muted-foreground">
+              hrs
+            </span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -92,9 +107,11 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
+            Reduced counter congestion <IconFileCheck className="size-4" />
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">
+            Est. manual file handling time saved
+          </div>
         </CardFooter>
       </Card>
     </div>
