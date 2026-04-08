@@ -1,5 +1,6 @@
 import { SectionCards } from "@/components/cards/SectionCards";
 import { OrderSheet } from "@/components/sheets/OrderSheet";
+import { useAuthStore } from "@/store/useAuthStore";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
 import { DisplayButton } from "@components/buttons/DisplayButton";
@@ -9,7 +10,6 @@ import { TopBar } from "@components/layout/TopBar";
 import { useTheme } from "@context/theme/useTheme";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useState } from "react";
-import { toast } from "sonner";
 import { SearchInput } from "./dashboard/SearchInput";
 
 export function Dashboard() {
@@ -18,6 +18,7 @@ export function Dashboard() {
     number | undefined
   >(undefined);
   const [orderSheetOpen, setOrderSheetOpen] = useState(false);
+  const logout = useAuthStore((store) => store.logout);
 
   const openOrderSheet = (transactionId: number) => {
     setSelectedTransactionId(transactionId);
@@ -35,9 +36,7 @@ export function Dashboard() {
           ></Button>
           <GetQRCodeButton
             onClick={() => {
-              toast.warning("Will show QR Code", {
-                position: "top-center",
-              });
+              void logout();
             }}
           ></GetQRCodeButton>
         </div>

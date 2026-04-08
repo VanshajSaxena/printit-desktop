@@ -14,15 +14,15 @@ export function AppLayout() {
   const [selectedView, setSelectedView] = useState<ViewType>("dashboard");
   const printQueue = useTransactionStore((store) => store.state.printQueue);
 
+  const timedout = printQueue.items.some(
+    (item) => item.monitoring?.timedOut === true,
+  );
+
   const isAuthenticated = useAuthStore((store) => store.isAuthenticated);
   const isBootstrapping = useAuthStore((store) => store.isBootstrapping);
   const [authView, setAuthView] = useState<AuthView>("login");
 
   useEffect(() => {
-    const timedout = printQueue.items.some(
-      (item) => item.monitoring?.timedOut === true,
-    );
-
     if (timedout) {
       toast.error("It looks like your printer is not connected.", {
         id: "printer-timeout",
@@ -30,7 +30,7 @@ export function AppLayout() {
         duration: 5000,
       });
     }
-  }, [printQueue]);
+  }, [timedout]);
 
   if (isBootstrapping) return <div>Loading....</div>;
   if (!isAuthenticated && authView === "login")
