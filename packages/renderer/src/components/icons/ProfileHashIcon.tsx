@@ -7,6 +7,8 @@ export function ProfileHashIcon({
   ...props
 }: IconProps & { presence: VendorPresenceDto["status"] }) {
   const isOnline = presence === "online";
+  const isAway = presence === "away";
+  const isOffline = presence === "offline";
 
   return (
     <svg
@@ -20,6 +22,15 @@ export function ProfileHashIcon({
       <rect width={size} height={size} rx={8} className="fill-tertiary" />
 
       {isOnline && <circle cx="36" cy="36" r="5" className="fill-green-600" />}
+      {isAway && <circle cx="36" cy="36" r="5" className="fill-yellow-500" />}
+      {isOffline && (
+        <circle
+          cx="36"
+          cy="36"
+          r="5"
+          className="fill-transparent stroke-tertiary-content stroke-3"
+        />
+      )}
 
       <path
         d="M18.31 10l-4.543 20m12.854-20l-4.505 20M10 24.056h18.718m-17.087-8.635H30"

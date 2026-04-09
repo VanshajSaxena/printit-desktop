@@ -118,7 +118,7 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
             className="group flex w-full items-center justify-between rounded-md px-2.5 py-2 text-sm text-tertiary-content transition-colors hover:bg-tertiary hover:text-primary-content"
           >
             <div className="flex items-center gap-3">
-              <div className="size-3 shrink-0 rounded-full border-2 border-tertiary-content bg-transparent" />
+              <div className="size-3 shrink-0 rounded-full border-3 border-tertiary-content bg-transparent" />
               <span className="font-medium">Offline</span>
             </div>
           </button>
