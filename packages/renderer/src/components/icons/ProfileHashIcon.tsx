@@ -1,39 +1,9 @@
-import { useWsEvent } from "@hooks/useWsHandler.ts";
-import { useEffect, useState } from "react";
+import { usePresence } from "@/context/presence/usePresence.ts";
 import type { IconProps } from "./types.ts";
-import { isWebSocketConnected } from "@app/preload";
 
 function ProfileHash({ size, ...props }: IconProps) {
-  const [connected, setConnected] = useState(false);
-
-  useWsEvent("server:disconnected", () => {
-    setConnected(false);
-  });
-  useWsEvent("server:connected", () => {
-    setConnected(true);
-  });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const checkWebSocket = async () => {
-      try {
-        const result = await isWebSocketConnected();
-        if (isMounted) setConnected(result);
-      } catch (error) {
-        console.error(error);
-        if (isMounted) setConnected(false);
-      }
-    };
-
-    checkWebSocket().catch((error: unknown) => {
-      console.log(error);
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { presence } = usePresence();
+  const isOnline = presence === "online";
 
   return (
     <svg
@@ -46,7 +16,7 @@ function ProfileHash({ size, ...props }: IconProps) {
     >
       <rect width={size} height={size} rx={8} className="fill-tertiary" />
 
-      {connected && <circle cx="36" cy="36" r="5" className="fill-green-600" />}
+      {isOnline && <circle cx="36" cy="36" r="5" className="fill-green-600" />}
 
       <path
         d="M18.31 10l-4.543 20m12.854-20l-4.505 20M10 24.056h18.718m-17.087-8.635H30"

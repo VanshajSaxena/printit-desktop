@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "./App.css";
 import { AppLayout } from "./components/layout/AppLayout";
+import { PresenceProvider } from "./context/presence/PresenceProvider";
 import { ThemeProvider } from "./context/theme/ThemeProvider";
 import { useAuthStore } from "./store/useAuthStore";
 
@@ -23,8 +24,10 @@ function App() {
       }}
     >
       <ThemeProvider>
-        <AppLayout />
-        <Toaster />
+        <PresenceProvider>
+          <AppLayout />
+          <Toaster />
+        </PresenceProvider>
       </ThemeProvider>
     </PersistQueryClientProvider>
   );
