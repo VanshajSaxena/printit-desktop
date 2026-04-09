@@ -1,10 +1,10 @@
+import type { VendorPresenceDto } from "@/api/gen/cloud-api-types";
+import { usePresence } from "@/context/presence/usePresence";
 import { DiamondIcon } from "@components/icons/DiamondIcon";
-import ProfileHashIcon from "@components/icons/ProfileHashIcon";
+import { ProfileHashIcon } from "@components/icons/ProfileHashIcon";
 import { SidebarLeftCollapseIcon } from "@components/icons/SidebarLeftCollapseIcon";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-
-type Status = "online" | "away" | "offline";
 
 interface ProfileAreaProps {
   isCollapsed: boolean;
@@ -13,7 +13,7 @@ interface ProfileAreaProps {
 
 export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [status, setStatus] = useState<Status>("offline");
+  const { presence, setPresence } = usePresence();
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,10 +33,9 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
     };
   }, [isOpen]);
 
-  const handleStatusChange = (newStatus: Status) => {
-    setStatus(newStatus);
+  const handleStatusChange = (newStatus: VendorPresenceDto["status"]) => {
+    setPresence(newStatus);
     setIsOpen(false);
-    // TODO: Broadcast the status change to your WebSocket/global state here
   };
 
   return (
@@ -56,7 +55,7 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
           "flex w-full cursor-pointer items-center justify-center rounded-xl transition-all duration-300",
         )}
       >
-        <ProfileHashIcon size={40} />
+        <ProfileHashIcon size={40} presence={presence} />
 
         <div
           className={clsx(

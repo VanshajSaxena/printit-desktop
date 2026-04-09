@@ -68,6 +68,7 @@ __metadata:
     electron-devtools-installer: "npm:4.0.0"
     electron-log: "npm:^5.4.3"
     electron-updater: "npm:6.7.3"
+    jwt-decode: "npm:^4.0.0"
     keytar: "npm:^7.9.0"
     socket.io-client: "npm:^4.8.3"
     vite: "npm:7.3.0"
@@ -6858,6 +6859,13 @@ __metadata:
     readable-stream: "npm:~2.3.6"
     setimmediate: "npm:^1.0.5"
   checksum: 10c0/58e01ec9c4960383fb8b38dd5f67b83ccc1ec215bf74c8a5b32f42b6e5fb79fada5176842a11409c4051b5b94275044851814a31076bf49e1be218d3ef57c863
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10c0/de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
   languageName: node
   linkType: hard
 

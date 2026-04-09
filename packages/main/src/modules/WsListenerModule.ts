@@ -16,6 +16,7 @@ class WsEventListenerModule implements AppModule {
   enable(context: ModuleContext): void {
     log.info("WsEventListenerModule: Registering event listeners...");
 
+    this.registerListener("presence:update");
     this.registerListener("job:status:updated");
     this.registerListener("job:completed");
     this.registerListener("job:failed");
@@ -50,6 +51,7 @@ class WsEventListenerModule implements AppModule {
 
   private removeAllListeners(): void {
     const events: WebSocketEvent[] = [
+      "presence:update",
       "job:status:updated",
       "job:completed",
       "job:failed",

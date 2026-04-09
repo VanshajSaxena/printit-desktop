@@ -1,8 +1,11 @@
-import { usePresence } from "@/context/presence/usePresence.ts";
+import type { VendorPresenceDto } from "@/api/gen/cloud-api-types.ts";
 import type { IconProps } from "./types.ts";
 
-function ProfileHash({ size, ...props }: IconProps) {
-  const { presence } = usePresence();
+export function ProfileHashIcon({
+  size,
+  presence,
+  ...props
+}: IconProps & { presence: VendorPresenceDto["status"] }) {
   const isOnline = presence === "online";
 
   return (
@@ -27,5 +30,3 @@ function ProfileHash({ size, ...props }: IconProps) {
     </svg>
   );
 }
-
-export default ProfileHash;

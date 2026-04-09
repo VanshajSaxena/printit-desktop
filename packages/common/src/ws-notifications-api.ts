@@ -14,10 +14,7 @@ export interface WsNotificationsApiConfig {
 
 export interface WebSocketEventMap {
   "presence:update": {
-    transactionId: number;
-    jobId: number;
-    status: string;
-    timestamp: string;
+    presence: "online" | "offline" | "away";
   };
   "job:status:updated": {
     transactionId: number;
@@ -112,7 +109,6 @@ export class WsNotificationsApi extends EventEmitter {
         );
       });
 
-      this.joinVendor(1);
       this.emit("server:connected", { socketId: this.client.id });
     });
 
@@ -161,11 +157,6 @@ export class WsNotificationsApi extends EventEmitter {
   ): void {
     log.info(`WsNotificationsApi: Emitting '${eventName}' to server`, payload);
     this.client.emit(eventName, payload);
-  }
-
-  joinVendor(id: number) {
-    log.info("join vendor was called");
-    this.client.emit("vendor:join", { id });
   }
 
   isActive(): boolean {

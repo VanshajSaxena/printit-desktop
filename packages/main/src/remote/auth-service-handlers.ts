@@ -1,8 +1,9 @@
 import { shell } from "electron";
+import log from "electron-log";
+import { jwtDecode } from "jwt-decode";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
 import { KeychainService } from "../services/kyechain.service.js";
 import { createHandler } from "./ipc-handlers.js";
-import log from "electron-log";
 
 export interface TokenPair {
   accessToken: string;
@@ -102,6 +103,44 @@ export function getAuthHandlers(): IpcHandlerRegistry {
         });
 
         _accessToken = tokens.accessToken;
+        await KeychainService.setRefreshToken(tokens.refreshToken);
+
+        return { accessToken: tokens.accessToken };
+      } catch {
+        await KeychainService.clearAll();
+        return null;
+      }
+    }),
+
+    "auth:get-access-token": createHandler(async () => {
+      const accessToken = await KeychainService.getAccessToken();
+
+      if (accessToken) {
+        try {
+          const decoded = jwtDecode<{
+            exp: number;
+          }>(accessToken);
+
+          if (decoded.exp * 1000 > Date.now()) {
+            _accessToken = accessToken;
+            return { accessToken };
+          }
+        } catch {
+          // invalid token → expired
+        }
+      }
+
+      const refreshToken = await KeychainService.getRefreshToken();
+      if (!refreshToken) return null;
+
+      try {
+        const tokens = await fetchJson<TokenPair>("/auth/refresh", {
+          method: "POST",
+          body: { refreshToken },
+        });
+
+        _accessToken = tokens.accessToken;
+        await KeychainService.setAccessToken(tokens.accessToken);
         await KeychainService.setRefreshToken(tokens.refreshToken);
 
         return { accessToken: tokens.accessToken };
