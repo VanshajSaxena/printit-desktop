@@ -1,20 +1,20 @@
+import { PrintServiceApi, WsNotificationsApi } from "@app/common";
+import log from "electron-log";
 import type { AppInitConfig } from "./AppInitConfig.js";
 import { createModuleRunner } from "./ModuleRunner.js";
-import { disallowMultipleAppInstance } from "./modules/SingleInstanceApp.js";
-import { createWindowManagerModule } from "./modules/WindowManager.js";
 import { terminateAppOnLastWindowClose } from "./modules/ApplicationTerminatorOnLastWindowClose.js";
-import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.js";
 import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
-import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { startPrintService } from "./modules/PrintServiceModule.js";
-import { ipcHandlers } from "./modules/IpcHandlersModule.js";
-import { wsHandlers } from "./modules/WsHandlerModule.js";
-import log from "electron-log";
-import { createIpcHandlers } from "./remote/ipc-handlers.js";
-import { PrintServiceApi, WsNotificationsApi } from "@app/common";
-import { wsEventListeners } from "./modules/WsListenerModule.js";
 import { setAsDefaultProtocolClient } from "./modules/DefaultProtocolClient.js";
+import { allowExternalUrls } from "./modules/ExternalUrls.js";
+import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.js";
+import { ipcHandlers } from "./modules/IpcHandlersModule.js";
+import { startPrintService } from "./modules/PrintServiceModule.js";
+import { disallowMultipleAppInstance } from "./modules/SingleInstanceApp.js";
+import { createWindowManagerModule } from "./modules/WindowManager.js";
+import { wsHandlers } from "./modules/WsHandlerModule.js";
+import { wsEventListeners } from "./modules/WsListenerModule.js";
+import { createIpcHandlerRegistry } from "./remote/ipc-handlers.js";
 
 const wsNotificationsApiConfig = {
   url: import.meta.env.PROD ? "dev.api.printit.ink" : "dev.api.printit.ink",
@@ -25,7 +25,7 @@ export async function initApp(initConfig: AppInitConfig) {
   log.info("### Main Process Initialization Started ###");
   const printServiceApi = new PrintServiceApi();
   const webSocketApi = new WsNotificationsApi(wsNotificationsApiConfig);
-  const allHandlers = createIpcHandlers(printServiceApi, webSocketApi);
+  const allHandlers = createIpcHandlerRegistry(printServiceApi, webSocketApi);
   const moduleRunner = createModuleRunner()
     .init(
       createWindowManagerModule({

@@ -18,19 +18,17 @@ export function createHandler<TArgs extends unknown[], TReturn>(
   return handler as IpcHandler;
 }
 
-export function createIpcHandlers(
+export function createIpcHandlerRegistry(
   printServiceApi: PrintServiceApi,
   webSocketApi: WsNotificationsApi,
 ) {
-  const {
-    printServiceHandlers,
-    webSocketNotifications,
-    authServiceHandlers,
-  }: {
-    printServiceHandlers: IpcHandlerRegistry;
-    webSocketNotifications: IpcHandlerRegistry;
-    authServiceHandlers: IpcHandlerRegistry;
-  } = getAllIpcHandlers(printServiceApi, webSocketApi);
+  const authServiceHandlers: IpcHandlerRegistry = getAuthHandlers();
+
+  const printServiceHandlers: IpcHandlerRegistry =
+    getPrintServiceHandlers(printServiceApi);
+
+  const webSocketNotifications: IpcHandlerRegistry =
+    getWsNotificationSeriveHandlers(webSocketApi);
 
   const allHandlers: IpcHandlerRegistry = {
     ...printServiceHandlers,
@@ -39,22 +37,4 @@ export function createIpcHandlers(
   };
 
   return allHandlers;
-}
-
-function getAllIpcHandlers(
-  printServiceApi: PrintServiceApi,
-  webSocketApi: WsNotificationsApi,
-) {
-  const authServiceHandlers: IpcHandlerRegistry = getAuthHandlers();
-  const printServiceHandlers: IpcHandlerRegistry =
-    getPrintServiceHandlers(printServiceApi);
-
-  const webSocketNotifications: IpcHandlerRegistry =
-    getWsNotificationSeriveHandlers(webSocketApi);
-
-  return {
-    printServiceHandlers,
-    webSocketNotifications,
-    authServiceHandlers,
-  };
 }

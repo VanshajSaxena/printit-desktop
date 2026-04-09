@@ -1,5 +1,4 @@
 import log from "electron-log";
-import { Fetch, WebSocket, WebTransport, XHR } from "engine.io-client";
 import { EventEmitter } from "events";
 import { io, Socket } from "socket.io-client";
 
@@ -14,6 +13,12 @@ export interface WsNotificationsApiConfig {
 }
 
 export interface WebSocketEventMap {
+  "presence:update": {
+    transactionId: number;
+    jobId: number;
+    status: string;
+    timestamp: string;
+  };
   "job:status:updated": {
     transactionId: number;
     jobId: number;
@@ -76,7 +81,7 @@ export class WsNotificationsApi extends EventEmitter {
       debug: true,
       ...config,
     };
-    log.info("WsNotificationsApi: ", this.config);
+    log.info("WsNotificationsApi config: ", this.config);
     const uri = `${this.config.protocol}://${this.config.url}/${this.config.namespace}`;
     log.info("WsNotificationsApi: ", uri);
 
@@ -84,14 +89,8 @@ export class WsNotificationsApi extends EventEmitter {
       reconnection: this.config.reconnection,
       reconnectionDelay: this.config.reconnectionDelay,
       reconnectionAttempts: this.config.reconnectionAttempt,
-      transports: [XHR, Fetch, WebSocket, WebTransport],
       tryAllTransports: true,
-      auth: {
-        clientType: "vendor",
-        clientId: 1,
-        username: "vanshaj",
-        slug: "xlmpwfyzbywgbse",
-      },
+      autoConnect: false,
     });
 
     this.setupEventHandlers();
@@ -104,16 +103,17 @@ export class WsNotificationsApi extends EventEmitter {
         "WsHandlerModule: Connected Initial Transport: ",
         this.client.io.engine.transport.name,
       );
+
+      this.client.io.engine.on("upgrade", () => {
+        log.info("WsHandlerModule: Upgraded: ", this.client.io.engine.id);
+        log.debug(
+          "WsHandlerModule: Upgraded New Transport: ",
+          this.client.io.engine.transport.name,
+        );
+      });
+
       this.joinVendor(1);
       this.emit("server:connected", { socketId: this.client.id });
-    });
-
-    this.client.io.engine.on("upgrade", () => {
-      log.info("WsHandlerModule: Upgraded: ", this.client.io.engine.id);
-      log.debug(
-        "WsHandlerModule: Upgraded New Transport: ",
-        this.client.io.engine.transport.name,
-      );
     });
 
     this.client.on("connect_error", (error) => {
@@ -179,6 +179,18 @@ export class WsNotificationsApi extends EventEmitter {
   disconnect(): void {
     if (this.client.connected) {
       this.client.disconnect();
+    }
+  }
+
+  connect(token: string): void {
+    if (this.client.disconnected) {
+      this.client.auth = (cb) => {
+        cb({
+          clientType: "vendor",
+          token: token,
+        });
+      };
+      this.client.connect();
     }
   }
 }

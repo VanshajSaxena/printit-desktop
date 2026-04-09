@@ -70,6 +70,9 @@ export function isWebSocketActive() {
 export function disconnectWebSocket() {
   return ipcRenderer.invoke("server:disconnect");
 }
+export function connectWebSocket(token: string) {
+  return ipcRenderer.invoke("server:connect", token);
+}
 export function downloadFilesToFileSystem(
   transactionId: number,
   files: {

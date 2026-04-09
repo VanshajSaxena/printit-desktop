@@ -76,7 +76,7 @@ export function SideBar({
         />
         {isCollapsed && (
           <SidebarRightCollapseIcon
-            className="cursor-pointer stroke-tertiary-content"
+            className="cursor-pointer stroke-tertiary-content hover:stroke-primary-content"
             onClick={() => {
               setCollapsed(false);
             }}

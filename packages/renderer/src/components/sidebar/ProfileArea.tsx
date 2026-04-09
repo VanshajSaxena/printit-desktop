@@ -60,7 +60,7 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
 
         <div
           className={clsx(
-            "flex items-center justify-between overflow-hidden transition-all duration-300",
+            "group flex items-center justify-between overflow-hidden transition-all duration-300",
             isCollapsed ? "w-0 px-0 opacity-0" : "w-full px-3 opacity-100",
           )}
         >
@@ -74,7 +74,7 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
                 harry@potter.com
               </p>
             </div>
-            <DiamondIcon className="shrink-0 stroke-tertiary-content" />
+            <DiamondIcon className="shrink-0 stroke-tertiary-content group-hover:stroke-secondary-content" />
           </div>
         </div>
       </div>

@@ -17,5 +17,9 @@ export function getWsNotificationSeriveHandlers(
     "server:disconnect": createHandler(() => {
       webSocketApi.disconnect();
     }),
+
+    "server:connect": createHandler((_event, token: string) => {
+      webSocketApi.connect(token);
+    }),
   };
 }

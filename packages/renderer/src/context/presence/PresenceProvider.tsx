@@ -1,10 +1,12 @@
 import { type VendorPresenceDto } from "@/api/gen/cloud-api-types";
 import { useWsEvent } from "@/hooks/useWsHandler";
+import { connectWebSocket, onOAuthComplete } from "@app/preload";
 import { useEffect, useState } from "react";
 import { PresenceContext } from "./PresenceContext";
-import { isWebSocketConnected } from "@app/preload";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export function PresenceProvider({ children }: { children: React.ReactNode }) {
+  const token = useAuthStore((store) => store.accessToken);
   const [presence, setPresence] =
     useState<VendorPresenceDto["status"]>("offline");
   useWsEvent("server:connected", () => {
@@ -14,23 +16,17 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
     setPresence("offline");
   });
   useEffect(() => {
-    let isMounted = true;
-    const checkWebSocket = async () => {
-      try {
-        const result = await isWebSocketConnected();
-        if (isMounted) setPresence(result ? "online" : "offline");
-      } catch (error) {
-        console.error(error);
-        if (isMounted) setPresence("offline");
+    onOAuthComplete(() => {
+      if (token) {
+        connectWebSocket(token).catch(console.error);
       }
-    };
-    checkWebSocket().catch((error: unknown) => {
-      console.log(error);
     });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+
+    if (token) {
+      connectWebSocket(token).catch(console.error);
+    }
+  }, [token]);
+
   return (
     <PresenceContext value={{ presence, setPresence }}>
       {children}
