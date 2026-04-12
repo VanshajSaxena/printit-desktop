@@ -18,7 +18,6 @@ import {
 export function SectionCards() {
   return (
     <div className="*:data-[slot=card]:to-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-secondary/80 *:data-[slot=card]:from-primary/5 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      {/* Volume Metric */}
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Sheets Printed</CardDescription>
@@ -42,7 +41,6 @@ export function SectionCards() {
         </CardFooter>
       </Card>
 
-      {/* Throughput Metric */}
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Orders Completed</CardDescription>
@@ -66,7 +64,6 @@ export function SectionCards() {
         </CardFooter>
       </Card>
 
-      {/* Footfall Metric */}
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Unique Customers</CardDescription>
@@ -88,7 +85,6 @@ export function SectionCards() {
         </CardFooter>
       </Card>
 
-      {/* Efficiency Metric */}
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Time Saved</CardDescription>

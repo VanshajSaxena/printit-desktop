@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { MainContent } from "./MainContent";
 import { SideBar } from "./SideBar";
+import { PrintitIcon } from "../Printit";
 
 export type ViewType = "dashboard" | "analytics" | "settings" | "help";
 type AuthView = "login" | "signup";
@@ -32,7 +33,12 @@ export function AppLayout() {
     }
   }, [timedout]);
 
-  if (isBootstrapping) return <div>Loading....</div>;
+  if (isBootstrapping)
+    return (
+      <div className="flex h-dvh w-dvw items-center justify-center gap-4 overflow-hidden bg-secondary select-none">
+        <PrintitIcon width={300}></PrintitIcon>
+      </div>
+    );
   if (!isAuthenticated && authView === "login")
     return (
       <LoginPage
