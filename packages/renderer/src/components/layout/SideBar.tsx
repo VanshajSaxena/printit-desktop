@@ -62,26 +62,26 @@ export function SideBar({
         isCollapsed ? "w-12" : "w-72",
       )}
     >
-      <div
-        className={clsx(
-          "flex w-full flex-col items-center justify-between",
-          isCollapsed ? "gap-6" : "gap-18",
-        )}
-      >
+      <div className="flex w-full flex-col items-center gap-6">
         <ProfileArea
           isCollapsed={isCollapsed}
           setCollapsed={() => {
             setCollapsed(true);
           }}
         />
-        {isCollapsed && (
+        <div
+          className={clsx(
+            "flex h-6 w-full items-center justify-center transition-opacity duration-300",
+            !isCollapsed && "pointer-events-none opacity-0",
+          )}
+        >
           <SidebarRightCollapseIcon
             className="cursor-pointer stroke-tertiary-content hover:stroke-primary-content"
             onClick={() => {
               setCollapsed(false);
             }}
           />
-        )}
+        </div>
         <div className="flex h-fit w-full flex-col gap-2">
           {sidebarItems.slice(0, 2).map((item) => (
             <SideBarItem
