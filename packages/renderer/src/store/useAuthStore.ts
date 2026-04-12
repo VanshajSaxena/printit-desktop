@@ -3,7 +3,7 @@ import {
   logout,
   oauthStart,
   onOAuthComplete,
-  getFreshAccessToken,
+  getAccessToken,
 } from "@app/preload";
 import { create } from "zustand";
 
@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     });
 
-    const result = await getFreshAccessToken();
+    const result = await getAccessToken();
     set({
       accessToken: result?.accessToken ?? null,
       isAuthenticated: !!result?.accessToken,

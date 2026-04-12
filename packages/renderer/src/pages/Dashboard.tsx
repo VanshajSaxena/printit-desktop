@@ -1,10 +1,11 @@
+import { client } from "@/api/client";
 import { SectionCards } from "@/components/cards/SectionCards";
 import { OrderSheet } from "@/components/sheets/OrderSheet";
-import { useAuthStore } from "@/store/useAuthStore";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
 import { DisplayButton } from "@components/buttons/DisplayButton";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
+import { QRCodeDialog } from "@components/dialogs/QRCodeDialog";
 import { MoonIcon } from "@components/icons/MoonIcon";
 import { TopBar } from "@components/layout/TopBar";
 import { useTheme } from "@context/theme/useTheme";
@@ -18,7 +19,9 @@ export function Dashboard() {
     number | undefined
   >(undefined);
   const [orderSheetOpen, setOrderSheetOpen] = useState(false);
-  const logout = useAuthStore((store) => store.logout);
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
+
+  const { data } = client.useQuery("get", "/api/v1/vendors/me");
 
   const openOrderSheet = (transactionId: number) => {
     setSelectedTransactionId(transactionId);
@@ -36,15 +39,12 @@ export function Dashboard() {
           ></Button>
           <GetQRCodeButton
             onClick={() => {
-              void logout();
+              setQrDialogOpen(true);
             }}
           ></GetQRCodeButton>
         </div>
       </TopBar>
       <div className="flex h-full max-w-full min-w-0 flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
-        {/* <SheetsPrintedCard heroText="24" subText="Today" /> */}
-        {/* <SheetsPrintedCard heroText="425" subText="Weekly" /> */}
-        {/* <PrinterStatusCard subText="HP Laserjet" /> */}
         <SectionCards />
         <div className="flex h-fit max-w-full min-w-0 justify-between gap-4">
           <SearchInput />
@@ -62,6 +62,11 @@ export function Dashboard() {
           />
         )}
       </div>
+      <QRCodeDialog
+        open={qrDialogOpen}
+        onOpenChange={setQrDialogOpen}
+        username={data?.username}
+      />
     </>
   );
 }

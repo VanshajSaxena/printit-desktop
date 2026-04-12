@@ -124,7 +124,7 @@ export function refresh(): Promise<{ accessToken: string } | null> {
   return ipcRenderer.invoke("auth:refresh");
 }
 
-export function getFreshAccessToken(): Promise<{ accessToken: string } | null> {
+export function getAccessToken(): Promise<{ accessToken: string } | null> {
   return ipcRenderer.invoke("auth:get-access-token");
 }
 
