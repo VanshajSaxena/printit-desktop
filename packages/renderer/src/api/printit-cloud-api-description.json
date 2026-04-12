@@ -59,6 +59,23 @@
         "tags": ["Vendor"]
       }
     },
+    "/api/v1/vendors/me": {
+      "get": {
+        "operationId": "VendorController_getVendorProfile_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/VendorResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Vendor"]
+      }
+    },
     "/api/v1/vendors/nearby": {
       "get": {
         "operationId": "VendorController_findNearby_v1",
@@ -109,12 +126,11 @@
             "description": "The unique identifier",
             "examples": {
               "id": { "summary": "Internal ID", "value": 999 },
-              "slug": { "summary": "Slug", "value": "xi28b2sg8d" },
               "username": { "summary": "Username", "value": "@username" }
             },
             "schema": {
               "oneOf": [
-                { "type": "string", "description": "Slug or Username" },
+                { "type": "string", "description": "Username" },
                 { "type": "integer", "description": "Internal Database ID" }
               ]
             }
@@ -152,12 +168,11 @@
             "description": "The unique identifier",
             "examples": {
               "id": { "summary": "Internal ID", "value": 999 },
-              "slug": { "summary": "Slug", "value": "xi28b2sg8d" },
               "username": { "summary": "Username", "value": "@username" }
             },
             "schema": {
               "oneOf": [
-                { "type": "string", "description": "Slug or Username" },
+                { "type": "string", "description": "Username" },
                 { "type": "integer", "description": "Internal Database ID" }
               ]
             }
@@ -822,17 +837,15 @@
         "tags": ["Job"]
       }
     },
-    "/api/v1/files/upload": {
+    "/api/v1/auth/register": {
       "post": {
-        "operationId": "R2Controller_requestUploadFiles_v1",
+        "operationId": "AuthController_register_v1",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadFileBatchRequestDto"
-              }
+              "schema": { "$ref": "#/components/schemas/RegisterVendorDto" }
             }
           }
         },
@@ -841,43 +854,14 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UploadFileBatchResponseDto"
-                }
+                "schema": { "$ref": "#/components/schemas/TokenResponseDto" }
               }
             }
-          }
+          },
+          "409": { "description": "Email or username already in use" }
         },
-        "tags": ["R2"]
-      }
-    },
-    "/api/v1/files/download": {
-      "post": {
-        "operationId": "R2Controller_requestDownloadFile_v1",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DownloadFileBatchRequestDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DownloadFileBatchResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["R2"]
+        "summary": "Create a new vendor account with email and password",
+        "tags": ["Auth"]
       }
     },
     "/api/v1/auth/login": {
@@ -1022,6 +1006,99 @@
         "summary": "Initiate Microsoft OAuth flow",
         "tags": ["Auth"]
       }
+    },
+    "/api/v1/files/upload": {
+      "post": {
+        "operationId": "R2Controller_requestUploadFiles_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadFileBatchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadFileBatchResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["R2"]
+      }
+    },
+    "/api/v1/files/download": {
+      "post": {
+        "operationId": "R2Controller_requestDownloadFile_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadFileBatchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadFileBatchResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["R2"]
+      }
+    },
+    "/api/v1/analytics/dashboard/cards": {
+      "get": {
+        "operationId": "AnalyticsController_findOne_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardCardAnalytics"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Analytics"]
+      }
+    },
+    "/api/v1/anon-users/identify": {
+      "post": {
+        "operationId": "AnonUserController_upsert_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AnonUserIdentifyDto" }
+            }
+          }
+        },
+        "responses": { "204": { "description": "" } },
+        "tags": ["AnonUser"]
+      }
     }
   },
   "info": {
@@ -1045,29 +1122,14 @@
             "maxLength": 20,
             "pattern": "/^[a-zA-Z0-9_]+$/"
           },
+          "password": { "type": "string" },
           "email": { "type": "string", "format": "email" },
           "displayName": { "type": "string" },
           "address": { "type": "string" },
           "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
           "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
         },
-        "required": ["firstName", "lastName", "username", "email"]
-      },
-      "LocationDto": {
-        "type": "object",
-        "properties": {
-          "latitude": {
-            "type": "number",
-            "nullable": true,
-            "example": 12.9716
-          },
-          "longitude": {
-            "type": "number",
-            "nullable": true,
-            "example": 77.5946
-          }
-        },
-        "required": ["latitude", "longitude"]
+        "required": ["firstName", "email"]
       },
       "VendorResponseDto": {
         "type": "object",
@@ -1078,11 +1140,6 @@
           "displayName": { "type": "string", "nullable": true },
           "username": { "type": "string" },
           "address": { "type": "string" },
-          "slug": { "type": "string" },
-          "location": {
-            "nullable": true,
-            "allOf": [{ "$ref": "#/components/schemas/LocationDto" }]
-          },
           "distance": { "type": "number" }
         },
         "required": [
@@ -1092,8 +1149,6 @@
           "displayName",
           "username",
           "address",
-          "slug",
-          "location",
           "distance"
         ]
       },
@@ -1368,6 +1423,53 @@
         },
         "required": ["status"]
       },
+      "RegisterVendorDto": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string", "example": "John" },
+          "lastName": { "type": "string", "example": "Doe" },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 20,
+            "pattern": "/^[a-zA-Z0-9_]+$/",
+            "example": "john_doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john@printit.com"
+          },
+          "password": { "type": "string", "example": "Str0ng!Pass" }
+        },
+        "required": ["firstName", "lastName", "username", "email", "password"]
+      },
+      "TokenResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "refreshToken": { "type": "string" }
+        },
+        "required": ["accessToken", "refreshToken"]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        },
+        "required": ["email", "password"]
+      },
+      "RefreshRequestDto": {
+        "type": "object",
+        "properties": { "refreshToken": { "type": "string" } },
+        "required": ["refreshToken"]
+      },
+      "ExchangeRequestDto": {
+        "type": "object",
+        "properties": { "code": { "type": "string" } },
+        "required": ["code"]
+      },
       "UploadFileBatchRequestDto": {
         "type": "object",
         "properties": {
@@ -1427,31 +1529,45 @@
         },
         "required": ["signedUrls"]
       },
-      "LoginDto": {
+      "DashboardCardAnalytics": {
         "type": "object",
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "password": { "type": "string" }
+          "todaySheets": { "type": "number" },
+          "yesterdaySheets": { "type": "number" },
+          "sheetPercentageChange": { "type": "number", "nullable": true },
+          "todayOrders": { "type": "number" },
+          "yesterdayOrders": { "type": "number" },
+          "orderPercentageChange": { "type": "number", "nullable": true },
+          "totalUsers": { "type": "number" },
+          "todayUsers": { "type": "number" },
+          "yesterdayUsers": { "type": "number" },
+          "userPercentageChange": { "type": "number", "nullable": true },
+          "todayNewUsers": { "type": "number" },
+          "yesterdayNewUsers": { "type": "number" }
         },
-        "required": ["email", "password"]
+        "required": [
+          "todaySheets",
+          "yesterdaySheets",
+          "sheetPercentageChange",
+          "todayOrders",
+          "yesterdayOrders",
+          "orderPercentageChange",
+          "totalUsers",
+          "todayUsers",
+          "yesterdayUsers",
+          "userPercentageChange",
+          "todayNewUsers",
+          "yesterdayNewUsers"
+        ]
       },
-      "TokenResponseDto": {
+      "AnonUserIdentifyDto": {
         "type": "object",
         "properties": {
-          "accessToken": { "type": "string" },
-          "refreshToken": { "type": "string" }
+          "id": { "type": "string" },
+          "vendorId": { "type": "number" },
+          "userAgent": { "type": "string" }
         },
-        "required": ["accessToken", "refreshToken"]
-      },
-      "RefreshRequestDto": {
-        "type": "object",
-        "properties": { "refreshToken": { "type": "string" } },
-        "required": ["refreshToken"]
-      },
-      "ExchangeRequestDto": {
-        "type": "object",
-        "properties": { "code": { "type": "string", "format": "uuid" } },
-        "required": ["code"]
+        "required": ["id", "vendorId"]
       }
     }
   }

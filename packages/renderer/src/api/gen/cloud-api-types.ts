@@ -4,6 +4,38 @@
  */
 
 export interface paths {
+  "/api/v1/analytics/dashboard/cards": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["AnalyticsController_findOne_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/anon-users/identify": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["AnonUserController_upsert_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/exchange": {
     parameters: {
       query?: never;
@@ -109,6 +141,23 @@ export interface paths {
     put?: never;
     /** Rotate access and refresh tokens */
     post: operations["AuthController_refresh_v1"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/register": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new vendor account with email and password */
+    post: operations["AuthController_register_v1"];
     delete?: never;
     options?: never;
     head?: never;
@@ -387,6 +436,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/vendors/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["VendorController_getVendorProfile_v1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/vendors/nearby": {
     parameters: {
       query?: never;
@@ -407,6 +472,11 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    AnonUserIdentifyDto: {
+      id: string;
+      userAgent?: string;
+      vendorId: number;
+    };
     CreateDocumentBatchRequestDto: {
       documents: components["schemas"]["CreateDocumentRequestDto"][];
     };
@@ -477,10 +547,25 @@ export interface components {
       /** Format: email */
       email: string;
       firstName: string;
-      lastName: string;
+      lastName?: string;
       latitude?: number;
       longitude?: number;
-      username: string;
+      password?: string;
+      username?: string;
+    };
+    DashboardCardAnalytics: {
+      orderPercentageChange: number | null;
+      sheetPercentageChange: number | null;
+      todayNewUsers: number;
+      todayOrders: number;
+      todaySheets: number;
+      todayUsers: number;
+      totalUsers: number;
+      userPercentageChange: number | null;
+      yesterdayNewUsers: number;
+      yesterdayOrders: number;
+      yesterdaySheets: number;
+      yesterdayUsers: number;
     };
     DownloadFileBatchRequestDto: {
       ids: number[];
@@ -494,7 +579,6 @@ export interface components {
       url: string;
     };
     ExchangeRequestDto: {
-      /** Format: uuid */
       code: string;
     };
     FindDocumentResponseDto: {
@@ -521,12 +605,6 @@ export interface components {
       /** @enum {string} */
       status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
     };
-    LocationDto: {
-      /** @example 12.9716 */
-      latitude: number | null;
-      /** @example 77.5946 */
-      longitude: number | null;
-    };
     LoginDto: {
       /** Format: email */
       email: string;
@@ -548,6 +626,21 @@ export interface components {
     };
     RefreshRequestDto: {
       refreshToken: string;
+    };
+    RegisterVendorDto: {
+      /**
+       * Format: email
+       * @example john@printit.com
+       */
+      email: string;
+      /** @example John */
+      firstName: string;
+      /** @example Doe */
+      lastName: string;
+      /** @example Str0ng!Pass */
+      password: string;
+      /** @example john_doe */
+      username: string;
     };
     TokenResponseDto: {
       accessToken: string;
@@ -601,8 +694,6 @@ export interface components {
       firstName: string;
       id: number;
       lastName: string;
-      location: components["schemas"]["LocationDto"] | null;
-      slug: string;
       username: string;
     };
   };
@@ -612,6 +703,7 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+export type AnonUserIdentifyDto = components["schemas"]["AnonUserIdentifyDto"];
 export type CreateDocumentBatchRequestDto =
   components["schemas"]["CreateDocumentBatchRequestDto"];
 export type CreateDocumentBatchResponseDto =
@@ -629,6 +721,8 @@ export type CreateTransactionRequestDto =
 export type CreateTransactionResponseDto =
   components["schemas"]["CreateTransactionResponseDto"];
 export type CreateVendorDto = components["schemas"]["CreateVendorDto"];
+export type DashboardCardAnalytics =
+  components["schemas"]["DashboardCardAnalytics"];
 export type DownloadFileBatchRequestDto =
   components["schemas"]["DownloadFileBatchRequestDto"];
 export type DownloadFileBatchResponseDto =
@@ -641,11 +735,11 @@ export type FindDocumentResponseDto =
 export type FindJobResponseDto = components["schemas"]["FindJobResponseDto"];
 export type FindTransactionResponseDto =
   components["schemas"]["FindTransactionResponseDto"];
-export type LocationDto = components["schemas"]["LocationDto"];
 export type LoginDto = components["schemas"]["LoginDto"];
 export type NotFoundErrorDto = components["schemas"]["NotFoundErrorDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
 export type RefreshRequestDto = components["schemas"]["RefreshRequestDto"];
+export type RegisterVendorDto = components["schemas"]["RegisterVendorDto"];
 export type TokenResponseDto = components["schemas"]["TokenResponseDto"];
 export type TransactionStatusResponseDto =
   components["schemas"]["TransactionStatusResponseDto"];
@@ -667,6 +761,46 @@ export type VendorPresenceDto = components["schemas"]["VendorPresenceDto"];
 export type VendorResponseDto = components["schemas"]["VendorResponseDto"];
 export type $defs = Record<string, never>;
 export interface operations {
+  AnalyticsController_findOne_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DashboardCardAnalytics"];
+        };
+      };
+    };
+  };
+  AnonUserController_upsert_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AnonUserIdentifyDto"];
+      };
+    };
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   AuthController_exchangeCode_v1: {
     parameters: {
       query?: never;
@@ -832,6 +966,36 @@ export interface operations {
       };
       /** @description Refresh token invalid or expired */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AuthController_register_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RegisterVendorDto"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenResponseDto"];
+        };
+      };
+      /** @description Email or username already in use */
+      409: {
         headers: {
           [name: string]: unknown;
         };
@@ -1545,6 +1709,25 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["VendorPresenceDto"];
+        };
+      };
+    };
+  };
+  VendorController_getVendorProfile_v1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VendorResponseDto"];
         };
       };
     };
