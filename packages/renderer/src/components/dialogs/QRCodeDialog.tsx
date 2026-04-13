@@ -44,7 +44,7 @@ export function QRCodeDialog({
 
         <div className="flex">
           <div className="flex w-[320px] flex-col border-r border-border bg-background p-5">
-            <span className="text-base font-semibold text-foreground">
+            <span className="text-base font-medium text-foreground">
               QR Code
             </span>
 
@@ -76,7 +76,7 @@ export function QRCodeDialog({
 
           <div className="flex flex-1 flex-col justify-between p-5">
             <div>
-              <h3 className="text-lg font-semibold text-foreground">
+              <h3 className="text-lg font-medium text-foreground">
                 What&apos;s this?
               </h3>
 

@@ -12,7 +12,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 export function PresenceProvider({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((store) => store.accessToken);
   const [presence, setPresence] =
-    useState<VendorPresenceDto["status"]>("offline");
+    useState<VendorPresenceDto["status"]>("online");
   useWsEvent("server:connected", () => {
     setPresence("online");
   });
@@ -31,16 +31,15 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
       if (token) connectWebSocket(token).catch(console.error);
     };
 
-    // const unsubscribe =
-    onOAuthComplete(handleConnect);
+    const unsubscribe = onOAuthComplete(handleConnect);
 
     if (token) {
       connectWebSocket(token).catch(console.error);
     }
 
-    // return () => {
-    //   unsubscribe();
-    // };
+    return () => {
+      unsubscribe();
+    };
   }, [token]);
 
   useCallback(() => {
