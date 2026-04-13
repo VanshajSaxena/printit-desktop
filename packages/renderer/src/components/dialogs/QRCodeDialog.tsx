@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react";
-import QRCode from "qrcode";
+import { client } from "@/api/client";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Download, Printer } from "lucide-react";
 import { Button } from "@components/buttons/Button";
-import { Link } from "lucide-react";
+import { Download, Link as LinkIcon, Printer } from "lucide-react";
+import QRCode from "qrcode";
+import { useEffect, useMemo, useState } from "react";
 
 interface QRCodeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  username: string | undefined;
 }
 
-export function QRCodeDialog({
-  open,
-  onOpenChange,
-  username,
-}: QRCodeDialogProps) {
+export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
+  const { data, isLoading } = client.useQuery("get", "/api/v1/vendors/me");
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
 
+  const username = data?.username;
+
+  const printerUrl = useMemo(() => {
+    if (!username) return "";
+    const domain = import.meta.env.PROD
+      ? "app.printit.ink"
+      : "master--printit-app.netlify.app";
+    return `https://${domain}/printers/@${username}`;
+  }, [username]);
+
   useEffect(() => {
-    if (!username) {
+    if (!printerUrl) {
       setQrDataUrl("");
       return;
     }
 
-    const url = `https://app.printit.ink/printers/@${username}`;
-    QRCode.toDataURL(url, {
+    QRCode.toDataURL(printerUrl, {
       width: 240,
       margin: 1,
       color: {
@@ -35,65 +40,74 @@ export function QRCodeDialog({
     })
       .then(setQrDataUrl)
       .catch(console.error);
-  }, [username]);
+  }, [printerUrl]);
+
+  const isGenerating = isLoading || (!!username && !qrDataUrl);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden rounded-xl border border-border bg-background p-0 select-none sm:max-w-180">
-        <DialogTitle className="sr-only">QR Code</DialogTitle>
+      <DialogContent className="overflow-hidden rounded-xl border border-border bg-background p-0 select-none sm:max-w-150">
+        <DialogTitle className="sr-only">Your Printer QR Code</DialogTitle>
 
-        <div className="flex">
-          <div className="flex w-[320px] flex-col border-r border-border bg-background p-5">
+        <div className="flex flex-col sm:flex-row">
+          <div className="flex w-full flex-col border-b border-border bg-background p-6 sm:w-[320px] sm:border-r sm:border-b-0">
             <span className="text-base font-medium text-foreground">
               QR Code
             </span>
 
             <div className="mt-6 flex flex-1 flex-col items-center justify-center">
-              <div className="flex items-center justify-center rounded-xl bg-white p-6">
-                {qrDataUrl ? (
+              <div className="flex h-56 w-56 items-center justify-center rounded-xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                {isGenerating ? (
+                  <div className="h-44 w-44 animate-pulse rounded-lg bg-muted" />
+                ) : (
                   <img
                     src={qrDataUrl}
                     alt="QR Code for print orders"
-                    className="h-44 w-44"
+                    className="h-44 w-44 object-contain"
                   />
-                ) : (
-                  <div className="h-44 w-44 animate-pulse rounded bg-muted-foreground/20" />
                 )}
               </div>
 
-              {username && (
-                <div className="mt-4 flex max-w-full items-center gap-2 text-xs text-muted-foreground">
-                  <span className="shrink-0">
-                    <Link size={14} className="shrink-0" />
-                  </span>
-                  <span className="truncate">
-                    {`app.printit.ink/printers/@${username}`}
-                  </span>
-                </div>
-              )}
+              <div className="mt-6 flex w-full max-w-full items-center justify-center gap-2 text-xs text-muted-foreground">
+                <LinkIcon size={14} className="shrink-0" />
+                {isGenerating ? (
+                  <div className="h-4 w-48 animate-pulse rounded bg-muted" />
+                ) : (
+                  <a
+                    href={printerUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="truncate hover:text-foreground hover:underline"
+                  >
+                    {printerUrl.replace(/^https?:\/\//, "")}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-1 flex-col justify-between p-5">
+          <div className="flex flex-1 flex-col justify-between p-6">
             <div>
               <h3 className="text-lg font-medium text-foreground">
                 What&apos;s this?
               </h3>
 
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Use this QR Code to allow customers to send their print orders.
+                Use this QR Code to allow customers to easily access your
+                profile and send their print orders directly to you.
               </p>
 
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Print this to easily make it accessible to customers.
+                Download or print this code and place it somewhere easily
+                accessible for your customers.
               </p>
             </div>
 
-            <div className="mt-8 flex items-center justify-center gap-3">
+            <div className="mt-8 flex items-center gap-3">
               <Button
                 size="md"
                 icon={<Download size={18} />}
-                className="hover:bg-accent bg-muted text-foreground"
+                className="hover:bg-accent flex-1 bg-muted text-foreground"
               >
                 Download
               </Button>
@@ -101,7 +115,7 @@ export function QRCodeDialog({
               <Button
                 size="md"
                 icon={<Printer size={18} />}
-                className="hover:bg-accent bg-muted text-foreground"
+                className="hover:bg-accent flex-1 bg-muted text-foreground"
               >
                 Print
               </Button>

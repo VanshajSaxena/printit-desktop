@@ -1,6 +1,6 @@
-import { client } from "@/api/client";
 import { SectionCards } from "@/components/cards/SectionCards";
 import { OrderSheet } from "@/components/sheets/OrderSheet";
+import { useAuthStore } from "@/store/useAuthStore";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
 import { DisplayButton } from "@components/buttons/DisplayButton";
@@ -12,7 +12,6 @@ import { useTheme } from "@context/theme/useTheme";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useState } from "react";
 import { SearchInput } from "./dashboard/SearchInput";
-import { useAuthStore } from "@/store/useAuthStore";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -22,7 +21,6 @@ export function Dashboard() {
   const [orderSheetOpen, setOrderSheetOpen] = useState(false);
   const [qrDialogOpen, setQrDialogOpen] = useState(false);
 
-  const { data } = client.useQuery("get", "/api/v1/vendors/me");
   const logout = useAuthStore((store) => store.logout);
 
   const openOrderSheet = (transactionId: number) => {
@@ -38,12 +36,12 @@ export function Dashboard() {
             size="lg"
             icon={<MoonIcon size={24}></MoonIcon>}
             onClick={toggleTheme}
-          ></Button>
+          />
           <GetQRCodeButton
             onClick={() => {
               setQrDialogOpen(true);
             }}
-          ></GetQRCodeButton>
+          />
         </div>
       </TopBar>
       <div className="flex h-full max-w-full min-w-0 flex-col gap-5 overflow-x-hidden overflow-y-auto p-5">
@@ -64,11 +62,7 @@ export function Dashboard() {
           />
         )}
       </div>
-      <QRCodeDialog
-        open={qrDialogOpen}
-        onOpenChange={setQrDialogOpen}
-        username={data?.username}
-      />
+      <QRCodeDialog open={qrDialogOpen} onOpenChange={setQrDialogOpen} />
     </>
   );
 }
