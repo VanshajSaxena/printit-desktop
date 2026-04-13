@@ -9,6 +9,19 @@ import type { WebSocketEvent, WebSocketEventMap } from "@app/common";
 class WsEventListenerModule implements AppModule {
   private api: WsNotificationsApi;
 
+  private events: WebSocketEvent[] = [
+    "presence:update",
+    "job:status:updated",
+    "job:completed",
+    "job:failed",
+    "job:incomplete",
+    "transaction:status:updated",
+    "transaction:completed",
+    "transaction:failed",
+    "milestone:transaction:queued",
+    "milestone:transaction:printing",
+  ];
+
   constructor(api: WsNotificationsApi) {
     this.api = api;
   }
@@ -16,18 +29,13 @@ class WsEventListenerModule implements AppModule {
   enable(context: ModuleContext): void {
     log.info("WsEventListenerModule: Registering event listeners...");
 
-    this.registerListener("presence:update");
-    this.registerListener("job:status:updated");
-    this.registerListener("job:completed");
-    this.registerListener("job:failed");
-    this.registerListener("job:incomplete");
-    this.registerListener("transaction:status:updated");
-    this.registerListener("transaction:completed");
-    this.registerListener("transaction:failed");
-    this.registerListener("milestone:transaction:queued");
-    this.registerListener("milestone:transaction:printing");
+    this.events.forEach((event) => {
+      this.registerListener(event);
+    });
 
-    log.info("WsEventListenerModule: Registered 7 event listeners");
+    log.info(
+      `WsEventListenerModule: Registered ${this.events.length.toString()} event listeners`,
+    );
 
     context.app.on("will-quit", () => {
       log.info("WsEventListenerModule: Removing event listeners...");
@@ -50,20 +58,7 @@ class WsEventListenerModule implements AppModule {
   }
 
   private removeAllListeners(): void {
-    const events: WebSocketEvent[] = [
-      "presence:update",
-      "job:status:updated",
-      "job:completed",
-      "job:failed",
-      "job:incomplete",
-      "transaction:status:updated",
-      "transaction:completed",
-      "transaction:failed",
-      "milestone:transaction:queued",
-      "milestone:transaction:printing",
-    ];
-
-    events.forEach((event) => {
+    this.events.forEach((event) => {
       ipcMain.removeAllListeners(event);
     });
   }
