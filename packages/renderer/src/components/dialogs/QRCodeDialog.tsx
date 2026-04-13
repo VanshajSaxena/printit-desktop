@@ -108,11 +108,11 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
               </p>
             </div>
 
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-8 flex items-center justify-center gap-6">
               <Button
                 size="md"
                 icon={<Download size={18} />}
-                className="hover:bg-accent flex-1 bg-muted text-foreground"
+                className="hover:bg-accent bg-muted text-foreground"
               >
                 Download
               </Button>
@@ -120,7 +120,7 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
               <Button
                 size="md"
                 icon={<Printer size={18} />}
-                className="hover:bg-accent flex-1 bg-muted text-foreground"
+                className="hover:bg-accent bg-muted text-foreground"
               >
                 Print
               </Button>

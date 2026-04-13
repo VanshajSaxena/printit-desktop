@@ -61,8 +61,9 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
         }}
         className={clsx(
           "flex min-w-0 grow cursor-pointer items-center rounded-xl transition-all duration-300",
-          isCollapsed ? "justify-center p-1.5" : "px-3 py-1.5",
-          "hover:bg-tertiary",
+          isCollapsed
+            ? "justify-center p-1.5"
+            : "px-3 py-1.5 hover:bg-tertiary",
         )}
       >
         <ProfileHashIcon size={40} presence={presence} />
