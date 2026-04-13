@@ -69,8 +69,10 @@ export function SectionCards() {
   const { data, isLoading, isError } = client.useQuery(
     "get",
     "/api/v1/analytics/dashboard/cards",
+    {},
     {
       staleTime: 300_000,
+      refetchOnWindowFocus: false,
     },
   );
 

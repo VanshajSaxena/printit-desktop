@@ -17,7 +17,12 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
   const { presence, setPresence } = usePresence();
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  const { data, isLoading } = client.useQuery("get", "/api/v1/vendors/me");
+  const { data, isLoading } = client.useQuery(
+    "get",
+    "/api/v1/vendors/me",
+    {},
+    { staleTime: 300_000, refetchOnWindowFocus: false },
+  );
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

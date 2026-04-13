@@ -11,7 +11,12 @@ interface QRCodeDialogProps {
 }
 
 export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
-  const { data, isLoading } = client.useQuery("get", "/api/v1/vendors/me");
+  const { data, isLoading } = client.useQuery(
+    "get",
+    "/api/v1/vendors/me",
+    {},
+    { staleTime: 300_000, refetchOnWindowFocus: false },
+  );
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
 
   const username = data?.username;
