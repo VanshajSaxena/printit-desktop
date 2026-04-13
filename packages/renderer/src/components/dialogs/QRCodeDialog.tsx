@@ -51,7 +51,7 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden rounded-xl border border-border bg-background p-0 select-none sm:max-w-150">
+      <DialogContent className="overflow-hidden rounded-xl border border-border bg-background p-0 select-none sm:max-w-175">
         <DialogTitle className="sr-only">Your Printer QR Code</DialogTitle>
 
         <div className="flex flex-col sm:flex-row">
