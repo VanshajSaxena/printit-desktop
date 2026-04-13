@@ -21,5 +21,11 @@ export function getWsNotificationSeriveHandlers(
     "server:connect": createHandler((_event, token: string) => {
       webSocketApi.connect(token);
     }),
+
+    "presence:update": createHandler(
+      async (_event, presence: "online" | "offline" | "away") => {
+        return await webSocketApi.updatePresence(presence);
+      },
+    ),
   };
 }

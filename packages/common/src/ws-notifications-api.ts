@@ -184,4 +184,12 @@ export class WsNotificationsApi extends EventEmitter {
       this.client.connect();
     }
   }
+
+  async updatePresence(
+    presence: "online" | "offline" | "away",
+  ): Promise<{ success: boolean }> {
+    return (await this.client
+      .timeout(5000)
+      .emitWithAck("presence:update", { presence })) as { success: boolean };
+  }
 }

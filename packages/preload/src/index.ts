@@ -73,6 +73,13 @@ export function disconnectWebSocket() {
 export function connectWebSocket(token: string) {
   return ipcRenderer.invoke("server:connect", token);
 }
+
+export function updatePresence(
+  presence: "online" | "offline" | "away",
+): Promise<{ success: boolean }> {
+  return ipcRenderer.invoke("presence:update", presence);
+}
+
 export function downloadFilesToFileSystem(
   transactionId: number,
   files: {
