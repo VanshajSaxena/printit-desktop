@@ -119,7 +119,7 @@ export function LoginForm({
             <button
               type="button"
               onClick={switchToSignup}
-              className="underline underline-offset-4"
+              className="font-medium text-secondary-content underline hover:text-secondary-content/80"
             >
               Sign up
             </button>
