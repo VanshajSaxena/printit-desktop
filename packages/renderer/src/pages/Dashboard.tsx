@@ -12,6 +12,7 @@ import { useTheme } from "@context/theme/useTheme";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useState } from "react";
 import { SearchInput } from "./dashboard/SearchInput";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export function Dashboard() {
   const { toggleTheme } = useTheme();
@@ -22,6 +23,7 @@ export function Dashboard() {
   const [qrDialogOpen, setQrDialogOpen] = useState(false);
 
   const { data } = client.useQuery("get", "/api/v1/vendors/me");
+  const logout = useAuthStore((store) => store.logout);
 
   const openOrderSheet = (transactionId: number) => {
     setSelectedTransactionId(transactionId);
@@ -50,7 +52,7 @@ export function Dashboard() {
           <SearchInput />
           <div className="flex size-fit justify-start gap-4">
             <DisplayButton />
-            <BulkActionButton />
+            <BulkActionButton onClick={() => void logout()}></BulkActionButton>
           </div>
         </div>
         <TransactionListContainer onTransactionClick={openOrderSheet} />

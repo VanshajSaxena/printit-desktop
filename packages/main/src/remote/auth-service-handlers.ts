@@ -69,6 +69,29 @@ async function fetchJson<T>(
 
 export function getAuthHandlers(): IpcHandlerRegistry {
   return {
+    "auth:register": createHandler(
+      async (
+        _event,
+        firstName: string,
+        lastName: string,
+        username: string,
+        email: string,
+        password: string,
+      ) => {
+        const tokens = await fetchJson<TokenPair>("/auth/register", {
+          method: "POST",
+          body: { firstName, lastName, username, email, password },
+        });
+
+        _accessToken = tokens.accessToken;
+        await KeychainService.setAccessToken(tokens.accessToken);
+        await KeychainService.setRefreshToken(tokens.refreshToken);
+        await KeychainService.setEmail(email);
+
+        return { accessToken: tokens.accessToken };
+      },
+    ),
+
     "auth:login": createHandler(
       async (_event, email: string, password: string) => {
         const tokens = await fetchJson<TokenPair>("/auth/login", {

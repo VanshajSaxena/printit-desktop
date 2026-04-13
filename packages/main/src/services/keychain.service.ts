@@ -1,6 +1,6 @@
 import keytar from "keytar";
 
-const SERVICE = "printit";
+const SERVICE = `printit:${import.meta.env.MODE}`;
 
 enum KeychainKey {
   ACCESS_TOKEN = "accessToken",

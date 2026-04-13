@@ -4,6 +4,7 @@ import {
   oauthStart,
   onOAuthComplete,
   getAccessToken,
+  register,
 } from "@app/preload";
 import { create } from "zustand";
 
@@ -12,6 +13,13 @@ interface AuthState {
   isAuthenticated: boolean;
   isBootstrapping: boolean;
   setAccessToken: (token: string | null) => void;
+  register: (
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   oauthStart: (provider: "google" | "microsoft") => Promise<void>;
   logout: () => Promise<void>;
@@ -25,6 +33,17 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   setAccessToken: (token) => {
     set({ accessToken: token, isAuthenticated: !!token });
+  },
+
+  register: async (firstName, lastName, username, email, password) => {
+    const { accessToken } = await register(
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    );
+    set({ accessToken, isAuthenticated: true });
   },
 
   login: async (email, password) => {

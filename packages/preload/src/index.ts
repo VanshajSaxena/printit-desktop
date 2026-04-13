@@ -104,6 +104,23 @@ export function subscribeToWsEvent<C extends WsChannel>(
   };
 }
 
+export function register(
+  firstName: string,
+  lastName: string,
+  username: string,
+  email: string,
+  password: string,
+): Promise<{ accessToken: string }> {
+  return ipcRenderer.invoke(
+    "auth:register",
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+  );
+}
+
 export function onOAuthComplete(cb: (result: OAuthResult) => void) {
   ipcRenderer.on("auth:oauth-complete", (_event, result) => cb(result));
   return () => ipcRenderer.removeAllListeners("auth:oauth-complete");
