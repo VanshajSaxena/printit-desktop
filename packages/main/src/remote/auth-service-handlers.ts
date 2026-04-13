@@ -2,7 +2,7 @@ import { shell } from "electron";
 import log from "electron-log";
 import { jwtDecode } from "jwt-decode";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
-import { KeychainService } from "../services/kyechain.service.js";
+import { KeychainService } from "../services/keychain.service.js";
 import { createHandler } from "./ipc-handlers.js";
 
 export interface TokenPair {
@@ -11,7 +11,7 @@ export interface TokenPair {
 }
 
 const API_BASE_URL = import.meta.env.PROD
-  ? "https://dev.api.printit.ink/api"
+  ? "https://api.printit.ink/api"
   : "https://dev.api.printit.ink/api";
 
 let _accessToken: string | null = null;
