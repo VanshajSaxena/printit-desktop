@@ -534,7 +534,13 @@ export interface components {
       /** @enum {string} */
       outputColor: "Color" | "Monochrome" | "Grayscale";
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
       /** Format: date-time */
       updatedAt: string;
     };
@@ -555,7 +561,13 @@ export interface components {
       id: number;
       jobs: components["schemas"]["CreateJobResponseDto"][];
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
       /** Format: date-time */
       updatedAt: string;
       vendorId: number;
@@ -613,7 +625,13 @@ export interface components {
       /** @enum {string} */
       outputColor: "Color" | "Monochrome" | "Grayscale";
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     FindTransactionResponseDto: {
       /** Format: date-time */
@@ -622,7 +640,13 @@ export interface components {
       id: number;
       jobs: components["schemas"]["FindJobResponseDto"][];
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     LoginDto: {
       /** Format: email */
@@ -667,7 +691,13 @@ export interface components {
     };
     TransactionStatusResponseDto: {
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     UpdateDocumentRequestDto: {
       /** @enum {string} */
@@ -679,16 +709,35 @@ export interface components {
       /** @enum {string} */
       outputColor?: "Color" | "Monochrome" | "Grayscale";
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     UpdateJobStatusDto: {
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     UpdatePrinterDto: Record<string, never>;
     UpdateTransactionDto: {
+      reason?: string;
       /** @enum {string} */
-      status: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+      status:
+        | "PENDING"
+        | "QUEUED"
+        | "PRINTING"
+        | "COMPLETED"
+        | "REJECTED"
+        | "ERROR";
     };
     UpdateVendorDto: Record<string, never>;
     UploadFileBatchRequestDto: {
@@ -1442,7 +1491,13 @@ export interface operations {
   TransactionController_findAll_v1: {
     parameters: {
       query?: {
-        status?: "PENDING" | "QUEUED" | "PRINTING" | "COMPLETED" | "ERROR";
+        status?:
+          | "PENDING"
+          | "QUEUED"
+          | "PRINTING"
+          | "COMPLETED"
+          | "REJECTED"
+          | "ERROR";
       };
       header?: never;
       path?: never;

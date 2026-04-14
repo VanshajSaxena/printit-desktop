@@ -5,12 +5,14 @@ import { SheetsBadge } from "@components/badges/SheetsBadge";
 import { KebabButton } from "@components/buttons/KebabButton";
 import { PrintButton } from "@components/buttons/PrintButton";
 import { RejectButton } from "@components/buttons/RejectButton";
+import { RejectTransactionDialog } from "@components/dialogs/RejectTransactionDialog";
 import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import type { TransactionObject } from "@store/events";
 import { useTransactionStore } from "@store/useTransactionStore";
+import { useState } from "react";
 import { Badge } from "../ui/badge";
 
 export function TransactionItem({
@@ -21,10 +23,13 @@ export function TransactionItem({
   createdAt,
   status,
 }: TransactionObject & { onClick: () => void }) {
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+
   const title = jobs[0].document.filename;
   const dispatch = useTransactionStore((store) => store.dispatch);
   const formattedDate = formatRelativeTime(createdAt);
   const filesCount = jobs.length;
+
   const isColorOnly = jobs.every((job) => {
     return job.outputColor === "Color";
   });
@@ -35,6 +40,7 @@ export function TransactionItem({
     return total + currentJob.document.pageCount * currentJob.copyCount;
   }, 0);
   const estTime = new Date(Date.now() + sheetCount * 5_000 + 10_000);
+
   return (
     <>
       <div
@@ -105,7 +111,7 @@ export function TransactionItem({
                   <RejectButton
                     onClick={(e) => {
                       e.stopPropagation();
-                      // reject logic here
+                      setRejectDialogOpen(true);
                     }}
                   />
                   <PrintButton
@@ -159,6 +165,13 @@ export function TransactionItem({
           </div>
         </div>
       </div>
+
+      <RejectTransactionDialog
+        open={rejectDialogOpen}
+        onOpenChange={setRejectDialogOpen}
+        transactionId={id}
+        friendlyId={friendlyId}
+      />
     </>
   );
 }

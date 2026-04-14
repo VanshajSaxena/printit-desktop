@@ -27,9 +27,6 @@ export function formatRelativeTime(
   ];
 
   let duration = diffInSeconds;
-  if (Math.abs(diffInSeconds) < 60) {
-    return "in 1 min.";
-  }
 
   for (const division of divisions) {
     if (Math.abs(duration) < division.amount) {

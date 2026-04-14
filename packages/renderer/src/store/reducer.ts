@@ -37,6 +37,14 @@ export const reducer = (
     }
     case "transaction:new":
       break;
+
+    case "user:reject:transaction": {
+      nextState = produce(state, (draft) => {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete draft.transactions[event.transactionId];
+      });
+      break;
+    }
     case "user:print:transaction": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];

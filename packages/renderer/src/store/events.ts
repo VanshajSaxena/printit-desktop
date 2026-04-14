@@ -8,6 +8,7 @@ import type {
 export type TransactionEventUnionType =
   | NewTransactionEvent
   | UserSendToPrinterEvent
+  | UserRejectTransactionEvent
   | FilesDownloadStartedAllEvent
   | FilesDownloadProgressAllEvent
   | FilesDownloadCompletedAllEvent
@@ -48,6 +49,7 @@ export interface TransactionObject {
     | "READY"
     | "SPOOLED"
     | "PRINTING"
+    | "REJECTED"
     | "INCOMPLETE"
     | "COMPLETED"
     | "ERROR";
@@ -130,6 +132,10 @@ export interface NewTransactionEvent {
 
 export interface UserSendToPrinterEvent {
   type: "user:print:transaction";
+}
+
+export interface UserRejectTransactionEvent {
+  type: "user:reject:transaction";
 }
 
 export interface FilesDownloadStartedAllEvent {
