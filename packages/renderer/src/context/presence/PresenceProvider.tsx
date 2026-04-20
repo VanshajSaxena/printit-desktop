@@ -81,13 +81,10 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
     const handleConnect = () => {
       if (token) connectWebSocket(token).catch(console.error);
     };
-    const unsubscribe = onOAuthComplete(handleConnect);
+    onOAuthComplete(handleConnect);
     if (token) {
       connectWebSocket(token).catch(console.error);
     }
-    return () => {
-      unsubscribe();
-    };
   }, [token]);
 
   return (

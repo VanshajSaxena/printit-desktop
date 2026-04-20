@@ -29,28 +29,26 @@ class WindowManager implements AppModule {
     app.on("second-instance", (_event, argv) => {
       void this.restoreOrCreateWindow(true);
       const url = argv.find((arg) => arg.startsWith(`${this.#protocol}://`));
-      if (url) this.handleProtocolUrl(url);
+      if (url) void this.handleProtocolUrl(url);
     });
     app.on("activate", () => void this.restoreOrCreateWindow(true));
   }
 
-  handleProtocolUrl(url: string) {
-    const mainWindow = BrowserWindow.getAllWindows().find(
-      (w) => !w.isDestroyed(),
-    );
+  async handleProtocolUrl(url: string) {
+    const mainWindow = await this.restoreOrCreateWindow();
     const parsed = new URL(url);
     if (parsed.hostname === "auth") {
       const code = parsed.searchParams.get("code");
       if (code) {
         exchangeOAuthCode(code)
           .then((tokens) => {
-            mainWindow?.webContents.send("auth:oauth-complete", {
+            mainWindow.webContents.send("auth:oauth-complete", {
               success: true,
               accessToken: tokens.accessToken,
             });
           })
           .catch(() => {
-            mainWindow?.webContents.send("auth:oauth-complete", {
+            mainWindow.webContents.send("auth:oauth-complete", {
               success: false,
             });
           });
