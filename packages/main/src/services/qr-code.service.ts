@@ -15,7 +15,9 @@ function centeredX(
   return cx - font.widthOfTextAtSize(text, size) / 2;
 }
 
-export async function generateQrCodePdf(qrDataUrl: string) {
+export async function generateQrCodePdf(
+  qrDataUrl: string,
+): Promise<{ path: string | undefined }> {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
 

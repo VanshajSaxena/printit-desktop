@@ -73,7 +73,9 @@ export function disconnectWebSocket() {
 export function connectWebSocket(token: string) {
   return ipcRenderer.invoke("server:connect", token);
 }
-export function generateQrCodePdf(qrDataUrl: string): Promise<{ path: string }> {
+export function generateQrCodePdf(
+  qrDataUrl: string,
+): Promise<{ path: string | undefined }> {
   return ipcRenderer.invoke("generate:qr-code", qrDataUrl);
 }
 

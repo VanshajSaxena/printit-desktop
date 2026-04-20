@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import type { PrintQueueItem, ReducerEvent, TransactionState } from "./events";
 import type { TransactionOperation } from "./operations";
+import { toast } from "sonner";
 
 function generateOperationId() {
   return crypto.randomUUID().slice(0, 8);
@@ -44,6 +45,16 @@ export const reducer = (
         type: "generate-qr-code-pdf",
         qrDataUrl: event.qrDataUrl,
       });
+      break;
+    }
+    case "user:qr:generate-pdf:success": {
+      toast.success(
+        "PDF Downloaded Successfully. Please, Check your Downloads folder.",
+      );
+      break;
+    }
+    case "user:qr:generate-pdf:error": {
+      toast.error("Failed to download PDF. Please, try again.");
       break;
     }
     case "user:qr:print": {

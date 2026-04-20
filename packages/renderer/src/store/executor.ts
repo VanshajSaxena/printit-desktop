@@ -75,6 +75,11 @@ export class ObservableExecutor {
 
       case "generate-qr-code-pdf": {
         const { path } = await generateQrCodePdf(operation.qrDataUrl);
+        if (path) {
+          this.dispatch({ type: "user:qr:generate-pdf:success", path });
+        } else {
+          this.dispatch({ type: "user:qr:generate-pdf:error" });
+        }
         break;
       }
 

@@ -34,6 +34,8 @@ export type ReducerEvent =
   | TransactionRequestEvent
   | TransactionResponseEvent
   | UserQrCodeGenerateEvent
+  | UserQrCodeGenerateSuccessEvent
+  | UserQrCodeGenerateErrorEvent
   | UserQrCodePrintEvent;
 
 export interface WithTransactionId {
@@ -135,6 +137,15 @@ export interface NewTransactionEvent {
 export interface UserQrCodeGenerateEvent {
   type: "user:qr:generate-pdf";
   qrDataUrl: string;
+}
+
+export interface UserQrCodeGenerateSuccessEvent {
+  type: "user:qr:generate-pdf:success";
+  path: string;
+}
+
+export interface UserQrCodeGenerateErrorEvent {
+  type: "user:qr:generate-pdf:error";
 }
 
 export interface UserQrCodePrintEvent {
