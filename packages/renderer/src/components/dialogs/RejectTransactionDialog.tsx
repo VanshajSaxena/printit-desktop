@@ -24,10 +24,10 @@ interface RejectTransactionDialogProps {
 }
 
 const REJECTION_REASONS = [
-  "Printer is out of ink/toner",
-  "Printer is currently offline/jammed",
-  "Files are corrupted or unreadable",
   "Store is closing soon",
+  "Printer is out of ink/toner",
+  "Files are corrupted or unreadable",
+  "Printer is currently offline/jammed",
   "Requires special paper not in stock",
   "Inappropriate content / Policy violation",
 ];
@@ -109,7 +109,7 @@ export function RejectTransactionDialog({
                     key={reason}
                     variant={isSelected ? "default" : "outline"}
                     className={cn(
-                      "cursor-pointer rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors",
+                      "cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
                       isSelected
                         ? "bg-foreground text-background hover:bg-foreground/90"
                         : "bg-background text-muted-foreground hover:bg-muted hover:text-foreground",

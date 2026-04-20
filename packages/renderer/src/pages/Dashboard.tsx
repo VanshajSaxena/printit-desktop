@@ -49,7 +49,7 @@ export function Dashboard() {
         <div className="flex h-fit max-w-full min-w-0 justify-between gap-4">
           <SearchInput />
           <div className="flex size-fit justify-start gap-4">
-            <DisplayButton />
+            {/* <DisplayButton /> */}
             <BulkActionButton onClick={() => void logout()}></BulkActionButton>
           </div>
         </div>

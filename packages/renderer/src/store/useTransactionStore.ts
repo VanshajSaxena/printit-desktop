@@ -2,7 +2,7 @@ import { fetchClient } from "@api/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
-import type { ReducerEvent, TransactionStore } from "./events";
+import type { TransactionStore } from "./events";
 import { ObservableExecutor } from "./executor";
 import { reducer } from "./reducer";
 
@@ -20,7 +20,7 @@ export const useTransactionStore = create<TransactionStore>()(
       }, fetchClient);
       return {
         state: { transactions: {}, printQueue: { items: [], status: "idle" } },
-        dispatch: (event: ReducerEvent) => {
+        dispatch: (event) => {
           const [newState, operations] = reducer(get().state, event);
 
           set({ state: newState });
@@ -36,7 +36,6 @@ export const useTransactionStore = create<TransactionStore>()(
       onRehydrateStorage(store) {
         return () => {
           store.state.printQueue.status = "idle";
-          console.log("Rehydration Complete");
         };
       },
       version: 1,
