@@ -23,6 +23,7 @@ import type {
   StopPrintJobMonitoringOperation,
   TransactionOperation,
 } from "./operations";
+import { toast } from "sonner";
 
 export class ObservableExecutor {
   private dispatch: (event: ReducerEvent) => void;
@@ -56,6 +57,20 @@ export class ObservableExecutor {
         }
         break;
       }
+      case "spool-qr-code-file": {
+        const printerName = "hp smart tank 580";
+        const response = await spoolFilesToPrinter(printerName, {
+          documentPath: operation.path,
+          ticket: { copyCount: 1, outputColor: "Grayscale" },
+        });
+        if (response.success) {
+          toast.success(
+            "Your QR Code is sent to the printer. Make sure it is connected to start receiving files.",
+            { position: "top-center" },
+          );
+        }
+        break;
+      }
       case "emit-user-print-intent": {
         emitWebSocketEvent("milestone:transaction:queued", {
           transactionId: operation.transactionId,
@@ -76,9 +91,13 @@ export class ObservableExecutor {
       case "generate-qr-code-pdf": {
         const { path } = await generateQrCodePdf(operation.qrDataUrl);
         if (path) {
-          this.dispatch({ type: "user:qr:generate-pdf:success", path });
+          this.dispatch({
+            type: "user:get-qr-code:success",
+            path,
+            printIntent: operation.printIntent,
+          });
         } else {
-          this.dispatch({ type: "user:qr:generate-pdf:error" });
+          this.dispatch({ type: "user:get-qr-code:error" });
         }
         break;
       }

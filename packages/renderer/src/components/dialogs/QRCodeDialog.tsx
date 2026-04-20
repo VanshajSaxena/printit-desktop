@@ -117,7 +117,11 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
                 size="md"
                 icon={<Download size={18} />}
                 onClick={() => {
-                  dispatch({ type: "user:qr:generate-pdf", qrDataUrl });
+                  dispatch({
+                    type: "user:get-qr-code",
+                    qrDataUrl,
+                    printIntent: false,
+                  });
                 }}
                 className="hover:bg-accent bg-muted text-foreground"
               >
@@ -128,6 +132,13 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
                 size="md"
                 icon={<Printer size={18} />}
                 className="hover:bg-accent bg-muted text-foreground"
+                onClick={() => {
+                  dispatch({
+                    type: "user:get-qr-code",
+                    qrDataUrl,
+                    printIntent: true,
+                  });
+                }}
               >
                 Print
               </Button>

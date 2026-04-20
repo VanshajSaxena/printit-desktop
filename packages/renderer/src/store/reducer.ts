@@ -39,26 +39,34 @@ export const reducer = (
     case "transaction:new":
       break;
 
-    case "user:qr:generate-pdf": {
+    case "user:get-qr-code": {
       operations.push({
         operationId: generateOperationId(),
         type: "generate-qr-code-pdf",
         qrDataUrl: event.qrDataUrl,
+        printIntent: event.printIntent,
       });
       break;
     }
-    case "user:qr:generate-pdf:success": {
-      toast.success(
-        "PDF Downloaded Successfully. Please, Check your Downloads folder.",
-      );
+    case "user:get-qr-code:success": {
+      if (!event.printIntent) {
+        toast.success(
+          "PDF Downloaded Successfully. Check your Downloads folder.",
+          { position: "top-center" },
+        );
+        break;
+      }
+      operations.push({
+        operationId: generateOperationId(),
+        type: "spool-qr-code-file",
+        path: event.path,
+      });
       break;
     }
-    case "user:qr:generate-pdf:error": {
-      toast.error("Failed to download PDF. Please, try again.");
-      break;
-    }
-    case "user:qr:print": {
-      // TODO: after user:qr:generate-pdf
+    case "user:get-qr-code:error": {
+      toast.error("Failed to download PDF. Please, try again.", {
+        position: "top-center",
+      });
       break;
     }
     case "user:reject:transaction": {

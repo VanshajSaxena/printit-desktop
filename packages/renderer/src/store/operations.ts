@@ -10,6 +10,7 @@ export interface TransactionOperationBase {
 export type TransactionOperation = (
   | FetchTransactionOperation
   | GenerateQrCodeOperation
+  | SpoolQrCodeFileOperation
   | TransactionOperationUnion
 ) &
   TransactionOperationBase;
@@ -44,10 +45,16 @@ export interface DownloadFilesOperation {
 export interface GenerateQrCodeOperation {
   type: "generate-qr-code-pdf";
   qrDataUrl: string;
+  printIntent: boolean;
 }
 
 export interface FetchTransactionOperation {
   type: "fetch-transactions";
+}
+
+export interface SpoolQrCodeFileOperation {
+  type: "spool-qr-code-file";
+  path: string;
 }
 
 export interface SpoolFilesToPrinterOperation {
