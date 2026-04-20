@@ -3,6 +3,7 @@ import type { PrintJobStatusDto } from "@app/common/gen/types/print-service-api-
 import {
   downloadFilesToFileSystem,
   emitWebSocketEvent,
+  generateQrCodePdf,
   getPrintJob,
   spoolFilesToPrinter,
 } from "@app/preload";
@@ -71,6 +72,12 @@ export class ObservableExecutor {
         });
         break;
       }
+
+      case "generate-qr-code-pdf": {
+        const { path } = await generateQrCodePdf(operation.qrDataUrl);
+        break;
+      }
+
       case "download-files-to-file-system": {
         const { data } = await this.fetchClient.POST("/api/v1/files/download", {
           body: { ids: operation.files.map((file) => file.id) },

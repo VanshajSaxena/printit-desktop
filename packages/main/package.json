@@ -20,6 +20,7 @@
     "electron-updater": "6.7.3",
     "jwt-decode": "^4.0.0",
     "keytar": "^7.9.0",
+    "pdf-lib": "^1.17.1",
     "socket.io-client": "^4.8.3"
   },
   "devDependencies": {

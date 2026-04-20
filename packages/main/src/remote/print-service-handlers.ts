@@ -2,6 +2,7 @@ import { downloadManager, type PrintServiceApi } from "@app/common";
 import type { IpcHandlerRegistry } from "src/modules/IpcHandlersModule.js";
 import { createHandler } from "./ipc-handlers.js";
 import { PrintJobDto } from "@app/common/gen/types/print-service-api-types.js";
+import { generateQrCodePdf } from "../services/qr-code.service.js";
 
 export function getPrintServiceHandlers(
   printServiceApi: PrintServiceApi,
@@ -51,5 +52,9 @@ export function getPrintServiceHandlers(
         return await downloadManager.downloadFiles(transactionId, files);
       },
     ),
+
+    "generate:qr-code": createHandler(async (_event, qrDataUrl: string) => {
+      return await generateQrCodePdf(qrDataUrl);
+    }),
   };
 }

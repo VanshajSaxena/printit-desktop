@@ -1,5 +1,6 @@
 import { client } from "@/api/client";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { useTransactionStore } from "@/store/useTransactionStore";
 import { Button } from "@components/buttons/Button";
 import { Download, Link as LinkIcon, Printer } from "lucide-react";
 import QRCode from "qrcode";
@@ -18,6 +19,8 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
     { staleTime: 300_000, refetchOnWindowFocus: false },
   );
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
+
+  const dispatch = useTransactionStore((store) => store.dispatch);
 
   const username = data?.username;
 
@@ -38,6 +41,7 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
     QRCode.toDataURL(printerUrl, {
       width: 240,
       margin: 1,
+      type: "image/png",
       color: {
         dark: "#000000",
         light: "#FFFFFF",
@@ -112,6 +116,9 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
               <Button
                 size="md"
                 icon={<Download size={18} />}
+                onClick={() => {
+                  dispatch({ type: "user:qr:generate-pdf", qrDataUrl });
+                }}
                 className="hover:bg-accent bg-muted text-foreground"
               >
                 Download

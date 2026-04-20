@@ -32,7 +32,9 @@ export type TransactionEventUnionType =
 export type ReducerEvent =
   | (TransactionEventUnionType & WithTransactionId)
   | TransactionRequestEvent
-  | TransactionResponseEvent;
+  | TransactionResponseEvent
+  | UserQrCodeGenerateEvent
+  | UserQrCodePrintEvent;
 
 export interface WithTransactionId {
   transactionId: number;
@@ -128,6 +130,16 @@ export interface PrintTransactionReportSuccessEvent {
 
 export interface NewTransactionEvent {
   type: "transaction:new";
+}
+
+export interface UserQrCodeGenerateEvent {
+  type: "user:qr:generate-pdf";
+  qrDataUrl: string;
+}
+
+export interface UserQrCodePrintEvent {
+  type: "user:qr:print";
+  qrDataUrl: string;
 }
 
 export interface UserSendToPrinterEvent {

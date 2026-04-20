@@ -38,6 +38,18 @@ export const reducer = (
     case "transaction:new":
       break;
 
+    case "user:qr:generate-pdf": {
+      operations.push({
+        operationId: generateOperationId(),
+        type: "generate-qr-code-pdf",
+        qrDataUrl: event.qrDataUrl,
+      });
+      break;
+    }
+    case "user:qr:print": {
+      // TODO: after user:qr:generate-pdf
+      break;
+    }
     case "user:reject:transaction": {
       nextState = produce(state, (draft) => {
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete

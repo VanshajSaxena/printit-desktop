@@ -9,6 +9,7 @@ export interface TransactionOperationBase {
 }
 export type TransactionOperation = (
   | FetchTransactionOperation
+  | GenerateQrCodeOperation
   | TransactionOperationUnion
 ) &
   TransactionOperationBase;
@@ -38,6 +39,11 @@ export interface EmitUserPrintIntentOperation {
 export interface DownloadFilesOperation {
   type: "download-files-to-file-system";
   files: { id: number }[];
+}
+
+export interface GenerateQrCodeOperation {
+  type: "generate-qr-code-pdf";
+  qrDataUrl: string;
 }
 
 export interface FetchTransactionOperation {
