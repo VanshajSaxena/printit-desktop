@@ -28,7 +28,7 @@ export class PrintServiceApi {
   private logger: log.LogFunctions;
 
   constructor() {
-    log.info("Initialsizing OpenAPI client for PrintService API.");
+    log.info(`Initializing ${PrintServiceApi.name}...`);
     this.logger = log.scope(PrintServiceApi.name);
     this.client = createClient<PrintServicePaths>({
       baseUrl: "http://localhost:5000",

@@ -1,10 +1,39 @@
 import { initApp } from "@app/main";
 import { app } from "electron";
-import { fileURLToPath } from "node:url";
 import log from "electron-log";
 import fs from "fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+log.info("entry-point: SCRIPT START");
+
+const levelMap = {
+  error: "ERR",
+  warn: "WRN",
+  info: "INF",
+  verbose: "VRB",
+  debug: "DBG",
+  silly: "SLY",
+};
+const formatFn = ({ data, level, logger, message }) => {
+  const date = message.date;
+
+  const h = String(date.getHours()).padStart(2, "0");
+  const i = String(date.getMinutes()).padStart(2, "0");
+  const s = String(date.getSeconds()).padStart(2, "0");
+  const ms = String(date.getMilliseconds()).padStart(2, "0").slice(0, 2);
+
+  const lvl = levelMap[level] ?? String(level).toUpperCase();
+  const scope = message.scope ?? "core";
+
+  const prefix = `${h}:${i}:${s}.${ms} [${lvl}] [${scope}] >`;
+
+  return [prefix, ...data];
+};
+
+log.transports.file.format = formatFn;
+log.transports.console.format = formatFn;
+log.transports.file.setAppName("printit");
 log.transports.file.resolvePathFn = () => {
   const appName = app.getName();
   const baseDir = path.join(app.getPath("appData"), appName);
@@ -18,9 +47,8 @@ log.transports.file.resolvePathFn = () => {
 };
 
 log.transports.file.maxSize = 5 * 1024 * 1024;
-log.initialize({ spyRendererConsole: true, preload: true });
+log.initialize({ preload: true });
 
-log.info("### Application Entry Point Started ###\n");
 if (process.env.NODE_ENV === "development") {
   log.info(String.raw`
                                                                                               ++
@@ -85,11 +113,11 @@ initApp({
   },
 })
   .then(() => {
-    log.info("### Application Entry Point Completed ###");
+    log.info("Application successfully initialized...");
   })
   .catch((error) => {
-    log.error("### Application Entry Point Failed with errors ###", error);
+    log.error("Application failed to initialize: ", error);
     app.quit();
   });
 
-log.info("### Entry Point Script End ###");
+log.info("entry-point: SCRIPT END");

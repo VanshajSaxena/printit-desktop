@@ -12,42 +12,43 @@ export type IpcHandlerRegistry = Record<string, IpcHandler>;
 
 class IpcHandlersModule implements AppModule {
   readonly #handlers: IpcHandlerRegistry;
+  private logger: log.LogFunctions;
 
   constructor(handlers: IpcHandlerRegistry) {
+    log.info(`Initializing ${IpcHandlersModule.name}...`);
     this.#handlers = handlers;
+    this.logger = log.scope(IpcHandlersModule.name);
   }
 
   enable(context: ModuleContext): void {
-    log.info("IpcHandlersModule: Registering handlers...");
-
     const registeredChannels: string[] = [];
 
     for (const [channel, handler] of Object.entries(this.#handlers)) {
       try {
         ipcMain.handle(channel, async (event, ...args: unknown[]) => {
-          log.debug(`IPC: ${channel} called with args:`, args);
+          this.logger.debug(`${channel} called with args:`, args);
           try {
             const result = await handler(event, ...args);
-            log.debug(`IPC: ${channel} returned:`, result);
+            this.logger.debug(`${channel} returned:`, result);
             return result;
           } catch (error) {
-            log.error(`IPC: ${channel} handler error:`, error);
+            this.logger.error(`${channel} handler error:`, error);
             throw error;
           }
         });
         registeredChannels.push(channel);
       } catch (error) {
-        log.error(`IpcHandlersModule: Failed to register ${channel}:`, error);
+        this.logger.error(`Failed to register ${channel}:`, error);
       }
     }
 
-    log.info(
-      `IpcHandlersModule: Registered ${String(registeredChannels.length)} handlers:`,
+    this.logger.debug(
+      `Registered ${String(registeredChannels.length)} handlers:`,
       registeredChannels,
     );
 
     context.app.on("will-quit", () => {
-      log.info("IpcHandlersModule: Cleaning up handlers...");
+      this.logger.info("Cleaning up handlers...");
       registeredChannels.forEach((channel) => {
         ipcMain.removeHandler(channel);
       });

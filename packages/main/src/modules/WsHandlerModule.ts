@@ -1,32 +1,30 @@
+import { WsNotificationsApi } from "@app/common";
+import { BrowserWindow } from "electron";
 import log from "electron-log";
 import { AppModule } from "src/AppModule.js";
 import { ModuleContext } from "src/ModuleContext.js";
-import { WsNotificationsApi } from "@app/common";
-import { BrowserWindow } from "electron";
-import { EventEmitter } from "node:events";
 
 class WsHandlerModule implements AppModule {
   readonly #api: WsNotificationsApi;
+  private logger: log.LogFunctions;
 
   constructor(api: WsNotificationsApi) {
-    log.info("WsHandlerModule: Initializing...");
+    log.info(`Initializing ${WsHandlerModule.name}...`);
     this.#api = api;
+    this.logger = log.scope(WsHandlerModule.name);
   }
 
   enable(context: ModuleContext): Promise<void> | void {
-    log.info("WsHandlerModule: Module enabled");
-
     context.app.on("will-quit", () => {
-      log.info("WsHandlerModule: App quitting, disconnecting socket...");
+      this.logger.info("App quitting, disconnecting socket...");
       this.#api.disconnect();
     });
 
     context.app.on("window-all-closed", () => {
-      log.info("WsHandlerModule: All windows closed");
+      this.logger.info("All windows closed");
     });
 
-    console.log("api is EventEmitter:", this.#api instanceof EventEmitter);
-    console.log("on exists:", typeof this.#api.on);
+    this.logger = log.scope(WsNotificationsApi.name);
     this.setupRendererForwarding();
   }
 
@@ -47,11 +45,9 @@ class WsHandlerModule implements AppModule {
 
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send(channel, data);
-      log.info(`WsHandlerModule: Sent '${channel}' to renderer`);
+      this.logger.info(`Sent '${channel}' to renderer`);
     } else {
-      log.warn(
-        `WsHandlerModule: Cannot send '${channel}' - no window available`,
-      );
+      this.logger.info(`Cannot send '${channel}' - no window available`);
     }
   }
 

@@ -22,7 +22,7 @@ const wsNotificationsApiConfig = {
   namespace: `notifications`,
 };
 export async function initApp(initConfig: AppInitConfig) {
-  log.info("### Main Process Initialization Started ###");
+  log.info("Application initialization started...");
   const printServiceApi = new PrintServiceApi();
   const webSocketApi = new WsNotificationsApi(wsNotificationsApiConfig);
   const allHandlers = createIpcHandlerRegistry(printServiceApi, webSocketApi);
@@ -78,5 +78,5 @@ export async function initApp(initConfig: AppInitConfig) {
 
   await moduleRunner;
 
-  log.info("### Main Process Initialization Completed ###");
+  log.info("Application initialization finished...");
 }

@@ -8,6 +8,7 @@ import type { WebSocketEvent, WebSocketEventMap } from "@app/common";
 
 class WsEventListenerModule implements AppModule {
   private api: WsNotificationsApi;
+  private logger: log.LogFunctions;
 
   private events: WebSocketEvent[] = [
     "presence:update",
@@ -23,22 +24,24 @@ class WsEventListenerModule implements AppModule {
   ];
 
   constructor(api: WsNotificationsApi) {
+    log.info(`Initializing ${WsEventListenerModule.name}...`);
     this.api = api;
+    this.logger = log.scope(WsEventListenerModule.name);
   }
 
   enable(context: ModuleContext): void {
-    log.info("WsEventListenerModule: Registering event listeners...");
+    this.logger.info("Registering event listeners...");
 
     this.events.forEach((event) => {
       this.registerListener(event);
     });
 
-    log.info(
-      `WsEventListenerModule: Registered ${this.events.length.toString()} event listeners`,
+    this.logger.info(
+      `Registered ${this.events.length.toString()} event listeners`,
     );
 
     context.app.on("will-quit", () => {
-      log.info("WsEventListenerModule: Removing event listeners...");
+      this.logger.info("Removing event listeners...");
       this.removeAllListeners();
     });
   }
@@ -47,10 +50,7 @@ class WsEventListenerModule implements AppModule {
     ipcMain.on(
       eventName,
       (_event, payload: WebSocketEventMap[WebSocketEvent]) => {
-        log.info(
-          `WsEventListenerModule: Received '${eventName}' from renderer`,
-          payload,
-        );
+        this.logger.info(`Received '${eventName}' from renderer`, payload);
 
         this.api.emitToServer(eventName, payload);
       },

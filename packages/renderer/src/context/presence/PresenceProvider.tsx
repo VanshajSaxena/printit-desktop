@@ -6,6 +6,7 @@ import {
   onOAuthComplete,
   updatePresence,
 } from "@app/preload";
+import log from "electron-log/renderer";
 import { useEffect, useRef, useState } from "react";
 import { PresenceContext } from "./PresenceContext";
 
@@ -40,7 +41,7 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
         const res = await updatePresence(target);
         if (res.success) return true;
       } catch {
-        // ignore
+        log.error(`updatePresence failed`);
       }
 
       await new Promise((r) => setTimeout(r, delay));

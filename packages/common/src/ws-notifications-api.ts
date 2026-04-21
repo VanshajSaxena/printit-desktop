@@ -69,6 +69,8 @@ export type WebSocketEvent = keyof WebSocketEventMap;
 export class WsNotificationsApi extends EventEmitter {
   private client: Socket;
   private config: WsNotificationsApiConfig;
+  private logger: log.LogFunctions;
+
   constructor(config: WsNotificationsApiConfig) {
     super();
     this.config = {
@@ -78,9 +80,13 @@ export class WsNotificationsApi extends EventEmitter {
       debug: true,
       ...config,
     };
-    log.info("WsNotificationsApi config: ", this.config);
+    log.info(
+      `Initializing ${WsNotificationsApi.name} with the following options:`,
+      this.config,
+    );
+    this.logger = log.scope(WsNotificationsApi.name);
     const uri = `${this.config.protocol}://${this.config.url}/${this.config.namespace}`;
-    log.info("WsNotificationsApi: ", uri);
+    this.logger.verbose(`${WsNotificationsApi.name}: `, uri);
 
     this.client = io(uri, {
       reconnection: this.config.reconnection,
@@ -95,16 +101,16 @@ export class WsNotificationsApi extends EventEmitter {
 
   private setupEventHandlers(): void {
     this.client.on("connect", () => {
-      log.info("WsHandlerModule: Socket ID: ", this.client.id);
-      log.debug(
-        "WsHandlerModule: Connected Initial Transport: ",
+      this.logger.verbose("Socket ID: ", this.client.id);
+      this.logger.debug(
+        "Connected Initial Transport: ",
         this.client.io.engine.transport.name,
       );
 
       this.client.io.engine.on("upgrade", () => {
-        log.info("WsHandlerModule: Upgraded: ", this.client.io.engine.id);
-        log.debug(
-          "WsHandlerModule: Upgraded New Transport: ",
+        this.logger.verbose("Upgraded: ", this.client.io.engine.id);
+        this.logger.debug(
+          "Upgraded New Transport: ",
           this.client.io.engine.transport.name,
         );
       });
@@ -113,40 +119,40 @@ export class WsNotificationsApi extends EventEmitter {
     });
 
     this.client.on("connect_error", (error) => {
-      log.error("WsHandlerModule: Connection error: ", error.message);
+      this.logger.error("Connection error: ", error.message);
     });
 
     this.client.on("disconnect", (reason) => {
-      log.warn("WsHandlerModule: Disconnected:", reason);
+      this.logger.verbose("Disconnected:", reason);
       this.emit("server:disconnected", reason);
     });
 
     this.client.on("ping", () => {
-      log.info("WsHandlerModule: Pinged");
+      this.logger.verbose("Pinged");
     });
 
     this.client.on("reconnect", (attemptNumber: number) => {
-      log.info(`WsHandlerModule: Reconnected after attempts: `, {
+      this.logger.verbose(`Reconnected after attempts: `, {
         attemptNumber,
       });
     });
 
     this.client.on("reconnect_attempt", (attemptNumber: number) => {
-      log.info(`WsHandlerModule: Reconnection attempt number: `, {
+      this.logger.verbose(`Reconnection attempt number: `, {
         attemptNumber,
       });
     });
 
     this.client.on("reconnect_error", (error) => {
-      log.error(`WsHandlerModule: Error reconnecting with error: `, error);
+      this.logger.error(`Error reconnecting with error: `, error);
     });
 
     this.client.on("reconnect_failed", () => {
-      log.warn("WsHandlerModule: Failed to reconnect after maximum attempts");
+      this.logger.warn("Failed to reconnect after maximum attempts");
     });
 
     this.client.on("transaction:new", (data) => {
-      log.info("WsHandlerModule: New transaction received");
+      this.logger.info("New transaction received");
       this.emit("transaction:new", data);
     });
   }
@@ -155,7 +161,7 @@ export class WsNotificationsApi extends EventEmitter {
     eventName: K,
     payload: WebSocketEventMap[K],
   ): void {
-    log.info(`WsNotificationsApi: Emitting '${eventName}' to server`, payload);
+    this.logger.info(`Emitting '${eventName}' to server`, payload);
     this.client.emit(eventName, payload);
   }
 

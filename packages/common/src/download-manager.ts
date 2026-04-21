@@ -1,4 +1,5 @@
 import { app } from "electron";
+import log from "electron-log";
 import { createWriteStream } from "fs";
 import { mkdir } from "fs/promises";
 import path, { join } from "path";
@@ -44,7 +45,7 @@ export const downloadManager = {
       }),
     );
 
-    console.log("files downloaded successfully");
+    log.info("Files downloaded successfully");
     return downloadedFiles;
   },
 };

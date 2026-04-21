@@ -18,28 +18,28 @@ interface PrintServiceConfig {
 class PrintServiceModule implements AppModule {
   #process: ChildProcess | null = null;
   readonly #config: PrintServiceConfig;
+  private logger: log.LogFunctions;
   constructor(config: PrintServiceConfig = {}) {
+    log.info(`Initializing ${PrintServiceModule.name}...`);
     this.#config = {
       startupTimeout: 5000,
       required: false,
       bin: "PrintService.exe",
       ...config,
     };
+    this.logger = log.scope(PrintServiceModule.name);
   }
 
   async enable({ app }: ModuleContext): Promise<void> {
-    log.info("PrintServiceModule: Starting...");
     try {
       await this.startService();
-      log.info("PrintServiceModule: Started successfully");
+      this.logger.info("Started successfully");
     } catch (error) {
-      log.error("PrintServiceModule: Failed to start", error);
+      this.logger.error("Failed to start", error);
       if (this.#config.required) {
         throw error;
       } else {
-        log.warn(
-          "PrintServiceModule: Continuing without PrintService (non-required)",
-        );
+        this.logger.warn("Continuing without PrintService (non-required)");
       }
     }
     app.on("will-quit", () => {
@@ -53,7 +53,7 @@ class PrintServiceModule implements AppModule {
   private async startService(): Promise<void> {
     return new Promise((resolve, reject) => {
       const servicePath = this.getServicePath();
-      log.info("PrintServiceModule: Executable path:", servicePath);
+      this.logger.info("Executable path:", servicePath);
       if (!fs.existsSync(servicePath)) {
         const error = new Error(
           `${this.#config.bin} not found at ${servicePath}`,
@@ -65,28 +65,21 @@ class PrintServiceModule implements AppModule {
       try {
         this.#process = spawn(servicePath);
         this.#process.on("error", (error) => {
-          log.error("PrintServiceModule: Process error: ", error);
+          this.logger.error("Process error: ", error);
           reject(error);
         });
         this.#process.on("spawn", () => {
-          log.info(
-            `PrintServiceModule: Process Spawned PID: `,
-            this.#process?.pid,
-          );
+          this.logger.info(`Process Spawned PID: `, this.#process?.pid);
           resolve();
         });
 
         this.#process.on("exit", (code, signal) => {
           if (code !== null && code !== 0) {
-            log.warn(
-              `PrintServiceModule: Process exited with code: ${code.toString()}`,
-            );
+            this.logger.warn(`Process exited with code: ${code.toString()}`);
           } else if (signal) {
-            log.info(
-              `PrintServiceModule: Process exited with signal: ${signal}`,
-            );
+            this.logger.info(`Process exited with signal: ${signal}`);
           } else {
-            log.info("PrintServiceModule: Process exited gracefully.");
+            this.logger.info("Process exited gracefully.");
           }
           this.#process = null;
         });
@@ -100,15 +93,11 @@ class PrintServiceModule implements AppModule {
           }
         }, this.#config.startupTimeout);
       } catch (error) {
-        log.error("PrintServiceModule: Exception during spawn:", error);
+        this.logger.error("Exception during spawn:", error);
         if (error instanceof Error) {
           reject(error);
         } else {
-          reject(
-            new Error(
-              `PrintServiceModule: Unknown error occured: ${String(error)}`,
-            ),
-          );
+          reject(new Error(`Unknown error occured: ${String(error)}`));
         }
       }
     });
@@ -134,12 +123,12 @@ class PrintServiceModule implements AppModule {
 
   private cleanup(): void {
     if (this.#process && !this.#process.killed) {
-      log.info("PrintServiceModule: Terminating process...");
+      this.logger.info("Terminating process...");
       this.#process.kill("SIGTERM");
 
       setTimeout(() => {
         if (this.#process && !this.#process.killed) {
-          log.warn("PrintServiceModule: Force killing process");
+          this.logger.warn("Force killing process");
           this.#process.kill("SIGKILL");
         }
       }, 2000);

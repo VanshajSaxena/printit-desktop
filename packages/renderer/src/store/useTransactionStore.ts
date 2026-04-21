@@ -5,13 +5,13 @@ import { createIdbStorage } from "./createIdbStorage";
 import type { TransactionStore } from "./events";
 import { ObservableExecutor } from "./executor";
 import { reducer } from "./reducer";
+import log from "electron-log/renderer";
 
 export const useTransactionStore = create<TransactionStore>()(
   persist(
     (set, get) => {
       const executor = new ObservableExecutor((event) => {
-        // __AUTO_GENERATED_PRINT_VAR_START__
-        console.log("Dispatch Event Fired:", event.type); // __AUTO_GENERATED_PRINT_VAR_END__
+        log.info("Dispatch Event Fired:", event.type);
         const [newState, operations] = reducer(get().state, event);
 
         set({ state: newState });
