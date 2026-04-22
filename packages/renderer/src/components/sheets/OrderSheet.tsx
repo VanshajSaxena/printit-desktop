@@ -26,6 +26,18 @@ import { Badge } from "../ui/badge";
 function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
   const pageCount = job.document.pageCount;
   const status = job.status;
+
+  const inQueue =
+    status === "QUEUED" ||
+    status === "DOWNLOADING" ||
+    status === "READY" ||
+    status === "SPOOLED";
+  const hasError =
+    status === "ERROR" ||
+    status === "TIMEOUT" ||
+    status === "DISAPPEARED" ||
+    status === "CRITICAL";
+
   return (
     <div className="w-full rounded-xl outline -outline-offset-1 outline-border-default">
       <div className="flex justify-between border-b border-border-default p-4">
@@ -40,15 +52,12 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
             New
           </Badge>
         )}
-        {(status === "QUEUED" ||
-          status === "DOWNLOADING" ||
-          status === "READY" ||
-          status === "SPOOLED") && (
+        {inQueue && (
           <Badge variant={"ghost"} className="bg-queued text-queued-content">
             Queued
           </Badge>
         )}
-        {status === "ERROR" && (
+        {hasError && (
           <Badge variant={"ghost"} className="bg-error text-error-content">
             Error
           </Badge>

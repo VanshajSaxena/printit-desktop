@@ -303,7 +303,7 @@ export class ObservableExecutor {
             if (hasErrorSignal && !hasDispatchedError) {
               hasDispatchedError = true;
               this.dispatch({
-                type: "job:error",
+                type: "job:critical",
                 transactionId,
                 jobId,
                 printJobIdentifier,
@@ -381,7 +381,7 @@ export class ObservableExecutor {
               });
             } else {
               this.dispatch({
-                type: "job:failed",
+                type: "job:disappear",
                 transactionId,
                 jobId,
                 printJobIdentifier,

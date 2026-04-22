@@ -41,6 +41,17 @@ export function TransactionItem({
   }, 0);
   const estTime = new Date(Date.now() + sheetCount * 5_000 + 10_000);
 
+  const inQueue =
+    status === "QUEUED" ||
+    status === "DOWNLOADING" ||
+    status === "READY" ||
+    status === "SPOOLED";
+  const hasError =
+    status === "ERROR" ||
+    status === "TIMEOUT" ||
+    status === "DISAPPEARED" ||
+    status === "CRITICAL";
+
   return (
     <>
       <div
@@ -63,10 +74,7 @@ export function TransactionItem({
                     New
                   </Badge>
                 )}
-                {(status === "QUEUED" ||
-                  status === "DOWNLOADING" ||
-                  status === "READY" ||
-                  status === "SPOOLED") && (
+                {inQueue && (
                   <Badge
                     variant={"ghost"}
                     className="bg-queued text-queued-content"
@@ -74,7 +82,7 @@ export function TransactionItem({
                     Queued
                   </Badge>
                 )}
-                {status === "ERROR" && (
+                {hasError && (
                   <Badge
                     variant={"ghost"}
                     className="bg-error text-error-content"

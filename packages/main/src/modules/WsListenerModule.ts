@@ -14,7 +14,7 @@ class WsEventListenerModule implements AppModule {
     "presence:update",
     "job:status:updated",
     "job:completed",
-    "job:failed",
+    "job:disappear",
     "job:incomplete",
     "transaction:status:updated",
     "transaction:completed",

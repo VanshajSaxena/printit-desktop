@@ -27,7 +27,7 @@ export interface WebSocketEventMap {
     jobId: number;
     timestamp: string;
   };
-  "job:failed": {
+  "job:disappear": {
     transactionId: number;
     jobId: number;
     timestamp: string;

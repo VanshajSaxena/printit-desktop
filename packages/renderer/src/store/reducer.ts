@@ -216,6 +216,8 @@ export const reducer = (
             errorStatuses: [],
             isBlocked: false,
             blockedStatuses: [],
+            isCritical: false,
+            criticalStatuses: [],
             timedOut: false,
           };
         }
@@ -281,7 +283,7 @@ export const reducer = (
       break;
     }
 
-    case "job:error": {
+    case "job:critical": {
       nextState = produce(state, (draft) => {
         const queueItem = draft.printQueue.items.find(
           (item) =>
@@ -290,8 +292,8 @@ export const reducer = (
         );
 
         if (queueItem?.monitoring) {
-          queueItem.monitoring.hasError = true;
-          queueItem.monitoring.errorStatuses = event.statuses;
+          queueItem.monitoring.isCritical = true;
+          queueItem.monitoring.criticalStatuses = event.statuses;
         }
       });
       break;
@@ -308,8 +310,6 @@ export const reducer = (
         if (queueItem?.monitoring) {
           queueItem.monitoring.isBlocked = true;
           queueItem.monitoring.blockedStatuses = event.statuses;
-          queueItem.monitoring.hasError = true;
-          queueItem.monitoring.errorStatuses = event.statuses;
         }
       });
       break;
@@ -317,6 +317,11 @@ export const reducer = (
 
     case "job:timeout": {
       nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const job = transaction.jobs.find((j) => j.id === event.jobId);
+        if (job) {
+          job.status = "TIMEOUT";
+        }
         const queueItem = draft.printQueue.items.find(
           (item) =>
             item.jobId === event.jobId &&
@@ -326,6 +331,10 @@ export const reducer = (
         if (queueItem?.monitoring) {
           queueItem.monitoring.timedOut = true;
           queueItem.monitoring.timeoutAt = new Date().toISOString();
+        }
+        const hasTimeout = transaction.jobs.some((j) => j.status === "TIMEOUT");
+        if (hasTimeout) {
+          transaction.status = "TIMEOUT";
         }
       });
       break;
@@ -406,7 +415,6 @@ export const reducer = (
 
         if (job) {
           job.status = "INCOMPLETE";
-          job.failedAt = new Date().toISOString();
         }
 
         draft.printQueue.items = draft.printQueue.items.filter(
@@ -429,14 +437,13 @@ export const reducer = (
       break;
     }
 
-    case "job:failed": {
+    case "job:disappear": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((j) => j.id === event.jobId);
 
         if (job) {
-          job.status = "ERROR";
-          job.failedAt = new Date().toISOString();
+          job.status = "DISAPPEARED";
         }
 
         draft.printQueue.items = draft.printQueue.items.filter(
@@ -449,9 +456,11 @@ export const reducer = (
 
         draft.printQueue.status = "error";
 
-        const hasError = transaction.jobs.some((j) => j.status === "ERROR");
-        if (hasError) {
-          transaction.status = "ERROR";
+        const hasDisappeared = transaction.jobs.some(
+          (j) => j.status === "DISAPPEARED",
+        );
+        if (hasDisappeared) {
+          transaction.status = "DISAPPEARED";
         }
       });
 

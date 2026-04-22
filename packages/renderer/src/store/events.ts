@@ -18,8 +18,10 @@ import type {
  * - REJECTED - Explicit user rejection
  * - INCOMPLETE - Document not fully printed
  * - COMPLETED - Successfully printed
+ * - TIMEOUT - Printing timedout
+ * - DISAPPEAR - Print job disappeared
  * - ERROR - Recoverable error state
- * - CRITICAL - Unrecoverable, requires human intervention
+ * - CRITICAL - Unrecoverable printer error, requires human intervention
  */
 export type StatusType =
   | "PENDING"
@@ -31,6 +33,8 @@ export type StatusType =
   | "REJECTED"
   | "INCOMPLETE"
   | "COMPLETED"
+  | "TIMEOUT"
+  | "DISAPPEARED"
   | "ERROR"
   | "CRITICAL";
 
@@ -53,7 +57,7 @@ export type TransactionEventUnionType =
   | PrintJobTimeoutEvent
   | PrintJobNotFoundEvent
   | PrintJobAcceptedEvent
-  | PrintJobErrorEvent
+  | PrintJobCriticalEvent
   | PrintJobBlockedEvent
   | PrintJobIncompleteEvent
   | FileSpooledSuccessEvent;
@@ -77,7 +81,7 @@ export interface TransactionObject {
   status: StatusType;
   jobs: {
     id: number;
-    status: TransactionObject["status"];
+    status: StatusType;
     document: {
       filePath?: string;
       pageCount: number;
@@ -91,13 +95,18 @@ export interface TransactionObject {
     printerName?: string;
     spooledAt?: string;
     completedAt?: string;
-    failedAt?: string;
   }[];
 }
 
 export type ReportingStatus = Exclude<
   StatusType,
-  "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED" | "CRITICAL"
+  | "INCOMPLETE"
+  | "DOWNLOADING"
+  | "READY"
+  | "SPOOLED"
+  | "TIMEOUT"
+  | "DISAPPEARED"
+  | "CRITICAL"
 >;
 
 export interface TransactionState {
@@ -125,6 +134,8 @@ export interface PrintQueueItem {
     errorStatuses: PrintJobStatusDto[];
     isBlocked: boolean;
     blockedStatuses: PrintJobStatusDto[];
+    isCritical: boolean;
+    criticalStatuses: PrintJobStatusDto[];
     timedOut: boolean;
     timeoutAt?: string;
   };
@@ -240,7 +251,7 @@ export interface PrintJobReportSuccessEvent {
 }
 
 export interface PrintJobFailedEvent {
-  type: "job:failed";
+  type: "job:disappear";
   jobId: number;
   printJobIdentifier: number;
   reason?: string[];
@@ -274,8 +285,8 @@ export interface PrintJobAcceptedEvent {
   totalPages: number;
 }
 
-export interface PrintJobErrorEvent {
-  type: "job:error";
+export interface PrintJobCriticalEvent {
+  type: "job:critical";
   jobId: number;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
