@@ -5,6 +5,35 @@ import type {
   PrintJobStatusDto,
 } from "@app/common/gen/types/print-service-api-types";
 
+/**
+ * Represents the lifecycle state of a print job.
+ *
+ * States:
+ * - PENDING - New or untouched
+ * - QUEUED - Print intent captured
+ * - DOWNLOADING - File is being downloaded (UI-specific state)
+ * - READY - Downloaded and ready to be spooled
+ * - SPOOLED - Accepted by the print queue
+ * - PRINTING - Printing in progress (inferred)
+ * - REJECTED - Explicit user rejection
+ * - INCOMPLETE - Document not fully printed
+ * - COMPLETED - Successfully printed
+ * - ERROR - Recoverable error state
+ * - CRITICAL - Unrecoverable, requires human intervention
+ */
+export type StatusType =
+  | "PENDING"
+  | "QUEUED"
+  | "DOWNLOADING"
+  | "READY"
+  | "SPOOLED"
+  | "PRINTING"
+  | "REJECTED"
+  | "INCOMPLETE"
+  | "COMPLETED"
+  | "ERROR"
+  | "CRITICAL";
+
 export type TransactionEventUnionType =
   | NewTransactionEvent
   | UserSendToPrinterEvent
@@ -45,17 +74,7 @@ export interface TransactionObject {
   id: number;
   createdAt: string;
   friendlyId: string;
-  status:
-    | "PENDING"
-    | "QUEUED"
-    | "DOWNLOADING"
-    | "READY"
-    | "SPOOLED"
-    | "PRINTING"
-    | "REJECTED"
-    | "INCOMPLETE"
-    | "COMPLETED"
-    | "ERROR";
+  status: StatusType;
   jobs: {
     id: number;
     status: TransactionObject["status"];
@@ -77,8 +96,8 @@ export interface TransactionObject {
 }
 
 export type ReportingStatus = Exclude<
-  TransactionObject["jobs"][0]["status"],
-  "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED"
+  StatusType,
+  "INCOMPLETE" | "DOWNLOADING" | "READY" | "SPOOLED" | "CRITICAL"
 >;
 
 export interface TransactionState {

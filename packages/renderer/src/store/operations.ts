@@ -1,3 +1,4 @@
+import type { OutputColorDto } from "@app/common/gen/types/print-service-api-types";
 import type {
   ReportingStatus,
   TransactionObject,
@@ -69,7 +70,7 @@ export interface SpoolFilesToPrinterOperation {
       id: number;
     };
     copyCount: number;
-    outputColor: TransactionObject["jobs"][0]["outputColor"];
+    outputColor: OutputColorDto;
   };
   printerName?: string;
 }

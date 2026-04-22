@@ -79,41 +79,40 @@ export const reducer = (
     case "user:print:transaction": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
-        const queueItems: PrintQueueItem[] = transaction.jobs
-          .filter((job) => job.status === "PENDING")
-          .map((job) => ({
-            id: generateQueueItemId(),
-            transactionId: event.transactionId,
-            jobId: job.id,
-            queuedAt: new Date().toISOString(),
-          }));
+        if (transaction.status !== "PENDING") return;
+        const queueItems: PrintQueueItem[] = transaction.jobs.map((job) => ({
+          id: generateQueueItemId(),
+          transactionId: event.transactionId,
+          jobId: job.id,
+          queuedAt: new Date().toISOString(),
+        }));
         draft.printQueue.items.push(...queueItems);
         if (draft.printQueue.status === "idle") {
           draft.printQueue.status = "working";
         }
         draft.transactions[event.transactionId].status = "QUEUED";
-        draft.transactions[event.transactionId].jobs
-          .filter((job) => job.status === "PENDING")
-          .forEach((job) => {
-            job.status = "QUEUED";
-          });
+        draft.transactions[event.transactionId].jobs.forEach((job) => {
+          job.status = "QUEUED";
+        });
       });
-      operations.push({
-        operationId: generateOperationId(),
-        type: "download-files-to-file-system",
-        files: nextState.transactions[event.transactionId].jobs
-          .filter((job) => job.status === "QUEUED")
-          .map((job) => {
-            return { id: job.document.id };
-          }),
-        transactionId: event.transactionId,
-      });
-      operations.push({
-        operationId: generateOperationId(),
-        type: "emit-user-print-intent",
-        vendorId: getvendorId(),
-        transactionId: event.transactionId,
-      });
+      const nextTransaction = nextState.transactions[event.transactionId];
+      if (nextTransaction.status === "QUEUED") {
+        const files = nextTransaction.jobs.map((job) => {
+          return { id: job.document.id };
+        });
+        operations.push({
+          operationId: generateOperationId(),
+          type: "download-files-to-file-system",
+          files,
+          transactionId: event.transactionId,
+        });
+        operations.push({
+          operationId: generateOperationId(),
+          type: "emit-user-print-intent",
+          vendorId: getvendorId(),
+          transactionId: event.transactionId,
+        });
+      }
       break;
     }
 

@@ -7,6 +7,7 @@ import {
   getPrintJob,
   spoolFilesToPrinter,
 } from "@app/preload";
+import log from "electron-log";
 import { interval, Subject } from "rxjs";
 import {
   catchError,
@@ -15,6 +16,7 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
+import { toast } from "sonner";
 import type { ReducerEvent } from "./events";
 import type {
   ReportJobStatusOperation,
@@ -23,11 +25,11 @@ import type {
   StopPrintJobMonitoringOperation,
   TransactionOperation,
 } from "./operations";
-import { toast } from "sonner";
 
 export class ObservableExecutor {
   private dispatch: (event: ReducerEvent) => void;
   private fetchClient: FetchClientType;
+  private logger: log.LogFunctions;
   private monitoringCancellation = new Map<string, Subject<void>>();
   private reportRetryQueue: {
     operation: ReportJobStatusOperation | ReportTransactionStatusOperation;
@@ -42,7 +44,7 @@ export class ObservableExecutor {
   ) {
     this.dispatch = dispatch;
     this.fetchClient = fetchClient;
-
+    this.logger = log.scope(ObservableExecutor.name);
     this.startRetryProcessor();
   }
 
@@ -155,7 +157,7 @@ export class ObservableExecutor {
           });
         } else {
           // __AUTO_GENERATED_PRINT_VAR_START__
-          console.log(
+          this.logger.log(
             "ObservableExecutor#execute#if#if response.code:",
             response.code,
           ); // __AUTO_GENERATED_PRINT_VAR_END__
@@ -255,7 +257,7 @@ export class ObservableExecutor {
               statusesChanged || pagesChanged || totalPagesChanged;
 
             if (statusesChanged) {
-              console.log(
+              this.logger.log(
                 `[Job ${printJobIdentifier.toString()}] Status transition: ${JSON.stringify(lastStatuses)} => ${JSON.stringify(currentStatuses)}`,
               );
             }
@@ -391,7 +393,7 @@ export class ObservableExecutor {
           }
         }),
         catchError((error) => {
-          console.error(
+          this.logger.error(
             `[Job ${printJobIdentifier.toString()}] Monitoring error:`,
             error,
           );
@@ -435,7 +437,7 @@ export class ObservableExecutor {
       );
 
       if (!response.ok) {
-        console.error("Failed to report job status:", error);
+        this.logger.error("Failed to report job status:", error);
         this.queueReportingForRetry(operation);
         return;
       }
@@ -446,7 +448,7 @@ export class ObservableExecutor {
         transactionId: operation.transactionId,
       });
     } catch (error) {
-      console.error("Exception reporting job status:", error);
+      this.logger.error("Exception reporting job status:", error);
       this.queueReportingForRetry(operation);
     }
   }
@@ -464,7 +466,7 @@ export class ObservableExecutor {
       );
 
       if (!response.ok) {
-        console.error("Failed to report transaction status:", error);
+        this.logger.error("Failed to report transaction status:", error);
         this.queueReportingForRetry(operation);
         return;
       }
@@ -474,7 +476,7 @@ export class ObservableExecutor {
         transactionId: operation.transactionId,
       });
     } catch (error) {
-      console.error("Exception reporting transaction status:", error);
+      this.logger.error("Exception reporting transaction status:", error);
       this.queueReportingForRetry(operation);
     }
   }
@@ -503,7 +505,7 @@ export class ObservableExecutor {
       });
     }
 
-    console.log(
+    this.logger.log(
       `Queued report for retry. Queue size: ${this.reportRetryQueue.length.toString()}`,
     );
   }
@@ -533,7 +535,7 @@ export class ObservableExecutor {
         if (item.attempts < this.maxRetryAttempts) {
           itemsToRetry.push(item);
         } else {
-          console.error(`Max retries exceeded for report:`, item.operation);
+          this.logger.error(`Max retries exceeded for report:`, item.operation);
         }
       }
     });
@@ -544,7 +546,7 @@ export class ObservableExecutor {
     );
 
     for (const item of itemsToRetry) {
-      console.log(
+      this.logger.log(
         `Retrying report (attempt ${(item.attempts + 1).toString()}/${this.maxRetryAttempts.toString()}):`,
         item.operation.type,
       );
