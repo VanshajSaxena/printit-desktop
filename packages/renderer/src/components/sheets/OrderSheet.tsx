@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import type { TransactionObject } from "@/store/events";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import {
@@ -39,7 +40,11 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
     status === "CRITICAL";
 
   return (
-    <div className="w-full rounded-xl outline -outline-offset-1 outline-border-default">
+    <div
+      className={cn(
+        "w-full rounded-xl outline -outline-offset-1 outline-border-default",
+      )}
+    >
       <div className="flex justify-between border-b border-border-default p-4">
         <div className="flex min-w-0 items-center gap-3">
           <div className="rounded-md bg-success px-1.5 py-1.25 text-success-content">

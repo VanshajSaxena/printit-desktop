@@ -5,16 +5,16 @@ import type {
   WithTransactionId,
 } from "./events";
 
-export interface TransactionOperationBase {
+export interface WithOperationId {
   operationId: string;
 }
-export type TransactionOperation = (
-  | FetchTransactionOperation
-  | GenerateQrCodeOperation
-  | SpoolQrCodeFileOperation
-  | TransactionOperationUnion
-) &
-  TransactionOperationBase;
+export type TransactionOperation = WithOperationId &
+  (
+    | FetchTransactionOperation
+    | GenerateQrCodeOperation
+    | SpoolQrCodeFileOperation
+    | TransactionOperationUnion
+  );
 
 export type TransactionOperationUnion = WithTransactionId &
   (

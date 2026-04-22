@@ -8,14 +8,8 @@ import {
   spoolFilesToPrinter,
 } from "@app/preload";
 import log from "electron-log";
-import { interval, Subject } from "rxjs";
-import {
-  catchError,
-  startWith,
-  switchMap,
-  takeUntil,
-  tap,
-} from "rxjs/operators";
+import { defer, Subject } from "rxjs";
+import { repeat, takeUntil } from "rxjs/operators";
 import { toast } from "sonner";
 import type { ReducerEvent } from "./events";
 import type {
@@ -49,6 +43,8 @@ export class ObservableExecutor {
   }
 
   async execute(operation: TransactionOperation): Promise<void> {
+    // __AUTO_GENERATED_PRINT_VAR_START__
+    console.log("ObservableExecutor#execute operation:", operation); // __AUTO_GENERATED_PRINT_VAR_END__
     switch (operation.type) {
       case "fetch-transactions": {
         const { data } = await this.fetchClient.GET("/api/v1/transactions", {
@@ -167,6 +163,8 @@ export class ObservableExecutor {
 
       case "start-job-monitoring": {
         this.startMonitoring(operation);
+        // __AUTO_GENERATED_PRINT_VAR_START__
+        console.log("ObservableExecutor#execute operation:", operation); // __AUTO_GENERATED_PRINT_VAR_END__
         break;
       }
 
@@ -230,14 +228,10 @@ export class ObservableExecutor {
       return sortedA.every((val, idx) => val === sortedB[idx]);
     };
 
-    interval(pollingIntervalMs)
-      .pipe(
-        startWith(0),
-        switchMap(async () => {
-          const response = await getPrintJob(printerName, printJobIdentifier);
-          return response;
-        }),
-        tap((response) => {
+    defer(() => getPrintJob(printerName, printJobIdentifier))
+      .pipe(repeat({ delay: pollingIntervalMs }), takeUntil(cancellation))
+      .subscribe({
+        next: (response) => {
           if (response.success && response.data) {
             const jobInfo = response.data;
             const currentStatuses = jobInfo.jobStatuses;
@@ -391,8 +385,8 @@ export class ObservableExecutor {
 
             cancellation.next();
           }
-        }),
-        catchError((error) => {
+        },
+        error: (error) => {
           this.logger.error(
             `[Job ${printJobIdentifier.toString()}] Monitoring error:`,
             error,
@@ -407,10 +401,8 @@ export class ObservableExecutor {
           });
           cancellation.next();
           return [];
-        }),
-        takeUntil(cancellation),
-      )
-      .subscribe();
+        },
+      });
   }
 
   private stopMonitoring(operation: StopPrintJobMonitoringOperation): void {

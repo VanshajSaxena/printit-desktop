@@ -18,6 +18,8 @@ export const reducer = (
   state: TransactionState,
   event: ReducerEvent,
 ): [TransactionState, TransactionOperation[]] => {
+  // __AUTO_GENERATED_PRINT_VAR_START__
+  console.log("reducer event:", event); // __AUTO_GENERATED_PRINT_VAR_END__
   let nextState = state;
   const operations: TransactionOperation[] = [];
   switch (event.type) {
@@ -193,7 +195,7 @@ export const reducer = (
           printJobIdentifier: event.printJobInfo.jobIdentifier,
           printerName: event.printerName,
           pollingIntervalMs: 1500,
-          timeoutMs: 30_000,
+          timeoutMs: 10_000,
         });
       }
       break;

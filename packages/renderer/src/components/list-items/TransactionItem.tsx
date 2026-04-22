@@ -3,8 +3,6 @@ import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
 import { KebabButton } from "@components/buttons/KebabButton";
-import { PrintButton } from "@components/buttons/PrintButton";
-import { RejectButton } from "@components/buttons/RejectButton";
 import { RejectTransactionDialog } from "@components/dialogs/RejectTransactionDialog";
 import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
@@ -12,8 +10,12 @@ import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
 import type { TransactionObject } from "@store/events";
 import { useTransactionStore } from "@store/useTransactionStore";
+import { IconTrashX } from "@tabler/icons-react";
+import { PrinterIcon } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 
 export function TransactionItem({
   onClick,
@@ -113,27 +115,39 @@ export function TransactionItem({
             </div>
           </div>
           <div className="flex items-center justify-center gap-5">
-            <div className="flex gap-4">
-              {status === "PENDING" && (
-                <>
-                  <RejectButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setRejectDialogOpen(true);
-                    }}
-                  />
-                  <PrintButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch({
-                        type: "user:print:transaction",
-                        transactionId: id,
-                      });
-                    }}
-                  />
-                </>
-              )}
-            </div>
+            {status === "PENDING" && (
+              <div className="flex gap-4">
+                <Button
+                  variant={"destructive"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setRejectDialogOpen(true);
+                  }}
+                >
+                  <IconTrashX />
+                  Reject
+                </Button>
+                <Button
+                  className="hover:bg-success hover:text-success-content"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({
+                      type: "user:print:transaction",
+                      transactionId: id,
+                    });
+                  }}
+                >
+                  <PrinterIcon />
+                  Print
+                </Button>
+              </div>
+            )}
+            {inQueue && (
+              <Button className="rounded-xl hover:bg-success hover:text-success-content">
+                <Spinner />
+                Printing
+              </Button>
+            )}
             <div className="flex gap-4">
               <KebabButton
                 onClick={(e) => {
