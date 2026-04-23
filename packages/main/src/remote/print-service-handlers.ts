@@ -33,6 +33,10 @@ export function getPrintServiceHandlers(
       },
     ),
 
+    "printQueue:jobs": createHandler((_event, printQueue: string) => {
+      return printServiceApi.getPrintJobs(printQueue);
+    }),
+
     "printQueue:print": createHandler(
       (_event, printQueue: string, printJob: PrintJobDto) => {
         return printServiceApi.cratePrintJob(printQueue, printJob);

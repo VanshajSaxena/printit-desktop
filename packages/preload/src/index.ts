@@ -55,6 +55,11 @@ export function getPrintJob(
 ): Promise<IPCResponse<PrintJobInfoDto | undefined>> {
   return ipcRenderer.invoke("printQueue:job", printQueue, jobIdentifier);
 }
+export function getPrintJobs(
+  printQueue: string,
+): Promise<IPCResponse<PrintJobInfoDto[] | undefined>> {
+  return ipcRenderer.invoke("printQueue:jobs", printQueue);
+}
 export function spoolFilesToPrinter(
   printQueue: string,
   printJob: PrintJobDto,

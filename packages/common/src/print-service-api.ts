@@ -116,6 +116,20 @@ export class PrintServiceApi {
     return { success: true, data };
   }
 
+  async getPrintJobs(
+    queueName: string,
+  ): Promise<IPCResponse<PrintJobInfoDto[] | undefined>> {
+    const { data, error } = await this.client.GET(
+      "/api/v1/printqueues/{queueName}/jobs",
+      { params: { path: { queueName } } },
+    );
+    if (error) {
+      this.logger.error(error);
+      return toIpcError(error);
+    }
+    return { success: true, data };
+  }
+
   async cratePrintJob(
     queueName: string,
     printJob: PrintJobDto,
