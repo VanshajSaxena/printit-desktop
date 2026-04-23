@@ -1,13 +1,14 @@
 import type { OutputColorDto } from "@app/common/gen/types/print-service-api-types";
 import type {
   ReportingStatus,
-  TransactionObject,
+  StatusType,
   WithTransactionId,
-} from "./events";
+} from "./structure";
 
 export interface WithOperationId {
   operationId: string;
 }
+
 export type TransactionOperation = WithOperationId &
   (
     | FetchTransactionOperation
@@ -62,7 +63,7 @@ export interface SpoolFilesToPrinterOperation {
   type: "spool-files-to-printer";
   job: {
     id: number;
-    status: TransactionObject["status"];
+    status: StatusType;
     document: {
       filePath?: string;
       contentType: string;
@@ -72,7 +73,7 @@ export interface SpoolFilesToPrinterOperation {
     copyCount: number;
     outputColor: OutputColorDto;
   };
-  printerName?: string;
+  queueName: string;
 }
 
 export interface StopPrintJobMonitoringOperation {
@@ -88,7 +89,7 @@ export interface StartPrintJobMonitoringOperation {
   transactionId: number;
   jobId: number;
   printJobIdentifier: number;
-  printerName: string;
+  queueName: string;
   pollingIntervalMs?: number;
   timeoutMs?: number;
 }

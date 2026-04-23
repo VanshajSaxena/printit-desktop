@@ -1,149 +1,49 @@
 import type { FindTransactionResponseDto } from "@api/gen/cloud-api-types";
 import type {
-  OutputColorDto,
   PrintJobInfoDto,
   PrintJobStatusDto,
 } from "@app/common/gen/types/print-service-api-types";
+import type { WithTransactionId } from "./structure";
 
-/**
- * Represents the lifecycle state of a print job.
- *
- * States:
- * - PENDING - New or untouched
- * - QUEUED - Print intent captured
- * - DOWNLOADING - File is being downloaded (UI-specific state)
- * - READY - Downloaded and ready to be spooled
- * - SPOOLED - Accepted by the print queue
- * - PRINTING - Printing in progress (inferred)
- * - REJECTED - Explicit user rejection
- * - INCOMPLETE - Document not fully printed
- * - COMPLETED - Successfully printed
- * - TIMEOUT - Printing timedout
- * - DISAPPEAR - Print job disappeared
- * - ERROR - Recoverable error state
- * - CRITICAL - Unrecoverable printer error, requires human intervention
- */
-export type StatusType =
-  | "PENDING"
-  | "QUEUED"
-  | "DOWNLOADING"
-  | "READY"
-  | "SPOOLED"
-  | "PRINTING"
-  | "REJECTED"
-  | "INCOMPLETE"
-  | "COMPLETED"
-  | "TIMEOUT"
-  | "DISAPPEARED"
-  | "ERROR"
-  | "CRITICAL";
-
-export type TransactionEventUnionType =
-  | NewTransactionEvent
-  | UserSendToPrinterEvent
-  | UserRejectTransactionEvent
-  | FilesDownloadStartedAllEvent
-  | FilesDownloadProgressAllEvent
-  | FilesDownloadCompletedAllEvent
-  | FilesDownloadErrorAllEvent
-  | PrintJobMonitoringStartedEvent
-  | PrintJobMonitoringErrorEvent
-  | PrintJobStatusPolledEvent
-  | PrintJobPrintingStartedEvent
-  | PrintJobCompletedEvent
-  | PrintTransactionReportSuccessEvent
-  | PrintJobReportSuccessEvent
-  | PrintJobFailedEvent
-  | PrintJobTimeoutEvent
-  | PrintJobNotFoundEvent
-  | PrintJobAcceptedEvent
-  | PrintJobCriticalEvent
-  | PrintJobBlockedEvent
-  | PrintJobIncompleteEvent
-  | FileSpooledSuccessEvent;
+export type TransactionEventUnionType = WithTransactionId &
+  (
+    | NewTransactionEvent
+    | UserSendToPrinterEvent
+    | UserRejectTransactionEvent
+    | FilesDownloadStartedAllEvent
+    | FilesDownloadProgressAllEvent
+    | FilesDownloadCompletedAllEvent
+    | FilesDownloadErrorAllEvent
+    | PrintJobMonitoringStartedEvent
+    | PrintJobMonitoringErrorEvent
+    | PrintJobStatusPolledEvent
+    | PrintJobPrintingStartedEvent
+    | PrintJobCompletedEvent
+    | PrintTransactionReportSuccessEvent
+    | PrintJobReportSuccessEvent
+    | PrintJobFailedEvent
+    | PrintJobTimeoutEvent
+    | PrintJobNotFoundEvent
+    | PrintJobAcceptedEvent
+    | PrintJobCriticalEvent
+    | PrintJobBlockedEvent
+    | PrintJobIncompleteEvent
+    | FileSpooledSuccessEvent
+    | StartDownloadFilesToFileSystem
+    | StartSpoolFilesToFileSystem
+  );
 
 export type ReducerEvent =
-  | (TransactionEventUnionType & WithTransactionId)
+  | TransactionEventUnionType
   | TransactionRequestEvent
   | TransactionResponseEvent
   | UserGetQrCodeEvent
   | UserQrCodeGenerateSuccessEvent
   | UserQrCodeGenerateErrorEvent;
 
-export interface WithTransactionId {
-  transactionId: number;
-}
-
-export interface TransactionObject {
-  id: number;
-  createdAt: string;
-  friendlyId: string;
-  status: StatusType;
-  jobs: {
-    id: number;
-    status: StatusType;
-    document: {
-      filePath?: string;
-      pageCount: number;
-      contentType: string;
-      filename: string;
-      id: number;
-    };
-    copyCount: number;
-    outputColor: OutputColorDto;
-    printJobIdentifier?: number;
-    printerName?: string;
-    spooledAt?: string;
-    completedAt?: string;
-  }[];
-}
-
-export type ReportingStatus = Exclude<
-  StatusType,
-  | "INCOMPLETE"
-  | "DOWNLOADING"
-  | "READY"
-  | "SPOOLED"
-  | "TIMEOUT"
-  | "DISAPPEARED"
-  | "CRITICAL"
->;
-
-export interface TransactionState {
-  transactions: Record<TransactionObject["id"], TransactionObject>;
-  printQueue: PrintQueue;
-}
-
-export interface PrintQueue {
-  items: PrintQueueItem[];
-  status: "idle" | "working" | "spooled" | "printing" | "stalled" | "error";
-}
-
-export interface PrintQueueItem {
-  id: string;
-  transactionId: number;
-  jobId: number;
-  queuedAt: string;
-  monitoring?: {
-    isActive: boolean;
-    lastPolledAt?: string;
-    lastKnownStatus?: PrintJobStatusDto[];
-    pagesPrinted: number;
-    startedPrintingAt?: string;
-    hasError: boolean;
-    errorStatuses: PrintJobStatusDto[];
-    isBlocked: boolean;
-    blockedStatuses: PrintJobStatusDto[];
-    isCritical: boolean;
-    criticalStatuses: PrintJobStatusDto[];
-    timedOut: boolean;
-    timeoutAt?: string;
-  };
-}
-
-export interface TransactionStore {
-  state: TransactionState;
-  dispatch: (event: ReducerEvent) => void;
+export interface UserSendToPrinterEvent {
+  type: "user:print:transaction";
+  queueName: string;
 }
 
 export interface TransactionRequestEvent {
@@ -179,10 +79,6 @@ export interface UserQrCodeGenerateErrorEvent {
   type: "user:get-qr-code:error";
 }
 
-export interface UserSendToPrinterEvent {
-  type: "user:print:transaction";
-}
-
 export interface UserRejectTransactionEvent {
   type: "user:reject:transaction";
 }
@@ -214,20 +110,21 @@ export interface PrintJobMonitoringStartedEvent {
   type: "job:monitoring:started";
   jobId: number;
   printJobIdentifier: number;
-  printerName: string;
+  queueName: string;
 }
 
 export interface PrintJobMonitoringErrorEvent {
   type: "job:monitoring:error";
   jobId: number;
   printJobIdentifier: number;
-  printerName: string;
+  queueName: string;
   reason?: string[];
 }
 
 export interface PrintJobStatusPolledEvent {
   type: "job:status:polled";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
   numberOfPagesPrinted: number;
@@ -242,17 +139,20 @@ export interface PrintJobPrintingStartedEvent {
 export interface PrintJobCompletedEvent {
   type: "job:completed";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
 }
 
 export interface PrintJobReportSuccessEvent {
   type: "job:report:success";
   jobId: number;
+  queueName: string;
 }
 
 export interface PrintJobFailedEvent {
   type: "job:disappear";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   reason?: string[];
 }
@@ -260,6 +160,7 @@ export interface PrintJobFailedEvent {
 export interface PrintJobTimeoutEvent {
   type: "job:timeout";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   lastKnownStatuses: PrintJobStatusDto[];
 }
@@ -280,6 +181,7 @@ export interface FileSpooledSuccessEvent {
 
 export interface PrintJobAcceptedEvent {
   type: "job:accepted";
+  queueName: string;
   jobId: number;
   printJobIdentifier: number;
   totalPages: number;
@@ -288,6 +190,7 @@ export interface PrintJobAcceptedEvent {
 export interface PrintJobCriticalEvent {
   type: "job:critical";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
 }
@@ -295,6 +198,7 @@ export interface PrintJobCriticalEvent {
 export interface PrintJobBlockedEvent {
   type: "job:blocked";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   statuses: PrintJobStatusDto[];
 }
@@ -302,7 +206,19 @@ export interface PrintJobBlockedEvent {
 export interface PrintJobIncompleteEvent {
   type: "job:incomplete";
   jobId: number;
+  queueName: string;
   printJobIdentifier: number;
   pagesPrinted: number;
   totalPages: number;
+}
+
+export interface StartDownloadFilesToFileSystem {
+  type: "start:download-files-to-file-system";
+  jobId: number;
+}
+
+export interface StartSpoolFilesToFileSystem {
+  type: "start:spool-files-to-printer";
+  jobId: number;
+  queueName: string;
 }

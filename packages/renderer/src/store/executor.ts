@@ -44,7 +44,7 @@ export class ObservableExecutor {
 
   async execute(operation: TransactionOperation): Promise<void> {
     // __AUTO_GENERATED_PRINT_VAR_START__
-    console.log("ObservableExecutor#execute operation:", operation); // __AUTO_GENERATED_PRINT_VAR_END__
+    this.logger.debug("ObservableExecutor#execute operation:", operation); // __AUTO_GENERATED_PRINT_VAR_END__
     switch (operation.type) {
       case "fetch-transactions": {
         const { data } = await this.fetchClient.GET("/api/v1/transactions", {
@@ -134,7 +134,7 @@ export class ObservableExecutor {
       case "spool-files-to-printer": {
         const documentPath = operation.job.document.filePath;
         const { copyCount, outputColor } = operation.job;
-        const printerName = operation.printerName ?? "hp smart tank 580";
+        const printerName = operation.queueName;
         if (!documentPath) {
           return;
         }
@@ -163,8 +163,6 @@ export class ObservableExecutor {
 
       case "start-job-monitoring": {
         this.startMonitoring(operation);
-        // __AUTO_GENERATED_PRINT_VAR_START__
-        console.log("ObservableExecutor#execute operation:", operation); // __AUTO_GENERATED_PRINT_VAR_END__
         break;
       }
 
@@ -193,7 +191,7 @@ export class ObservableExecutor {
       transactionId,
       jobId,
       printJobIdentifier,
-      printerName,
+      queueName,
       pollingIntervalMs = 1500,
       timeoutMs = 30000,
     } = operation;
@@ -207,7 +205,7 @@ export class ObservableExecutor {
       transactionId,
       jobId,
       printJobIdentifier,
-      printerName,
+      queueName,
     });
 
     let lastStatuses: PrintJobStatusDto[] = [];
@@ -228,7 +226,7 @@ export class ObservableExecutor {
       return sortedA.every((val, idx) => val === sortedB[idx]);
     };
 
-    defer(() => getPrintJob(printerName, printJobIdentifier))
+    defer(() => getPrintJob(queueName, printJobIdentifier))
       .pipe(repeat({ delay: pollingIntervalMs }), takeUntil(cancellation))
       .subscribe({
         next: (response) => {
@@ -261,6 +259,7 @@ export class ObservableExecutor {
               transactionId,
               jobId,
               printJobIdentifier,
+              queueName,
               statuses: currentStatuses,
               numberOfPagesPrinted: currentPrintedPageCount,
             });
@@ -274,6 +273,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 totalPages: currentTotalPages,
               });
             }
@@ -395,7 +395,7 @@ export class ObservableExecutor {
             type: "job:monitoring:error",
             transactionId,
             jobId,
-            printerName,
+            queueName,
             printJobIdentifier,
             reason: ["Error"],
           });

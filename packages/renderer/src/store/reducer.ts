@@ -1,7 +1,9 @@
+import log from "electron-log/renderer";
 import { produce } from "immer";
-import type { PrintQueueItem, ReducerEvent, TransactionState } from "./events";
-import type { TransactionOperation } from "./operations";
 import { toast } from "sonner";
+import type { ReducerEvent } from "./events";
+import type { TransactionOperation } from "./operations";
+import type { PrintQueueItem, TransactionState } from "./structure";
 
 function generateOperationId() {
   return crypto.randomUUID().slice(0, 8);
@@ -19,7 +21,7 @@ export const reducer = (
   event: ReducerEvent,
 ): [TransactionState, TransactionOperation[]] => {
   // __AUTO_GENERATED_PRINT_VAR_START__
-  console.log("reducer event:", event); // __AUTO_GENERATED_PRINT_VAR_END__
+  log.debug("reducer event:", event); // __AUTO_GENERATED_PRINT_VAR_END__
   let nextState = state;
   const operations: TransactionOperation[] = [];
   switch (event.type) {
@@ -88,33 +90,16 @@ export const reducer = (
           jobId: job.id,
           queuedAt: new Date().toISOString(),
         }));
-        draft.printQueue.items.push(...queueItems);
-        if (draft.printQueue.status === "idle") {
-          draft.printQueue.status = "working";
+        const queue = draft.printQueues[event.queueName];
+        queue.items.push(...queueItems);
+        if (queue.status === "idle") {
+          queue.status = "working";
         }
         draft.transactions[event.transactionId].status = "QUEUED";
         draft.transactions[event.transactionId].jobs.forEach((job) => {
           job.status = "QUEUED";
         });
       });
-      const nextTransaction = nextState.transactions[event.transactionId];
-      if (nextTransaction.status === "QUEUED") {
-        const files = nextTransaction.jobs.map((job) => {
-          return { id: job.document.id };
-        });
-        operations.push({
-          operationId: generateOperationId(),
-          type: "download-files-to-file-system",
-          files,
-          transactionId: event.transactionId,
-        });
-        operations.push({
-          operationId: generateOperationId(),
-          type: "emit-user-print-intent",
-          vendorId: getvendorId(),
-          transactionId: event.transactionId,
-        });
-      }
       break;
     }
 
@@ -145,31 +130,6 @@ export const reducer = (
           .filter((job) => job.status === "DOWNLOADING")
           .forEach((job) => (job.status = "READY"));
       });
-
-      const readyItem = nextState.printQueue.items.find((item) => {
-        const jobItem = nextState.transactions[item.transactionId].jobs.find(
-          (job) => job.id === item.jobId,
-        );
-        return jobItem?.status === "READY";
-      });
-
-      if (
-        nextState.printQueue.status !== "error" &&
-        nextState.printQueue.status !== "stalled" &&
-        readyItem
-      ) {
-        const readyJob = nextState.transactions[
-          readyItem.transactionId
-        ].jobs.find((job) => job.id === readyItem.jobId);
-        if (readyJob) {
-          operations.push({
-            operationId: generateOperationId(),
-            type: "spool-files-to-printer",
-            transactionId: readyItem.transactionId,
-            job: readyJob,
-          });
-        }
-      }
       break;
     }
 
@@ -193,7 +153,7 @@ export const reducer = (
           transactionId: event.transactionId,
           jobId: event.jobId,
           printJobIdentifier: event.printJobInfo.jobIdentifier,
-          printerName: event.printerName,
+          queueName: event.printerName,
           pollingIntervalMs: 1500,
           timeoutMs: 10_000,
         });
@@ -203,7 +163,7 @@ export const reducer = (
 
     case "job:monitoring:started": {
       nextState = produce(state, (draft) => {
-        const queueItem = draft.printQueue.items.find(
+        const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
             item.jobId === event.jobId &&
             item.transactionId === event.transactionId,
@@ -229,7 +189,7 @@ export const reducer = (
 
     case "job:status:polled": {
       nextState = produce(state, (draft) => {
-        const queueItem = draft.printQueue.items.find(
+        const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
             item.jobId === event.jobId &&
             item.transactionId === event.transactionId,
@@ -241,7 +201,7 @@ export const reducer = (
           queueItem.monitoring.pagesPrinted = event.numberOfPagesPrinted;
         }
 
-        if (draft.printQueue.status === "spooled") {
+        if (draft.printQueues[event.queueName].status === "spooled") {
           const hasActivity = event.statuses.some(
             (status) =>
               status === "Printing" ||
@@ -250,7 +210,7 @@ export const reducer = (
           );
 
           if (hasActivity) {
-            draft.printQueue.status = "printing";
+            draft.printQueues[event.queueName].status = "printing";
             draft.transactions[event.transactionId].status = "PRINTING";
             const job = draft.transactions[event.transactionId].jobs.find(
               (job) => job.id === event.jobId,
@@ -263,8 +223,8 @@ export const reducer = (
       });
 
       if (
-        nextState.printQueue.status === "printing" ||
-        nextState.printQueue.status === "working"
+        nextState.printQueues[event.queueName].status === "printing" ||
+        nextState.printQueues[event.queueName].status === "working"
       ) {
         operations.push({
           operationId: generateOperationId(),
@@ -278,8 +238,8 @@ export const reducer = (
 
     case "job:accepted": {
       nextState = produce(state, (draft) => {
-        if (draft.printQueue.status === "working") {
-          draft.printQueue.status = "spooled";
+        if (draft.printQueues[event.queueName].status === "working") {
+          draft.printQueues[event.queueName].status = "spooled";
         }
       });
       break;
@@ -287,7 +247,7 @@ export const reducer = (
 
     case "job:critical": {
       nextState = produce(state, (draft) => {
-        const queueItem = draft.printQueue.items.find(
+        const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
             item.jobId === event.jobId &&
             item.transactionId === event.transactionId,
@@ -303,7 +263,7 @@ export const reducer = (
 
     case "job:blocked": {
       nextState = produce(state, (draft) => {
-        const queueItem = draft.printQueue.items.find(
+        const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
             item.jobId === event.jobId &&
             item.transactionId === event.transactionId,
@@ -324,7 +284,7 @@ export const reducer = (
         if (job) {
           job.status = "TIMEOUT";
         }
-        const queueItem = draft.printQueue.items.find(
+        const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
             item.jobId === event.jobId &&
             item.transactionId === event.transactionId,
@@ -352,7 +312,9 @@ export const reducer = (
           job.completedAt = new Date().toISOString();
         }
 
-        draft.printQueue.items = draft.printQueue.items.filter(
+        draft.printQueues[event.queueName].items = draft.printQueues[
+          event.queueName
+        ].items.filter(
           (item) =>
             !(
               item.jobId === event.jobId &&
@@ -367,20 +329,20 @@ export const reducer = (
           transaction.status = "COMPLETED";
         }
 
-        if (draft.printQueue.items.length === 0) {
-          draft.printQueue.status = "idle";
+        if (draft.printQueues[event.queueName].items.length === 0) {
+          draft.printQueues[event.queueName].status = "idle";
         } else {
-          draft.printQueue.status = "working";
+          draft.printQueues[event.queueName].status = "working";
         }
       });
 
       const canContinue =
-        nextState.printQueue.status !== "error" &&
-        nextState.printQueue.status !== "stalled" &&
-        nextState.printQueue.items.length > 0;
+        nextState.printQueues[event.queueName].status !== "error" &&
+        nextState.printQueues[event.queueName].status !== "stalled" &&
+        nextState.printQueues[event.queueName].items.length > 0;
 
       if (canContinue) {
-        const nextItem = nextState.printQueue.items[0];
+        const nextItem = nextState.printQueues[event.queueName].items[0];
         const nextTransaction = nextState.transactions[nextItem.transactionId];
         const nextJob = nextTransaction.jobs.find(
           (j) => j.id === nextItem.jobId,
@@ -391,6 +353,7 @@ export const reducer = (
             operationId: generateOperationId(),
             type: "spool-files-to-printer",
             transactionId: nextItem.transactionId,
+            queueName: event.queueName,
             job: nextJob,
           });
         }
@@ -419,7 +382,9 @@ export const reducer = (
           job.status = "INCOMPLETE";
         }
 
-        draft.printQueue.items = draft.printQueue.items.filter(
+        draft.printQueues[event.queueName].items = draft.printQueues[
+          event.queueName
+        ].items.filter(
           (item) =>
             !(
               item.jobId === event.jobId &&
@@ -427,7 +392,7 @@ export const reducer = (
             ),
         );
 
-        draft.printQueue.status = "stalled";
+        draft.printQueues[event.queueName].status = "stalled";
 
         const hasIncomplete = transaction.jobs.some(
           (j) => j.status === "INCOMPLETE",
@@ -448,7 +413,9 @@ export const reducer = (
           job.status = "DISAPPEARED";
         }
 
-        draft.printQueue.items = draft.printQueue.items.filter(
+        draft.printQueues[event.queueName].items = draft.printQueues[
+          event.queueName
+        ].items.filter(
           (item) =>
             !(
               item.jobId === event.jobId &&
@@ -456,7 +423,7 @@ export const reducer = (
             ),
         );
 
-        draft.printQueue.status = "error";
+        draft.printQueues[event.queueName].status = "error";
 
         const hasDisappeared = transaction.jobs.some(
           (j) => j.status === "DISAPPEARED",
@@ -479,7 +446,9 @@ export const reducer = (
 
     case "job:report:success": {
       nextState = produce(state, (draft) => {
-        draft.printQueue.items = draft.printQueue.items.filter(
+        draft.printQueues[event.queueName].items = draft.printQueues[
+          event.queueName
+        ].items.filter(
           (item) =>
             !(
               item.jobId === event.jobId &&
@@ -492,6 +461,38 @@ export const reducer = (
 
     case "job:not-found": {
       // left intentionally
+      break;
+    }
+
+    case "start:download-files-to-file-system": {
+      const files = state.transactions[event.transactionId].jobs.map((job) => {
+        return { id: job.document.id };
+      });
+      operations.push({
+        operationId: generateOperationId(),
+        type: "download-files-to-file-system",
+        files,
+        transactionId: event.transactionId,
+      });
+      break;
+    }
+
+    case "start:spool-files-to-printer": {
+      const nextJob = state.transactions[event.transactionId].jobs.find(
+        (job) => job.id === event.jobId,
+      );
+      const { queueName, transactionId } = event;
+      if (nextJob) {
+        operations.push({
+          operationId: generateOperationId(),
+          type: "spool-files-to-printer",
+          job: nextJob,
+          transactionId,
+          queueName,
+        });
+      } else {
+        log.warn("A job was not found during 'start:spool-files-to-printer'");
+      }
       break;
     }
     default: {

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { TransactionObject } from "@/store/events";
+import type { TransactionObject } from "@/store/structure";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import {
   Sheet,
@@ -106,7 +106,7 @@ export function OrderSheet({
     (store) => store.state.transactions[transactionId],
   ) as TransactionObject | undefined;
   const printQueueStatus = useTransactionStore(
-    (store) => store.state.printQueue.status,
+    (store) => store.state.printQueues["hp smart tank 580"].status,
   );
 
   useEffect(() => {
@@ -193,6 +193,7 @@ export function OrderSheet({
                     dispatch({
                       type: "user:print:transaction",
                       transactionId: transaction.id,
+                      queueName: "hp smart tank 580",
                     });
                   }}
                 />

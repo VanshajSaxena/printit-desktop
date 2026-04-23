@@ -1,3 +1,4 @@
+import type { TransactionObject } from "@/store/structure";
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
@@ -8,7 +9,6 @@ import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
 import { ListIconFile } from "@components/icons/ListIconFile";
-import type { TransactionObject } from "@store/events";
 import { useTransactionStore } from "@store/useTransactionStore";
 import { IconTrashX } from "@tabler/icons-react";
 import { PrinterIcon } from "lucide-react";
@@ -134,6 +134,7 @@ export function TransactionItem({
                     dispatch({
                       type: "user:print:transaction",
                       transactionId: id,
+                      queueName: "hp smart tank 580",
                     });
                   }}
                 >
