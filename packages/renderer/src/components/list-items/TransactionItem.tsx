@@ -171,7 +171,10 @@ export function TransactionItem({
               <>
                 <ClockIcon size={18} />
                 <p>
-                  Prints {formatRelativeTime(estTime.toISOString(), "short")}
+                  Prints{" "}
+                  <strong>
+                    {formatRelativeTime(estTime.toISOString(), "short")}
+                  </strong>
                 </p>
               </>
             )}

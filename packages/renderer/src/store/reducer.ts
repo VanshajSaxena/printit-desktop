@@ -12,9 +12,6 @@ function generateOperationId() {
 function generateQueueItemId() {
   return crypto.randomUUID();
 }
-function getvendorId() {
-  return 1;
-}
 
 export const reducer = (
   state: TransactionState,
@@ -159,7 +156,7 @@ export const reducer = (
           printJobIdentifier: event.printJobInfo.jobIdentifier,
           queueName: event.queueName,
           pollingIntervalMs: 1500,
-          timeoutMs: 10_000,
+          timeoutMs: 30_000,
         });
       }
       break;
@@ -226,17 +223,17 @@ export const reducer = (
         }
       });
 
-      if (
-        nextState.printQueues[event.queueName].status === "printing" ||
-        nextState.printQueues[event.queueName].status === "working"
-      ) {
-        operations.push({
-          operationId: generateOperationId(),
-          type: "emit-transaction-printing",
-          vendorId: getvendorId(),
-          transactionId: event.transactionId,
-        });
-      }
+      // if (
+      //   nextState.printQueues[event.queueName].status === "printing" ||
+      //   nextState.printQueues[event.queueName].status === "working"
+      // ) {
+      //   operations.push({
+      //     operationId: generateOperationId(),
+      //     type: "emit-transaction-printing",
+      //     vendorId: getvendorId(),
+      //     transactionId: event.transactionId,
+      //   });
+      // }
       break;
     }
 
@@ -339,29 +336,6 @@ export const reducer = (
           draft.printQueues[event.queueName].status = "working";
         }
       });
-
-      const canContinue =
-        nextState.printQueues[event.queueName].status !== "error" &&
-        nextState.printQueues[event.queueName].status !== "stalled" &&
-        nextState.printQueues[event.queueName].items.length > 0;
-
-      if (canContinue) {
-        const nextItem = nextState.printQueues[event.queueName].items[0];
-        const nextTransaction = nextState.transactions[nextItem.transactionId];
-        const nextJob = nextTransaction.jobs.find(
-          (j) => j.id === nextItem.jobId,
-        );
-
-        if (nextJob?.status === "READY") {
-          operations.push({
-            operationId: generateOperationId(),
-            type: "spool-files-to-printer",
-            transactionId: nextItem.transactionId,
-            queueName: event.queueName,
-            job: nextJob,
-          });
-        }
-      }
 
       const transaction = nextState.transactions[event.transactionId];
       if (transaction.status === "COMPLETED") {
@@ -509,6 +483,7 @@ export const reducer = (
         transactionId,
         queueName,
         printJobIdentifier,
+        timeoutMs: 30_000,
       });
       break;
     }

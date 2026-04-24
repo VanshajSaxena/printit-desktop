@@ -195,7 +195,7 @@ export class ObservableExecutor {
       printJobIdentifier,
       queueName,
       pollingIntervalMs = 1500,
-      timeoutMs = 30000,
+      timeoutMs = 30_000,
     } = operation;
 
     const cancellation = new Subject<void>();
