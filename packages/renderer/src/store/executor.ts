@@ -179,7 +179,7 @@ export class ObservableExecutor {
       }
 
       case "report-transaction-and-jobs-status": {
-        await this.reportTransactionStatus(operation);
+        await this.reportTransactionAndJobStatus(operation);
         break;
       }
 
@@ -426,6 +426,7 @@ export class ObservableExecutor {
 
   private async reportJobStatus(
     operation: ReportJobStatusOperation,
+    currentAttempts = 0,
   ): Promise<void> {
     try {
       const { error, response } = await this.fetchClient.PATCH(
@@ -438,23 +439,18 @@ export class ObservableExecutor {
 
       if (!response.ok) {
         this.logger.error("Failed to report job status:", error);
-        this.queueReportingForRetry(operation);
+        this.queueReportingForRetry(operation, currentAttempts);
         return;
       }
-
-      // this.dispatch({
-      //   type: "job:report:success",
-      //   jobId: operation.jobId,
-      //   transactionId: operation.transactionId,
-      // });
     } catch (error) {
       this.logger.error("Exception reporting job status:", error);
-      this.queueReportingForRetry(operation);
+      this.queueReportingForRetry(operation, currentAttempts);
     }
   }
 
-  private async reportTransactionStatus(
+  private async reportTransactionAndJobStatus(
     operation: ReportTransactionStatusOperation,
+    currentAttempts = 0,
   ): Promise<void> {
     try {
       const { error, response } = await this.fetchClient.PATCH(
@@ -467,7 +463,7 @@ export class ObservableExecutor {
 
       if (!response.ok) {
         this.logger.error("Failed to report transaction status:", error);
-        this.queueReportingForRetry(operation);
+        this.queueReportingForRetry(operation, currentAttempts);
         return;
       }
 
@@ -477,12 +473,13 @@ export class ObservableExecutor {
       });
     } catch (error) {
       this.logger.error("Exception reporting transaction status:", error);
-      this.queueReportingForRetry(operation);
+      this.queueReportingForRetry(operation, currentAttempts);
     }
   }
 
   private queueReportingForRetry(
     operation: ReportJobStatusOperation | ReportTransactionStatusOperation,
+    currentAttempts = 0,
   ): void {
     const existing = this.reportRetryQueue.find(
       (item) =>
@@ -500,7 +497,7 @@ export class ObservableExecutor {
     } else {
       this.reportRetryQueue.push({
         operation,
-        attempts: 1,
+        attempts: currentAttempts + 1,
         lastAttemptAt: Date.now(),
       });
     }
@@ -552,10 +549,10 @@ export class ObservableExecutor {
       );
 
       if (item.operation.type === "report-job-status") {
-        await this.reportJobStatus(item.operation);
+        await this.reportJobStatus(item.operation, item.attempts);
       }
       if (item.operation.type === "report-transaction-and-jobs-status") {
-        await this.reportTransactionStatus(item.operation);
+        await this.reportTransactionAndJobStatus(item.operation, item.attempts);
       }
     }
   }
