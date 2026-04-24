@@ -20,8 +20,6 @@ export const reducer = (
   state: TransactionState,
   event: ReducerEvent,
 ): [TransactionState, TransactionOperation[]] => {
-  // __AUTO_GENERATED_PRINT_VAR_START__
-  log.debug("reducer event:", event); // __AUTO_GENERATED_PRINT_VAR_END__
   let nextState = state;
   const operations: TransactionOperation[] = [];
   switch (event.type) {
@@ -137,23 +135,29 @@ export const reducer = (
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((j) => j.id === event.jobId);
-
         if (job && event.printJobInfo) {
           job.status = "SPOOLED";
-          job.printJobIdentifier = event.printJobInfo.jobIdentifier;
-          job.printerName = event.printerName;
+          job.printerName = event.queueName;
           job.spooledAt = new Date().toISOString();
+        }
+        const queueItem = draft.printQueues[event.queueName].items.find(
+          (item) =>
+            item.jobId === event.jobId &&
+            item.transactionId === event.transactionId,
+        );
+        if (queueItem) {
+          queueItem.printJobIdentifier = event.printJobInfo?.jobIdentifier;
         }
       });
 
       if (event.printJobInfo) {
         operations.push({
           operationId: generateOperationId(),
-          type: "start-job-monitoring",
+          type: "initialize-job-monitoring",
           transactionId: event.transactionId,
           jobId: event.jobId,
           printJobIdentifier: event.printJobInfo.jobIdentifier,
-          queueName: event.printerName,
+          queueName: event.queueName,
           pollingIntervalMs: 1500,
           timeoutMs: 10_000,
         });
@@ -493,6 +497,19 @@ export const reducer = (
       } else {
         log.warn("A job was not found during 'start:spool-files-to-printer'");
       }
+      break;
+    }
+
+    case "start:initialize-job-monitoring": {
+      const { jobId, transactionId, printJobIdentifier, queueName } = event;
+      operations.push({
+        operationId: generateOperationId(),
+        type: "initialize-job-monitoring",
+        jobId,
+        transactionId,
+        queueName,
+        printJobIdentifier,
+      });
       break;
     }
     default: {

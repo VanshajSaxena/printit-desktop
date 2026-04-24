@@ -7,6 +7,7 @@ import type { ReducerEvent } from "./events";
 export interface TransactionStore {
   state: TransactionState;
   dispatch: (event: ReducerEvent) => void;
+  initializeAfterHydration: () => void;
 }
 
 export interface TransactionState {
@@ -24,6 +25,7 @@ export interface PrintQueueItem {
   transactionId: number;
   jobId: number;
   queuedAt: string;
+  printJobIdentifier?: number;
   monitoring?: {
     isActive: boolean;
     lastPolledAt?: string;

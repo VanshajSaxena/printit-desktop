@@ -23,7 +23,7 @@ export type TransactionOperationUnion = WithTransactionId &
     | EmitUserPrintIntentOperation
     | DownloadFilesOperation
     | SpoolFilesToPrinterOperation
-    | StartPrintJobMonitoringOperation
+    | InitializeJobMonitoringOperation
     | StopPrintJobMonitoringOperation
     | ReportJobStatusOperation
     | ReportTransactionStatusOperation
@@ -84,8 +84,8 @@ export interface StopPrintJobMonitoringOperation {
   reason: "completed" | "failed" | "user-cancelled" | "timeout";
 }
 
-export interface StartPrintJobMonitoringOperation {
-  type: "start-job-monitoring";
+export interface InitializeJobMonitoringOperation {
+  type: "initialize-job-monitoring";
   transactionId: number;
   jobId: number;
   printJobIdentifier: number;

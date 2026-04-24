@@ -15,7 +15,7 @@ import type { ReducerEvent } from "./events";
 import type {
   ReportJobStatusOperation,
   ReportTransactionStatusOperation,
-  StartPrintJobMonitoringOperation,
+  InitializeJobMonitoringOperation,
   StopPrintJobMonitoringOperation,
   TransactionOperation,
 } from "./operations";
@@ -58,6 +58,7 @@ export class ObservableExecutor {
       case "spool-qr-code-file": {
         const printerName = "hp smart tank 580";
         const response = await spoolFilesToPrinter(printerName, {
+          name: "Printit Job",
           documentPath: operation.path,
           ticket: { copyCount: 1, outputColor: "Grayscale" },
         });
@@ -134,11 +135,12 @@ export class ObservableExecutor {
       case "spool-files-to-printer": {
         const documentPath = operation.job.document.filePath;
         const { copyCount, outputColor } = operation.job;
-        const printerName = operation.queueName;
+        const queueName = operation.queueName;
         if (!documentPath) {
           return;
         }
-        const response = await spoolFilesToPrinter(printerName, {
+        const response = await spoolFilesToPrinter(queueName, {
+          name: "Printit Job",
           documentPath,
           ticket: { copyCount, outputColor },
         });
@@ -149,7 +151,7 @@ export class ObservableExecutor {
             printJobInfo: response.data,
             transactionId: operation.transactionId,
             jobId: operation.job.id,
-            printerName,
+            queueName,
           });
         } else {
           // __AUTO_GENERATED_PRINT_VAR_START__
@@ -161,7 +163,7 @@ export class ObservableExecutor {
         break;
       }
 
-      case "start-job-monitoring": {
+      case "initialize-job-monitoring": {
         this.startMonitoring(operation);
         break;
       }
@@ -186,7 +188,7 @@ export class ObservableExecutor {
     }
   }
 
-  private startMonitoring(operation: StartPrintJobMonitoringOperation): void {
+  private startMonitoring(operation: InitializeJobMonitoringOperation): void {
     const {
       transactionId,
       jobId,
@@ -301,6 +303,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 statuses: currentStatuses,
               });
             }
@@ -316,6 +319,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 statuses: currentStatuses,
               });
             }
@@ -336,6 +340,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 lastKnownStatuses: currentStatuses,
               });
             }
@@ -362,6 +367,7 @@ export class ObservableExecutor {
                 type: "job:completed",
                 transactionId,
                 jobId,
+                queueName,
                 printJobIdentifier,
               });
             } else if (hadActivity && printedSomePages) {
@@ -370,6 +376,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 pagesPrinted: lastPageCount,
                 totalPages: totalPages,
               });
@@ -379,6 +386,7 @@ export class ObservableExecutor {
                 transactionId,
                 jobId,
                 printJobIdentifier,
+                queueName,
                 reason: lastStatuses.length > 0 ? lastStatuses : ["Unknown"],
               });
             }
@@ -434,11 +442,11 @@ export class ObservableExecutor {
         return;
       }
 
-      this.dispatch({
-        type: "job:report:success",
-        jobId: operation.jobId,
-        transactionId: operation.transactionId,
-      });
+      // this.dispatch({
+      //   type: "job:report:success",
+      //   jobId: operation.jobId,
+      //   transactionId: operation.transactionId,
+      // });
     } catch (error) {
       this.logger.error("Exception reporting job status:", error);
       this.queueReportingForRetry(operation);

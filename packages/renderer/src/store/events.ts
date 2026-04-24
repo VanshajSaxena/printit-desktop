@@ -30,6 +30,7 @@ export type TransactionEventUnionType = WithTransactionId &
     | PrintJobIncompleteEvent
     | FileSpooledSuccessEvent
     | StartDownloadFilesToFileSystem
+    | StartInitializeJobMonitoring
     | StartSpoolFilesToFileSystem
   );
 
@@ -176,7 +177,7 @@ export interface FileSpooledSuccessEvent {
   type: "file:spooled:success";
   printJobInfo: PrintJobInfoDto | undefined;
   jobId: number;
-  printerName: string;
+  queueName: string;
 }
 
 export interface PrintJobAcceptedEvent {
@@ -215,6 +216,13 @@ export interface PrintJobIncompleteEvent {
 export interface StartDownloadFilesToFileSystem {
   type: "start:download-files-to-file-system";
   jobId: number;
+}
+
+export interface StartInitializeJobMonitoring {
+  type: "start:initialize-job-monitoring";
+  queueName: string;
+  jobId: number;
+  printJobIdentifier: number;
 }
 
 export interface StartSpoolFilesToFileSystem {
