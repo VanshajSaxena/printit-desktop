@@ -1,7 +1,6 @@
 import { GearIcon } from "@components/icons/GearIcon";
 import { HomeIcon } from "@components/icons/HomeIcon";
 import { SidebarRightCollapseIcon } from "@components/icons/SidebarRightCollapseIcon";
-import { SupportHeadphoneIcon } from "@components/icons/SupportHeadphoneIcon.tsx";
 import { ProfileArea } from "@components/sidebar/ProfileArea";
 import {
   SideBarItem,
@@ -35,11 +34,6 @@ export function SideBar({
       type: "settings",
       label: "Settings",
       icon: <GearIcon className="shrink-0" />,
-    },
-    {
-      type: "help",
-      label: "Help Center",
-      icon: <SupportHeadphoneIcon className="shrink-0" />,
     },
   ];
 

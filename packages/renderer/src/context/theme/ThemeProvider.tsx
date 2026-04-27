@@ -4,7 +4,8 @@ import { ThemeContext } from "./ThemeContext.tsx";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeName>(() => {
-    return "dark";
+    const savedTheme = localStorage.getItem("app-theme-preference");
+    return (savedTheme as ThemeName | undefined) ?? "light";
   });
 
   useEffect(() => {

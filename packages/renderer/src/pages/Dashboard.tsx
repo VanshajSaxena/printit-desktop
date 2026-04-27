@@ -1,9 +1,7 @@
 import { SectionCards } from "@/components/cards/SectionCards";
 import { OrderSheet } from "@/components/sheets/OrderSheet";
-import { useAuthStore } from "@/store/useAuthStore";
 import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { Button } from "@components/buttons/Button";
-import { DisplayButton } from "@components/buttons/DisplayButton";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { QRCodeDialog } from "@components/dialogs/QRCodeDialog";
 import { MoonIcon } from "@components/icons/MoonIcon";
@@ -20,8 +18,6 @@ export function Dashboard() {
   >(undefined);
   const [orderSheetOpen, setOrderSheetOpen] = useState(false);
   const [qrDialogOpen, setQrDialogOpen] = useState(false);
-
-  const logout = useAuthStore((store) => store.logout);
 
   const openOrderSheet = (transactionId: number) => {
     setSelectedTransactionId(transactionId);
@@ -49,8 +45,7 @@ export function Dashboard() {
         <div className="flex h-fit max-w-full min-w-0 justify-between gap-4">
           <SearchInput />
           <div className="flex size-fit justify-start gap-4">
-            {/* <DisplayButton /> */}
-            <BulkActionButton onClick={() => void logout()}></BulkActionButton>
+            <BulkActionButton></BulkActionButton>
           </div>
         </div>
         <TransactionListContainer onTransactionClick={openOrderSheet} />
