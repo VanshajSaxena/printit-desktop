@@ -1,12 +1,12 @@
-import { CopiesIcon } from "@components/icons/CopiesIcon";
+import { Copy } from "lucide-react";
 import { Badge } from "./Badge";
 import type { BadgeProps } from "./types";
 
 export function CopiesBadge(props: BadgeProps) {
   return (
     <Badge
-      icon={<CopiesIcon size={16}></CopiesIcon>}
-      label="Copies"
+      icon={<Copy className="size-3 text-secondary-content"></Copy>}
+      label={`Cop${props.count === 1 ? "y" : "ies"}`}
       count={props.count}
     ></Badge>
   );

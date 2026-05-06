@@ -21,10 +21,10 @@ export function SideBarItem({
     <>
       <div
         className={clsx(
-          "flex h-fit w-full shrink-0 gap-4 rounded-xl px-3 py-2 font-normal whitespace-nowrap hover:bg-tertiary",
+          "flex h-fit w-full shrink-0 gap-4 rounded-xl px-3 py-2 font-normal whitespace-nowrap",
           isSelected
             ? "bg-tertiary text-primary-content"
-            : "bg-secondary text-secondary-content",
+            : "bg-secondary text-secondary-content hover:bg-tertiary/70",
         )}
         {...props}
       >

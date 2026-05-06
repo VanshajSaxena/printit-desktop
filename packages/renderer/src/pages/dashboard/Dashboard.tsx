@@ -2,7 +2,6 @@ import { SectionCards } from "@/components/cards/SectionCards";
 import { OrderSheet } from "@/components/sheets/OrderSheet";
 import { useWsEvent } from "@/hooks/useWsHandler";
 import { useTransactionStore } from "@/store/useTransactionStore";
-import { BulkActionButton } from "@components/buttons/BulkActionButton";
 import { GetQRCodeButton } from "@components/buttons/GetQRCodeButton";
 import { QRCodeDialog } from "@components/dialogs/QRCodeDialog";
 import { TopBar } from "@components/layout/TopBar";
@@ -68,9 +67,6 @@ export function Dashboard() {
         <SectionCards />
         <div className="flex h-fit max-w-full min-w-0 justify-between gap-4">
           <SearchInput value={searchQuery} onChange={setSearchQuery} />
-          <div className="flex size-fit justify-start gap-4">
-            <BulkActionButton></BulkActionButton>
-          </div>
         </div>
         <TransactionListContainer
           transactions={filteredTransactions}

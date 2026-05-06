@@ -1,4 +1,4 @@
-import { FileIcon } from "../icons/FileIcon";
+import { File } from "lucide-react";
 import { Badge } from "./Badge";
 import type { BadgeProps } from "./types";
 
@@ -11,7 +11,7 @@ export function PagesBadge(props: BadgeProps) {
   }
   return (
     <Badge
-      icon={<FileIcon size={16}></FileIcon>}
+      icon={<File className="size-3"></File>}
       label={label}
       count={props.count}
     ></Badge>

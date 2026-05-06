@@ -8,7 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@components/ui/sheet";
-import { CheckCircle, ChevronRight } from "lucide-react";
+import { CheckCircle, ChevronRight, Layers3 } from "lucide-react";
 import { useEffect } from "react";
 import { BnWBadge } from "../badges/BnWBadge";
 import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
@@ -19,7 +19,6 @@ import { PrintButton } from "../buttons/PrintButton";
 import { RejectButton } from "../buttons/RejectButton";
 import { formatRelativeTime } from "../formatRelativeTime";
 import { ActivityIcon } from "../icons/ActivityIcon";
-import { FileIcon } from "../icons/FileIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
 import { Badge } from "../ui/badge";
@@ -132,7 +131,7 @@ export function OrderSheet({
   }, 0);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t border-border-default bg-secondary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
+      <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t border-border-default bg-primary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
         <SheetHeader className="flex flex-col gap-4 border-b border-border-default p-5">
           <SheetTitle className="flex items-center gap-2.5 text-sm">
             Order
@@ -142,7 +141,7 @@ export function OrderSheet({
             </p>
           </SheetTitle>
           <div className="flex items-center gap-3">
-            <FileIcon size={24} />
+            <Layers3 size={24} />
             <p className="text-lg font-semibold">
               {transaction.jobs[0].document.filename}
             </p>

@@ -33,7 +33,7 @@ export function Settings() {
         <div className="w-full max-w-3xl space-y-10">
           <section className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="text-lg font-semibold text-foreground">
                 Appearance
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -78,7 +78,7 @@ export function Settings() {
 
           <section className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-xl font-semibold text-red-600/80">
+              <h2 className="text-lg font-semibold text-red-400">
                 Danger Zone
               </h2>
               <p className="text-sm text-muted-foreground">

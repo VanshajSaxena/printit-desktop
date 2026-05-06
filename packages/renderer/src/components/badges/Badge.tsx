@@ -5,11 +5,10 @@ export function Badge(props: BadgeProps) {
   const icon = props.icon;
   const count = props.count;
   return (
-    <div className="flex gap-2 rounded-lg px-2 py-1 outline -outline-offset-1 outline-border-default">
+    <div className="inline-flex items-center gap-1 rounded-lg bg-tertiary/70 px-2 py-1 text-xs text-secondary-content">
       {icon}
-      <div className="text-xs leading-4 text-secondary-content">
-        {name}
-        {count && <span className="ml-1 text-xs">{count}</span>}
+      <div className="text-xs leading-4">
+        {count && <span className="text-xs">{count}</span>} {name}
       </div>
     </div>
   );

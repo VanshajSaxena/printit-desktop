@@ -49,11 +49,11 @@ body {
     --muted-foreground: oklch(0.556 0 0);
     --radius: 0.5rem;
 
-    --primary: #f2f2f2;
+    --primary: #ffffff;
     --primary-content: #000000;
-    --secondary: #e0e0e0;
+    --secondary: #f8f8f8;
     --secondary-content: #424242;
-    --tertiary: #c7c7c7;
+    --tertiary: #e4e4e4;
     --tertiary-content: #666666;
     --success: #8cf28c;
     --success-content: #122112;

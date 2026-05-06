@@ -84,7 +84,7 @@ export function RejectTransactionDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="rounded-3xl border-border bg-background sm:max-w-125">
+      <DialogContent className="rounded-3xl border-border bg-primary sm:max-w-125">
         <DialogHeader className="gap-2">
           <div className="text-destructive flex items-center gap-2.5">
             <IconTrashX className="h-5 w-5 shrink-0" />

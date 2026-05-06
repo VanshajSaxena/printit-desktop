@@ -1,11 +1,11 @@
-import { ColorPalatteIcon } from "@components/icons/ColorPalatteIcon";
+import { IconColorFilter } from "@tabler/icons-react";
 import { Badge } from "./Badge";
 import type { BadgeProps } from "./types";
 
 export function ColorPalatteBadge(props: BadgeProps) {
   return (
     <Badge
-      icon={<ColorPalatteIcon size={16}></ColorPalatteIcon>}
+      icon={<IconColorFilter className="size-3"></IconColorFilter>}
       label="Color"
       count={props.count}
     ></Badge>

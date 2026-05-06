@@ -1,11 +1,11 @@
-import { BnWIcon } from "@components/icons/BnWIcon";
+import { IconContrast2Filled } from "@tabler/icons-react";
 import { Badge } from "./Badge";
 import type { BadgeProps } from "./types";
 
 export function BnWBadge(props: BadgeProps) {
   return (
     <Badge
-      icon={<BnWIcon size={16}></BnWIcon>}
+      icon={<IconContrast2Filled className="size-3"></IconContrast2Filled>}
       label="B&W"
       count={props.count}
     ></Badge>

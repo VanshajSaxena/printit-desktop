@@ -8,10 +8,9 @@ import { RejectTransactionDialog } from "@components/dialogs/RejectTransactionDi
 import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
 import { GridScanIcon } from "@components/icons/GridScanIcon";
-import { ListIconFile } from "@components/icons/ListIconFile";
 import { useTransactionStore } from "@store/useTransactionStore";
 import { IconTrashX } from "@tabler/icons-react";
-import { PrinterIcon } from "lucide-react";
+import { Layers3, PrinterIcon } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -58,11 +57,11 @@ export function TransactionItem({
     <>
       <div
         onClick={onClick}
-        className="flex h-fit max-w-full min-w-0 cursor-pointer flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-primary-content/5"
+        className="flex h-fit max-w-full min-w-0 cursor-pointer flex-col gap-2 border-t border-border-default px-4 py-2 first:border-t-0 last:border-b hover:bg-secondary"
       >
         <div className="flex h-fit max-w-full min-w-0 items-center justify-between">
           <div className="flex h-fit min-w-0 items-center gap-4">
-            <ListIconFile size={24}></ListIconFile>
+            <Layers3 className="size-5"></Layers3>
             <div className="flex h-fit min-w-0 flex-col gap-1 pb-0.5">
               <div className="flex max-w-full min-w-0 gap-2">
                 <h3 className="truncate text-base leading-6 text-nowrap text-primary-content">
