@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { Button } from "@components/buttons/Button";
-import { XCircle } from "lucide-react";
+import { IconTrashX } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -85,10 +85,13 @@ export function RejectTransactionDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="rounded-3xl border-border bg-background sm:max-w-125">
-        <DialogHeader className="gap-3">
+        <DialogHeader className="gap-2">
           <div className="text-destructive flex items-center gap-2.5">
-            <XCircle className="h-5 w-5 shrink-0" />
-            <DialogTitle>Reject Order {friendlyId.substring(0, 8)}</DialogTitle>
+            <IconTrashX className="h-5 w-5 shrink-0" />
+            <DialogTitle>Reject Order </DialogTitle>
+            <p className="text-sm text-secondary-content">
+              {friendlyId.substring(0, 8)}
+            </p>
           </div>
           <DialogDescription className="text-muted-foreground">
             The customer will be notified that their order has been canceled.
