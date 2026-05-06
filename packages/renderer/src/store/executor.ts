@@ -48,10 +48,10 @@ export class ObservableExecutor {
     switch (operation.type) {
       case "fetch-transactions": {
         const { data } = await this.fetchClient.GET("/api/v1/transactions", {
-          params: { query: { status: "PENDING" } },
+          params: { query: { statuses: ["PENDING"] } },
         });
         if (data) {
-          this.dispatch({ type: "transaction:response", response: data });
+          this.dispatch({ type: "transaction:response", response: data.data });
         }
         break;
       }

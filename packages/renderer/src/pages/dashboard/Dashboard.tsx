@@ -8,7 +8,7 @@ import { QRCodeDialog } from "@components/dialogs/QRCodeDialog";
 import { TopBar } from "@components/layout/TopBar";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useEffect, useMemo, useState } from "react";
-import { SearchInput } from "./dashboard/SearchInput";
+import { SearchInput } from "./SearchInput";
 
 export function Dashboard() {
   const dispatch = useTransactionStore((store) => store.dispatch);

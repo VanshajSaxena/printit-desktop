@@ -661,6 +661,16 @@ export interface components {
       /** @example 404 */
       statusCode: number;
     };
+    PaginatedFindTransactionResponseDto: {
+      data: components["schemas"]["FindTransactionResponseDto"][];
+      meta: components["schemas"]["PaginatedMetadataDto"];
+    };
+    PaginatedMetadataDto: {
+      page: number;
+      pageSize: number;
+      total: number;
+      totalPages: number;
+    };
     PrinterResponseDto: {
       /** Format: json */
       capabilities: string;
@@ -807,6 +817,10 @@ export type FindTransactionResponseDto =
   components["schemas"]["FindTransactionResponseDto"];
 export type LoginDto = components["schemas"]["LoginDto"];
 export type NotFoundErrorDto = components["schemas"]["NotFoundErrorDto"];
+export type PaginatedFindTransactionResponseDto =
+  components["schemas"]["PaginatedFindTransactionResponseDto"];
+export type PaginatedMetadataDto =
+  components["schemas"]["PaginatedMetadataDto"];
 export type PrinterResponseDto = components["schemas"]["PrinterResponseDto"];
 export type RefreshRequestDto = components["schemas"]["RefreshRequestDto"];
 export type RegisterVendorDto = components["schemas"]["RegisterVendorDto"];
@@ -1491,13 +1505,16 @@ export interface operations {
   TransactionController_findAll_v1: {
     parameters: {
       query?: {
-        status?:
+        page?: number;
+        pageSize?: number;
+        statuses?: (
           | "PENDING"
           | "QUEUED"
           | "PRINTING"
           | "COMPLETED"
           | "REJECTED"
-          | "ERROR";
+          | "ERROR"
+        )[];
       };
       header?: never;
       path?: never;
@@ -1510,7 +1527,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["FindTransactionResponseDto"][];
+          "application/json": components["schemas"]["PaginatedFindTransactionResponseDto"];
         };
       };
     };
