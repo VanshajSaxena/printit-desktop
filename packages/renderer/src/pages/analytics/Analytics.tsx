@@ -7,15 +7,20 @@ export function Analytics() {
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
-  const { data, isLoading } = client.useQuery("get", "/api/v1/transactions", {
-    params: {
-      query: {
-        statuses: ["COMPLETED", "ERROR", "REJECTED"],
-        page,
-        pageSize,
+  const { data, isLoading } = client.useQuery(
+    "get",
+    "/api/v1/transactions",
+    {
+      params: {
+        query: {
+          statuses: ["COMPLETED", "ERROR", "REJECTED"],
+          page,
+          pageSize,
+        },
       },
     },
-  });
+    { refetchOnWindowFocus: false },
+  );
 
   const meta = data?.meta;
   const transactions = data?.data ?? [];
@@ -33,7 +38,7 @@ export function Analytics() {
           </p>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border border-border-default bg-secondary/50 px-4 py-3">
+        <div className="flex items-center justify-between rounded-xl border border-border-default bg-secondary/50 px-4 py-3">
           <div className="text-sm text-secondary-content">
             Page <span className="text-primary-content">{meta?.page}</span> of{" "}
             {meta?.totalPages ?? 1}
