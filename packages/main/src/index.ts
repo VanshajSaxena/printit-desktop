@@ -17,7 +17,7 @@ import { wsEventListeners } from "./modules/WsListenerModule.js";
 import { createIpcHandlerRegistry } from "./remote/ipc-handlers.js";
 
 const wsNotificationsApiConfig = {
-  url: import.meta.env.PROD ? "api.printit.ink" : "dev.api.printit.ink",
+  url: import.meta.env.VITE_API_BASE_URL,
   protocol: "https",
   namespace: `notifications`,
 };

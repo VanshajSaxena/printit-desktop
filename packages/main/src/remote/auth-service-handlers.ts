@@ -10,9 +10,7 @@ export interface TokenPair {
   refreshToken: string;
 }
 
-const API_BASE_URL = import.meta.env.PROD
-  ? "https://api.printit.ink/api"
-  : "https://dev.api.printit.ink/api";
+const BASE_URL = `https://${import.meta.env.VITE_API_BASE_URL}/api`;
 
 let _accessToken: string | null = null;
 
@@ -34,7 +32,7 @@ async function fetchJson<T>(
   path: string,
   options: Omit<RequestInit, "body"> & { body?: unknown } = {},
 ): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}/v1${path}`, {
+  const res = await fetch(`${BASE_URL}/v1${path}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -110,7 +108,7 @@ export function getAuthHandlers(): IpcHandlerRegistry {
 
     "auth:oauth-start": createHandler(
       async (_event, provider: "google" | "microsoft") => {
-        const url = `${API_BASE_URL}/v1/auth/${provider}`;
+        const url = `${BASE_URL}/v1/auth/${provider}`;
         await shell.openExternal(url);
       },
     ),

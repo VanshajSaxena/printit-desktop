@@ -1,7 +1,7 @@
 {
   "name": "printit",
   "description": "Print, Instantly. Anywhere.",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "author": {
@@ -17,8 +17,12 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "build": "yarn workspaces foreach --all --topological-dev run build",
-    "compile": "yarn build && electron-builder build --config electron-builder.cjs",
+    "build": "cross-env VITE_DISTRIBUTION_CHANNEL=master yarn workspaces foreach --all --topological-dev run build",
+    "build:stable": "cross-env VITE_DISTRIBUTION_CHANNEL=stable yarn build",
+    "build:beta": "cross-env VITE_DISTRIBUTION_CHANNEL=beta yarn build",
+    "compile": "yarn build && cross-env VITE_DISTRIBUTION_CHANNEL=master electron-builder build --config electron-builder.cjs",
+    "compile:stable": "yarn build:stable && cross-env VITE_DISTRIBUTION_CHANNEL=stable electron-builder build --config electron-builder.cjs",
+    "compile:beta": "yarn build:beta && cross-env VITE_DISTRIBUTION_CHANNEL=beta electron-builder build --config electron-builder.cjs",
     "test": "yarn playwright test ./tests/e2e.spec.ts",
     "start": "node packages/dev-mode.js",
     "typecheck": "yarn workspaces foreach --all --topological-dev run typecheck",
@@ -30,6 +34,7 @@
     "@playwright/test": "1.57.0",
     "@types/node": "24.10.1",
     "create-vite": "7.1.3",
+    "cross-env": "^10.1.0",
     "electron": "^39",
     "electron-builder": "26.3.5",
     "eslint-plugin-react-dom": "^2.5.0",

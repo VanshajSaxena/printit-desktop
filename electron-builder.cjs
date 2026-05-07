@@ -31,14 +31,30 @@ function getListOfFilesFromEachWorkspace() {
   return allFilesToInclude;
 }
 
+const channel = process.env.VITE_DISTRIBUTION_CHANNEL || "stable";
 /** @type import('electron-builder').Configuration */
 const config = {
+  productName: "Printit",
+  appId: "ink.printit.desktop",
+  publish: {
+    provider: "generic",
+    url: `https://updates.printit.ink/${channel}`,
+    channel,
+  },
   protocols: [
     {
-      name: "PrintIt",
+      name: "Printit",
       schemes: ["printit"],
     },
   ],
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: false,
+    createDesktopShortcut: true,
+    shortcutName: "Printit Desktop",
+  },
   win: {
     target: [
       {

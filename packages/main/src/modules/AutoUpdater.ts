@@ -1,27 +1,26 @@
+import log, { LogFunctions } from "electron-log";
+import electronUpdater, { type AppUpdater } from "electron-updater";
 import { AppModule } from "../AppModule.js";
-import electronUpdater, {
-  type AppUpdater,
-  type Logger,
-} from "electron-updater";
-import log from "electron-log";
 
 type DownloadNotification = Parameters<
   AppUpdater["checkForUpdatesAndNotify"]
 >[0];
 
 export class AutoUpdater implements AppModule {
-  readonly #logger: Logger | null;
+  readonly #logger: LogFunctions;
   readonly #notification: DownloadNotification;
 
   constructor({
-    logger = null,
-    downloadNotification = undefined,
+    downloadNotification,
   }: {
-    logger?: Logger | null | undefined;
     downloadNotification?: DownloadNotification;
   } = {}) {
-    this.#logger = logger;
-    this.#notification = downloadNotification;
+    const logAutoUpdate = log.scope(AutoUpdater.name);
+    this.#logger = logAutoUpdate;
+    this.#notification = downloadNotification ?? {
+      title: "Update Ready",
+      body: "Restart the app to install updates",
+    };
   }
 
   async enable(): Promise<void> {
@@ -37,8 +36,35 @@ export class AutoUpdater implements AppModule {
 
   async runAutoUpdater() {
     const updater = this.getAutoUpdater();
+    updater.on("checking-for-update", () => {
+      this.#logger.info("Checking for update...");
+    });
+
+    updater.on("update-available", (info) => {
+      this.#logger.info("Update available:", info);
+    });
+
+    updater.on("update-not-available", () => {
+      this.#logger.info("No updates available");
+    });
+
+    updater.on("download-progress", (progress) => {
+      this.#logger.debug(
+        `Download speed: ${progress.bytesPerSecond.toString()}`,
+      );
+      this.#logger.debug(`Downloaded ${progress.percent.toString()}%`);
+    });
+
+    updater.on("update-downloaded", () => {
+      this.#logger.info("Update downloaded");
+    });
+
+    updater.on("error", (err) => {
+      this.#logger.error("Updater error:", err);
+    });
+
     try {
-      updater.logger = this.#logger ?? null;
+      updater.logger = this.#logger;
       updater.fullChangelog = true;
 
       if (import.meta.env.VITE_DISTRIBUTION_CHANNEL) {
@@ -53,7 +79,7 @@ export class AutoUpdater implements AppModule {
         }
       }
 
-      log.error("Auto Update Failed...");
+      this.#logger.error("Auto Update Failed...");
     }
   }
 }
