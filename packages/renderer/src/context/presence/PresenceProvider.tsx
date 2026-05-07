@@ -41,7 +41,7 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
         const res = await updatePresence(target);
         if (res.success) return true;
       } catch {
-        log.error(`updatePresence failed`);
+        log.warn(`syncWithRetry failed`);
       }
 
       await new Promise((r) => setTimeout(r, delay));
@@ -65,7 +65,8 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
           setPendingPresence(null);
         }
       } else {
-        console.warn("Presence sync failed after retries");
+        log.error("Failed to sync presence status after retries");
+        setPresence("offline");
       }
       if (latestIntentRef.current !== target) {
         setPendingPresence(latestIntentRef.current);
