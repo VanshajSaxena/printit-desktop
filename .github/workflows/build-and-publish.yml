@@ -32,7 +32,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.PRIVATE_R2_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PRIVATE_R2_SECRET_ACCESS_KEY }}
-          aws-region: auto
+          aws-region: us-east-1
 
       - name: Download private runtime dependency
         shell: pwsh
@@ -68,7 +68,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws-region: auto
+          aws-region: us-east-1
 
       - name: Sync artifacts to R2
         run: |
