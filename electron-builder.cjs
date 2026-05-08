@@ -54,6 +54,7 @@ const config = {
     deleteAppDataOnUninstall: false,
     createDesktopShortcut: true,
     shortcutName: "Printit Desktop",
+    buildUniversalInstaller: false,
   },
   win: {
     target: [
@@ -68,9 +69,6 @@ const config = {
     buildResources: "buildResources",
   },
   generateUpdatesFilesForAllChannels: true,
-  linux: {
-    target: ["deb"],
-  },
   artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
   files: [
     "LICENSE*",
