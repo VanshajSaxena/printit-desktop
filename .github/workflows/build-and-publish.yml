@@ -3,7 +3,7 @@ name: Build & Publish to R2
 on:
   push:
     branches:
-      - master
+      - unstable
       - stable
   workflow_dispatch:
 
@@ -71,6 +71,14 @@ jobs:
         env:
           VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
+      - name: Move installers to release folder
+        run: |
+          mkdir release
+          copy dist\*.exe release\
+          copy dist\*.yaml release\
+          copy dist\*.yml release\
+          copy dist\*.blockmap release\
+
       - name: Sync artifacts to R2
         shell: pwsh
         env:
@@ -79,7 +87,7 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
         run: |
           aws s3 sync `
-            ./dist `
+            ./release `
             s3://${{ secrets.R2_BUCKET_NAME }}/${{ github.ref_name }}/ `
             --delete `
             --endpoint-url ${{ secrets.R2_ENDPOINT }}
