@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: windows-latest
 
+    env:
+      PRINT_SERVICE_VERSION: v1.0.0
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,25 +22,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - name: Enable Corepack & Install Yarn v4
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Configure AWS Credentials for Private R2
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.PRIVATE_R2_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PRIVATE_R2_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
       - name: Download private runtime dependency
         shell: pwsh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.PRIVATE_R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PRIVATE_R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
         run: |
-          aws s3 cp s3://${{ secrets.PRIVATE_R2_BUCKET_NAME }}/print-service/${{ env.PRINT_SERVICE_VERSION }}/PrintService.7z ./buildResources/PrintService.7z --endpoint-url ${{ secrets.PRIVATE_R2_ENDPOINT }} --only-show-errors
+          aws s3 cp `
+            s3://${{ secrets.PRIVATE_R2_BUCKET_NAME }}/print-service/${{ env.PRINT_SERVICE_VERSION }}/PrintService.7z `
+            ./buildResources/PrintService.7z `
+            --endpoint-url ${{ secrets.PRIVATE_R2_ENDPOINT }} `
+            --only-show-errors
 
       - name: Extract runtime dependency
         shell: pwsh
@@ -63,13 +68,15 @@ jobs:
         env:
           VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
-      - name: Configure AWS Credentials for Public Updates R2
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
       - name: Sync artifacts to R2
+        shell: pwsh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
         run: |
-          aws s3 sync ./dist s3://${{ secrets.R2_BUCKET_NAME }}/${{ github.ref_name }}/ --delete --endpoint-url ${{ secrets.R2_ENDPOINT }}
+          aws s3 sync `
+            ./dist `
+            s3://${{ secrets.R2_BUCKET_NAME }}/${{ github.ref_name }}/ `
+            --delete `
+            --endpoint-url ${{ secrets.R2_ENDPOINT }}
