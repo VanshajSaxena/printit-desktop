@@ -47,7 +47,10 @@ jobs:
       - name: Extract runtime dependency
         shell: pwsh
         run: |
-          & "C:\Program Files\7-Zip\7z.exe" x ./buildResources/PrintService.7z -o./buildResources/ -aoa
+          & "C:\Program Files\7-Zip\7z.exe" x `
+            "./buildResources/PrintService.7z" `
+            "-o./buildResources/" `
+            -y
           Remove-Item ./buildResources/PrintService.7z
 
       - name: Verify dependency exists
