@@ -62,12 +62,12 @@ jobs:
           }
 
       - name: Build Workspaces
-        run: yarn workspaces foreach --all --topological-dev run build
+        run: yarn build
         env:
           VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
       - name: Compile Electron App
-        run: yarn electron-builder build --config electron-builder.cjs
+        run: yarn compile
         env:
           VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 

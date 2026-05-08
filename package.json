@@ -17,12 +17,8 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "build": "cross-env VITE_DISTRIBUTION_CHANNEL=master yarn workspaces foreach --all --topological-dev run build",
-    "build:stable": "cross-env VITE_DISTRIBUTION_CHANNEL=stable yarn build",
-    "build:beta": "cross-env VITE_DISTRIBUTION_CHANNEL=beta yarn build",
-    "compile": "yarn build && cross-env VITE_DISTRIBUTION_CHANNEL=master electron-builder build --config electron-builder.cjs",
-    "compile:stable": "yarn build:stable && cross-env VITE_DISTRIBUTION_CHANNEL=stable electron-builder build --config electron-builder.cjs",
-    "compile:beta": "yarn build:beta && cross-env VITE_DISTRIBUTION_CHANNEL=beta electron-builder build --config electron-builder.cjs",
+    "build": "yarn workspaces foreach --all --topological-dev run build",
+    "compile": "electron-builder build --config electron-builder.cjs",
     "test": "yarn playwright test ./tests/e2e.spec.ts",
     "start": "node packages/dev-mode.js",
     "typecheck": "yarn workspaces foreach --all --topological-dev run typecheck",
