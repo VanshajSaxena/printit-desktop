@@ -31,7 +31,8 @@ function getListOfFilesFromEachWorkspace() {
   return allFilesToInclude;
 }
 
-const channel = process.env.VITE_DISTRIBUTION_CHANNEL || "stable";
+const channel = process.env.VITE_DISTRIBUTION_CHANNEL ?? "unstable";
+console.log("VITE_DISTRIBUTION_CHANNEL (compile): ", channel);
 /** @type import('electron-builder').Configuration */
 const config = {
   productName: "Printit",

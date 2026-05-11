@@ -66,10 +66,7 @@ export class AutoUpdater implements AppModule {
     try {
       updater.logger = this.#logger;
       updater.fullChangelog = true;
-
-      if (import.meta.env.VITE_DISTRIBUTION_CHANNEL) {
-        updater.channel = import.meta.env.VITE_DISTRIBUTION_CHANNEL;
-      }
+      updater.channel = import.meta.env.VITE_DISTRIBUTION_CHANNEL ?? "unstable";
 
       return await updater.checkForUpdatesAndNotify(this.#notification);
     } catch (error) {
