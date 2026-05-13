@@ -32,9 +32,13 @@ function getListOfFilesFromEachWorkspace() {
 }
 
 const channel = process.env.VITE_DISTRIBUTION_CHANNEL ?? "unstable";
-console.log("VITE_DISTRIBUTION_CHANNEL (compile): ", channel);
+const isStable = channel === "stable";
+const artifactName = isStable
+  ? "${productName}-latest-${os}-${arch}.${ext}"
+  : "${productName}-${version}-${os}-${arch}.${ext}";
 /** @type import('electron-builder').Configuration */
 const config = {
+  artifactName,
   productName: "Printit",
   appId: "ink.printit.desktop",
   publish: {
@@ -70,9 +74,7 @@ const config = {
     buildResources: "buildResources",
   },
   generateUpdatesFilesForAllChannels: true,
-  artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
   files: [
-    "LICENSE*",
     pkg.main,
     "!node_modules/@app/**",
     ...getListOfFilesFromEachWorkspace(),
