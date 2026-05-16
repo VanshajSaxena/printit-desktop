@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ChildProcess, spawn } from "child_process";
-import { AppModule } from "src/AppModule.js";
-import { ModuleContext } from "src/ModuleContext.js";
-import { fileURLToPath } from "url";
+import { app } from "electron";
 import log from "electron-log";
 import fs from "fs";
 import path from "path";
+import { AppModule } from "src/AppModule.js";
+import { ModuleContext } from "src/ModuleContext.js";
+import { fileURLToPath } from "url";
 
 interface PrintServiceConfig {
   bin?: string;
-  devPath?: string;
-  prodPath?: string;
   required?: boolean;
   startupTimeout?: number;
 }
@@ -104,21 +103,12 @@ class PrintServiceModule implements AppModule {
   }
 
   private getServicePath(): string {
-    const isDev = import.meta.env.DEV;
-
-    if (isDev && this.#config.devPath) {
-      return this.#config.devPath;
-    }
-    if (!isDev && this.#config.prodPath) {
-      return this.#config.prodPath;
-    }
-
-    return isDev
-      ? path.join(
+    return app.isPackaged
+      ? path.join(process.resourcesPath, `${this.#config.bin}`)
+      : path.join(
           path.dirname(fileURLToPath(import.meta.url)),
           `../../../buildResources/${this.#config.bin}`,
-        )
-      : path.join(process.resourcesPath, `${this.#config.bin}`);
+        );
   }
 
   private cleanup(): void {

@@ -86,6 +86,7 @@ const config = {
   ],
   extraResources: [
     { from: "buildResources/PrintService.exe", to: "PrintService.exe" },
+    { from: "buildResources/scan-to-print.png", to: "scan-to-print.png" },
   ],
 };
 
