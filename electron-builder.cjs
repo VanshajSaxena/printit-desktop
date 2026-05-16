@@ -36,10 +36,12 @@ const isStable = channel === "stable";
 const artifactName = isStable
   ? "${productName}-latest-${os}-${arch}.${ext}"
   : "${productName}-${version}-${os}-${arch}.${ext}";
+const shortcutName = isStable ? "Printit Desktop" : "Printit Desktop (Dev)";
+const productName = isStable ? "Printit" : "Printit (Dev)";
 /** @type import('electron-builder').Configuration */
 const config = {
   artifactName,
-  productName: "Printit",
+  productName,
   appId: "ink.printit.desktop",
   publish: {
     provider: "generic",
@@ -53,13 +55,13 @@ const config = {
     },
   ],
   nsis: {
-    oneClick: false,
+    oneClick: isStable,
     perMachine: false,
-    allowToChangeInstallationDirectory: true,
+    allowToChangeInstallationDirectory: false,
     deleteAppDataOnUninstall: false,
     createDesktopShortcut: true,
-    shortcutName: "Printit Desktop",
     buildUniversalInstaller: false,
+    shortcutName,
   },
   win: {
     target: [
