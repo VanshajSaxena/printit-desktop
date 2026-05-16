@@ -4,6 +4,7 @@ import pkg from "./package.json" with { type: "json" };
 
 export default defineConfig(() => {
   return {
+    envDir: "../../",
     build: {
       lib: {
         entry: "src/index.ts",

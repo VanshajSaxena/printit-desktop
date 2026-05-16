@@ -16,6 +16,7 @@ export default /**
       "@app/common": resolve(__dirname, "../common/src/index.ts"),
     },
   },
+  envDir: "../../",
   build: {
     ssr: true,
     sourcemap: "inline",

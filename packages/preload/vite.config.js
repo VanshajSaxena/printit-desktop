@@ -6,6 +6,7 @@ export default /**
  * @see https://vitejs.dev/config/
  */
 ({
+  envDir: "../../",
   build: {
     ssr: true,
     sourcemap: "inline",
