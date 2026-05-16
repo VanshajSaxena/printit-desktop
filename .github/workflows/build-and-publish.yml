@@ -17,6 +17,7 @@ jobs:
       ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
       VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
       VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+      VITE_APP_BASE_URL: ${{ vars.VITE_APP_BASE_URL }}
 
     steps:
       - name: Checkout code

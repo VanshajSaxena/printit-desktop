@@ -26,9 +26,7 @@ export function QRCodeDialog({ open, onOpenChange }: QRCodeDialogProps) {
 
   const printerUrl = useMemo(() => {
     if (!username) return "";
-    const domain = import.meta.env.PROD
-      ? "app.printit.ink"
-      : "master--printit-app.netlify.app";
+    const domain = import.meta.env.VITE_APP_BASE_URL;
     return `https://${domain}/printers/@${username}`;
   }, [username]);
 
