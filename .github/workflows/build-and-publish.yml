@@ -10,11 +10,13 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    environment: ${{ github.ref_name == 'stable' && 'production' || 'development' }}
     env:
-      PRINT_SERVICE_VERSION: v1.0.0
+      PRINT_SERVICE_VERSION: ${{ vars.PRINT_SERVICE_VERSION }}
       ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
       ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
+      VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
 
     steps:
       - name: Checkout code
@@ -85,13 +87,9 @@ jobs:
 
       - name: Build Workspaces
         run: yarn build
-        env:
-          VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
       - name: Compile Electron App
         run: yarn compile
-        env:
-          VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
       - name: Sync artifacts to R2
         shell: pwsh
