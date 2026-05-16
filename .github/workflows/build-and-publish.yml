@@ -71,14 +71,6 @@ jobs:
         env:
           VITE_DISTRIBUTION_CHANNEL: ${{ github.ref_name }}
 
-      - name: Move installers to release folder
-        run: |
-          mkdir release
-          copy dist\*.exe release\
-          copy dist\*.yaml release\
-          copy dist\*.yml release\
-          copy dist\*.blockmap release\
-
       - name: Sync artifacts to R2
         shell: pwsh
         env:
@@ -86,8 +78,18 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
         run: |
+          Get-ChildItem dist -File | ForEach-Object {
+            "{0} ({1:N2} MB)" -f $_.Name, ($_.Length / 1MB)
+          }
+
           aws s3 sync `
-            ./release `
+            ./dist `
             s3://${{ secrets.R2_BUCKET_NAME }}/${{ github.ref_name }}/ `
             --delete `
+            --exclude "*" `
+            --include "*.exe" `
+            --include "*.yml" `
+            --include "*.yaml" `
+            --include "*.blockmap" `
+            --exclude "builder-debug.yml" `
             --endpoint-url ${{ secrets.R2_ENDPOINT }}
