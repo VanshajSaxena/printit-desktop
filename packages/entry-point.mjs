@@ -75,19 +75,19 @@ if (process.env.NODE_ENV === "development") {
     `);
 }
 
-if (
-  process.env.NODE_ENV === "development" ||
-  process.env.PLAYWRIGHT_TEST === "true" ||
-  !!process.env.CI
-) {
-  function showAndExit(...args) {
-    console.error(...args);
-    process.exit(1);
-  }
-
-  process.on("uncaughtException", showAndExit);
-  process.on("unhandledRejection", showAndExit);
+// if (
+//   process.env.NODE_ENV === "development" ||
+//   process.env.PLAYWRIGHT_TEST === "true" ||
+//   !!process.env.CI
+// ) {
+function showAndExit(...args) {
+  log.error(...args);
+  process.exit(1);
 }
+
+process.on("uncaughtException", showAndExit);
+process.on("unhandledRejection", showAndExit);
+// }
 
 // noinspection JSIgnoredPromiseFromCall
 /**
