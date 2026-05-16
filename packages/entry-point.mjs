@@ -24,7 +24,7 @@ const formatFn = ({ data, level, logger, message }) => {
   const ms = String(date.getMilliseconds()).padStart(2, "0").slice(0, 2);
 
   const lvl = levelMap[level] ?? String(level).toUpperCase();
-  const scope = message.scope ?? "core";
+  const scope = message.scope ?? "Core";
 
   const prefix = `${h}:${i}:${s}.${ms} [${lvl}] [${scope}] >`;
 
