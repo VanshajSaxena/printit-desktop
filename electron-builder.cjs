@@ -66,6 +66,7 @@ const config = {
     shortcutName,
   },
   win: {
+    verifyUpdateCodeSignature: false,
     target: [
       {
         target: "nsis",
