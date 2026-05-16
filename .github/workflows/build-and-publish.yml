@@ -13,6 +13,8 @@ jobs:
 
     env:
       PRINT_SERVICE_VERSION: v1.0.0
+      ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
 
     steps:
       - name: Checkout code
@@ -28,16 +30,34 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Cache Electron build tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache/electron
+            .cache/electron-builder
+          key: electron-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Cache PrintService runtime
+        id: cache-printservice
+        uses: actions/cache@v4
+        with:
+          path: buildResources/PrintService.exe
+          key: printservice-${{ env.PRINT_SERVICE_VERSION }}
+
       - name: Download private runtime dependency
+        if: steps.cache-printservice.outputs.cache-hit != 'true'
         shell: pwsh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.PRIVATE_R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PRIVATE_R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
+          AWS_DEFAULT_REGION: us-east-1
         run: |
+          New-Item -ItemType Directory -Force -Path buildResources | Out-Null
+
           aws s3 cp `
             s3://${{ secrets.PRIVATE_R2_BUCKET_NAME }}/print-service/${{ env.PRINT_SERVICE_VERSION }}/PrintService.7z `
             ./buildResources/PrintService.7z `
@@ -45,12 +65,14 @@ jobs:
             --only-show-errors
 
       - name: Extract runtime dependency
+        if: steps.cache-printservice.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
           & "C:\Program Files\7-Zip\7z.exe" x `
             "./buildResources/PrintService.7z" `
             "-o./buildResources/" `
             -y
+
           Remove-Item ./buildResources/PrintService.7z
 
       - name: Verify dependency exists
@@ -76,7 +98,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1 # Dummy value required by AWS CLI
+          AWS_DEFAULT_REGION: us-east-1
         run: |
           Get-ChildItem dist -File | ForEach-Object {
             "{0} ({1:N2} MB)" -f $_.Name, ($_.Length / 1MB)
@@ -91,5 +113,6 @@ jobs:
             --include "*.yml" `
             --include "*.yaml" `
             --include "*.blockmap" `
+            --exclude "*/*" `
             --exclude "builder-debug.yml" `
             --endpoint-url ${{ secrets.R2_ENDPOINT }}
