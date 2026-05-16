@@ -90,6 +90,9 @@ jobs:
 
       - name: Compile Electron App
         run: yarn compile
+        env:
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: Sync artifacts to R2
         shell: pwsh
