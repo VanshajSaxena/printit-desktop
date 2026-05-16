@@ -36,8 +36,10 @@ const isStable = channel === "stable";
 const artifactName = isStable
   ? "${productName}-latest-${os}-${arch}.${ext}"
   : "${productName}-${version}-${os}-${arch}.${ext}";
-const shortcutName = isStable ? "Printit Desktop" : "Printit Desktop (Dev)";
-const productName = isStable ? "Printit" : "Printit (Dev)";
+const shortcutName = isStable
+  ? "Printit Desktop"
+  : "Printit Desktop (Unstable)";
+const productName = isStable ? "Printit" : "Printit (Unstable)";
 /** @type import('electron-builder').Configuration */
 const config = {
   artifactName,

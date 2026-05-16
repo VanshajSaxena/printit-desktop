@@ -5,7 +5,7 @@ import { ThemeContext } from "./ThemeContext.tsx";
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeName>(() => {
     const savedTheme = localStorage.getItem("app-theme-preference");
-    return (savedTheme as ThemeName | undefined) ?? "light";
+    return (savedTheme as ThemeName | undefined) ?? "dark";
   });
 
   useEffect(() => {
