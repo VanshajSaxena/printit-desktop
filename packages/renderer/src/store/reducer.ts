@@ -55,10 +55,20 @@ export const reducer = (
         );
         break;
       }
+      const defaultQueueName = Object.values(state.printQueues).find(
+        (queue) => queue.default,
+      )?.name;
+      if (!defaultQueueName) {
+        toast.error("Please select a default printer first. Then try again.", {
+          position: "top-center",
+        });
+        break;
+      }
       operations.push({
         operationId: generateOperationId(),
         type: "spool-qr-code-file",
         path: event.path,
+        queueName: defaultQueueName,
       });
       break;
     }
@@ -93,6 +103,7 @@ export const reducer = (
         draft.transactions[event.transactionId].status = "QUEUED";
         draft.transactions[event.transactionId].jobs.forEach((job) => {
           job.status = "QUEUED";
+          job.queueName = event.queueName;
         });
       });
       break;
@@ -134,7 +145,7 @@ export const reducer = (
         const job = transaction.jobs.find((j) => j.id === event.jobId);
         if (job && event.printJobInfo) {
           job.status = "SPOOLED";
-          job.printerName = event.queueName;
+          job.queueName = event.queueName;
           job.spooledAt = new Date().toISOString();
         }
         const queueItem = draft.printQueues[event.queueName].items.find(

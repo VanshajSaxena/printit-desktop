@@ -56,8 +56,7 @@ export class ObservableExecutor {
         break;
       }
       case "spool-qr-code-file": {
-        const printerName = "hp smart tank 580";
-        const response = await spoolFilesToPrinter(printerName, {
+        const response = await spoolFilesToPrinter(operation.queueName, {
           name: "Printit Job",
           documentPath: operation.path,
           ticket: { copyCount: 1, outputColor: "Grayscale" },

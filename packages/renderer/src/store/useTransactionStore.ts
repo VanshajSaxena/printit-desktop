@@ -5,7 +5,7 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
 import { ObservableExecutor } from "./executor";
 import { reducer } from "./reducer";
-import type { TransactionStore } from "./structure";
+import type { PrintQueue, TransactionStore } from "./structure";
 
 export const useTransactionStore = create<TransactionStore>()(
   subscribeWithSelector(
@@ -22,16 +22,8 @@ export const useTransactionStore = create<TransactionStore>()(
         return {
           state: {
             transactions: {},
-            printQueues: {
-              "hp smart tank 580": {
-                status: "idle",
-                items: [],
-              },
-              "hp smart tank 999": {
-                status: "idle",
-                items: [],
-              },
-            },
+            printQueues: {},
+            defaultQueue: "",
           },
           dispatch: (event) => {
             const [newState, operations] = reducer(get().state, event);
@@ -39,6 +31,43 @@ export const useTransactionStore = create<TransactionStore>()(
             set({ state: newState });
 
             operations.forEach((operation) => void executor.execute(operation));
+          },
+          setDefaultQueue: (queueName: string) => {
+            set((store) => {
+              const queues = store.state.printQueues;
+
+              const queueExists = Boolean(queues[queueName]);
+
+              // If it doesn't exist, create it
+              const nextQueues = queueExists
+                ? { ...queues }
+                : {
+                    ...queues,
+                    [queueName]: {
+                      name: queueName,
+                      default: true,
+                      status: "idle",
+                      items: [],
+                    } satisfies PrintQueue,
+                  };
+
+              const updatedQueues = Object.fromEntries(
+                Object.entries(nextQueues).map(([name, queue]) => [
+                  name,
+                  {
+                    ...queue,
+                    default: name === queueName,
+                  },
+                ]),
+              );
+
+              return {
+                state: {
+                  ...store.state,
+                  printQueues: updatedQueues,
+                },
+              };
+            });
           },
           initializeAfterHydration: () => {
             // const currentState = get().state;

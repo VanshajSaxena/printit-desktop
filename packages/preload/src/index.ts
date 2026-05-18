@@ -1,10 +1,10 @@
+import type { WebSocketEvent, WebSocketEventMap } from "@app/common";
 import { type IPCResponse } from "@app/common";
 import type {
   PrintJobDto,
   PrintJobInfoDto,
   PrintQueueStatusDto,
 } from "@app/common/gen/types/print-service-api-types.js";
-import type { WebSocketEvent, WebSocketEventMap } from "@app/common";
 import { ipcRenderer } from "electron";
 import { sha256sum } from "./nodeCrypto.js";
 import { versions } from "./versions.js";
@@ -35,7 +35,7 @@ function send(channel: string, message: string) {
 export function ping() {
   return ipcRenderer.invoke("ping");
 }
-export function getPrintQueues() {
+export function getPrintQueues(): Promise<IPCResponse<string[]>> {
   return ipcRenderer.invoke("printQueue:list");
 }
 export function getPrintQueue() {

@@ -7,6 +7,7 @@ import type { ReducerEvent } from "./events";
 export interface TransactionStore {
   state: TransactionState;
   dispatch: (event: ReducerEvent) => void;
+  setDefaultQueue: (queueName: string) => void;
   initializeAfterHydration: () => void;
 }
 
@@ -18,6 +19,8 @@ export interface TransactionState {
 export interface PrintQueue {
   items: PrintQueueItem[];
   status: "idle" | "working" | "spooled" | "printing" | "stalled" | "error";
+  default: boolean;
+  name: string;
 }
 
 export interface PrintQueueItem {
@@ -61,7 +64,7 @@ export interface TransactionObject {
     copyCount: number;
     outputColor: OutputColorDto;
     printJobIdentifier?: number;
-    printerName?: string;
+    queueName?: string;
     spooledAt?: string;
     completedAt?: string;
   }[];

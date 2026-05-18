@@ -11,25 +11,10 @@ type AuthView = "login" | "signup";
 
 export function AppLayout() {
   const [selectedView, setSelectedView] = useState<ViewType>("dashboard");
-  // const printQueues = useTransactionStore((store) => store.state.printQueues);
-  //
-  // const timedout = printQueues["hp smart tank 580"].items.some(
-  //   (item) => item.monitoring?.timedOut === true,
-  // );
 
   const isAuthenticated = useAuthStore((store) => store.isAuthenticated);
   const isBootstrapping = useAuthStore((store) => store.isBootstrapping);
   const [authView, setAuthView] = useState<AuthView>("login");
-
-  // useEffect(() => {
-  //   if (timedout) {
-  //     toast.error("It looks like your printer is not connected.", {
-  //       id: "printer-timeout",
-  //       position: "top-center",
-  //       duration: 5000,
-  //     });
-  //   }
-  // }, [timedout]);
 
   if (isBootstrapping)
     return (

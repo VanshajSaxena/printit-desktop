@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, selectDefaultQueue } from "@/lib/utils";
 import type { TransactionObject } from "@/store/structure";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@components/ui/sheet";
 import { CheckCircle, ChevronRight, Layers3 } from "lucide-react";
 import { useEffect } from "react";
+import { toast } from "sonner";
 import { BnWBadge } from "../badges/BnWBadge";
 import { ColorPalatteBadge } from "../badges/ColorPalatteBadge";
 import { CopiesBadge } from "../badges/CopiesBadge";
@@ -104,15 +105,14 @@ export function OrderSheet({
   const transaction = useTransactionStore(
     (store) => store.state.transactions[transactionId],
   ) as TransactionObject | undefined;
-  const printQueueStatus = useTransactionStore(
-    (store) => store.state.printQueues["hp smart tank 580"].status,
-  );
 
   useEffect(() => {
     if (!transaction && open) {
       onOpenChange(false);
     }
   }, [transaction, open, onOpenChange]);
+
+  const defaultQueue = useTransactionStore(selectDefaultQueue);
 
   if (!transaction) {
     return null;
@@ -129,6 +129,20 @@ export function OrderSheet({
   const sheetCount = transaction.jobs.reduce((total, currentJob) => {
     return total + currentJob.document.pageCount * currentJob.copyCount;
   }, 0);
+
+  const handleUserPrintIntent = () => {
+    if (!defaultQueue) {
+      toast.error("Please select a default printer first. Then try again.", {
+        position: "top-center",
+      });
+      return;
+    }
+    dispatch({
+      type: "user:print:transaction",
+      transactionId: transaction.id,
+      queueName: defaultQueue.name,
+    });
+  };
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="top-[20vh] flex h-[80dvh] w-[60dvw] flex-col gap-0 rounded-tl-3xl border-t border-border-default bg-primary select-none data-[state=closed]:duration-75 data-[state=closed]:fade-out-75 data-[state=open]:duration-75 data-[state=open]:fade-in-75 sm:max-w-none">
@@ -188,22 +202,11 @@ export function OrderSheet({
                 <RejectButton text="Reject All" />
                 <PrintButton
                   text="Print All"
-                  onClick={() => {
-                    dispatch({
-                      type: "user:print:transaction",
-                      transactionId: transaction.id,
-                      queueName: "hp smart tank 580",
-                    });
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUserPrintIntent();
                   }}
                 />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-6 border-b border-border-default py-6">
-              <div className="flex gap-2">Status</div>
-
-              <div className="flex flex-wrap items-center justify-evenly gap-2 lowercase">
-                {transaction.status} {printQueueStatus}
               </div>
             </div>
           </div>

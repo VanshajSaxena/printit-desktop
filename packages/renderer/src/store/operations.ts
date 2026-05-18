@@ -57,6 +57,7 @@ export interface FetchTransactionOperation {
 export interface SpoolQrCodeFileOperation {
   type: "spool-qr-code-file";
   path: string;
+  queueName: string;
 }
 
 export interface SpoolFilesToPrinterOperation {

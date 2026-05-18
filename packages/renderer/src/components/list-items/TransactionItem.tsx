@@ -1,3 +1,4 @@
+import { selectDefaultQueue } from "@/lib/utils";
 import type { TransactionObject } from "@/store/structure";
 import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
@@ -12,6 +13,7 @@ import { useTransactionStore } from "@store/useTransactionStore";
 import { IconTrashX } from "@tabler/icons-react";
 import { Layers3, PrinterIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
@@ -41,7 +43,21 @@ export function TransactionItem({
     return total + currentJob.document.pageCount * currentJob.copyCount;
   }, 0);
   const estTime = new Date(Date.now() + sheetCount * 5_000 + 10_000);
+  const defaultQueue = useTransactionStore(selectDefaultQueue);
 
+  const handleUserPrintIntent = () => {
+    if (!defaultQueue) {
+      toast.error("Please select a default printer first. Then try again.", {
+        position: "top-center",
+      });
+      return;
+    }
+    dispatch({
+      type: "user:print:transaction",
+      transactionId: id,
+      queueName: defaultQueue.name,
+    });
+  };
   const inQueue =
     status === "QUEUED" ||
     status === "DOWNLOADING" ||
@@ -130,11 +146,7 @@ export function TransactionItem({
                   className="hover:bg-success hover:text-success-content"
                   onClick={(e) => {
                     e.stopPropagation();
-                    dispatch({
-                      type: "user:print:transaction",
-                      transactionId: id,
-                      queueName: "hp smart tank 580",
-                    });
+                    handleUserPrintIntent();
                   }}
                 >
                   <PrinterIcon />
