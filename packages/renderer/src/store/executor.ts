@@ -64,7 +64,6 @@ export class ObservableExecutor {
         if (response.success) {
           toast.success(
             "Your QR Code is sent to the printer. Make sure it is connected to start receiving files.",
-            { position: "top-center" },
           );
         }
         break;

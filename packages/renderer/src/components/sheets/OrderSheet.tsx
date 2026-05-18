@@ -23,6 +23,8 @@ import { ActivityIcon } from "../icons/ActivityIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 
 function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
   const pageCount = job.document.pageCount;
@@ -30,14 +32,13 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
 
   const inQueue =
     status === "QUEUED" ||
+    status === "TIMEOUT" ||
     status === "DOWNLOADING" ||
     status === "READY" ||
-    status === "SPOOLED";
+    status === "SPOOLED" ||
+    status === "PRINTING";
   const hasError =
-    status === "ERROR" ||
-    status === "TIMEOUT" ||
-    status === "DISAPPEARED" ||
-    status === "CRITICAL";
+    status === "ERROR" || status === "DISAPPEARED" || status === "CRITICAL";
 
   return (
     <div
@@ -58,9 +59,9 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
           </Badge>
         )}
         {inQueue && (
-          <Badge variant={"ghost"} className="bg-queued text-queued-content">
-            Queued
-          </Badge>
+          <Button className="rounded-xl hover:bg-success hover:text-success-content">
+            <Spinner />
+          </Button>
         )}
         {hasError && (
           <Badge variant={"ghost"} className="bg-error text-error-content">
@@ -132,9 +133,7 @@ export function OrderSheet({
 
   const handleUserPrintIntent = () => {
     if (!defaultQueue) {
-      toast.error("Please select a default printer first. Then try again.", {
-        position: "top-center",
-      });
+      toast.error("Please select a default printer first. Then try again.");
       return;
     }
     dispatch({

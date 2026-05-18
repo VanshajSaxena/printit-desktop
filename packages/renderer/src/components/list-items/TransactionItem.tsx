@@ -47,9 +47,7 @@ export function TransactionItem({
 
   const handleUserPrintIntent = () => {
     if (!defaultQueue) {
-      toast.error("Please select a default printer first. Then try again.", {
-        position: "top-center",
-      });
+      toast.error("Please select a default printer first. Then try again.");
       return;
     }
     dispatch({
@@ -60,14 +58,13 @@ export function TransactionItem({
   };
   const inQueue =
     status === "QUEUED" ||
+    status === "TIMEOUT" ||
     status === "DOWNLOADING" ||
     status === "READY" ||
-    status === "SPOOLED";
+    status === "SPOOLED" ||
+    status === "PRINTING";
   const hasError =
-    status === "ERROR" ||
-    status === "TIMEOUT" ||
-    status === "DISAPPEARED" ||
-    status === "CRITICAL";
+    status === "ERROR" || status === "DISAPPEARED" || status === "CRITICAL";
 
   return (
     <>
@@ -77,7 +74,7 @@ export function TransactionItem({
       >
         <div className="flex h-fit max-w-full min-w-0 items-center justify-between">
           <div className="flex h-fit min-w-0 items-center gap-4">
-            <Layers3 className="size-5"></Layers3>
+            <Layers3 className="m-1 size-5" />
             <div className="flex h-fit min-w-0 flex-col gap-1 pb-0.5">
               <div className="flex max-w-full min-w-0 gap-2">
                 <h3 className="truncate text-base leading-6 text-nowrap text-primary-content">
@@ -105,14 +102,6 @@ export function TransactionItem({
                     className="bg-error text-error-content"
                   >
                     Error
-                  </Badge>
-                )}
-                {status === "PRINTING" && (
-                  <Badge
-                    variant={"ghost"}
-                    className="bg-printing text-printing-content"
-                  >
-                    Printing
                   </Badge>
                 )}
               </div>
@@ -155,7 +144,7 @@ export function TransactionItem({
               </div>
             )}
             {inQueue && (
-              <Button className="rounded-xl hover:bg-success hover:text-success-content">
+              <Button className="rounded-xl">
                 <Spinner />
                 Printing
               </Button>
@@ -178,27 +167,43 @@ export function TransactionItem({
             {isBnWOnly && <BnWBadge />}
           </div>
           <div className="flex items-center gap-2 text-xs leading-4 text-nowrap text-secondary-content">
-            {status === "PENDING" && (
-              <>
-                <ClockIcon size={18} />
-                <p>
-                  Prints{" "}
-                  <strong>
-                    {formatRelativeTime(estTime.toISOString(), "short")}
-                  </strong>
+            <div
+              key={status}
+              className="flex animate-in items-center gap-2 duration-300 fade-in slide-in-from-bottom-1"
+            >
+              {status === "PENDING" && (
+                <>
+                  <ClockIcon size={18} />
+                  <p>
+                    Prints{" "}
+                    <strong>
+                      {formatRelativeTime(estTime.toISOString(), "short")}
+                    </strong>
+                  </p>
+                </>
+              )}
+
+              {status === "QUEUED" && (
+                <p className="italic">Preparing your files...</p>
+              )}
+
+              {status === "DOWNLOADING" && (
+                <p className="italic">Downloading files...</p>
+              )}
+
+              {status === "READY" && (
+                <p className="italic">Sending files to printer...</p>
+              )}
+
+              {status === "TIMEOUT" && (
+                <p className="italic">
+                  The printer is taking a long time to respond.
                 </p>
-              </>
-            )}
-            {status === "QUEUED" && (
-              <p className="italic">Preparing your files...</p>
-            )}
-            {status === "DOWNLOADING" && (
-              <p className="italic">Downloading files...</p>
-            )}
-            {status === "READY" && (
-              <p className="italic">Sending files to printer...</p>
-            )}
-            {status === "PRINTING" && <p className="italic">Printing...</p>}
+              )}
+              {status === "PRINTING" && (
+                <p className="italic">Grab your pages.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

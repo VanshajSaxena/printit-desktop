@@ -8,6 +8,7 @@ import { TopBar } from "@components/layout/TopBar";
 import { TransactionListContainer } from "@pages/dashboard/TransactionListContainer";
 import { useEffect, useMemo, useState } from "react";
 import { SearchInput } from "./SearchInput";
+import { toast } from "sonner";
 
 export function Dashboard() {
   const dispatch = useTransactionStore((store) => store.dispatch);
@@ -51,6 +52,7 @@ export function Dashboard() {
   }, [dispatch]);
 
   useWsEvent("transaction:new", () => {
+    toast.success("Received a new Order.");
     dispatch({ type: "transaction:request" });
   });
 

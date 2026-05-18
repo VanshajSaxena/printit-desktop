@@ -51,7 +51,6 @@ export const reducer = (
       if (!event.printIntent) {
         toast.success(
           "PDF Downloaded Successfully. Check your Downloads folder.",
-          { position: "top-center" },
         );
         break;
       }
@@ -59,9 +58,7 @@ export const reducer = (
         (queue) => queue.default,
       )?.name;
       if (!defaultQueueName) {
-        toast.error("Please select a default printer first. Then try again.", {
-          position: "top-center",
-        });
+        toast.error("Please select a default printer first. Then try again.");
         break;
       }
       operations.push({
@@ -73,9 +70,7 @@ export const reducer = (
       break;
     }
     case "user:get-qr-code:error": {
-      toast.error("Failed to download PDF. Please, try again.", {
-        position: "top-center",
-      });
+      toast.error("Failed to download PDF. Please, try again.");
       break;
     }
     case "user:reject:transaction": {

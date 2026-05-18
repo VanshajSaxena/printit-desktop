@@ -26,7 +26,7 @@ function App() {
       <ThemeProvider>
         <PresenceProvider>
           <AppLayout />
-          <Toaster />
+          <Toaster position="top-center" />
         </PresenceProvider>
       </ThemeProvider>
     </PersistQueryClientProvider>
