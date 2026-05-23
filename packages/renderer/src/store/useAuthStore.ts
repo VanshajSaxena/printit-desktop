@@ -1,9 +1,9 @@
 import {
+  getAccessToken,
   login,
   logout,
   oauthStart,
   onOAuthComplete,
-  getAccessToken,
   register,
 } from "@app/preload";
 import { create } from "zustand";
@@ -57,7 +57,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     await logout();
-    set({ accessToken: null, isAuthenticated: false });
+    const { useTransactionStore } = await import("@/store/useTransactionStore");
+    useTransactionStore.getState().wipeStore();
+
+    set({
+      accessToken: null,
+      isAuthenticated: false,
+    });
   },
 
   bootstrap: async () => {

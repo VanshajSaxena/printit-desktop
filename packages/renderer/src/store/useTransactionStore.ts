@@ -23,7 +23,6 @@ export const useTransactionStore = create<TransactionStore>()(
           state: {
             transactions: {},
             printQueues: {},
-            defaultQueue: "",
           },
           dispatch: (event) => {
             const [newState, operations] = reducer(get().state, event);
@@ -67,6 +66,14 @@ export const useTransactionStore = create<TransactionStore>()(
                   printQueues: updatedQueues,
                 },
               };
+            });
+          },
+          wipeStore: () => {
+            set({
+              state: {
+                transactions: {},
+                printQueues: {},
+              },
             });
           },
           initializeAfterHydration: () => {

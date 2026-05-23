@@ -9,6 +9,7 @@ export interface TransactionStore {
   dispatch: (event: ReducerEvent) => void;
   setDefaultQueue: (queueName: string) => void;
   initializeAfterHydration: () => void;
+  wipeStore: () => void;
 }
 
 export interface TransactionState {
