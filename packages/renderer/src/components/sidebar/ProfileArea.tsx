@@ -74,7 +74,7 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
             isCollapsed ? "w-0 px-0 opacity-0" : "w-full pl-3 opacity-100",
           )}
         >
-          <div className="flex min-w-0 flex-col items-start justify-center gap-6 md:flex-row md:items-center md:justify-center">
+          <div className="flex w-full max-w-full min-w-0 flex-col items-start justify-between gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex min-w-0 flex-col items-start justify-center">
               <h1 className="truncate text-lg leading-7 font-semibold text-primary-content">
                 {data.displayName ?? data.username}
