@@ -1,11 +1,11 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import { AlertCircleIcon } from "lucide-react";
 import type { FallbackProps } from "react-error-boundary";
 export default function ErrorFallback({
   error,
   resetErrorBoundary,
 }: FallbackProps) {
-  const errorMessage =
-    error instanceof Error ? error.message : "An unknown error occurred";
+  const logout = useAuthStore((store) => store.logout);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-6 text-foreground">
       <div className="w-full max-w-lg rounded-2xl border border-border bg-secondary p-8 shadow-2xl">
@@ -39,7 +39,9 @@ export default function ErrorFallback({
 
           <div className="border-t border-border px-4 py-3">
             <pre className="overflow-auto text-sm wrap-break-word whitespace-pre-wrap text-error-content">
-              {errorMessage}
+              {error instanceof Error
+                ? `${error.message}\n\n${error.stack ?? ""}`
+                : "Unknown error"}
             </pre>
           </div>
         </details>
@@ -47,6 +49,7 @@ export default function ErrorFallback({
         <div className="flex items-center justify-end gap-3">
           <button
             onClick={() => {
+              void logout();
               window.location.reload();
             }}
             className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium transition hover:bg-tertiary"
