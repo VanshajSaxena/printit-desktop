@@ -64,8 +64,8 @@ const config = {
   nsis: {
     oneClick: isStable,
     perMachine: false,
-    allowToChangeInstallationDirectory: false,
-    deleteAppDataOnUninstall: false,
+    allowToChangeInstallationDirectory: !isStable,
+    deleteAppDataOnUninstall: !isStable,
     createDesktopShortcut: true,
     buildUniversalInstaller: false,
     shortcutName,
