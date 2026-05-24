@@ -33,18 +33,23 @@ function getListOfFilesFromEachWorkspace() {
 
 const channel = process.env.VITE_DISTRIBUTION_CHANNEL ?? "unstable";
 const isStable = channel === "stable";
+
+const appId = isStable ? "ink.printit.desktop" : "ink.printit.desktop.unstable";
+
+const productName = isStable ? "Printit" : "Printit Unstable";
+
+const executableName = isStable ? "Printit" : "PrintitUnstable";
 const artifactName = isStable
-  ? "${productName}-latest-${os}-${arch}.${ext}"
-  : "${productName}-${version}-${os}-${arch}.${ext}";
+  ? "Printit-latest-${os}-${arch}.${ext}"
+  : "Printit-${version}-${os}-${arch}.${ext}";
 const shortcutName = isStable
   ? "Printit Desktop"
   : "Printit Desktop (Unstable)";
-const productName = isStable ? "Printit" : "Printit (Unstable)";
 /** @type import('electron-builder').Configuration */
 const config = {
   artifactName,
   productName,
-  appId: "ink.printit.desktop",
+  appId,
   publish: {
     provider: "generic",
     url: `https://updates.printit.ink/${channel}`,
@@ -66,6 +71,7 @@ const config = {
     shortcutName,
   },
   win: {
+    executableName,
     verifyUpdateCodeSignature: false,
     target: [
       {

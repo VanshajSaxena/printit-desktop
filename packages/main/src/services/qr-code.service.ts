@@ -29,12 +29,12 @@ export async function generateQrCodePdf(
     Buffer.from(qrDataUrl.split(",")[1], "base64"),
   );
 
-  const templatePath = app.isPackaged
-    ? path.join(process.resourcesPath, "buildResources", "scan-to-print.png")
-    : path.join(
-        fileURLToPath(import.meta.url),
-        "../../../../buildResources/scan-to-print.png",
-      );
+  const templatePath = path.resolve(
+    app.isPackaged
+      ? process.resourcesPath
+      : path.join(fileURLToPath(import.meta.url), "../../../../buildResources"),
+    "scan-to-print.png",
+  );
   const templateImage = await pdfDoc.embedPng(fs.readFileSync(templatePath));
 
   const qrSize = 272;
