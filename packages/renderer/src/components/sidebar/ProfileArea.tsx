@@ -21,7 +21,11 @@ export function ProfileArea({ isCollapsed, setCollapsed }: ProfileAreaProps) {
     "get",
     "/api/v1/vendors/me",
     {},
-    { staleTime: 300_000, refetchOnWindowFocus: false },
+    {
+      staleTime: 300_000,
+      refetchOnWindowFocus: false,
+      refetchOnMount: "always",
+    },
   );
 
   useEffect(() => {
