@@ -12,7 +12,6 @@ export const useTransactionStore = create<TransactionStore>()(
     persist(
       (set, get) => {
         const executor = new ObservableExecutor((event) => {
-          log.verbose("Dispatch Event Fired:", event.type);
           const [newState, operations] = reducer(get().state, event);
 
           set({ state: newState });
@@ -45,7 +44,6 @@ export const useTransactionStore = create<TransactionStore>()(
                     [queueName]: {
                       name: queueName,
                       default: true,
-                      status: "idle",
                       items: [],
                     } satisfies PrintQueue,
                   };
@@ -108,22 +106,22 @@ export const useTransactionStore = create<TransactionStore>()(
             //     printQueues: updatedPrintQueues,
             //   },
             // });
-            Object.entries(get().state.printQueues).forEach(
-              ([queueName, printQueue]) => {
-                printQueue.items.forEach(
-                  ({ printJobIdentifier, jobId, transactionId }) => {
-                    if (!printJobIdentifier) return;
-                    get().dispatch({
-                      type: "start:initialize-job-monitoring",
-                      queueName,
-                      jobId,
-                      transactionId,
-                      printJobIdentifier,
-                    });
-                  },
-                );
-              },
-            );
+            // Object.entries(get().state.printQueues).forEach(
+            //   ([queueName, printQueue]) => {
+            //     printQueue.items.forEach(
+            //       ({ printJobIdentifier, jobId, transactionId }) => {
+            //         if (!printJobIdentifier) return;
+            //         get().dispatch({
+            //           type: "start:initialize-job-monitoring",
+            //           queueName,
+            //           jobId,
+            //           transactionId,
+            //           printJobIdentifier,
+            //         });
+            //       },
+            //     );
+            //   },
+            // );
           },
         };
       },

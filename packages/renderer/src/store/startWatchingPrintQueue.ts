@@ -1,3 +1,4 @@
+import { getPrintQueueStatus } from "@/lib/utils";
 import log from "electron-log/renderer";
 import type { ReducerEvent } from "./events";
 import type { PrintQueue, TransactionObject } from "./structure";
@@ -16,7 +17,10 @@ export function startWatchingPrintQueue() {
     },
   );
 
-  return unsubscribe;
+  return () => {
+    log.debug("startWatchingPrintQueue unsubscribed");
+    unsubscribe();
+  };
 }
 
 function processQueue(
@@ -25,18 +29,22 @@ function processQueue(
   transactions: Record<number, TransactionObject>,
   dispatch: (event: ReducerEvent) => void,
 ) {
-  if (queue.status === "error" || queue.status === "stalled") return;
+  const queueStatus = getPrintQueueStatus(queue, transactions);
+  if (queueStatus === "error" || queueStatus === "stalled") return;
   if (queue.items.length === 0) return;
   log.debug("processQueue ran for queue: ", queueName);
 
   const firstItem = queue.items[0];
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (transactions[firstItem.transactionId] == undefined) return;
 
   const firstStatus = transactions[firstItem.transactionId].jobs.find(
     (job) => job.id === firstItem.jobId,
   )?.status;
   log.debug("First Item Status: ", firstStatus);
 
-  if (queue.status === "idle" || queue.status === "working") {
+  if (queueStatus === "idle" || queueStatus === "working") {
     if (firstStatus === "QUEUED") {
       dispatch({
         type: "start:download-files-to-file-system",
@@ -62,7 +70,7 @@ function processQueue(
   )?.status;
   log.debug("Second Item Status: ", secondStatus);
 
-  if (queue.status === "idle" || queue.status === "working") {
+  if (queueStatus === "idle" || queueStatus === "working") {
     if (secondStatus === "QUEUED") {
       dispatch({
         type: "start:download-files-to-file-system",

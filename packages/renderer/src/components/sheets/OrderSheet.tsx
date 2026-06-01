@@ -22,13 +22,22 @@ import { formatRelativeTime } from "../formatRelativeTime";
 import { ActivityIcon } from "../icons/ActivityIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
+import { PrinterIcon } from "../icons/PrinterIcon";
+import { ActionsMenu } from "../menu/ActionsMenu";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 
-function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
+function DocumentItem({
+  job,
+  transactionId,
+}: {
+  job: TransactionObject["jobs"][0];
+  transactionId: number;
+}) {
   const pageCount = job.document.pageCount;
   const status = job.status;
+  const dispatch = useTransactionStore((store) => store.dispatch);
 
   const inQueue =
     status === "QUEUED" ||
@@ -39,6 +48,20 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
     status === "PRINTING";
   const hasError =
     status === "ERROR" || status === "DISAPPEARED" || status === "CRITICAL";
+
+  const defaultQueue = useTransactionStore(selectDefaultQueue);
+  const handleUserPrintJobIntent = () => {
+    if (!defaultQueue) {
+      toast.error("Please select a default printer first. Then try again.");
+      return;
+    }
+    dispatch({
+      type: "user:print:job",
+      transactionId,
+      jobId: job.id,
+      queueName: defaultQueue.name,
+    });
+  };
 
   return (
     <div
@@ -52,42 +75,93 @@ function DocumentItem({ job }: { job: TransactionObject["jobs"][0] }) {
             <PDFFileIcon size={20} />
           </div>
           {job.document.filename}
+          {status === "PENDING" && (
+            <Badge
+              variant={"ghost"}
+              className="bg-success text-success-content"
+            >
+              New
+            </Badge>
+          )}
+          {inQueue && (
+            <Badge variant={"ghost"} className="bg-queued text-queued-content">
+              <Spinner></Spinner>
+              Queued
+            </Badge>
+          )}
+          {hasError && (
+            <Badge variant={"ghost"} className="bg-error text-error-content">
+              Error
+            </Badge>
+          )}
+          {status === "PRINTING" && (
+            <Badge
+              variant={"ghost"}
+              className="bg-printing text-printing-content"
+            >
+              Printing
+            </Badge>
+          )}
         </div>
-        {status === "PENDING" && (
-          <Badge variant={"ghost"} className="bg-success text-success-content">
-            New
-          </Badge>
-        )}
-        {inQueue && (
-          <Button className="rounded-xl hover:bg-success hover:text-success-content">
-            <Spinner />
-          </Button>
-        )}
-        {hasError && (
-          <Badge variant={"ghost"} className="bg-error text-error-content">
-            Error
-          </Badge>
-        )}
-        {status === "PRINTING" && (
-          <Badge
-            variant={"ghost"}
-            className="bg-printing text-printing-content"
-          >
-            Printing
-          </Badge>
-        )}
-        {status === "COMPLETED" && (
-          <CheckCircle className="text-success-content" size={20} />
-        )}
+        <div className="flex items-center gap-2">
+          {status === "COMPLETED" && (
+            <CheckCircle className="text-success-content" size={20} />
+          )}
+          {status === "PENDING" && (
+            <Button
+              className="hover:bg-success hover:text-success-content"
+              size={"sm"}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleUserPrintJobIntent();
+              }}
+            >
+              <PrinterIcon />
+              Print
+            </Button>
+          )}
+          {status !== "COMPLETED" && (
+            <ActionsMenu
+              status={status}
+              onMarkComplete={() => {
+                dispatch({
+                  type: "user:mark:complete",
+                  transactionId,
+                  jobId: job.id,
+                });
+              }}
+              onRetry={() => {
+                dispatch({
+                  type: "user:retry:job",
+                  transactionId,
+                  jobId: job.id,
+                });
+              }}
+              onCancel={() => {
+                dispatch({
+                  type: "user:cancel:job",
+                  transactionId,
+                  jobId: job.id,
+                });
+              }}
+            />
+          )}
+        </div>
       </div>
-      <div className="flex flex-wrap gap-4 px-4 py-3">
-        <PagesBadge count={pageCount}></PagesBadge>
-        <CopiesBadge count={job.copyCount}></CopiesBadge>
-        {job.outputColor === "Color" ? (
-          <ColorPalatteBadge></ColorPalatteBadge>
-        ) : (
-          <BnWBadge></BnWBadge>
-        )}
+      <div className="flex items-center justify-between">
+        <div className="flex flex-wrap gap-4 px-4 py-3">
+          <PagesBadge count={pageCount}></PagesBadge>
+          <CopiesBadge count={job.copyCount}></CopiesBadge>
+          {job.outputColor === "Color" ? (
+            <ColorPalatteBadge></ColorPalatteBadge>
+          ) : (
+            <BnWBadge></BnWBadge>
+          )}
+        </div>
+
+        <div>
+          <Badge className="text-secondary-content lowercase">{status}</Badge>
+        </div>
       </div>
     </div>
   );
@@ -180,12 +254,24 @@ export function OrderSheet({
               {transaction.jobs
                 .filter((job) => job.status !== "COMPLETED")
                 .map((job) => {
-                  return <DocumentItem key={job.id} job={job}></DocumentItem>;
+                  return (
+                    <DocumentItem
+                      key={job.id}
+                      job={job}
+                      transactionId={transaction.id}
+                    ></DocumentItem>
+                  );
                 })}
               {transaction.jobs
                 .filter((job) => job.status === "COMPLETED")
                 .map((job) => {
-                  return <DocumentItem key={job.id} job={job}></DocumentItem>;
+                  return (
+                    <DocumentItem
+                      key={job.id}
+                      job={job}
+                      transactionId={transaction.id}
+                    ></DocumentItem>
+                  );
                 })}
             </div>
           </div>

@@ -8,7 +8,12 @@ import type { WithTransactionId } from "./structure";
 export type TransactionEventUnionType = WithTransactionId &
   (
     | NewTransactionEvent
-    | UserSendToPrinterEvent
+    | UserPrintTransactionEvent
+    | UserPrintJobEvent
+    | UserMarkAsCompleteEvent
+    | UserRetryJobEvent
+    | UserCancleJobEvent
+    | UserCancleTransactionEvent
     | UserRejectTransactionEvent
     | FilesDownloadStartedAllEvent
     | FilesDownloadProgressAllEvent
@@ -42,9 +47,34 @@ export type ReducerEvent =
   | UserQrCodeGenerateSuccessEvent
   | UserQrCodeGenerateErrorEvent;
 
-export interface UserSendToPrinterEvent {
+export interface UserPrintJobEvent {
+  type: "user:print:job";
+  jobId: number;
+  queueName: string;
+}
+
+export interface UserPrintTransactionEvent {
   type: "user:print:transaction";
   queueName: string;
+}
+
+export interface UserCancleTransactionEvent {
+  type: "user:cancel:transaction";
+}
+
+export interface UserCancleJobEvent {
+  type: "user:cancel:job";
+  jobId: number;
+}
+
+export interface UserRetryJobEvent {
+  type: "user:retry:job";
+  jobId: number;
+}
+
+export interface UserMarkAsCompleteEvent {
+  type: "user:mark:complete";
+  jobId: number;
 }
 
 export interface TransactionRequestEvent {

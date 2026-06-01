@@ -1,3 +1,4 @@
+import { getPrintQueueStatus } from "@/lib/utils";
 import log from "electron-log/renderer";
 import { produce } from "immer";
 import { toast } from "sonner";
@@ -92,13 +93,170 @@ export const reducer = (
         }));
         const queue = draft.printQueues[event.queueName];
         queue.items.push(...queueItems);
-        if (queue.status === "idle") {
-          queue.status = "working";
-        }
         draft.transactions[event.transactionId].status = "QUEUED";
         draft.transactions[event.transactionId].jobs.forEach((job) => {
           job.status = "QUEUED";
           job.queueName = event.queueName;
+        });
+      });
+      break;
+    }
+
+    case "user:print:job": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const job = transaction.jobs.find((job) => job.id === event.jobId);
+        if (job && job.status !== "COMPLETED") {
+          job.status = "QUEUED";
+          job.queueName = event.queueName;
+          const queueItem = {
+            id: generateQueueItemId(),
+            transactionId: event.transactionId,
+            jobId: job.id,
+            queuedAt: new Date().toISOString(),
+          };
+          const queue = draft.printQueues[event.queueName];
+          queue.items.push(queueItem);
+        }
+        draft.transactions[event.transactionId].status = "QUEUED";
+      });
+      break;
+    }
+
+    case "user:mark:complete": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const job = transaction.jobs.find((job) => job.id === event.jobId);
+        if (job) {
+          job.status = "COMPLETED";
+          if (job.queueName) {
+            draft.printQueues[job.queueName].items = draft.printQueues[
+              job.queueName
+            ].items.filter(
+              (item) =>
+                !(
+                  item.jobId === event.jobId &&
+                  item.transactionId === event.transactionId
+                ),
+            );
+          }
+        }
+        const allCompleted = transaction.jobs.every(
+          (job) => job.status === "COMPLETED",
+        );
+        if (allCompleted) {
+          transaction.status = "COMPLETED";
+        }
+      });
+
+      operations.push({
+        type: "report-job-status",
+        operationId: generateOperationId(),
+        transactionId: event.transactionId,
+        jobId: event.jobId,
+        status: "COMPLETED",
+        timestamp: new Date().toISOString(),
+      });
+      nextState.transactions[event.transactionId].jobs.forEach((job) => {
+        operations.push({
+          type: "stop-job-monitoring",
+          operationId: generateOperationId(),
+          transactionId: event.transactionId,
+          jobId: job.id,
+          reason: "marked-complete",
+        });
+      });
+      if (nextState.transactions[event.transactionId].status === "COMPLETED") {
+        operations.push({
+          type: "report-transaction-and-jobs-status",
+          operationId: generateOperationId(),
+          transactionId: event.transactionId,
+          status: "COMPLETED",
+          timestamp: new Date().toISOString(),
+        });
+      }
+      break;
+    }
+
+    case "user:retry:job": {
+      break;
+    }
+
+    case "user:cancel:job": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        const job = transaction.jobs.find((job) => job.id === event.jobId);
+        if (job) {
+          job.status = "PENDING";
+          if (job.queueName) {
+            draft.printQueues[job.queueName].items = draft.printQueues[
+              job.queueName
+            ].items.filter(
+              (item) =>
+                !(
+                  item.jobId === event.jobId &&
+                  item.transactionId === event.transactionId
+                ),
+            );
+          }
+        }
+        const allPending = transaction.jobs.every(
+          (job) => job.status === "PENDING",
+        );
+        if (allPending) {
+          transaction.status = "PENDING";
+        }
+      });
+
+      const job = nextState.transactions[event.transactionId].jobs.find(
+        (job) => job.id === event.jobId,
+      );
+
+      const printJobIdentifier =
+        job?.printJobIdentifier ??
+        Object.values(nextState.printQueues)
+          .flatMap((queue) => queue.items)
+          .find(
+            (item) =>
+              item.jobId === event.jobId &&
+              item.transactionId === event.transactionId,
+          )?.printJobIdentifier;
+
+      if (printJobIdentifier) {
+        operations.push({
+          type: "stop-job-monitoring",
+          operationId: generateOperationId(),
+          transactionId: event.transactionId,
+          jobId: event.jobId,
+          reason: "user-cancelled",
+        });
+      }
+
+      if (job?.queueName && printJobIdentifier) {
+        operations.push({
+          type: "cancel-print-job",
+          operationId: generateOperationId(),
+          printJobIdentifier,
+          queueName: job.queueName,
+        });
+      }
+      break;
+    }
+
+    case "user:cancel:transaction": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        transaction.status = "PENDING";
+        transaction.jobs.forEach((job) => (job.status = "PENDING"));
+        const transactionJobIds = new Set(
+          transaction.jobs.map((job) => job.id),
+        );
+        Object.values(draft.printQueues).forEach((queue) => {
+          queue.items = queue.items.filter(
+            (item) =>
+              item.transactionId !== transaction.id ||
+              !transactionJobIds.has(item.jobId),
+          );
         });
       });
       break;
@@ -142,6 +300,7 @@ export const reducer = (
           job.status = "SPOOLED";
           job.queueName = event.queueName;
           job.spooledAt = new Date().toISOString();
+          job.printJobIdentifier = event.printJobInfo.jobIdentifier;
         }
         const queueItem = draft.printQueues[event.queueName].items.find(
           (item) =>
@@ -153,6 +312,17 @@ export const reducer = (
         }
       });
 
+      const nextJob = nextState.transactions[event.transactionId].jobs.find(
+        (job) => job.id === event.jobId,
+      );
+
+      let timeoutMs = 30_000;
+      if (nextJob) {
+        const pageCount = nextJob.document.pageCount;
+        const copyCount = nextJob.copyCount;
+        timeoutMs = pageCount * copyCount * 10_000 + 30_000;
+      }
+
       if (event.printJobInfo) {
         operations.push({
           operationId: generateOperationId(),
@@ -162,7 +332,7 @@ export const reducer = (
           printJobIdentifier: event.printJobInfo.jobIdentifier,
           queueName: event.queueName,
           pollingIntervalMs: 1500,
-          timeoutMs: 30_000,
+          timeoutMs,
         });
       }
       break;
@@ -208,7 +378,12 @@ export const reducer = (
           queueItem.monitoring.pagesPrinted = event.numberOfPagesPrinted;
         }
 
-        if (draft.printQueues[event.queueName].status === "spooled") {
+        if (
+          getPrintQueueStatus(
+            draft.printQueues[event.queueName],
+            draft.transactions,
+          ) === "spooled"
+        ) {
           const hasActivity = event.statuses.some(
             (status) =>
               status === "Printing" ||
@@ -217,7 +392,6 @@ export const reducer = (
           );
 
           if (hasActivity) {
-            draft.printQueues[event.queueName].status = "printing";
             draft.transactions[event.transactionId].status = "PRINTING";
             const job = draft.transactions[event.transactionId].jobs.find(
               (job) => job.id === event.jobId,
@@ -244,11 +418,7 @@ export const reducer = (
     }
 
     case "job:accepted": {
-      nextState = produce(state, (draft) => {
-        if (draft.printQueues[event.queueName].status === "working") {
-          draft.printQueues[event.queueName].status = "spooled";
-        }
-      });
+      // left intentionally
       break;
     }
 
@@ -335,12 +505,6 @@ export const reducer = (
         if (allJobsCompleted) {
           transaction.status = "COMPLETED";
         }
-
-        if (draft.printQueues[event.queueName].items.length === 0) {
-          draft.printQueues[event.queueName].status = "idle";
-        } else {
-          draft.printQueues[event.queueName].status = "working";
-        }
       });
 
       const transaction = nextState.transactions[event.transactionId];
@@ -376,8 +540,6 @@ export const reducer = (
             ),
         );
 
-        draft.printQueues[event.queueName].status = "stalled";
-
         const hasIncomplete = transaction.jobs.some(
           (j) => j.status === "INCOMPLETE",
         );
@@ -407,8 +569,6 @@ export const reducer = (
             ),
         );
 
-        draft.printQueues[event.queueName].status = "error";
-
         const hasDisappeared = transaction.jobs.some(
           (j) => j.status === "DISAPPEARED",
         );
@@ -417,6 +577,13 @@ export const reducer = (
         }
       });
 
+      operations.push({
+        type: "stop-job-monitoring",
+        transactionId: event.transactionId,
+        jobId: event.jobId,
+        operationId: generateOperationId(),
+        reason: "disappeared",
+      });
       break;
     }
 

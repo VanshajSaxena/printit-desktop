@@ -19,7 +19,6 @@ export interface TransactionState {
 
 export interface PrintQueue {
   items: PrintQueueItem[];
-  status: "idle" | "working" | "spooled" | "printing" | "stalled" | "error";
   default: boolean;
   name: string;
 }
@@ -118,3 +117,11 @@ export type ReportingStatus = Exclude<
   | "DISAPPEARED"
   | "CRITICAL"
 >;
+
+export type PrintQueueStatus =
+  | "idle"
+  | "working"
+  | "spooled"
+  | "printing"
+  | "stalled"
+  | "error";

@@ -147,4 +147,37 @@ export class PrintServiceApi {
     }
     return { success: true, data };
   }
+
+  async cancelAllPrintJobs(
+    queueName: string,
+  ): Promise<IPCResponse<boolean | undefined>> {
+    const { data, error } = await this.client.DELETE(
+      "/api/v1/printqueues/{queueName}/jobs",
+      {
+        params: { path: { queueName } },
+      },
+    );
+    if (error) {
+      this.logger.error(error);
+      return toIpcError(error);
+    }
+    return { success: true, data };
+  }
+
+  async cancelPrintJob(
+    queueName: string,
+    jobId: number,
+  ): Promise<IPCResponse<boolean | undefined>> {
+    const { data, error } = await this.client.DELETE(
+      "/api/v1/printqueues/{queueName}/jobs/{jobId}",
+      {
+        params: { path: { queueName, jobId } },
+      },
+    );
+    if (error) {
+      this.logger.error(error);
+      return toIpcError(error);
+    }
+    return { success: true, data };
+  }
 }

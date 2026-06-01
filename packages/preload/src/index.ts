@@ -55,10 +55,21 @@ export function getPrintJob(
 ): Promise<IPCResponse<PrintJobInfoDto | undefined>> {
   return ipcRenderer.invoke("printQueue:job", printQueue, jobIdentifier);
 }
+export function cancelPrintJob(
+  printQueue: string,
+  jobIdentifier: number,
+): Promise<IPCResponse<boolean | undefined>> {
+  return ipcRenderer.invoke("printQueue:job:cancel", printQueue, jobIdentifier);
+}
 export function getPrintJobs(
   printQueue: string,
 ): Promise<IPCResponse<PrintJobInfoDto[] | undefined>> {
   return ipcRenderer.invoke("printQueue:jobs", printQueue);
+}
+export function cancelAllPrintJobs(
+  printQueue: string,
+): Promise<IPCResponse<boolean | undefined>> {
+  return ipcRenderer.invoke("printQueue:jobs:cancel", printQueue);
 }
 export function spoolFilesToPrinter(
   printQueue: string,

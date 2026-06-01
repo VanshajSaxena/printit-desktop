@@ -1,6 +1,7 @@
 import { type FetchClientType } from "@api/client";
 import type { PrintJobStatusDto } from "@app/common/gen/types/print-service-api-types";
 import {
+  cancelPrintJob,
   downloadFilesToFileSystem,
   emitWebSocketEvent,
   generateQrCodePdf,
@@ -152,11 +153,10 @@ export class ObservableExecutor {
             queueName,
           });
         } else {
-          // __AUTO_GENERATED_PRINT_VAR_START__
-          this.logger.log(
+          this.logger.info(
             "ObservableExecutor#execute#if#if response.code:",
             response.code,
-          ); // __AUTO_GENERATED_PRINT_VAR_END__
+          );
         }
         break;
       }
@@ -178,6 +178,18 @@ export class ObservableExecutor {
 
       case "report-transaction-and-jobs-status": {
         await this.reportTransactionAndJobStatus(operation);
+        break;
+      }
+
+      case "cancel-print-job": {
+        const cancelResult = await cancelPrintJob(
+          operation.queueName,
+          operation.printJobIdentifier,
+        );
+        this.logger.info(
+          "ObservableExecutor#execute cancelResult:",
+          cancelResult,
+        );
         break;
       }
 

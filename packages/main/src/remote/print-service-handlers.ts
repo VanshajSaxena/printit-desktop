@@ -33,8 +33,18 @@ export function getPrintServiceHandlers(
       },
     ),
 
+    "printQueue:job:cancel": createHandler(
+      (_event, printQueue: string, jobId: number) => {
+        return printServiceApi.cancelPrintJob(printQueue, jobId);
+      },
+    ),
+
     "printQueue:jobs": createHandler((_event, printQueue: string) => {
       return printServiceApi.getPrintJobs(printQueue);
+    }),
+
+    "printQueue:jobs:cancel": createHandler((_event, printQueue: string) => {
+      return printServiceApi.cancelAllPrintJobs(printQueue);
     }),
 
     "printQueue:print": createHandler(

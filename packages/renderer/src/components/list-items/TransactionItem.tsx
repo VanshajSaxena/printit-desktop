@@ -45,7 +45,7 @@ export function TransactionItem({
   const estTime = new Date(Date.now() + sheetCount * 5_000 + 10_000);
   const defaultQueue = useTransactionStore(selectDefaultQueue);
 
-  const handleUserPrintIntent = () => {
+  const handleUserPrintTransactionIntent = () => {
     if (!defaultQueue) {
       toast.error("Please select a default printer first. Then try again.");
       return;
@@ -135,7 +135,7 @@ export function TransactionItem({
                   className="hover:bg-success hover:text-success-content"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleUserPrintIntent();
+                    handleUserPrintTransactionIntent();
                   }}
                 >
                   <PrinterIcon />

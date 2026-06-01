@@ -14,6 +14,8 @@ export type TransactionOperation = WithOperationId &
     | FetchTransactionOperation
     | GenerateQrCodeOperation
     | SpoolQrCodeFileOperation
+    | CancelPrintJobOperation
+    | CancelAllPrintJobsOperation
     | TransactionOperationUnion
   );
 
@@ -81,8 +83,24 @@ export interface StopPrintJobMonitoringOperation {
   type: "stop-job-monitoring";
   transactionId: number;
   jobId: number;
+  reason:
+    | "completed"
+    | "marked-complete"
+    | "failed"
+    | "user-cancelled"
+    | "timeout"
+    | "disappeared";
+}
+
+export interface CancelPrintJobOperation {
+  type: "cancel-print-job";
+  queueName: string;
   printJobIdentifier: number;
-  reason: "completed" | "failed" | "user-cancelled" | "timeout";
+}
+
+export interface CancelAllPrintJobsOperation {
+  type: "cancel-all-print-job";
+  queueName: string;
 }
 
 export interface InitializeJobMonitoringOperation {
