@@ -8,7 +8,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@components/ui/sheet";
-import { CheckCircle, ChevronRight, Layers3 } from "lucide-react";
+import {
+  CheckCircle,
+  ChevronRight,
+  ComponentIcon,
+  Layers3,
+} from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { BnWBadge } from "../badges/BnWBadge";
@@ -19,7 +24,6 @@ import { SheetsBadge } from "../badges/SheetsBadge";
 import { PrintButton } from "../buttons/PrintButton";
 import { RejectButton } from "../buttons/RejectButton";
 import { formatRelativeTime } from "../formatRelativeTime";
-import { ActivityIcon } from "../icons/ActivityIcon";
 import { ListIcon } from "../icons/ListIcon";
 import { PDFFileIcon } from "../icons/PDFFileIcon";
 import { PrinterIcon } from "../icons/PrinterIcon";
@@ -125,7 +129,7 @@ function DocumentItem({
               status={status}
               onMarkComplete={() => {
                 dispatch({
-                  type: "user:mark:complete",
+                  type: "user:mark:job:complete",
                   transactionId,
                   jobId: job.id,
                 });
@@ -279,14 +283,14 @@ export function OrderSheet({
           <div className="h-full border-l border-border-default px-5 py-6">
             <div className="flex flex-col gap-6 border-b border-border-default py-6">
               <div className="flex gap-2">
-                <ActivityIcon />
-                Actions
+                <ComponentIcon size={24} />
+                Bulk Actions
               </div>
 
               <div className="flex flex-wrap items-center justify-evenly gap-2">
-                <RejectButton text="Reject All" />
+                <RejectButton text="Reject" />
                 <PrintButton
-                  text="Print All"
+                  text="Print"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleUserPrintIntent();

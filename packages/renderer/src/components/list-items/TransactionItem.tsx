@@ -4,7 +4,6 @@ import { BnWBadge } from "@components/badges/BnWBadge";
 import { ColorPalatteBadge } from "@components/badges/ColorPalatteBadge";
 import { FilesBadge } from "@components/badges/FilesBadge";
 import { SheetsBadge } from "@components/badges/SheetsBadge";
-import { KebabButton } from "@components/buttons/KebabButton";
 import { RejectTransactionDialog } from "@components/dialogs/RejectTransactionDialog";
 import { formatRelativeTime } from "@components/formatRelativeTime";
 import { ClockIcon } from "@components/icons/ClockIcon";
@@ -14,6 +13,7 @@ import { IconTrashX } from "@tabler/icons-react";
 import { Layers3, PrinterIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { ActionsMenu } from "../menu/ActionsMenu";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
@@ -150,12 +150,27 @@ export function TransactionItem({
               </Button>
             )}
             <div className="flex gap-4">
-              <KebabButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // will show a context menu
+              <ActionsMenu
+                status={status}
+                onMarkComplete={() => {
+                  dispatch({
+                    type: "user:mark:transaction:complete",
+                    transactionId: id,
+                  });
                 }}
-              />
+                onRetry={() => {
+                  dispatch({
+                    type: "user:retry:transaction",
+                    transactionId: id,
+                  });
+                }}
+                onCancel={() => {
+                  dispatch({
+                    type: "user:cancel:transaction",
+                    transactionId: id,
+                  });
+                }}
+              ></ActionsMenu>
             </div>
           </div>
         </div>

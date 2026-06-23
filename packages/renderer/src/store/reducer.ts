@@ -123,7 +123,7 @@ export const reducer = (
       break;
     }
 
-    case "user:mark:complete": {
+    case "user:mark:job:complete": {
       nextState = produce(state, (draft) => {
         const transaction = draft.transactions[event.transactionId];
         const job = transaction.jobs.find((job) => job.id === event.jobId);
@@ -178,6 +178,31 @@ export const reducer = (
       break;
     }
 
+    case "user:mark:transaction:complete": {
+      nextState = produce(state, (draft) => {
+        const transaction = draft.transactions[event.transactionId];
+        transaction.jobs.forEach((job) => (job.status = "COMPLETED"));
+        transaction.status = "COMPLETED";
+      });
+
+      nextState.transactions[event.transactionId].jobs.forEach((job) => {
+        operations.push({
+          type: "stop-job-monitoring",
+          operationId: generateOperationId(),
+          transactionId: event.transactionId,
+          jobId: job.id,
+          reason: "marked-complete",
+        });
+      });
+      operations.push({
+        type: "report-transaction-and-jobs-status",
+        operationId: generateOperationId(),
+        transactionId: event.transactionId,
+        status: "COMPLETED",
+        timestamp: new Date().toISOString(),
+      });
+      break;
+    }
     case "user:retry:job": {
       break;
     }

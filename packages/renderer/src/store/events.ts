@@ -10,10 +10,12 @@ export type TransactionEventUnionType = WithTransactionId &
     | NewTransactionEvent
     | UserPrintTransactionEvent
     | UserPrintJobEvent
-    | UserMarkAsCompleteEvent
+    | UserMarkJobAsCompleteEvent
     | UserRetryJobEvent
     | UserCancleJobEvent
     | UserCancleTransactionEvent
+    | UserRetryTransactionEvent
+    | UserMarkTransactionAsCompleteEvent
     | UserRejectTransactionEvent
     | FilesDownloadStartedAllEvent
     | FilesDownloadProgressAllEvent
@@ -72,9 +74,17 @@ export interface UserRetryJobEvent {
   jobId: number;
 }
 
-export interface UserMarkAsCompleteEvent {
-  type: "user:mark:complete";
+export interface UserMarkJobAsCompleteEvent {
+  type: "user:mark:job:complete";
   jobId: number;
+}
+
+export interface UserRetryTransactionEvent {
+  type: "user:retry:transaction";
+}
+
+export interface UserMarkTransactionAsCompleteEvent {
+  type: "user:mark:transaction:complete";
 }
 
 export interface TransactionRequestEvent {
