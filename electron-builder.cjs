@@ -50,11 +50,9 @@ const config = {
   artifactName,
   productName,
   appId,
-  publish: {
-    provider: "generic",
-    url: `https://updates.printit.ink/${channel}`,
-    channel,
-  },
+  // No update feed. The auto-updater was removed and updates.printit.ink is
+  // gone. null stops electron-builder from guessing a provider from git.
+  publish: null,
   protocols: [
     {
       name: "Printit",
@@ -72,7 +70,6 @@ const config = {
   },
   win: {
     executableName,
-    verifyUpdateCodeSignature: false,
     target: [
       {
         target: "nsis",
@@ -84,7 +81,6 @@ const config = {
     output: "dist",
     buildResources: "buildResources",
   },
-  generateUpdatesFilesForAllChannels: true,
   files: [
     pkg.main,
     "!node_modules/@app/**",
