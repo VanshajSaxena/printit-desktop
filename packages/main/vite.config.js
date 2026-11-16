@@ -35,7 +35,6 @@ export default /**
         "electron-log",
         "electron",
         "electron-devtools-installer",
-        "electron-updater",
         ...builtinModules,
         ...builtinModules.map((m) => `node:${m}`),
         ...Object.keys(pkg.dependencies || {}).filter(
