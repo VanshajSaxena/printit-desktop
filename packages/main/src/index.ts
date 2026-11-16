@@ -3,7 +3,6 @@ import log from "electron-log";
 import type { AppInitConfig } from "./AppInitConfig.js";
 import { createModuleRunner } from "./ModuleRunner.js";
 import { terminateAppOnLastWindowClose } from "./modules/ApplicationTerminatorOnLastWindowClose.js";
-import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { setAsDefaultProtocolClient } from "./modules/DefaultProtocolClient.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
@@ -40,7 +39,6 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(ipcHandlers(allHandlers))
     .init(wsHandlers(webSocketApi))
     .init(wsEventListeners(webSocketApi))
-    .init(autoUpdater())
     .init(startPrintService({ required: !import.meta.env.DEV }))
 
     // Install DevTools extension if needed
