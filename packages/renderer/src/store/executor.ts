@@ -181,6 +181,20 @@ export class ObservableExecutor {
         break;
       }
 
+      case "notify-user": {
+        if (operation.level === "success") {
+          toast.success(operation.message);
+        } else {
+          toast.error(operation.message);
+        }
+        break;
+      }
+
+      case "log-warning": {
+        this.logger.warn(operation.message);
+        break;
+      }
+
       case "cancel-print-job": {
         const cancelResult = await cancelPrintJob(
           operation.queueName,

@@ -16,8 +16,23 @@ export type TransactionOperation = WithOperationId &
     | SpoolQrCodeFileOperation
     | CancelPrintJobOperation
     | CancelAllPrintJobsOperation
+    | NotifyUserOperation
+    | LogWarningOperation
     | TransactionOperationUnion
   );
+
+/** A toast for the shop. The reducer asks for it; the executor shows it. */
+export interface NotifyUserOperation {
+  type: "notify-user";
+  level: "success" | "error";
+  message: string;
+}
+
+/** A warning for the log. The reducer asks for it; the executor writes it. */
+export interface LogWarningOperation {
+  type: "log-warning";
+  message: string;
+}
 
 export type TransactionOperationUnion = WithTransactionId &
   (

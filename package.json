@@ -20,6 +20,7 @@
     "build": "yarn workspaces foreach --all --topological-dev run build",
     "compile": "electron-builder build --config electron-builder.cjs",
     "test": "yarn playwright test ./tests/e2e.spec.ts",
+    "test:reducer": "yarn playwright test ./tests/reducer.spec.ts",
     "start": "node packages/dev-mode.js",
     "typecheck": "yarn workspaces foreach --all --topological-dev run typecheck",
     "create-renderer": "cd packages && node ./integrate-renderer/create-renderer.js",

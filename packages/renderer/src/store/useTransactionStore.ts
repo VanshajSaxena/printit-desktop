@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { createIdbStorage } from "./createIdbStorage";
 import { ObservableExecutor } from "./executor";
+import type { ReducerEvent } from "./events";
 import { reducer } from "./reducer";
 import type { PrintQueue, TransactionStore } from "./structure";
 
@@ -11,25 +12,27 @@ export const useTransactionStore = create<TransactionStore>()(
   subscribeWithSelector(
     persist(
       (set, get) => {
-        const executor = new ObservableExecutor((event) => {
-          const [newState, operations] = reducer(get().state, event);
+        // The one way into the reducer, for the UI and the executor alike. It stamps
+        // each event with an id and the time, the two things the reducer would
+        // otherwise make up itself, then runs the operations the reducer returns.
+        const dispatch = (event: ReducerEvent) => {
+          const stamp = {
+            eventId: crypto.randomUUID(),
+            at: new Date().toISOString(),
+          };
+          const [newState, operations] = reducer(get().state, event, stamp);
 
           set({ state: newState });
 
           operations.forEach((operation) => void executor.execute(operation));
-        }, fetchClient);
+        };
+        const executor = new ObservableExecutor(dispatch, fetchClient);
         return {
           state: {
             transactions: {},
             printQueues: {},
           },
-          dispatch: (event) => {
-            const [newState, operations] = reducer(get().state, event);
-
-            set({ state: newState });
-
-            operations.forEach((operation) => void executor.execute(operation));
-          },
+          dispatch,
           setDefaultQueue: (queueName: string) => {
             set((store) => {
               const queues = store.state.printQueues;

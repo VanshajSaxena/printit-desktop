@@ -1,29 +1,33 @@
 import { getPrintQueueStatus } from "@/lib/utils";
-import log from "electron-log/renderer";
 import { produce } from "immer";
-import { toast } from "sonner";
 import type { ReducerEvent } from "./events";
 import type { TransactionOperation } from "./operations";
 import type { PrintQueueItem, TransactionState } from "./structure";
 
-function generateOperationId() {
-  return crypto.randomUUID().slice(0, 8);
-}
-
-function generateQueueItemId() {
-  return crypto.randomUUID();
+/**
+ * What the reducer would otherwise have to ask the outside world for: a unique id
+ * for the event and the time it happened. The store's dispatch creates the stamp,
+ * so the reducer stays pure: the same state, event and stamp always give the same
+ * next state and the same operations.
+ */
+export interface EventStamp {
+  eventId: string;
+  at: string;
 }
 
 export const reducer = (
   state: TransactionState,
   event: ReducerEvent,
+  stamp: EventStamp,
 ): [TransactionState, TransactionOperation[]] => {
   let nextState = state;
   const operations: TransactionOperation[] = [];
+  let operationCount = 0;
+  const nextOperationId = () => `${stamp.eventId}.${String(operationCount++)}`;
   switch (event.type) {
     case "transaction:request": {
       operations.push({
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         type: "fetch-transactions",
       });
       break;
@@ -41,7 +45,7 @@ export const reducer = (
 
     case "user:get-qr-code": {
       operations.push({
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         type: "generate-qr-code-pdf",
         qrDataUrl: event.qrDataUrl,
         printIntent: event.printIntent,
@@ -50,20 +54,28 @@ export const reducer = (
     }
     case "user:get-qr-code:success": {
       if (!event.printIntent) {
-        toast.success(
-          "PDF Downloaded Successfully. Check your Downloads folder.",
-        );
+        operations.push({
+          operationId: nextOperationId(),
+          type: "notify-user",
+          level: "success",
+          message: "PDF Downloaded Successfully. Check your Downloads folder.",
+        });
         break;
       }
       const defaultQueueName = Object.values(state.printQueues).find(
         (queue) => queue.default,
       )?.name;
       if (!defaultQueueName) {
-        toast.error("Please select a default printer first. Then try again.");
+        operations.push({
+          operationId: nextOperationId(),
+          type: "notify-user",
+          level: "error",
+          message: "Please select a default printer first. Then try again.",
+        });
         break;
       }
       operations.push({
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         type: "spool-qr-code-file",
         path: event.path,
         queueName: defaultQueueName,
@@ -71,7 +83,12 @@ export const reducer = (
       break;
     }
     case "user:get-qr-code:error": {
-      toast.error("Failed to download PDF. Please, try again.");
+      operations.push({
+        operationId: nextOperationId(),
+        type: "notify-user",
+        level: "error",
+        message: "Failed to download PDF. Please, try again.",
+      });
       break;
     }
     case "user:reject:transaction": {
@@ -86,10 +103,10 @@ export const reducer = (
         const transaction = draft.transactions[event.transactionId];
         if (transaction.status !== "PENDING") return;
         const queueItems: PrintQueueItem[] = transaction.jobs.map((job) => ({
-          id: generateQueueItemId(),
+          id: `${stamp.eventId}:${String(job.id)}`,
           transactionId: event.transactionId,
           jobId: job.id,
-          queuedAt: new Date().toISOString(),
+          queuedAt: stamp.at,
         }));
         const queue = draft.printQueues[event.queueName];
         queue.items.push(...queueItems);
@@ -110,10 +127,10 @@ export const reducer = (
           job.status = "QUEUED";
           job.queueName = event.queueName;
           const queueItem = {
-            id: generateQueueItemId(),
+            id: `${stamp.eventId}:${String(job.id)}`,
             transactionId: event.transactionId,
             jobId: job.id,
-            queuedAt: new Date().toISOString(),
+            queuedAt: stamp.at,
           };
           const queue = draft.printQueues[event.queueName];
           queue.items.push(queueItem);
@@ -151,16 +168,16 @@ export const reducer = (
 
       operations.push({
         type: "report-job-status",
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         transactionId: event.transactionId,
         jobId: event.jobId,
         status: "COMPLETED",
-        timestamp: new Date().toISOString(),
+        timestamp: stamp.at,
       });
       nextState.transactions[event.transactionId].jobs.forEach((job) => {
         operations.push({
           type: "stop-job-monitoring",
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           transactionId: event.transactionId,
           jobId: job.id,
           reason: "marked-complete",
@@ -169,10 +186,10 @@ export const reducer = (
       if (nextState.transactions[event.transactionId].status === "COMPLETED") {
         operations.push({
           type: "report-transaction-and-jobs-status",
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           transactionId: event.transactionId,
           status: "COMPLETED",
-          timestamp: new Date().toISOString(),
+          timestamp: stamp.at,
         });
       }
       break;
@@ -188,7 +205,7 @@ export const reducer = (
       nextState.transactions[event.transactionId].jobs.forEach((job) => {
         operations.push({
           type: "stop-job-monitoring",
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           transactionId: event.transactionId,
           jobId: job.id,
           reason: "marked-complete",
@@ -196,10 +213,10 @@ export const reducer = (
       });
       operations.push({
         type: "report-transaction-and-jobs-status",
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         transactionId: event.transactionId,
         status: "COMPLETED",
-        timestamp: new Date().toISOString(),
+        timestamp: stamp.at,
       });
       break;
     }
@@ -250,7 +267,7 @@ export const reducer = (
       if (printJobIdentifier) {
         operations.push({
           type: "stop-job-monitoring",
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           transactionId: event.transactionId,
           jobId: event.jobId,
           reason: "user-cancelled",
@@ -260,7 +277,7 @@ export const reducer = (
       if (job?.queueName && printJobIdentifier) {
         operations.push({
           type: "cancel-print-job",
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           printJobIdentifier,
           queueName: job.queueName,
         });
@@ -324,7 +341,7 @@ export const reducer = (
         if (job && event.printJobInfo) {
           job.status = "SPOOLED";
           job.queueName = event.queueName;
-          job.spooledAt = new Date().toISOString();
+          job.spooledAt = stamp.at;
           job.printJobIdentifier = event.printJobInfo.jobIdentifier;
         }
         const queueItem = draft.printQueues[event.queueName].items.find(
@@ -350,7 +367,7 @@ export const reducer = (
 
       if (event.printJobInfo) {
         operations.push({
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           type: "initialize-job-monitoring",
           transactionId: event.transactionId,
           jobId: event.jobId,
@@ -374,7 +391,7 @@ export const reducer = (
         if (queueItem) {
           queueItem.monitoring = {
             isActive: true,
-            lastPolledAt: new Date().toISOString(),
+            lastPolledAt: stamp.at,
             pagesPrinted: 0,
             hasError: false,
             errorStatuses: [],
@@ -398,7 +415,7 @@ export const reducer = (
         );
 
         if (queueItem?.monitoring) {
-          queueItem.monitoring.lastPolledAt = new Date().toISOString();
+          queueItem.monitoring.lastPolledAt = stamp.at;
           queueItem.monitoring.lastKnownStatus = event.statuses;
           queueItem.monitoring.pagesPrinted = event.numberOfPagesPrinted;
         }
@@ -433,7 +450,7 @@ export const reducer = (
       //   nextState.printQueues[event.queueName].status === "working"
       // ) {
       //   operations.push({
-      //     operationId: generateOperationId(),
+      //     operationId: nextOperationId(),
       //     type: "emit-transaction-printing",
       //     vendorId: getvendorId(),
       //     transactionId: event.transactionId,
@@ -494,7 +511,7 @@ export const reducer = (
 
         if (queueItem?.monitoring) {
           queueItem.monitoring.timedOut = true;
-          queueItem.monitoring.timeoutAt = new Date().toISOString();
+          queueItem.monitoring.timeoutAt = stamp.at;
         }
         const hasTimeout = transaction.jobs.some((j) => j.status === "TIMEOUT");
         if (hasTimeout) {
@@ -511,7 +528,7 @@ export const reducer = (
 
         if (job) {
           job.status = "COMPLETED";
-          job.completedAt = new Date().toISOString();
+          job.completedAt = stamp.at;
         }
 
         draft.printQueues[event.queueName].items = draft.printQueues[
@@ -535,11 +552,11 @@ export const reducer = (
       const transaction = nextState.transactions[event.transactionId];
       if (transaction.status === "COMPLETED") {
         operations.push({
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           type: "report-transaction-and-jobs-status",
           transactionId: event.transactionId,
           status: "COMPLETED",
-          timestamp: new Date().toISOString(),
+          timestamp: stamp.at,
         });
       }
 
@@ -606,7 +623,7 @@ export const reducer = (
         type: "stop-job-monitoring",
         transactionId: event.transactionId,
         jobId: event.jobId,
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         reason: "disappeared",
       });
       break;
@@ -645,7 +662,7 @@ export const reducer = (
         return { id: job.document.id };
       });
       operations.push({
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         type: "download-files-to-file-system",
         files,
         transactionId: event.transactionId,
@@ -660,14 +677,18 @@ export const reducer = (
       const { queueName, transactionId } = event;
       if (nextJob) {
         operations.push({
-          operationId: generateOperationId(),
+          operationId: nextOperationId(),
           type: "spool-files-to-printer",
           job: nextJob,
           transactionId,
           queueName,
         });
       } else {
-        log.warn("A job was not found during 'start:spool-files-to-printer'");
+        operations.push({
+          operationId: nextOperationId(),
+          type: "log-warning",
+          message: "A job was not found during 'start:spool-files-to-printer'",
+        });
       }
       break;
     }
@@ -675,7 +696,7 @@ export const reducer = (
     case "start:initialize-job-monitoring": {
       const { jobId, transactionId, printJobIdentifier, queueName } = event;
       operations.push({
-        operationId: generateOperationId(),
+        operationId: nextOperationId(),
         type: "initialize-job-monitoring",
         jobId,
         transactionId,
